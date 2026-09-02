@@ -32,6 +32,7 @@ const NAV: { label: string; route: Route; matchKinds: Route['kind'][] }[] = [
     matchKinds: ['templates-index', 'template'],
   },
   { label: 'Guides', route: { kind: 'guides-index' }, matchKinds: ['guides-index', 'guide'] },
+  { label: 'Theme', route: { kind: 'theme' }, matchKinds: ['theme'] },
 ];
 
 /** Persistent top bar shared by Home + docs pages (hidden on preview tabs). */

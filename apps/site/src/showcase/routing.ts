@@ -25,6 +25,7 @@ export type Route =
   | { kind: 'templates-index' }
   | { kind: 'template'; slug: string }
   | { kind: 'guides-index' }
+  | { kind: 'theme' }
   | { kind: 'guide'; slug: string }
   | { kind: 'preview'; slug: string; screen?: string; variant?: string; page?: string }
   | { kind: 'not-found' };
@@ -63,6 +64,7 @@ export function parseHash(hash: string): Route {
   if (raw === 'components') return { kind: 'components-index' };
   if (raw === 'templates') return { kind: 'templates-index' };
   if (raw === 'guides' || raw === 'docs') return { kind: 'guides-index' };
+  if (raw === 'theme') return { kind: 'theme' };
 
   const [section, slug, screen, variant, page] = raw.split('/');
   if (section === 'components' && slug) return { kind: 'component', slug };
@@ -101,6 +103,8 @@ export function routeToHash(route: Route): string {
       return `templates/${route.slug}`;
     case 'guides-index':
       return 'guides';
+    case 'theme':
+      return 'theme';
     case 'guide':
       return `guides/${route.slug}`;
     case 'preview':

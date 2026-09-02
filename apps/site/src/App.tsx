@@ -23,6 +23,7 @@ import { TemplatesIndexPage } from './showcase/pages/TemplatesIndexPage';
 import { TemplateDocPage } from './showcase/pages/TemplateDocPage';
 import { GuidesIndexPage } from './showcase/pages/GuidesIndexPage';
 import { GuidePage } from './showcase/pages/GuidePage';
+import { ThemePage } from './showcase/pages/ThemePage';
 import { PreviewPage } from './showcase/pages/PreviewPage';
 import { NotFound } from './showcase/pages/NotFound';
 import { getComponentDoc } from './showcase/registry/components';
@@ -128,6 +129,8 @@ function routeTitle(route: Route): string {
       return getTemplateDoc(route.slug)?.name ?? 'Templates';
     case 'guides-index':
       return 'Guides';
+    case 'theme':
+      return 'Theme';
     case 'guide':
       return getGuideDoc(route.slug)?.title ?? 'Guides';
     case 'preview':
@@ -249,6 +252,9 @@ function RouteView({ route }: { route: Route }) {
         </DocLayout>
       );
     }
+
+    case 'theme':
+      return <ThemePage />;
 
     case 'preview':
       // Handled by Shell before reaching here; kept so the switch is exhaustive.
