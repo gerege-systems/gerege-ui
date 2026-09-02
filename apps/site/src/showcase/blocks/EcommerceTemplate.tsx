@@ -161,7 +161,7 @@ function ShopHeader({
               className="md:hidden"
             />
           </SheetTrigger>
-          <SheetContent side="left" className="w-72">
+          <SheetContent aria-describedby={undefined} side="left" className="w-72">
             <SheetTitle>{t('nav.shop')}</SheetTitle>
             <nav aria-label={t('nav.categories')} className="mt-6 flex flex-col gap-1">
               {CATEGORIES.map((c) => (

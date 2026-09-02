@@ -131,7 +131,7 @@ function Masthead({
               className="md:hidden"
             />
           </SheetTrigger>
-          <SheetContent side="left" className="w-72">
+          <SheetContent aria-describedby={undefined} side="left" className="w-72">
             <SheetTitle>{t('nav.sections')}</SheetTitle>
             <nav className="mt-6 flex flex-col gap-1" aria-label={t('nav.sections')}>
               {CATEGORIES.map((c) => (

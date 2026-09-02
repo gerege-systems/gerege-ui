@@ -63,7 +63,7 @@ export function DocLayout({
                 Browse
               </button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 p-0">
+            <SheetContent aria-describedby={undefined} side="left" className="w-72 p-0">
               <DocSidebar
                 sections={sidebar}
                 topLinks={topLinks}

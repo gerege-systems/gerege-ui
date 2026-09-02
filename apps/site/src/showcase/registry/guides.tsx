@@ -38,7 +38,7 @@ export function ExportDialog() {
       <DialogTrigger asChild>
         <Button>Export…</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogTitle>Export workspace</DialogTitle>
       </DialogContent>
     </Dialog>

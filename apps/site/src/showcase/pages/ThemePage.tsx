@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { DesignSystemProvider } from '@/components/ui/DesignSystemProvider';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/Sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/Sheet';
 import { FileText, Settings, Sparkles } from '@/icons';
 import { GetCodeDialog } from '../theme/GetCodeDialog';
 import { ThemeControls } from '../theme/ThemeControls';
@@ -87,6 +94,10 @@ export function ThemePage() {
                 <SheetContent side="right" className="w-[22rem] overflow-y-auto">
                   <SheetHeader>
                     <SheetTitle>Customise</SheetTitle>
+                    <SheetDescription>
+                      Style, base colour, accent and chart palette. Changes apply to the preview
+                      behind this panel.
+                    </SheetDescription>
                   </SheetHeader>
                   <div className="py-4">{controls}</div>
                 </SheetContent>

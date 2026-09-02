@@ -140,7 +140,7 @@ function Nav({ brand, onSignUp }: { brand: ReactNode; onSignUp: () => void }) {
                 className="md:hidden"
               />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
+            <SheetContent aria-describedby={undefined} side="right" className="w-72">
               <SheetTitle>{t('menu')}</SheetTitle>
               <nav aria-label={t('navPrimary')} className="mt-6 flex flex-col gap-1">
                 {nav.map((n) => (

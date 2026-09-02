@@ -651,6 +651,7 @@ export function AppSidebar({
 
       <Sheet open={drawerOpen} onOpenChange={onDrawerOpenChange}>
         <SheetContent
+          aria-describedby={undefined}
           side="left"
           className="w-64 p-0"
           showClose={false}
