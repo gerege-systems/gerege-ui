@@ -166,8 +166,14 @@
 
 /* Pills and small marks. */
 [data-style]:not([data-style='nova'])
-  :is([data-slot='badge'], [data-slot='kbd'], [data-slot='avatar'], [data-slot='skeleton']) {
+  :is([data-slot='badge'], [data-slot='kbd'], [data-slot='avatar']) {
   border-radius: var(--style-radius-pill, 9999px);
+}
+
+/* A skeleton stands in for a control, so it takes the control radius — as a
+ * pill it stopped reading as a block of missing content. */
+[data-style]:not([data-style='nova']) [data-slot='skeleton'] {
+  border-radius: var(--style-radius-control, var(--radius-md));
 }
 
 /* Table rhythm — the one place row height is a style decision, not a variant. */
