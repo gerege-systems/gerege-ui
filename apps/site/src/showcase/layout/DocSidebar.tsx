@@ -149,7 +149,10 @@ export function DocSidebar({
       className={
         variant === 'mobile'
           ? 'bg-background h-full w-full overflow-y-auto px-4 py-4'
-          : 'border-border bg-background sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r px-4 py-6 md:block'
+          : // No left padding: the container already supplies px-6, and another
+            // 16px on top of it put the whole rail 16px right of the brand mark
+            // in the bar above it.
+            'border-border bg-background sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r py-6 pr-4 pl-0 md:block'
       }
     >
       <div className="mb-4">
