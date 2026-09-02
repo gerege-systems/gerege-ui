@@ -247,6 +247,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sign-in-split',
+    wall: false,
     name: 'Sign in 02 — split',
     category: 'Auth',
     file: 'SignInSplit',
