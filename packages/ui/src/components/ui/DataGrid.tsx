@@ -169,7 +169,10 @@ export function DataGrid<TRow extends { id: string | number }>({
   };
 
   return (
-    <div className={cn('flex flex-col gap-3', className)}>
+    // min-w-0: the table inside sets a min-content width from its columns,
+    // which would widen this element's grid or flex column instead of letting
+    // the Table's own overflow-auto scroll.
+    <div className={cn('flex min-w-0 flex-col gap-3', className)}>
       {/* wrap + min-w-0: search and the column toggle do not fit side by side
           on a phone, and without min-w-0 the row widens its grid column. */}
       <div className="flex min-w-0 flex-wrap items-center justify-between gap-2">
