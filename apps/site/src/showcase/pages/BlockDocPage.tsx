@@ -38,7 +38,8 @@ export function BlockDocPage({ block }: { block: UiBlock }) {
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
         <TabsContent value="preview" className="pt-4">
-          <div className="border-border bg-background-subtle rounded-lg border p-6">
+          {/* A plain canvas, not a card: the block brings its own surface. */}
+          <div className="bg-background-muted rounded-lg p-6 sm:p-10">
             <div className="mx-auto max-w-xl">
               <block.Component />
             </div>

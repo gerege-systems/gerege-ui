@@ -129,9 +129,9 @@ export function BlocksIndexPage() {
                   </Button>
                 </div>
               </div>
-              <div className="border-border bg-background-subtle rounded-lg border p-4">
-                <b.Component />
-              </div>
+              {/* No frame around the preview: every block is already a Card,
+                  so a bordered surface behind it reads as a card in a card. */}
+              <b.Component />
             </section>
           ))}
         </div>
