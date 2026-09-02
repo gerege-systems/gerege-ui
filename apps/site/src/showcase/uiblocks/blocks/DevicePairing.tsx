@@ -99,7 +99,7 @@ export function DevicePairing() {
           Open the mobile app and scan this code to pair the device.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-4">
+      <CardContent className="flex flex-col items-center gap-4 py-2">
         {/* Placeholder mark, drawn as one SVG: a CSS grid of empty cells
             collapses to nothing and the pattern falls apart. Not scannable on
             purpose — a real code implies a pairing endpoint behind it. */}
@@ -107,7 +107,7 @@ export function DevicePairing() {
           viewBox="0 0 21 21"
           role="img"
           aria-label="Pairing code placeholder"
-          className="bg-background-muted text-foreground size-40 rounded-md p-2"
+          className="border-border bg-card text-foreground size-36 rounded-lg border p-3"
           shapeRendering="crispEdges"
         >
           {/* Three finder squares, as a real code has. */}
@@ -118,7 +118,7 @@ export function DevicePairing() {
           ].map(([x, y]) => (
             <g key={`${x}-${y}`} fill="currentColor">
               <rect x={x} y={y} width="7" height="7" />
-              <rect x={x + 1} y={y + 1} width="5" height="5" fill="var(--background-muted)" />
+              <rect x={x + 1} y={y + 1} width="5" height="5" fill="var(--card)" />
               <rect x={x + 2} y={y + 2} width="3" height="3" />
             </g>
           ))}
@@ -126,11 +126,16 @@ export function DevicePairing() {
             <rect key={`${x}.${y}`} x={x} y={y} width="1" height="1" fill="currentColor" />
           ))}
         </svg>
-        <div className="text-foreground-muted flex items-center gap-2 text-sm">
-          Or enter <Kbd>7F2K</Kbd> <Kbd>9QD1</Kbd>
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-foreground-subtle text-xs">Can’t scan? Enter this code</span>
+          <div className="flex items-center gap-1.5">
+            <Kbd>7F2K</Kbd>
+            <span className="text-foreground-subtle">—</span>
+            <Kbd>9QD1</Kbd>
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="gap-2">
+      <CardFooter className="justify-center gap-2">
         <Button size="sm" variant="secondary">
           <Icons.Copy aria-hidden />
           Copy code

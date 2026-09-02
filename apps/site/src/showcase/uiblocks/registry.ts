@@ -71,11 +71,13 @@ export interface UiBlock {
    */
   wide?: boolean;
   /**
-   * Which numbered page of the theme wall a block belongs to. Thirty blocks at
-   * once is a wall to scroll past, not a thing to judge a theme by; two curated
-   * pages keep each one readable.
+   * Which numbered page of the theme wall a block belongs to. Forty-four blocks
+   * at once is a wall to scroll past, not a thing to judge a theme by; two
+   * curated pages keep each one readable. Omit it to keep a block off the wall
+   * entirely — a page shell says nothing about a theme that the blocks inside
+   * it do not already say, and it eats a whole row.
    */
-  page: 1 | 2;
+  page?: 1 | 2;
   Component: ComponentType;
 }
 
@@ -271,7 +273,6 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sidebar-shell',
-    page: 1,
     wide: true,
     name: 'Sidebar shell 01',
     category: 'App',
