@@ -63,7 +63,10 @@ function KpiRow() {
       {KPIS.map((k) => (
         <Card key={k.label} padding="sm" className="flex flex-col gap-1">
           <span className="text-foreground-subtle text-xs">{k.label}</span>
-          <span className="text-3xl font-semibold tracking-tight">{k.value}</span>
+          {/* 28px would overflow a 375px-wide card once the ₮ suffix is on. */}
+          <span className="text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl">
+            {k.value}
+          </span>
           <span
             className={
               k.tone === 'up'
@@ -118,10 +121,12 @@ function SignIn() {
         <Input label="И-мэйл" type="email" placeholder="ner@gerege.mn" autoComplete="off" />
         <Input label="Нууц үг" type="password" autoComplete="off" />
         <Button className="w-full">Нэвтрэх</Button>
+        {/* Separator defaults to `w-full shrink-0`; both must be overridden or
+            the two rules push the row past the card. */}
         <div className="flex items-center gap-3">
-          <Separator className="grow" />
-          <span className="text-foreground-subtle text-xs">эсвэл</span>
-          <Separator className="grow" />
+          <Separator className="w-auto shrink grow" />
+          <span className="text-foreground-subtle shrink-0 text-xs">эсвэл</span>
+          <Separator className="w-auto shrink grow" />
         </div>
         <Button variant="secondary" className="w-full">
           <Github aria-hidden />

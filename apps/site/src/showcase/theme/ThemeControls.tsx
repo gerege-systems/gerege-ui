@@ -113,7 +113,10 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
                       'focus-visible:ring-ring h-5 rounded-sm focus-visible:ring-2 focus-visible:outline-none',
                       active && 'ring-foreground ring-2 ring-offset-2',
                     )}
-                    style={{ background: oklchToHex(state.lightness, state.chroma, h) }}
+                    /* Drawn at a fixed lightness: at the darker end of the L
+                       slider several hues clip out of sRGB and the strip stops
+                       reading as a hue wheel. The click still keeps L and C. */
+                    style={{ background: oklchToHex(0.58, Math.min(state.chroma, 0.16), h) }}
                   />
                 );
               })}
