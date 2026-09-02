@@ -74,7 +74,7 @@ export function ThemePage() {
           left. The right padding is what the panel eats: it shrinks as the
           window grows (the centred column's own right margin already covers
           part of the panel) and never drops below the normal px-6. */}
-      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:pr-[max(1.5rem,calc(21.5rem-(100vw-1400px)/2))]">
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:pr-[clamp(1.5rem,calc(21.5rem-(100vw-1400px)/2),21.5rem)]">
         <div className="min-w-0">
           <header className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
             <div className="flex max-w-2xl flex-col gap-1.5">
