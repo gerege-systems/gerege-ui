@@ -10,9 +10,9 @@
  * (see `brandPresets`); the derived steps mirror their shape so a custom accent
  * behaves like a built-in one in both modes.
  */
-import type { BrandTokenPair, BrandTokens } from '@/components/ui/DesignSystemProvider';
+import type { BrandTokens } from '@/components/ui/DesignSystemProvider';
+import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset } from './presets';
 
-export type SurfaceName = 'slate' | 'zinc' | 'stone';
 export type FontChoice = 'geist' | 'system' | 'custom';
 
 export interface ThemeState {
@@ -22,9 +22,14 @@ export interface ThemeState {
   chroma: number;
   /** Accent hue (OKLCH H, degrees). */
   hue: number;
-  /** Base control radius in px; the rest of the scale derives from it. */
-  radius: number;
-  surface: SurfaceName;
+  /** Named style bundle — radius, type scale, spacing. */
+  style: string;
+  /** Named neutral family — surfaces, borders, secondary text. */
+  base: string;
+  /** Named categorical series palette. */
+  chart: string;
+  /** Explicit radius override in px; `null` follows the style. */
+  radius: number | null;
   fontSans: FontChoice;
   fontMono: FontChoice;
   /** Family name used when the matching choice is `custom`. */
@@ -41,8 +46,10 @@ export const DEFAULT_STATE: ThemeState = {
   lightness: 0.457,
   chroma: 0.185,
   hue: 274.5,
-  radius: 6,
-  surface: 'slate',
+  style: 'nova',
+  base: 'slate',
+  chart: 'default',
+  radius: null,
   fontSans: 'geist',
   fontMono: 'geist',
   customSans: '',
@@ -52,19 +59,20 @@ export const DEFAULT_STATE: ThemeState = {
 export const MAX_CHROMA = 0.2;
 
 /** Accent presets, mirroring `brandPresets` in the library. */
-export const ACCENT_PRESETS: { name: string; label: string; l: number; c: number; h: number }[] = [
-  { name: 'default', label: 'Indigo', l: 0.457, c: 0.185, h: 274.5 },
-  { name: 'blue', label: 'Blue', l: 0.55, c: 0.16, h: 250 },
-  { name: 'violet', label: 'Violet', l: 0.53, c: 0.2, h: 295 },
-  { name: 'emerald', label: 'Emerald', l: 0.55, c: 0.13, h: 160 },
-  { name: 'rose', label: 'Rose', l: 0.55, c: 0.19, h: 15 },
-  { name: 'amber', label: 'Amber', l: 0.56, c: 0.14, h: 65 },
-];
-
-export const SURFACES: { name: SurfaceName; label: string; swatch: string }[] = [
-  { name: 'slate', label: 'Slate', swatch: 'hsl(210 40% 96%)' },
-  { name: 'zinc', label: 'Zinc', swatch: 'hsl(240 5% 96%)' },
-  { name: 'stone', label: 'Stone', swatch: 'hsl(30 18% 96%)' },
+export const ACCENT_PRESETS: {
+  name: string;
+  label: string;
+  hint: string;
+  l: number;
+  c: number;
+  h: number;
+}[] = [
+  { name: 'default', label: 'Indigo', hint: 'Сангийн default', l: 0.457, c: 0.185, h: 274.5 },
+  { name: 'blue', label: 'Blue', hint: 'Хүйтэн, тод цэнхэр', l: 0.55, c: 0.16, h: 250 },
+  { name: 'violet', label: 'Violet', hint: 'Ягаан ягаавтар', l: 0.53, c: 0.2, h: 295 },
+  { name: 'emerald', label: 'Emerald', hint: 'Ногоон', l: 0.55, c: 0.13, h: 160 },
+  { name: 'rose', label: 'Rose', hint: 'Улаан ягаан', l: 0.55, c: 0.19, h: 15 },
+  { name: 'amber', label: 'Amber', hint: 'Шар улбар', l: 0.56, c: 0.14, h: 65 },
 ];
 
 const SANS_STACK = "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
@@ -185,56 +193,6 @@ export function radiusScale(base: number): { sm: number; md: number; lg: number;
   return { sm: Math.max(2, base - 2), md: base, lg: base + 2, xl: base + 6 };
 }
 
-const SURFACE_TOKENS: Record<SurfaceName, BrandTokenPair | null> = {
-  slate: null, // the library default
-  zinc: {
-    light: {
-      'background-subtle': 'hsl(240 5% 98%)',
-      'background-muted': 'hsl(240 5% 96%)',
-      border: 'hsl(240 6% 90%)',
-      'border-strong': 'hsl(240 5% 84%)',
-      'border-input': 'hsl(240 4% 55%)',
-      'surface-hover': 'hsl(240 6% 90%)',
-      'surface-active': 'hsl(240 5% 84%)',
-    },
-    dark: {
-      background: 'hsl(240 6% 7%)',
-      'background-subtle': 'hsl(240 6% 10%)',
-      'background-muted': 'hsl(240 5% 14%)',
-      card: 'hsl(240 6% 11%)',
-      popover: 'hsl(240 6% 11%)',
-      border: 'hsl(240 5% 18%)',
-      'border-strong': 'hsl(240 5% 27%)',
-      'border-input': 'hsl(240 4% 45%)',
-      'surface-hover': 'hsl(240 5% 18%)',
-      'surface-active': 'hsl(240 5% 27%)',
-    },
-  },
-  stone: {
-    light: {
-      'background-subtle': 'hsl(30 20% 98%)',
-      'background-muted': 'hsl(30 18% 96%)',
-      border: 'hsl(30 14% 90%)',
-      'border-strong': 'hsl(30 12% 84%)',
-      'border-input': 'hsl(30 8% 55%)',
-      'surface-hover': 'hsl(30 14% 90%)',
-      'surface-active': 'hsl(30 12% 84%)',
-    },
-    dark: {
-      background: 'hsl(24 10% 7%)',
-      'background-subtle': 'hsl(24 9% 10%)',
-      'background-muted': 'hsl(24 8% 14%)',
-      card: 'hsl(24 9% 11%)',
-      popover: 'hsl(24 9% 11%)',
-      border: 'hsl(24 8% 18%)',
-      'border-strong': 'hsl(24 7% 27%)',
-      'border-input': 'hsl(24 6% 45%)',
-      'surface-hover': 'hsl(24 8% 18%)',
-      'surface-active': 'hsl(24 7% 27%)',
-    },
-  },
-};
-
 function fontValue(choice: FontChoice, custom: string, kind: 'sans' | 'mono'): string | null {
   const stack = kind === 'sans' ? SANS_STACK : MONO_STACK;
   if (choice === 'geist') return null; // the library default
@@ -266,6 +224,17 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
   const light: BrandTokens = {};
   const dark: BrandTokens = {};
 
+  // Named bundles first; the fine-tune controls below deliberately win.
+  for (const [list, name] of [
+    [STYLES, s.style],
+    [BASE_COLORS, s.base],
+    [CHART_PALETTES, s.chart],
+  ] as const) {
+    const { tokens } = findPreset(list, name);
+    Object.assign(light, tokens.light);
+    Object.assign(dark, tokens.dark ?? {});
+  }
+
   if (accentChanged(s)) {
     const { lightness: l, chroma: c, hue: h } = s;
     light.accent = oklch(l, c, h);
@@ -281,18 +250,12 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
     dark.ring = oklch(Math.min(0.84, darkL(s) + 0.04), darkC(s), h);
   }
 
-  if (s.radius !== DEFAULT_STATE.radius) {
+  if (s.radius !== null) {
     const r = radiusScale(s.radius);
     light['radius-sm'] = `${r.sm}px`;
     light['radius-md'] = `${r.md}px`;
     light['radius-lg'] = `${r.lg}px`;
     light['radius-xl'] = `${r.xl}px`;
-  }
-
-  const surface = SURFACE_TOKENS[s.surface];
-  if (surface) {
-    Object.assign(light, surface.light);
-    Object.assign(dark, surface.dark ?? {});
   }
 
   const sans = fontValue(s.fontSans, s.customSans, 'sans');
@@ -349,8 +312,10 @@ export function encodeState(s: ThemeState): string {
     p.set('c', String(s.chroma));
     p.set('h', String(s.hue));
   }
-  if (s.radius !== DEFAULT_STATE.radius) p.set('r', String(s.radius));
-  if (s.surface !== DEFAULT_STATE.surface) p.set('s', s.surface);
+  if (s.style !== DEFAULT_STATE.style) p.set('st', s.style);
+  if (s.base !== DEFAULT_STATE.base) p.set('bc', s.base);
+  if (s.chart !== DEFAULT_STATE.chart) p.set('ch', s.chart);
+  if (s.radius !== null) p.set('r', String(s.radius));
   if (s.fontSans !== DEFAULT_STATE.fontSans) p.set('fs', s.fontSans);
   if (s.fontMono !== DEFAULT_STATE.fontMono) p.set('fm', s.fontMono);
   if (s.customSans) p.set('cs', s.customSans);
@@ -359,7 +324,6 @@ export function encodeState(s: ThemeState): string {
   return q ? `?${q}` : '';
 }
 
-const isSurface = (v: string): v is SurfaceName => v === 'slate' || v === 'zinc' || v === 'stone';
 const isFont = (v: string): v is FontChoice => v === 'geist' || v === 'system' || v === 'custom';
 
 /** Read a state back out of a hash tail. Unknown or malformed values fall back. */
@@ -377,9 +341,16 @@ export function decodeState(hash: string): ThemeState {
   s.lightness = num('l', 0.3, 0.8, s.lightness);
   s.chroma = num('c', 0, MAX_CHROMA, s.chroma);
   s.hue = num('h', 0, 360, s.hue);
-  s.radius = num('r', 0, 16, s.radius);
-  const surface = p.get('s');
-  if (surface && isSurface(surface)) s.surface = surface;
+  const rawRadius = p.get('r');
+  s.radius = rawRadius === null ? null : num('r', 0, 24, 6);
+  for (const [key, list, field] of [
+    ['st', STYLES, 'style'],
+    ['bc', BASE_COLORS, 'base'],
+    ['ch', CHART_PALETTES, 'chart'],
+  ] as const) {
+    const v = p.get(key);
+    if (v && list.some((x) => x.name === v)) s[field] = v;
+  }
   const fs = p.get('fs');
   if (fs && isFont(fs)) s.fontSans = fs;
   const fm = p.get('fm');

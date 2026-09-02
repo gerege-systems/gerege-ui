@@ -1,3 +1,10 @@
+import { useMemo, type ReactNode } from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/Accordion';
 import { Alert } from '@/components/ui/Alert';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
@@ -5,10 +12,16 @@ import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
 import { BarChart } from '@/components/ui/Chart';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { ErrorState } from '@/components/ui/ErrorState';
+import { FileUpload } from '@/components/ui/FileUpload';
 import { Input } from '@/components/ui/Input';
+import { Kbd } from '@/components/ui/Kbd';
 import { Progress } from '@/components/ui/Progress';
+import { RadioGroup, RadioItem } from '@/components/ui/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/Select';
 import { Separator } from '@/components/ui/Separator';
+import { Stepper } from '@/components/ui/Stepper';
 import { Switch } from '@/components/ui/Switch';
 import {
   Table,
@@ -19,33 +32,46 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
+import { Textarea } from '@/components/ui/Textarea';
 import { formatMNT } from '@/lib/format';
-import { Github, Mail } from '@/icons';
+import { Github, Mail, Plus, Search } from '@/icons';
 
 /**
- * The wall the theme is judged on. Every block here is composed from library
- * components only — no local colours, no local radii — so a token change shows
- * up everywhere at once, which is the whole point of the page.
+ * The wall the theme is judged on: sixteen blocks, every one composed from
+ * library components only — no local colours, radii or font sizes — so a token
+ * change lands everywhere at once, which is the whole point of the page.
+ *
+ * The order is shuffled from a seed. A fixed order teaches you the page rather
+ * than the theme: you learn where to look and stop seeing the rest. Reshuffling
+ * puts a different pair of blocks side by side, which is where mismatched
+ * spacing and contrast actually show up.
  */
-export function ThemePreviewWall() {
+export function ThemePreviewWall({ seed }: { seed: number }) {
+  const blocks = useMemo(() => shuffle(BLOCKS, seed), [seed]);
   return (
-    <div className="flex flex-col gap-4">
-      <KpiRow />
-      <div className="grid gap-4 lg:grid-cols-3">
-        <RevenueChart />
-        <SignIn />
-      </div>
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Invoices />
-        <Notifications />
-      </div>
-      <div className="grid gap-4 lg:grid-cols-3">
-        <CalendarCard />
-        <Team />
-        <Controls />
-      </div>
+    <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+      {blocks.map((b) => (
+        <div key={b.key}>{b.node}</div>
+      ))}
     </div>
   );
+}
+
+/** mulberry32 — small, seedable, and stable across reloads for a given seed. */
+function shuffle<T>(items: readonly T[], seed: number): T[] {
+  let a = seed >>> 0;
+  const rand = () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ blocks -- */
@@ -57,30 +83,33 @@ const KPIS = [
   { label: 'Буцаалт', value: '2.8%', delta: '+0.4%', tone: 'down' },
 ] as const;
 
-function KpiRow() {
+function Kpis() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {KPIS.map((k) => (
-        <Card key={k.label} padding="sm" className="flex flex-col gap-1">
-          <span className="text-foreground-subtle text-xs">{k.label}</span>
-          {/* 28px would overflow a 375px-wide card once the ₮ suffix is on. */}
-          <span className="text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl">
-            {k.value}
-          </span>
-          <span
-            className={
-              k.tone === 'up'
-                ? 'text-success-foreground text-xs'
-                : k.tone === 'down'
-                  ? 'text-danger-foreground text-xs'
-                  : 'text-foreground-subtle text-xs'
-            }
-          >
-            {k.delta}
-          </span>
-        </Card>
-      ))}
-    </div>
+    <Card padding="sm">
+      <CardHeader>
+        <CardTitle>Үзүүлэлт</CardTitle>
+      </CardHeader>
+      <CardContent className="grid grid-cols-2 gap-4">
+        {KPIS.map((k) => (
+          <div key={k.label} className="flex flex-col gap-0.5">
+            <span className="text-foreground-subtle text-xs">{k.label}</span>
+            {/* 28px overflows a half-width card once formatMNT adds the ₮. */}
+            <span className="text-2xl font-semibold tracking-tight tabular-nums">{k.value}</span>
+            <span
+              className={
+                k.tone === 'up'
+                  ? 'text-success-foreground text-xs'
+                  : k.tone === 'down'
+                    ? 'text-danger-foreground text-xs'
+                    : 'text-foreground-subtle text-xs'
+              }
+            >
+              {k.delta}
+            </span>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -90,14 +119,14 @@ const TARGET = [2.3, 3.1, 1.9, 3.8, 2.8, 4.2, 3.2, 2.2, 3.6, 2.7];
 
 function RevenueChart() {
   return (
-    <Card className="lg:col-span-2">
+    <Card>
       <CardHeader>
         <CardTitle>Сарын урсгал</CardTitle>
         <p className="text-foreground-subtle text-xs">2026 · сая ₮ · UTC+8</p>
       </CardHeader>
       <CardContent>
         <BarChart
-          height={200}
+          height={180}
           showTableToggle
           aria-label="Сарын борлуулалт ба зорилт"
           series={[
@@ -121,8 +150,8 @@ function SignIn() {
         <Input label="И-мэйл" type="email" placeholder="ner@gerege.mn" autoComplete="off" />
         <Input label="Нууц үг" type="password" autoComplete="off" />
         <Button className="w-full">Нэвтрэх</Button>
-        {/* Separator defaults to `w-full shrink-0`; both must be overridden or
-            the two rules push the row past the card. */}
+        {/* Separator ships `w-full shrink-0`; both must be overridden or the
+            row pushes past the card. */}
         <div className="flex items-center gap-3">
           <Separator className="w-auto shrink grow" />
           <span className="text-foreground-subtle shrink-0 text-xs">эсвэл</span>
@@ -144,14 +173,14 @@ function SignIn() {
 const INVOICES = [
   {
     id: 'INV-1042',
-    customer: 'Гэрэгэ Системс ХХК',
+    customer: 'Гэрэгэ Системс',
     amount: 8_900_000,
     tone: 'warning',
     label: 'Хүлээгдэж буй',
   },
   {
     id: 'INV-1041',
-    customer: 'Мөнхбаярын Оюунчимэг',
+    customer: 'М. Оюунчимэг',
     amount: 1_240_000,
     tone: 'success',
     label: 'Төлөгдсөн',
@@ -162,13 +191,13 @@ const INVOICES = [
     customer: 'Дэлгэрэх Трейд',
     amount: 2_150_000,
     tone: 'danger',
-    label: 'Хугацаа хэтэрсэн',
+    label: 'Хэтэрсэн',
   },
 ] as const;
 
 function Invoices() {
   return (
-    <Card className="lg:col-span-2" padding="sm">
+    <Card padding="sm">
       <CardHeader>
         <CardTitle>Нэхэмжлэх</CardTitle>
       </CardHeader>
@@ -177,7 +206,6 @@ function Invoices() {
           <TableHeader>
             <TableRow>
               <TableHead>Дугаар</TableHead>
-              <TableHead>Харилцагч</TableHead>
               <TableHead>Төлөв</TableHead>
               <TableHead className="text-right">Дүн</TableHead>
             </TableRow>
@@ -186,7 +214,6 @@ function Invoices() {
             {INVOICES.map((inv) => (
               <TableRow key={inv.id}>
                 <TableCell className="font-medium">{inv.id}</TableCell>
-                <TableCell>{inv.customer}</TableCell>
                 <TableCell>
                   <Badge tone={inv.tone} dot>
                     {inv.label}
@@ -224,7 +251,7 @@ function Notifications() {
       </CardContent>
       <CardFooter>
         <Button size="sm" variant="secondary">
-          Бүгдийг хадгалах
+          Хадгалах
         </Button>
       </CardFooter>
     </Card>
@@ -326,3 +353,268 @@ function Controls() {
     </Card>
   );
 }
+
+function Pricing() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Багц</CardTitle>
+        <p className="text-foreground-subtle text-xs">Жилээр төлбөл 2 сар үнэгүй.</p>
+      </CardHeader>
+      <CardContent>
+        <RadioGroup defaultValue="business" className="flex flex-col gap-3">
+          <RadioItem value="start" label="Эхлэл — 0₮" description="1 хэрэглэгч, 1 орчин" />
+          <RadioItem
+            value="business"
+            label="Бизнес — 89,000₮ / сар"
+            description="10 хэрэглэгч, SSO, аудит"
+          />
+          <RadioItem
+            value="enterprise"
+            label="Байгууллага — тохиролцоно"
+            description="SLA, тусдаа орчин"
+          />
+        </RadioGroup>
+      </CardContent>
+      <CardFooter>
+        <Button className="w-full">Багц сонгох</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function ReportIssue() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Асуудал мэдэгдэх</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium">Хэсэг</span>
+          <Select defaultValue="billing">
+            <SelectTrigger aria-label="Хэсэг" />
+            <SelectContent>
+              <SelectItem value="billing">Төлбөр</SelectItem>
+              <SelectItem value="auth">Нэвтрэлт</SelectItem>
+              <SelectItem value="reports">Тайлан</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Input label="Гарчиг" placeholder="Товч тайлбар" />
+        <Textarea label="Дэлгэрэнгүй" rows={3} placeholder="Юу болсныг бичнэ үү" />
+      </CardContent>
+      <CardFooter className="gap-2">
+        <Button size="sm">Илгээх</Button>
+        <Button size="sm" variant="ghost">
+          Болих
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function Upload() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Файл хавсаргах</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <FileUpload multiple accept="image/*" hint="PNG эсвэл JPG, 5MB хүртэл" />
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-foreground-muted grow truncate">tailan-2026-08.pdf</span>
+            <span className="text-foreground-subtle tabular-nums">42%</span>
+          </div>
+          <Progress value={42} size="sm" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Onboarding() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Эхлэх</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Stepper
+          current={1}
+          steps={[
+            { title: 'Бүртгэл', description: 'Нэр, и-мэйл' },
+            { title: 'Баг', description: 'Гишүүд урих' },
+            { title: 'Төлбөр', description: 'Багц сонгох' },
+          ]}
+        />
+      </CardContent>
+      <CardFooter className="gap-2">
+        <Button size="sm">Үргэлжлүүлэх</Button>
+        <Button size="sm" variant="ghost">
+          Алгасах
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function Faq() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Түгээмэл асуулт</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="a">
+            <AccordionTrigger>Төлбөрөө буцаах боломжтой юу?</AccordionTrigger>
+            <AccordionContent>14 хоногийн дотор, тайлбаргүйгээр.</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="b">
+            <AccordionTrigger>SSO дэмждэг үү?</AccordionTrigger>
+            <AccordionContent>Бизнес багцаас дээш OIDC болон SAML.</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="c">
+            <AccordionTrigger>Өгөгдлөө экспортлож болох уу?</AccordionTrigger>
+            <AccordionContent>CSV, JSON — Тохиргоо → Экспорт.</AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Empty() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Төсөл</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <EmptyState
+          title="Төсөл алга"
+          description="Эхний төслөө үүсгээд багаа урина уу."
+          action={
+            <Button size="sm" leadingIcon={<Plus />}>
+              Шинэ төсөл
+            </Button>
+          }
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+function Forbidden() {
+  return (
+    <Card>
+      <CardContent>
+        <ErrorState
+          variant="403"
+          headingLevel={3}
+          action={<Button variant="secondary">Хяналтын самбар руу</Button>}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+function CommandHint() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Хайлт</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <Input type="search" placeholder="Захиалга, харилцагч, дугаар…" prefix={<Search />} />
+        <div className="text-foreground-muted flex items-center gap-2 text-sm">
+          Хаанаас ч нээх: <Kbd>⌘</Kbd>
+          <span className="text-foreground-subtle">+</span>
+          <Kbd>K</Kbd>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+const ACTIVITY = [
+  { who: 'Оюунчимэг', initials: 'ОЧ', what: 'INV-1042-ыг илгээв', when: '10 минутын өмнө' },
+  { who: 'Батсайхан', initials: 'БС', what: 'Багцыг Бизнес болгов', when: '2 цагийн өмнө' },
+  { who: 'Нарантуяа', initials: 'НТ', what: '8-р сарын тайлан татав', when: 'Өчигдөр 17:40' },
+] as const;
+
+function Activity() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Сүүлийн үйлдэл</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        {ACTIVITY.map((a) => (
+          <div key={a.what} className="flex gap-3">
+            <Avatar fallback={a.initials} size="sm" />
+            <div className="flex min-w-0 flex-col">
+              <span className="text-sm">
+                <strong className="font-medium">{a.who}</strong> {a.what}
+              </span>
+              <span className="text-foreground-subtle text-xs">{a.when}</span>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+function Usage() {
+  const rows = [
+    { label: 'API дуудалт', used: 82, note: '410к / 500к' },
+    { label: 'Хадгалалт', used: 47, note: '9.4GB / 20GB' },
+    { label: 'Гишүүд', used: 30, note: '3 / 10' },
+  ];
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Ашиглалт</CardTitle>
+        <p className="text-foreground-subtle text-xs">9-р сарын мөчлөг</p>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        {rows.map((r) => (
+          <div key={r.label} className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="grow">{r.label}</span>
+              <span className="text-foreground-subtle text-xs tabular-nums">{r.note}</span>
+            </div>
+            <Progress value={r.used} tone={r.used > 80 ? 'warning' : 'accent'} size="sm" />
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+const BLOCKS: { key: string; node: ReactNode }[] = [
+  { key: 'kpis', node: <Kpis /> },
+  { key: 'chart', node: <RevenueChart /> },
+  { key: 'signin', node: <SignIn /> },
+  { key: 'invoices', node: <Invoices /> },
+  { key: 'notifications', node: <Notifications /> },
+  { key: 'calendar', node: <CalendarCard /> },
+  { key: 'team', node: <Team /> },
+  { key: 'controls', node: <Controls /> },
+  { key: 'pricing', node: <Pricing /> },
+  { key: 'report', node: <ReportIssue /> },
+  { key: 'upload', node: <Upload /> },
+  { key: 'onboarding', node: <Onboarding /> },
+  { key: 'faq', node: <Faq /> },
+  { key: 'empty', node: <Empty /> },
+  { key: 'forbidden', node: <Forbidden /> },
+  { key: 'search', node: <CommandHint /> },
+  { key: 'activity', node: <Activity /> },
+  { key: 'usage', node: <Usage /> },
+];
+
+/** Block count, for the page header. */
+export const BLOCK_COUNT = BLOCKS.length;
