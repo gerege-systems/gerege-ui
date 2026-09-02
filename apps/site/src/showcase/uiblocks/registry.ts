@@ -28,8 +28,20 @@ import { SignIn } from './blocks/SignIn';
 import { Team } from './blocks/Team';
 import { Upload } from './blocks/Upload';
 import { Usage } from './blocks/Usage';
+import { CartSummary } from './blocks/CartSummary';
+import { CheckoutSteps } from './blocks/CheckoutSteps';
+import { DashboardOverview } from './blocks/DashboardOverview';
+import { HeroCta } from './blocks/HeroCta';
+import { LineTrend } from './blocks/LineTrend';
+import { PricingTable } from './blocks/PricingTable';
+import { ProductGrid } from './blocks/ProductGrid';
+import { SidebarShell } from './blocks/SidebarShell';
+import { SignInSplit } from './blocks/SignInSplit';
+import { SignUp } from './blocks/SignUp';
+import { TopNavShell } from './blocks/TopNavShell';
+import { TwoFactor } from './blocks/TwoFactor';
 
-export type BlockCategory = 'App' | 'Auth' | 'Marketing';
+export type BlockCategory = 'App' | 'Auth' | 'Commerce' | 'Marketing';
 
 export interface UiBlock {
   slug: string;
@@ -52,7 +64,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'revenue-chart',
-    name: 'Revenue chart',
+    name: 'Chart 01 — bars',
     category: 'App',
     file: 'RevenueChart',
     Component: RevenueChart,
@@ -60,7 +72,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sign-in',
-    name: 'Sign in',
+    name: 'Sign in 01',
     category: 'Auth',
     file: 'SignIn',
     Component: SignIn,
@@ -108,7 +120,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'plan-picker',
-    name: 'Plan picker',
+    name: 'Pricing 01 — picker',
     category: 'Marketing',
     file: 'Pricing',
     Component: Pricing,
@@ -186,9 +198,105 @@ export const UI_BLOCKS: UiBlock[] = [
     Component: Usage,
     description: 'Quota rows that turn warning past 80%.',
   },
+  {
+    slug: 'sign-in-split',
+    name: 'Sign in 02 — split',
+    category: 'Auth',
+    file: 'SignInSplit',
+    Component: SignInSplit,
+    description: 'Form beside a quote panel; the panel drops away under md.',
+  },
+  {
+    slug: 'sign-up',
+    name: 'Sign up 01',
+    category: 'Auth',
+    file: 'SignUp',
+    Component: SignUp,
+    description: 'Name, work email, password rule and the terms checkbox.',
+  },
+  {
+    slug: 'two-factor',
+    name: 'Two-factor 01',
+    category: 'Auth',
+    file: 'TwoFactor',
+    Component: TwoFactor,
+    description: 'Six-digit code with a recovery route out.',
+  },
+  {
+    slug: 'sidebar-shell',
+    name: 'Sidebar shell 01',
+    category: 'App',
+    file: 'SidebarShell',
+    Component: SidebarShell,
+    description: 'Collapsible rail, grouped nav, page header and content area.',
+  },
+  {
+    slug: 'topnav-shell',
+    name: 'Top nav shell 01',
+    category: 'App',
+    file: 'TopNavShell',
+    Component: TopNavShell,
+    description: 'Horizontal chrome for products with few destinations.',
+  },
+  {
+    slug: 'dashboard-overview',
+    name: 'Dashboard 01',
+    category: 'App',
+    file: 'DashboardOverview',
+    Component: DashboardOverview,
+    description: 'Three figures, an area chart and the latest invoices in one card.',
+  },
+  {
+    slug: 'line-trend',
+    name: 'Chart 02 — lines',
+    category: 'App',
+    file: 'LineTrend',
+    Component: LineTrend,
+    description: 'Two series over fourteen days with a table fallback.',
+  },
+  {
+    slug: 'product-grid',
+    name: 'Products 01',
+    category: 'Commerce',
+    file: 'ProductGrid',
+    Component: ProductGrid,
+    description: 'Image placeholder, price, stock tag and an add action.',
+  },
+  {
+    slug: 'cart',
+    name: 'Cart 01',
+    category: 'Commerce',
+    file: 'CartSummary',
+    Component: CartSummary,
+    description: 'Editable quantities, remove buttons and a totals block.',
+  },
+  {
+    slug: 'checkout',
+    name: 'Checkout 01',
+    category: 'Commerce',
+    file: 'CheckoutSteps',
+    Component: CheckoutSteps,
+    description: 'Stepper, address fields and delivery options.',
+  },
+  {
+    slug: 'pricing-table',
+    name: 'Pricing 02 — table',
+    category: 'Marketing',
+    file: 'PricingTable',
+    Component: PricingTable,
+    description: 'Three tiers with a highlighted plan and feature ticks.',
+  },
+  {
+    slug: 'hero',
+    name: 'Hero 01',
+    category: 'Marketing',
+    file: 'HeroCta',
+    Component: HeroCta,
+    description: 'One promise, one primary action, one supporting line.',
+  },
 ];
 
-export const BLOCK_CATEGORIES: BlockCategory[] = ['App', 'Auth', 'Marketing'];
+export const BLOCK_CATEGORIES: BlockCategory[] = ['App', 'Auth', 'Commerce', 'Marketing'];
 
 export function getBlock(slug: string): UiBlock | undefined {
   return UI_BLOCKS.find((b) => b.slug === slug);
