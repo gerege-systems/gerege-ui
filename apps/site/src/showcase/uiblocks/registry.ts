@@ -129,7 +129,6 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'calendar',
-    page: 1,
     name: 'Calendar',
     category: 'App',
     file: 'CalendarCard',
