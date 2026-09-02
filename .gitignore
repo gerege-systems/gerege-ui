@@ -17,3 +17,6 @@ playwright-report
 blob-report
 dist.new
 dist.prev
+
+# Ad-hoc probe scripts (kept out of the repo, used from the working tree)
+zz-*.mjs
