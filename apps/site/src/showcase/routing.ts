@@ -25,6 +25,8 @@ export type Route =
   | { kind: 'templates-index' }
   | { kind: 'template'; slug: string }
   | { kind: 'guides-index' }
+  | { kind: 'blocks-index' }
+  | { kind: 'block'; slug: string }
   | { kind: 'theme' }
   | { kind: 'guide'; slug: string }
   | { kind: 'preview'; slug: string; screen?: string; variant?: string; page?: string }
@@ -64,11 +66,13 @@ export function parseHash(hash: string): Route {
   if (raw === 'components') return { kind: 'components-index' };
   if (raw === 'templates') return { kind: 'templates-index' };
   if (raw === 'guides' || raw === 'docs') return { kind: 'guides-index' };
+  if (raw === 'blocks') return { kind: 'blocks-index' };
   if (raw === 'theme') return { kind: 'theme' };
 
   const [section, slug, screen, variant, page] = raw.split('/');
   if (section === 'components' && slug) return { kind: 'component', slug };
   if (section === 'templates' && slug) return { kind: 'template', slug };
+  if (section === 'blocks' && slug) return { kind: 'block', slug };
   if ((section === 'guides' || section === 'docs') && slug) return { kind: 'guide', slug };
   if (section === 'preview' && slug) {
     const route: Route = { kind: 'preview', slug };
@@ -103,6 +107,10 @@ export function routeToHash(route: Route): string {
       return `templates/${route.slug}`;
     case 'guides-index':
       return 'guides';
+    case 'blocks-index':
+      return 'blocks';
+    case 'block':
+      return `blocks/${route.slug}`;
     case 'theme':
       return 'theme';
     case 'guide':

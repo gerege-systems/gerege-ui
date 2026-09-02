@@ -24,6 +24,9 @@ import { TemplateDocPage } from './showcase/pages/TemplateDocPage';
 import { GuidesIndexPage } from './showcase/pages/GuidesIndexPage';
 import { GuidePage } from './showcase/pages/GuidePage';
 import { ThemePage } from './showcase/pages/ThemePage';
+import { BlocksIndexPage } from './showcase/pages/BlocksIndexPage';
+import { BlockDocPage } from './showcase/pages/BlockDocPage';
+import { getBlock } from './showcase/uiblocks/registry';
 import { PreviewPage } from './showcase/pages/PreviewPage';
 import { NotFound } from './showcase/pages/NotFound';
 import { getComponentDoc } from './showcase/registry/components';
@@ -129,6 +132,10 @@ function routeTitle(route: Route): string {
       return getTemplateDoc(route.slug)?.name ?? 'Templates';
     case 'guides-index':
       return 'Guides';
+    case 'blocks-index':
+      return 'Blocks';
+    case 'block':
+      return getBlock(route.slug)?.name ?? 'Blocks';
     case 'theme':
       return 'Theme';
     case 'guide':
@@ -251,6 +258,15 @@ function RouteView({ route }: { route: Route }) {
           <GuidePage doc={doc} />
         </DocLayout>
       );
+    }
+
+    case 'blocks-index':
+      return <BlocksIndexPage />;
+
+    case 'block': {
+      const block = getBlock(route.slug);
+      if (!block) return <NotFound />;
+      return <BlockDocPage block={block} />;
     }
 
     case 'theme':

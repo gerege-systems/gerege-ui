@@ -31,6 +31,11 @@ const NAV: { label: string; route: Route; matchKinds: Route['kind'][] }[] = [
     route: { kind: 'templates-index' },
     matchKinds: ['templates-index', 'template'],
   },
+  {
+    label: 'Blocks',
+    route: { kind: 'blocks-index' },
+    matchKinds: ['blocks-index', 'block'],
+  },
   { label: 'Guides', route: { kind: 'guides-index' }, matchKinds: ['guides-index', 'guide'] },
   { label: 'Theme', route: { kind: 'theme' }, matchKinds: ['theme'] },
 ];
