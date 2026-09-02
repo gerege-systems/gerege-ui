@@ -41,6 +41,10 @@ import { SignUp } from './blocks/SignUp';
 import { TopNavShell } from './blocks/TopNavShell';
 import { TwoFactor } from './blocks/TwoFactor';
 import { GoalRing } from './blocks/GoalRing';
+import { TokenSwatches } from './blocks/TokenSwatches';
+import { TypeSpecimen } from './blocks/TypeSpecimen';
+import { ControlGallery } from './blocks/ControlGallery';
+import { AnnouncementCard } from './blocks/AnnouncementCard';
 import { TransactionList } from './blocks/TransactionList';
 import { ReceivingMethod } from './blocks/ReceivingMethod';
 import { ConnectBank } from './blocks/ConnectBank';
@@ -613,6 +617,38 @@ export const UI_BLOCKS: UiBlock[] = [
     file: 'NotificationChecklist',
     Component: NotificationChecklist,
     description: 'Select-all in its indeterminate state over four choices.',
+  },
+  {
+    slug: 'tokens',
+    name: 'Tokens 01',
+    category: 'App',
+    file: 'TokenSwatches',
+    Component: TokenSwatches,
+    description: 'Every colour the current theme resolves to, as swatches.',
+  },
+  {
+    slug: 'type-specimen',
+    name: 'Type specimen 01',
+    category: 'Marketing',
+    file: 'TypeSpecimen',
+    Component: TypeSpecimen,
+    description: 'A heading against body copy, Cyrillic included.',
+  },
+  {
+    slug: 'control-gallery',
+    name: 'Controls 01',
+    category: 'App',
+    file: 'ControlGallery',
+    Component: ControlGallery,
+    description: 'Every control at once — the fastest read on a style or palette.',
+  },
+  {
+    slug: 'announcement',
+    name: 'Announcement 01',
+    category: 'Marketing',
+    file: 'AnnouncementCard',
+    Component: AnnouncementCard,
+    description: 'A tinted band over a message with one action.',
   },
 ];
 
