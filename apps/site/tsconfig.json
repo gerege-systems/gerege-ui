@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@craftzbay/ui": ["../../packages/ui/src/index.ts"],
+      "@gerege/ui": ["../../packages/ui/src/index.ts"],
       "@/*": ["../../packages/ui/src/*"],
       "@site/*": ["./src/*"]
     },

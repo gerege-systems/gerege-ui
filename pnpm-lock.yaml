@@ -44,7 +44,7 @@ importers:
 
   apps/site:
     dependencies:
-      '@craftzbay/ui':
+      '@gerege/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:

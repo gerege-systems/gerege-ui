@@ -1,7 +1,7 @@
 # Design Philosophy — Refined-Minimal
 
-> The rules below are the library-specific distillation of the [craftzbay design-research](https://github.com/craftzbay/design-research) guidelines ([rendered](https://craftzbay.github.io/design-research/)).
-> **Precedence:** design-research is the source of truth; this file summarises it. When the two disagree, design-research wins — the canonical numbers live in [`00-defaults.md`](https://github.com/craftzbay/design-research/blob/main/00-defaults.md).
+> The rules below are the library-specific distillation of the [gerege-systems design-research](https://github.com/gerege-systems/design-research) guidelines ([rendered](https://gerege-systems.github.io/design-research/)).
+> **Precedence:** design-research is the source of truth; this file summarises it. When the two disagree, design-research wins — the canonical numbers live in [`00-defaults.md`](https://github.com/gerege-systems/design-research/blob/main/00-defaults.md).
 
 This system is built for **internal product teams** at the company. It must work across
 any product surface, so it favours discipline and clarity over decoration. The visual

@@ -13,15 +13,15 @@ import {
   X,
   ImageIcon,
 } from '@/icons';
-import { Badge } from '@craftzbay/ui';
-import { Button } from '@craftzbay/ui';
-import { Card, CardContent } from '@craftzbay/ui';
-import { EmptyState } from '@craftzbay/ui';
-import { IconButton } from '@craftzbay/ui';
-import { Input } from '@craftzbay/ui';
-import { Separator } from '@craftzbay/ui';
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@craftzbay/ui';
-import { cn, formatMNT, formatNumber } from '@craftzbay/ui';
+import { Badge } from '@gerege/ui';
+import { Button } from '@gerege/ui';
+import { Card, CardContent } from '@gerege/ui';
+import { EmptyState } from '@gerege/ui';
+import { IconButton } from '@gerege/ui';
+import { Input } from '@gerege/ui';
+import { Separator } from '@gerege/ui';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@gerege/ui';
+import { cn, formatMNT, formatNumber } from '@gerege/ui';
 import type { TemplateProps } from './meta';
 import { readHashParams, writeHash } from './admin/use-hash-params';
 import { useT, type Locale } from '../i18n/locale';

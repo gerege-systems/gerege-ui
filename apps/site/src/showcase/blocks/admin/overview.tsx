@@ -25,9 +25,9 @@ import {
   cn,
   formatNumber,
   type ChartState,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import { useMemo, useState, type ReactNode } from 'react';
-import { useStrings } from '@craftzbay/ui';
+import { useStrings } from '@gerege/ui';
 import { ACTIVITY, CHANNELS, SERIES_A, SERIES_B, formatRelative } from './data';
 import { PageHeader, useDemo, type DemoState } from './shell';
 import { adminDict, type AdminKey } from '../../i18n/admin';

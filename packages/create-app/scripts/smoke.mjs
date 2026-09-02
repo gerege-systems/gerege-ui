@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Non-interactive sanity check: scaffold each template and verify the expected
  * files are present, tokens were replaced, and the generated sources typecheck
- * against the workspace copy of @craftzbay/ui (so a template importing a
+ * against the workspace copy of @gerege/ui (so a template importing a
  * component that does not exist fails here, not on the user's machine).
  *
  * Projects are scaffolded under node_modules/.cache so `react`, `vite/client`
@@ -96,8 +96,8 @@ for (const tpl of TEMPLATES) {
       baseUrl: '.',
       types: ['vite/client', 'node'],
       paths: {
-        '@craftzbay/ui': [path.join(UI_SRC, 'index.ts')],
-        '@craftzbay/ui/icon': [path.join(UI_SRC, 'icon.ts')],
+        '@gerege/ui': [path.join(UI_SRC, 'index.ts')],
+        '@gerege/ui/icon': [path.join(UI_SRC, 'icon.ts')],
         '@/*': [path.join(UI_SRC, '*')],
       },
     },

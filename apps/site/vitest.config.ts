@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@craftzbay/ui': path.join(UI_SRC, 'index.ts'),
+      '@gerege/ui': path.join(UI_SRC, 'index.ts'),
       '@': UI_SRC,
       '@site': path.resolve(__dirname, './src'),
     },

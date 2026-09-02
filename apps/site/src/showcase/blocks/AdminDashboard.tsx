@@ -5,7 +5,7 @@ import {
   cn,
   useCommandPaletteShortcut,
   useToast,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import { ALL_SECTIONS, STUB_PAGES, WORKSPACES, findModule } from './admin/data';
 import {
   AdminLayoutContext,

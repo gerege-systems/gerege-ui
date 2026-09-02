@@ -7,7 +7,7 @@ import { THEMES, VIEWPORTS } from './routes';
  *  Baselines live in e2e/__screenshots__/<project>-<platform>/ and are
  *  rasterised per OS, so they are only comparable on the platform that
  *  generated them. CI skips this spec unless CI_VISUAL=1 (see e2e/README.md).
- *  Regenerate: pnpm --filter @craftzbay/site test:e2e visual --update-snapshots
+ *  Regenerate: pnpm --filter @gerege/site test:e2e visual --update-snapshots
  * --------------------------------------------------------------------------- */
 
 test.skip(

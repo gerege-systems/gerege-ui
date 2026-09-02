@@ -22,7 +22,7 @@ import {
   Users,
   Wallet,
 } from '@/icons';
-import { formatDate, type UiStrings } from '@craftzbay/ui';
+import { formatDate, type UiStrings } from '@gerege/ui';
 import type { AdminKey } from '../../i18n/admin';
 
 /* =============================================================================

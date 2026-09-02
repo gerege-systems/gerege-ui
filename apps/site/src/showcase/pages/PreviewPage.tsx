@@ -145,7 +145,7 @@ export function PreviewPage({
 
   // Each template preview is its own tab — name it.
   useEffect(() => {
-    if (doc) document.title = `${doc.name} — @craftzbay/ui`;
+    if (doc) document.title = `${doc.name} — @gerege/ui`;
   }, [doc]);
 
   if (!doc) return <NotFound />;

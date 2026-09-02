@@ -1,4 +1,7 @@
-# create-craftzbay-ui
+# @gerege/create-app
+
+> Releases up to **1.0.4** were published as `@craftzbay/create-app`. Renamed on 2026-09-02 when the
+> project split from craftzbay-ui.
 
 ## 1.0.4
 

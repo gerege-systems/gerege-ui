@@ -4,7 +4,7 @@
  * icon sets later if needed and so unused icons stay tree-shakable.
  *
  * Icons are imported via their per-module paths (not the package barrel) on
- * purpose: the `@craftzbay/ui/icon` entry lazy-loads arbitrary icons through
+ * purpose: the `@gerege/ui/icon` entry lazy-loads arbitrary icons through
  * lucide-react/dynamicIconImports, and if the barrel were in the static module
  * graph, Rollup would co-locate every dynamically imported icon into the
  * barrel's chunk — inlining the entire icon set instead of code-splitting it

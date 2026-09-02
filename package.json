@@ -1,5 +1,5 @@
 {
-  "name": "craftzbay-ui-monorepo",
+  "name": "gerege-ui-monorepo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,21 +8,21 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "pnpm --filter @craftzbay/site dev",
-    "build": "pnpm --filter @craftzbay/ui build && pnpm --filter @craftzbay/site build",
-    "build:lib": "pnpm --filter @craftzbay/ui build",
-    "build:site": "pnpm --filter @craftzbay/site build",
+    "dev": "pnpm --filter @gerege/site dev",
+    "build": "pnpm --filter @gerege/ui build && pnpm --filter @gerege/site build",
+    "build:lib": "pnpm --filter @gerege/ui build",
+    "build:site": "pnpm --filter @gerege/site build",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @craftzbay/ui test",
+    "test": "pnpm --filter @gerege/ui test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "size": "size-limit",
     "publint": "publint packages/ui",
     "attw": "attw --pack packages/ui --exclude-entrypoints ./styles.css ./theme.css --ignore-rules cjs-resolves-to-esm",
-    "test:create-app": "pnpm --filter @craftzbay/create-app test",
-    "test:treeshake": "pnpm --filter @craftzbay/ui test:treeshake",
-    "test:e2e": "pnpm --filter @craftzbay/site test:e2e"
+    "test:create-app": "pnpm --filter @gerege/create-app test",
+    "test:treeshake": "pnpm --filter @gerege/ui test:treeshake",
+    "test:e2e": "pnpm --filter @gerege/site test:e2e"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

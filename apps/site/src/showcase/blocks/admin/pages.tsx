@@ -39,7 +39,7 @@ import {
   formatNumber,
   useStrings,
   useToast,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import {
   INVOICES,
   MEMBER_STATUS_KEY,

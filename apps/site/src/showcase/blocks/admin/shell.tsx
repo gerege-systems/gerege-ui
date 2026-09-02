@@ -56,7 +56,7 @@ import {
   cn,
   useSidebar,
   useStrings,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import {
   MODULES,
   NAV,

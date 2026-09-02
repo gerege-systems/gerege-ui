@@ -1,5 +1,5 @@
 {
-  "name": "@craftzbay/site",
+  "name": "@gerege/site",
   "private": true,
   "version": "0.0.6",
   "type": "module",
@@ -16,7 +16,7 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@craftzbay/ui": "workspace:*",
+    "@gerege/ui": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

@@ -24,7 +24,7 @@ const doc: ComponentDoc = {
   description:
     'Name-addressed lucide icon — every lucide icon by its kebab-case name, no imports. Icons are code-split and lazy-loaded on first use, so referencing the full set costs nothing up front. For hot paths rendered on first paint, statically imported icons from the Icons namespace skip the lazy hop.',
   exports: ['Icon', 'iconNames'],
-  importPath: '@craftzbay/ui/icon',
+  importPath: '@gerege/ui/icon',
   sourceFile: 'Icon.tsx',
   examples: [
     {

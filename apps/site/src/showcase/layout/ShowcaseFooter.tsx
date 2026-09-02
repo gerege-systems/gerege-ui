@@ -17,7 +17,7 @@ export function ShowcaseFooter() {
             Refined-minimal Tailwind v4 + React design system. MIT-licensed.
           </p>
           <p className="text-foreground-subtle text-xs">
-            © {year} craftzbay · v{VERSION}
+            © {year} Gerege Systems · v{VERSION}
           </p>
         </div>
 

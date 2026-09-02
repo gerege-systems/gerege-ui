@@ -74,7 +74,7 @@ const doc: ComponentDoc = {
           description="Try a different search term or clear your filters."
         />
       ),
-      code: `import { Illustrations } from '@craftzbay/ui';
+      code: `import { Illustrations } from '@gerege/ui';
 
 <EmptyState
   illustration={<Illustrations.NoSearchResults className="size-32" />}

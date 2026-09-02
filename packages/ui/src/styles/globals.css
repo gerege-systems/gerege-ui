@@ -1,6 +1,6 @@
-/* @craftzbay/ui — full stylesheet for consumers WITHOUT Tailwind.
- * Tailwind v4 consumers: `@import "tailwindcss"; @import "tw-animate-css"; @import "@craftzbay/ui/theme.css";`
- * and add `@source "../node_modules/@craftzbay/ui/dist-lib";` — then use bg-accent, text-foreground-muted… in your own JSX. */
+/* @gerege/ui — full stylesheet for consumers WITHOUT Tailwind.
+ * Tailwind v4 consumers: `@import "tailwindcss"; @import "tw-animate-css"; @import "@gerege/ui/theme.css";`
+ * and add `@source "../node_modules/@gerege/ui/dist-lib";` — then use bg-accent, text-foreground-muted… in your own JSX. */
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './theme.css';

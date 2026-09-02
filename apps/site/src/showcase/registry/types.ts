@@ -49,9 +49,9 @@ export interface ComponentDoc {
   group: ComponentGroup;
   /** One-line tagline shown under the title and in lists. */
   description: string;
-  /** Names re-exported from `@craftzbay/ui` for this component. */
+  /** Names re-exported from `@gerege/ui` for this component. */
   exports: string[];
-  /** Package entry the exports come from. Default `@craftzbay/ui`. */
+  /** Package entry the exports come from. Default `@gerege/ui`. */
   importPath?: string;
   /**
    * Which `UiStrings` keys the component reads (e.g. `dialog.close`). Shown

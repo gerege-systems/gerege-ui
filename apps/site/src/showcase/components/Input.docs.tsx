@@ -67,7 +67,7 @@ const doc: ComponentDoc = {
       description: 'Use to inline non-interactive affordances like icons, units, or domain hints.',
       preview: (
         <div className="flex w-full max-w-xs flex-col gap-3">
-          <Input label="Handle" prefix={<AtSign className="size-4" />} placeholder="craftzbay" />
+          <Input label="Handle" prefix={<AtSign className="size-4" />} placeholder="gerege" />
           <Input
             label="Domain"
             placeholder="acme"
@@ -78,7 +78,7 @@ const doc: ComponentDoc = {
       code: `<Input
   label="Handle"
   prefix={<AtSign className="size-4" />}
-  placeholder="craftzbay"
+  placeholder="gerege"
 />
 
 <Input

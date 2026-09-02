@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Alert } from '@craftzbay/ui';
+import { Alert } from '@gerege/ui';
 import type { TemplateProps } from './meta';
 import {
   AuthLayout,

@@ -71,7 +71,7 @@ function Shell() {
   const firstRender = useRef(true);
   useEffect(() => {
     const page = routeTitle(route);
-    document.title = page ? `${page} — @craftzbay/ui` : '@craftzbay/ui';
+    document.title = page ? `${page} — @gerege/ui` : '@gerege/ui';
     if (route.kind === 'preview') return;
     window.scrollTo(0, 0);
     // Keep the browser's initial focus on first load; only move it on navigation.

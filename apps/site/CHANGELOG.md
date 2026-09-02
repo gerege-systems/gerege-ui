@@ -1,4 +1,6 @@
-# @craftzbay/site
+# @gerege/site
+
+> Formerly `@craftzbay/site`; renamed on 2026-09-02 when the project split from craftzbay-ui.
 
 ## 0.0.6
 

@@ -1,8 +1,8 @@
 import { useState, type MouseEvent, type ReactNode } from 'react';
 import { ArrowRight, BarChart3, Github, Lock, Menu, Plug, Sparkles, Star, Zap } from '@/icons';
-import { Avatar } from '@craftzbay/ui';
-import { Button } from '@craftzbay/ui';
-import { Card, CardContent } from '@craftzbay/ui';
+import { Avatar } from '@gerege/ui';
+import { Button } from '@gerege/ui';
+import { Card, CardContent } from '@gerege/ui';
 import {
   IconButton,
   Sheet,
@@ -10,7 +10,7 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import { AuthLayout, SignUpForm } from './Authentication';
 import { Pricing } from './Pricing';
 import type { TemplateProps } from './meta';

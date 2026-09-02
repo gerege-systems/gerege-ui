@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { Check } from '@/icons';
-import { Badge } from '@craftzbay/ui';
-import { Button } from '@craftzbay/ui';
-import { cn } from '@craftzbay/ui';
+import { Badge } from '@gerege/ui';
+import { Button } from '@gerege/ui';
+import { cn } from '@gerege/ui';
 import { useT } from '../i18n/locale';
 import { landingDict } from '../i18n/landing';
 

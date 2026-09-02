@@ -100,7 +100,7 @@ export function ResponsiveBody() {
 
       <h2>useMediaQuery hook</h2>
       <CodeBlock
-        code={`import { useMediaQuery } from '@craftzbay/ui';
+        code={`import { useMediaQuery } from '@gerege/ui';
 
 const isMobile = useMediaQuery('(max-width: 640px)');
 
@@ -113,7 +113,7 @@ return isMobile ? <Drawer>{children}</Drawer> : <Sheet>{children}</Sheet>;`}
         your own code:
       </p>
       <CodeBlock
-        code={`import { usePrefersReducedMotion } from '@craftzbay/ui';
+        code={`import { usePrefersReducedMotion } from '@gerege/ui';
 
 const reduced = usePrefersReducedMotion();
 return <motion.div animate={reduced ? undefined : { y: 0 }} />;`}

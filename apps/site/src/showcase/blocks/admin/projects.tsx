@@ -45,7 +45,7 @@ import {
   formatNumber,
   useStrings,
   useToast,
-} from '@craftzbay/ui';
+} from '@gerege/ui';
 import {
   SEED_PROJECTS,
   STATUSES,

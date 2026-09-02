@@ -24,7 +24,7 @@ function getIcon(name: IconName): LazyExoticComponent<LucideIcon> | null {
     if (process.env.NODE_ENV !== 'production' && !warned.has(name)) {
       warned.add(name);
       console.warn(
-        `[@craftzbay/ui] <Icon name="${name}"> is not a lucide icon; rendering nothing.`,
+        `[@gerege/ui] <Icon name="${name}"> is not a lucide icon; rendering nothing.`,
       );
     }
     return null;

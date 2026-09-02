@@ -78,7 +78,7 @@ export function ThemingBody() {
         mapping CSS variable names to values.
       </p>
       <CodeBlock
-        code={`import { DesignSystemProvider, brandPresets } from '@craftzbay/ui';
+        code={`import { DesignSystemProvider, brandPresets } from '@gerege/ui';
 
 <DesignSystemProvider tokens={brandPresets.violet}>
   <App />
@@ -106,7 +106,7 @@ export function ThemingBody() {
       <h2>Global override</h2>
       <p>
         For app-wide branding, override the same CSS variables in your own stylesheet — loaded after{' '}
-        <code>@craftzbay/ui/styles.css</code>:
+        <code>@gerege/ui/styles.css</code>:
       </p>
       <CodeBlock
         language="css"

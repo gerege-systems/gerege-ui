@@ -18,7 +18,7 @@ const UI_VERSION = (
 /**
  * Showcase site build. The library is consumed straight from source via the
  * aliases below, so editing a component hot-reloads the docs instantly — no
- * rebuild step. The displayed import strings still read `@craftzbay/ui`; this
+ * rebuild step. The displayed import strings still read `@gerege/ui`; this
  * alias just points that bare specifier (and the legacy `@/…` paths the ported
  * docs use) at the workspace source.
  */
@@ -27,7 +27,7 @@ export default defineConfig({
   define: { __UI_VERSION__: JSON.stringify(UI_VERSION) },
   resolve: {
     alias: {
-      '@craftzbay/ui': path.join(UI_SRC, 'index.ts'),
+      '@gerege/ui': path.join(UI_SRC, 'index.ts'),
       '@': UI_SRC,
       '@site': path.resolve(__dirname, './src'),
     },

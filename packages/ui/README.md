@@ -1,12 +1,12 @@
-# @craftzbay/ui
+# @gerege/ui
 
 A refined-minimal Tailwind v4 + React design system. Production-grade
 primitives — Button through DataGrid — plus composed patterns
 (authentication, app shell, settings, etc.).
 
-- **Showcase:** [ui.craftzbay.com](https://ui.craftzbay.com)
-- **Components:** [ui.craftzbay.com#components](https://ui.craftzbay.com#components)
-- **Templates:** [ui.craftzbay.com#templates](https://ui.craftzbay.com#templates)
+- **Showcase:** [ui.gecore.mn](https://ui.gecore.mn)
+- **Components:** [ui.gecore.mn#components](https://ui.gecore.mn#components)
+- **Templates:** [ui.gecore.mn#templates](https://ui.gecore.mn#templates)
 
 > **Aesthetic direction:** Linear / Vercel / Stripe Dashboard / Notion / Raycast.
 > Neutral-dominant, one accent, hairline borders, generous whitespace, fast quiet
@@ -15,7 +15,7 @@ primitives — Button through DataGrid — plus composed patterns
 ## Install
 
 ```bash
-pnpm add @craftzbay/ui            # peers: react ^18 || ^19, react-dom ^18 || ^19
+pnpm add @gerege/ui            # peers: react ^18 || ^19, react-dom ^18 || ^19
 ```
 
 **1. Fonts** — Geist + Geist Mono are referenced by the tokens but not bundled (Inter is only a fallback in the stack). Google Fonts serves the `cyrillic-ext` subset automatically; self-hosting (≤4 woff2, weights 400/500/600) is equally fine. Add to `<head>`:
@@ -33,13 +33,13 @@ pnpm add @craftzbay/ui            # peers: react ^18 || ^19, react-dom ^18 || ^1
 
 ```css
 /* a) No Tailwind in your app: one precompiled sheet (tokens + base + every utility the components use) */
-@import '@craftzbay/ui/styles.css';
+@import '@gerege/ui/styles.css';
 
 /* b) Your app already uses Tailwind v4: share the tokens and let Tailwind compile the library's classes */
 @import 'tailwindcss';
 @import 'tw-animate-css'; /* required on this path — overlays use animate-in / animate-out */
-@import '@craftzbay/ui/theme.css';
-@source "../node_modules/@craftzbay/ui/dist-lib";
+@import '@gerege/ui/theme.css';
+@source "../node_modules/@gerege/ui/dist-lib";
 ```
 
 Path (b) needs `tw-animate-css` installed (`pnpm add -D tw-animate-css`; it is an optional peer). Path (a) already bundles it.
@@ -49,7 +49,7 @@ Path (b) needs `tw-animate-css` installed (`pnpm add -D tw-animate-css`; it is a
 **4. Providers** — `<Toaster />` once near the root if you use `toast()`; wrap the app in `<TooltipProvider>` if you use `Tooltip`. Nothing else is required.
 
 ```tsx
-import { Button, Toaster, TooltipProvider, toast } from '@craftzbay/ui';
+import { Button, Toaster, TooltipProvider, toast } from '@gerege/ui';
 
 export function App() {
   return (
@@ -61,12 +61,12 @@ export function App() {
 }
 ```
 
-**Next.js App Router** — since 0.10 every built module carries a `'use client'` banner, so `import { Button } from '@craftzbay/ui'` works directly inside Server Components without a local re-export file. Put the CSS import and fonts in `app/layout.tsx`. Note: the pure helpers (`formatDate`, `formatNumber`, `formatMNT`, `mnStrings`, `defaultStrings`) are also client-marked today — they still run fine in Server Components (the directive only affects the boundary), but they are not tree-shaken into a server-only chunk.
+**Next.js App Router** — since 0.10 every built module carries a `'use client'` banner, so `import { Button } from '@gerege/ui'` works directly inside Server Components without a local re-export file. Put the CSS import and fonts in `app/layout.tsx`. Note: the pure helpers (`formatDate`, `formatNumber`, `formatMNT`, `mnStrings`, `defaultStrings`) are also client-marked today — they still run fine in Server Components (the directive only affects the boundary), but they are not tree-shaken into a server-only chunk.
 
 **Name-addressed icons** — `Icons.*` (curated, tree-shaken) ships in the main entry. The lazy `<Icon name="…">` + `iconNames` list lives in a separate entry so its ~1500-icon import map never enters your bundle unless asked for:
 
 ```tsx
-import { Icon } from '@craftzbay/ui/icon';
+import { Icon } from '@gerege/ui/icon';
 <Icon name="calendar" className="size-4" />;
 ```
 
@@ -77,7 +77,7 @@ The package is ESM-only, ships one module per component (`sideEffects` limited t
 Every built-in string (close/dismiss labels, placeholders, "No results.", pagination summary, error-state copy…) is typed in `UiStrings` and read through `useStrings()`. Defaults are English; a full Mongolian set ships as `mnStrings`.
 
 ```tsx
-import { DesignSystemProvider, mnStrings } from '@craftzbay/ui';
+import { DesignSystemProvider, mnStrings } from '@gerege/ui';
 <DesignSystemProvider strings={mnStrings}>…</DesignSystemProvider>; // whole library in Mongolian
 <DesignSystemProvider strings={{ dialog: { close: 'Schließen' } }}>…</DesignSystemProvider>; // partial override, deep-merged over defaults
 ```
@@ -86,14 +86,14 @@ Precedence is per-component props (`placeholder`, `labels`, `aria-label`) → ne
 
 ## Design rules
 
-This library implements the [craftzbay design-research](https://github.com/craftzbay/design-research) guidelines
-([rendered site](https://craftzbay.github.io/design-research/)) — colour, type, spacing, components, accessibility, tokens.
-design-research is the source of truth (canonical numbers in [`00-defaults.md`](https://github.com/craftzbay/design-research/blob/main/00-defaults.md));
+This library implements the [gerege-systems design-research](https://github.com/gerege-systems/design-research) guidelines
+([rendered site](https://gerege-systems.github.io/design-research/)) — colour, type, spacing, components, accessibility, tokens.
+design-research is the source of truth (canonical numbers in [`00-defaults.md`](https://github.com/gerege-systems/design-research/blob/main/00-defaults.md));
 [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) is the library-specific summary.
 
 ## Local development
 
-This package lives in the [`craftzbay-ui`](https://github.com/craftzbay/craftzbay-ui)
+This package lives in the [`gerege-ui`](https://github.com/gerege-systems/gerege-ui)
 monorepo (`packages/ui`). The showcase site is a separate workspace
 (`apps/site`) that consumes this package's source directly. From the repo root:
 
@@ -214,7 +214,7 @@ record detail, onboarding, first-run — are **not** shipped as importable
 components. They live in the showcase as copy-paste **blocks**: complete pages
 assembled from the primitives above, with the full source on the page. Read it,
 copy it, adapt it — no opaque `<Dashboard />` import. Browse them under
-**Templates** in the [showcase](https://ui.craftzbay.com/#templates).
+**Templates** in the [showcase](https://ui.gecore.mn/#templates).
 
 ## Documentation
 

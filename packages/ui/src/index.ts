@@ -3,7 +3,7 @@
  */
 
 // Design-system CSS — compiled by the Tailwind Vite plugin into
-// dist-lib/styles.css so `import '@craftzbay/ui/styles.css'` actually ships
+// dist-lib/styles.css so `import '@gerege/ui/styles.css'` actually ships
 // the tokens, base layer, and every utility the components reference.
 import './styles/globals.css';
 
@@ -25,7 +25,7 @@ export * from './hooks/use-debounce';
 export { useStrings } from './hooks/use-strings';
 
 // Icons (namespaced to avoid name collisions with consumer apps).
-// The name-addressed <Icon name="…"> lives in the '@craftzbay/ui/icon' entry.
+// The name-addressed <Icon name="…"> lives in the '@gerege/ui/icon' entry.
 export * as Icons from './icons';
 
 // Illustrations — refined-minimal line art for empty / error / 404 states

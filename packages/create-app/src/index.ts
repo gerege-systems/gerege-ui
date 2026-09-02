@@ -16,7 +16,7 @@ interface Template {
 }
 
 const TEMPLATES: Template[] = [
-  { id: 'vite-blank', label: 'Vite + Blank', hint: 'Minimal Vite + React + @craftzbay/ui starter' },
+  { id: 'vite-blank', label: 'Vite + Blank', hint: 'Minimal Vite + React + @gerege/ui starter' },
   {
     id: 'vite-dashboard',
     label: 'Vite + Dashboard',
@@ -67,10 +67,10 @@ function parseArgs(argv: string[]): {
 function printHelp() {
   const lines = [
     '',
-    kleur.bold('  @craftzbay/create-app') + kleur.gray(' — scaffold a new @craftzbay/ui project'),
+    kleur.bold('  @gerege/create-app') + kleur.gray(' — scaffold a new @gerege/ui project'),
     '',
     '  Usage:',
-    '    npm create @craftzbay/app [project-name] [options]',
+    '    npm create @gerege/app [project-name] [options]',
     '',
     '  Options:',
     '    -t, --template <name>   Skip the prompt and use a known template',
@@ -125,7 +125,7 @@ function walk(srcDir: string, destDir: string, projectName: string) {
 }
 
 async function run() {
-  intro(kleur.bold(kleur.cyan('  ✦  @craftzbay/create-app  ')));
+  intro(kleur.bold(kleur.cyan('  ✦  @gerege/create-app  ')));
 
   const { projectName: cliName, template: cliTemplate, noInstall, yes } = parseArgs(process.argv);
 
@@ -230,7 +230,7 @@ async function run() {
       ...(installNow ? [] : [`    ${kleur.cyan(`${pm} install`)}`]),
       `    ${kleur.cyan(`${pm} run dev`)}`,
       '',
-      kleur.gray('  Docs: https://ui.craftzbay.com'),
+      kleur.gray('  Docs: https://ui.gecore.mn'),
     ].join('\n'),
   );
 }

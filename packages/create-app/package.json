@@ -1,29 +1,29 @@
 {
-  "name": "@craftzbay/create-app",
+  "name": "@gerege/create-app",
   "version": "1.0.4",
-  "description": "Scaffold a new project preconfigured with @craftzbay/ui. Invoke via `npm create @craftzbay/app my-app`.",
+  "description": "Scaffold a new project preconfigured with @gerege/ui. Invoke via `npm create @gerege/app my-app`.",
   "license": "MIT",
-  "author": "craftzbay",
-  "homepage": "https://ui.craftzbay.com",
+  "author": "Gerege Systems",
+  "homepage": "https://ui.gecore.mn",
   "repository": {
     "type": "git",
-    "url": "https://github.com/craftzbay/craftzbay-ui.git",
+    "url": "https://github.com/gerege-systems/gerege-ui.git",
     "directory": "packages/create-app"
   },
   "bugs": {
-    "url": "https://github.com/craftzbay/craftzbay-ui/issues"
+    "url": "https://github.com/gerege-systems/gerege-ui/issues"
   },
   "keywords": [
     "create-app",
     "scaffold",
-    "craftzbay",
+    "gerege",
     "design-system",
     "react",
     "tailwind"
   ],
   "type": "module",
   "bin": {
-    "create-craftzbay-app": "./dist/index.js"
+    "create-gerege-app": "./dist/index.js"
   },
   "files": [
     "dist",

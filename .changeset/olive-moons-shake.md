@@ -1,5 +1,5 @@
 ---
-'@craftzbay/site': patch
+'@gerege/site': patch
 ---
 
 Admin template: the shell's `<main>` scroll pane is now `position: relative`.

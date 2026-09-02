@@ -1,15 +1,15 @@
-# @craftzbay/create-app
+# @gerege/create-app
 
-Scaffold a new project preconfigured with [`@craftzbay/ui`](https://www.npmjs.com/package/@craftzbay/ui).
+Scaffold a new project preconfigured with [`@gerege/ui`](https://www.npmjs.com/package/@gerege/ui).
 
 ```bash
-npm create @craftzbay/app my-app
+npm create @gerege/app my-app
 # or
-pnpm create @craftzbay/app my-app
+pnpm create @gerege/app my-app
 # or
-yarn create @craftzbay/app my-app
+yarn create @gerege/app my-app
 # or
-bun create @craftzbay/app my-app
+bun create @gerege/app my-app
 ```
 
 Then:
@@ -23,13 +23,13 @@ pnpm dev
 
 | ID               | What you get                                                           |
 | ---------------- | ---------------------------------------------------------------------- |
-| `vite-blank`     | Minimal Vite + React + `@craftzbay/ui` starter (Card + Input + Switch) |
+| `vite-blank`     | Minimal Vite + React + `@gerege/ui` starter (Card + Input + Switch) |
 | `vite-dashboard` | `AppShell` + `Dashboard` template, ready to wire data                  |
 
 Pass `--template <id>` to skip the picker:
 
 ```bash
-npm create @craftzbay/app my-app -- --template vite-dashboard
+npm create @gerege/app my-app -- --template vite-dashboard
 ```
 
 ## Options
@@ -43,7 +43,7 @@ npm create @craftzbay/app my-app -- --template vite-dashboard
 
 ## Docs
 
-- Showcase: <https://ui.craftzbay.com>
-- Components: <https://ui.craftzbay.com/#components>
-- Templates: <https://ui.craftzbay.com/#templates>
-- Guides: <https://ui.craftzbay.com/#guides>
+- Showcase: <https://ui.gecore.mn>
+- Components: <https://ui.gecore.mn/#components>
+- Templates: <https://ui.gecore.mn/#templates>
+- Guides: <https://ui.gecore.mn/#guides>

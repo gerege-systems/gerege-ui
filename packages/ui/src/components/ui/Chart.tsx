@@ -420,7 +420,7 @@ function Frame({
 
   if (process.env.NODE_ENV !== 'production' && !name && !caption) {
     console.warn(
-      '[craftzbay/ui] Chart: provide `caption`, `aria-label`, or `title` so the chart has an accessible name.',
+      '[gerege/ui] Chart: provide `caption`, `aria-label`, or `title` so the chart has an accessible name.',
     );
   }
 
