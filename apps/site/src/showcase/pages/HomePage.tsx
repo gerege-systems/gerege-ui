@@ -20,7 +20,14 @@ const FEATURED = [
 
 export function HomePage() {
   return (
-    <main id="main" tabIndex={-1} className="mx-auto max-w-6xl px-6 py-16 outline-none lg:py-24">
+    // Same column as the top bar and the footer (max-w-[1400px] px-6) so the
+    // page does not start further in than the nav above it. The hero keeps its
+    // own max-w-3xl measure.
+    <main
+      id="main"
+      tabIndex={-1}
+      className="mx-auto max-w-[1400px] px-6 py-16 outline-none lg:py-24"
+    >
       {/* Hero */}
       <div className="max-w-3xl">
         <div className="border-border bg-card text-foreground-muted mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs">
