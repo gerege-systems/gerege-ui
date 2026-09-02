@@ -56,6 +56,19 @@ Required in GitHub repo settings → Secrets and variables → Actions:
 packages/ui/          # @gerege-systems/ui — the published library
 packages/create-app/  # @gerege-systems/create-app — project scaffolder
 apps/site/            # the showcase site (not published; consumes packages/ui)
+deploy/deploy.sh      # run on the host that serves the showcase
+```
+
+### Deploying the showcase
+
+`deploy/deploy.sh` runs **on the server**, from inside the checkout — it derives
+the repo root from its own location, so nothing about the host is hard-coded.
+It pulls, installs with a frozen lockfile, builds into `apps/site/dist.new` and
+swaps that into place, keeping the previous build in `apps/site/dist.prev` to
+roll back to. Point the static host's root at `apps/site/dist`.
+
+```bash
+VERIFY_URL=https://<host>/ bash deploy/deploy.sh   # VERIFY_URL is optional
 ```
 
 ## Development
