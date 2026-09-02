@@ -122,8 +122,8 @@ export function ThemePage() {
           part of the panel) and never drops below the normal px-6. */}
       <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:pr-[clamp(1.5rem,calc(21.5rem-(100vw-1400px)/2),21.5rem)]">
         <div className="min-w-0">
-          <header className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
-            <div className="flex max-w-2xl flex-col gap-1.5">
+          <header className="flex flex-col flex-wrap gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
+            <div className="flex max-w-2xl min-w-0 flex-col gap-1.5">
               <h1 className="text-3xl font-semibold tracking-tight">Theme</h1>
               <p className="text-foreground-muted text-sm">
                 Pick a style, base colour, accent and chart palette, then hit{' '}

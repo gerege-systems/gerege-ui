@@ -13,12 +13,16 @@ export function Kpis() {
       <CardHeader>
         <CardTitle>Metrics</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
+      {/* min-w-0 on the cells: a grouped ₮ figure sets a min-content width
+          and pushes the whole card past a 375px screen. */}
+      <CardContent className="grid grid-cols-2 gap-4 [&>*]:min-w-0">
         {KPIS.map((k) => (
           <div key={k.label} className="flex flex-col gap-0.5">
             <span className="text-foreground-subtle text-xs">{k.label}</span>
             {/* 28px overflows a half-width card once formatMNT adds the ₮. */}
-            <span className="text-2xl font-semibold tracking-tight tabular-nums">{k.value}</span>
+            <span className="truncate text-2xl font-semibold tracking-tight tabular-nums">
+              {k.value}
+            </span>
             <span
               className={
                 k.tone === 'up'
