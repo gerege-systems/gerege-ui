@@ -105,6 +105,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
   return (
     <div
+      data-slot="alert"
       ref={ref}
       // Only errors interrupt the screen reader; everything else is polite.
       role={live ? (variant === 'danger' ? 'alert' : 'status') : undefined}

@@ -133,9 +133,13 @@ export function ThemePage() {
 
           {/* No frame: every block is a Card already, so a border around the
               wall was one more box drawn around thirty boxes. */}
-          <DesignSystemProvider tokens={tokens}>
-            <ThemePreviewWall seed={seed} />
-          </DesignSystemProvider>
+          {/* data-style drives the library's per-component style layer; the
+              provider carries the colour tokens. The two compose. */}
+          <div data-style={state.style}>
+            <DesignSystemProvider tokens={tokens}>
+              <ThemePreviewWall seed={seed} />
+            </DesignSystemProvider>
+          </div>
         </div>
       </div>
 

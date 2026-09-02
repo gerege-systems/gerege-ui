@@ -45,6 +45,10 @@
 /* Geist + Geist Mono are loaded via a <link> in index.html (Google Fonts). */
 
 /* The dark variant flips on the `dark` class anywhere up the tree. */
+/* Style layer — per-component shape rules keyed off `data-style`. Colour never
+ * appears there, so a style and a palette compose. */
+@import './component-styles.css';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* -----------------------------------------------------------------------------

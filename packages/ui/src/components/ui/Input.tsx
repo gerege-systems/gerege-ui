@@ -215,7 +215,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
 
-      <div className={cn(field({ size, tone: effectiveTone }))}>
+      <div data-slot="input-field" className={cn(field({ size, tone: effectiveTone }))}>
         {renderedPrefix && (
           <span className="text-foreground-subtle flex items-center [&_svg]:size-4">
             {renderedPrefix}

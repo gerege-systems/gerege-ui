@@ -54,6 +54,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       style={maxHeight !== undefined ? { maxHeight } : undefined}
     >
       <table
+        data-slot="table"
         ref={ref}
         className={cn('w-full caption-bottom border-collapse text-sm', className)}
         {...props}

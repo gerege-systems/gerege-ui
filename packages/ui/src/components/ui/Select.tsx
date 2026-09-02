@@ -51,6 +51,7 @@ export const SelectTrigger = forwardRef<
   const hasName = Boolean(props['aria-label'] || props['aria-labelledby'] || props.id);
   return (
     <SelectPrimitive.Trigger
+      data-slot="select-trigger"
       ref={ref}
       aria-label={hasName ? undefined : (placeholder ?? strings.select.placeholder)}
       className={cn(

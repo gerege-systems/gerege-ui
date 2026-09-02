@@ -85,7 +85,12 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   ref,
 ) {
   return (
-    <span ref={ref} className={cn(badge({ variant, tone }), className)} {...props}>
+    <span
+      ref={ref}
+      data-slot="badge"
+      className={cn(badge({ variant, tone }), className)}
+      {...props}
+    >
       {icon && (
         <span aria-hidden className="inline-flex shrink-0 [&_svg]:size-3">
           {icon}

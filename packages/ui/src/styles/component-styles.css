@@ -1,0 +1,195 @@
+/* =============================================================================
+ * Style layer — shape, not colour.
+ *
+ * A style is an attribute you put on a root element (`<html data-style="vega">`
+ * or any subtree), and these rules restyle each component under it. Colour is
+ * deliberately absent: it belongs to the tokens in theme.css, so a style and a
+ * palette compose instead of fighting. Nothing here sets a colour, a background
+ * or a shadow — only radius, size, spacing, border width and type.
+ *
+ * Components carry `data-slot` on their root so a style can reach them without
+ * depending on a class name that a consumer might override. Radii are written
+ * as multipliers of the radius tokens, so the Radius control still composes
+ * with a style instead of being overruled by it — the two exceptions are the
+ * styles whose whole point is an absolute value (vega square, lyra pill).
+ *
+ * `nova` is the default and has no rules: it is what theme.css already gives.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------- vega -----
+ * Square and structural. Nothing is rounded; controls read as panels. */
+[data-style='vega'] [data-slot='button'],
+[data-style='vega'] [data-slot='icon-button'],
+[data-style='vega'] [data-slot='select-trigger'],
+[data-style='vega'] [data-slot='input-field'],
+[data-style='vega'] [data-slot='textarea-field'] textarea,
+[data-style='vega'] [data-slot='badge'],
+[data-style='vega'] [data-slot='card'],
+[data-style='vega'] [data-slot='alert'] {
+  border-radius: 0;
+}
+[data-style='vega'] [data-slot='button'],
+[data-style='vega'] [data-slot='select-trigger'],
+[data-style='vega'] [data-slot='input-field'] {
+  border-width: 1px;
+}
+[data-style='vega'] [data-slot='badge'] {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+}
+[data-style='vega'] [data-slot='switch'] {
+  border-radius: 2px;
+}
+[data-style='vega'] [data-slot='switch'] > span {
+  border-radius: 1px;
+}
+
+/* ---------------------------------------------------------------- maia -----
+ * Soft. Everything is rounder and roomier than the default. */
+[data-style='maia'] [data-slot='button'],
+[data-style='maia'] [data-slot='icon-button'],
+[data-style='maia'] [data-slot='select-trigger'],
+[data-style='maia'] [data-slot='input-field'],
+[data-style='maia'] [data-slot='textarea-field'] textarea {
+  border-radius: calc(var(--radius-md) * 2);
+}
+[data-style='maia'] [data-slot='card'],
+[data-style='maia'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-lg) * 2.25);
+}
+[data-style='maia'] [data-slot='card'] {
+  padding: 1.75rem;
+}
+[data-style='maia'] [data-slot='badge'] {
+  border-radius: 9999px;
+}
+
+/* ---------------------------------------------------------------- lyra -----
+ * Pill. Controls are fully rounded; cards keep a large but finite radius. */
+[data-style='lyra'] [data-slot='button'],
+[data-style='lyra'] [data-slot='icon-button'],
+[data-style='lyra'] [data-slot='select-trigger'],
+[data-style='lyra'] [data-slot='input-field'],
+[data-style='lyra'] [data-slot='badge'] {
+  border-radius: 9999px;
+}
+[data-style='lyra'] [data-slot='button'],
+[data-style='lyra'] [data-slot='select-trigger'],
+[data-style='lyra'] [data-slot='input-field'] {
+  padding-inline: 1.125rem;
+}
+[data-style='lyra'] [data-slot='card'],
+[data-style='lyra'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-lg) * 2.5);
+}
+[data-style='lyra'] [data-slot='textarea-field'] textarea {
+  border-radius: calc(var(--radius-md) * 2.7);
+}
+
+/* ---------------------------------------------------------------- mira -----
+ * Dense. Shorter controls, tighter padding, smaller type — back-office work. */
+[data-style='mira'] [data-slot='button'],
+[data-style='mira'] [data-slot='icon-button'],
+[data-style='mira'] [data-slot='select-trigger'],
+[data-style='mira'] [data-slot='input-field'],
+[data-style='mira'] [data-slot='textarea-field'] textarea,
+[data-style='mira'] [data-slot='badge'],
+[data-style='mira'] [data-slot='card'],
+[data-style='mira'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-md) * 0.7);
+}
+[data-style='mira'] [data-slot='button'],
+[data-style='mira'] [data-slot='select-trigger'],
+[data-style='mira'] [data-slot='input-field'] {
+  height: 2rem;
+  padding-inline: 0.625rem;
+  font-size: 0.75rem;
+}
+[data-style='mira'] [data-slot='card'] {
+  padding: 1rem;
+}
+[data-style='mira'] [data-slot='table'] :is(th, td) {
+  padding-block: 0.375rem;
+}
+[data-style='mira'] [data-slot='alert'] {
+  padding: 0.75rem;
+}
+
+/* ---------------------------------------------------------------- luma -----
+ * Airy. Taller controls and generous padding; for pages people read. */
+[data-style='luma'] [data-slot='button'],
+[data-style='luma'] [data-slot='icon-button'],
+[data-style='luma'] [data-slot='select-trigger'],
+[data-style='luma'] [data-slot='input-field'],
+[data-style='luma'] [data-slot='textarea-field'] textarea {
+  border-radius: calc(var(--radius-md) * 1.7);
+}
+[data-style='luma'] [data-slot='button'],
+[data-style='luma'] [data-slot='select-trigger'],
+[data-style='luma'] [data-slot='input-field'] {
+  height: 2.5rem;
+  padding-inline: 1.125rem;
+}
+[data-style='luma'] [data-slot='card'],
+[data-style='luma'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-lg) * 1.75);
+}
+[data-style='luma'] [data-slot='card'] {
+  padding: 2rem;
+}
+[data-style='luma'] [data-slot='table'] :is(th, td) {
+  padding-block: 0.875rem;
+}
+
+/* ---------------------------------------------------------------- sera -----
+ * Editorial. Heavier controls, a wider table rhythm, tighter headings. */
+[data-style='sera'] [data-slot='button'],
+[data-style='sera'] [data-slot='select-trigger'] {
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+[data-style='sera'] [data-slot='card'],
+[data-style='sera'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-lg) * 0.5);
+}
+[data-style='sera'] [data-slot='button'],
+[data-style='sera'] [data-slot='icon-button'],
+[data-style='sera'] [data-slot='select-trigger'],
+[data-style='sera'] [data-slot='input-field'],
+[data-style='sera'] [data-slot='badge'] {
+  border-radius: calc(var(--radius-md) * 0.5);
+}
+[data-style='sera'] [data-slot='table'] th {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+}
+[data-style='sera'] [data-slot='table'] :is(th, td) {
+  padding-block: 0.75rem;
+}
+
+/* ---------------------------------------------------------------- rhea -----
+ * Quiet. Softer corners, lighter control type, nothing shouting. */
+[data-style='rhea'] [data-slot='button'],
+[data-style='rhea'] [data-slot='icon-button'],
+[data-style='rhea'] [data-slot='select-trigger'],
+[data-style='rhea'] [data-slot='input-field'],
+[data-style='rhea'] [data-slot='textarea-field'] textarea {
+  border-radius: calc(var(--radius-md) * 1.35);
+}
+[data-style='rhea'] [data-slot='card'],
+[data-style='rhea'] [data-slot='alert'] {
+  border-radius: calc(var(--radius-lg) * 1.25);
+}
+[data-style='rhea'] [data-slot='button'],
+[data-style='rhea'] [data-slot='select-trigger'] {
+  font-weight: 400;
+}
+[data-style='rhea'] [data-slot='badge'] {
+  border-radius: 9999px;
+  font-weight: 400;
+}
+[data-style='rhea'] [data-slot='card'] {
+  padding: 1.25rem;
+}

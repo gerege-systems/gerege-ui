@@ -29,8 +29,14 @@ export interface NamedPreset {
 
 /* ------------------------------------------------------------------ style -- */
 
-/** Radius + type + spacing. Shape only: colour belongs to the other three
- *  dropdowns, so nothing here touches a colour token. */
+/**
+ * Shape only — colour belongs to the other three dropdowns.
+ *
+ * A style is not a token bundle: it is the `data-style` attribute, and the
+ * per-component rules in the library's component-styles.css do the work. That
+ * is what lets a style change a control's height, border width or letter
+ * spacing, none of which any single token can express.
+ */
 export const STYLES: NamedPreset[] = [
   {
     name: 'nova',
@@ -44,113 +50,49 @@ export const STYLES: NamedPreset[] = [
     label: 'Vega',
     hint: 'Square — no radius anywhere',
     swatch: '0px',
-    tokens: {
-      light: {
-        'radius-sm': '0px',
-        'radius-md': '0px',
-        'radius-lg': '0px',
-        'radius-xl': '0px',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'maia',
     label: 'Maia',
     hint: 'Soft — 12px controls, 16px cards',
     swatch: '12px',
-    tokens: {
-      light: {
-        'radius-sm': '8px',
-        'radius-md': '12px',
-        'radius-lg': '16px',
-        'radius-xl': '24px',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'lyra',
     label: 'Lyra',
     hint: 'Pill — controls fully rounded',
     swatch: '9999px',
-    tokens: {
-      light: {
-        'radius-sm': '9999px',
-        'radius-md': '9999px',
-        'radius-lg': '20px',
-        'radius-xl': '28px',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'mira',
     label: 'Mira',
     hint: 'Dense — 13px base, tight spacing (ERP)',
     swatch: '4px',
-    tokens: {
-      light: {
-        'radius-sm': '3px',
-        'radius-md': '4px',
-        'radius-lg': '6px',
-        'radius-xl': '8px',
-        'text-xs': '0.6875rem',
-        'text-sm': '0.75rem',
-        'text-base': '0.8125rem',
-        'text-lg': '0.9375rem',
-        'spacing-3': '0.5rem',
-        'spacing-4': '0.75rem',
-        'spacing-6': '1rem',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'luma',
     label: 'Luma',
     hint: 'Airy — 15px base, wide spacing',
     swatch: '10px',
-    tokens: {
-      light: {
-        'radius-sm': '8px',
-        'radius-md': '10px',
-        'radius-lg': '14px',
-        'radius-xl': '20px',
-        'text-sm': '0.875rem',
-        'text-base': '0.9375rem',
-        'text-lg': '1.0625rem',
-        'spacing-3': '1rem',
-        'spacing-4': '1.25rem',
-        'spacing-6': '2rem',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'sera',
     label: 'Sera',
     hint: 'Editorial — bigger headings, normal controls',
     swatch: '6px',
-    tokens: {
-      light: {
-        'text-lg': '1.0625rem',
-        'text-xl': '1.25rem',
-        'text-2xl': '1.625rem',
-        'text-3xl': '2.125rem',
-      },
-    },
+    tokens: { light: {} },
   },
   {
     name: 'rhea',
     label: 'Rhea',
     hint: 'Quiet — smaller labels, 8px radius',
     swatch: '8px',
-    tokens: {
-      light: {
-        'radius-sm': '6px',
-        'radius-md': '8px',
-        'radius-lg': '10px',
-        'radius-xl': '14px',
-        'text-xs': '0.6875rem',
-        'text-sm': '0.75rem',
-      },
-    },
+    tokens: { light: {} },
   },
 ];
 
@@ -170,91 +112,7 @@ export const BASE_COLORS: NamedPreset[] = [
     label: 'Zinc',
     hint: 'Neutral, almost hueless',
     swatch: 'hsl(240 5% 88%)',
-    tokens: {
-      light: {
-        'background-subtle': 'hsl(240 5% 98%)',
-        'background-muted': 'hsl(240 5% 96%)',
-        border: 'hsl(240 6% 90%)',
-        'border-strong': 'hsl(240 5% 84%)',
-        'border-input': 'hsl(240 4% 55%)',
-        'surface-hover': 'hsl(240 6% 90%)',
-        'surface-active': 'hsl(240 5% 84%)',
-        'foreground-muted': 'hsl(240 4% 34%)',
-        'foreground-subtle': 'hsl(240 4% 46%)',
-      },
-      dark: {
-        background: 'hsl(240 6% 7%)',
-        'background-subtle': 'hsl(240 6% 10%)',
-        'background-muted': 'hsl(240 5% 14%)',
-        card: 'hsl(240 6% 11%)',
-        popover: 'hsl(240 6% 11%)',
-        border: 'hsl(240 5% 18%)',
-        'border-strong': 'hsl(240 5% 27%)',
-        'border-input': 'hsl(240 4% 45%)',
-        'surface-hover': 'hsl(240 5% 18%)',
-        'surface-active': 'hsl(240 5% 27%)',
-      },
-    },
-  },
-  {
-    name: 'stone',
-    label: 'Stone',
-    hint: 'Warm grey',
-    swatch: 'hsl(30 18% 88%)',
-    tokens: {
-      light: {
-        'background-subtle': 'hsl(30 20% 98%)',
-        'background-muted': 'hsl(30 18% 96%)',
-        border: 'hsl(30 14% 90%)',
-        'border-strong': 'hsl(30 12% 84%)',
-        'border-input': 'hsl(30 8% 55%)',
-        'surface-hover': 'hsl(30 14% 90%)',
-        'surface-active': 'hsl(30 12% 84%)',
-        'foreground-muted': 'hsl(28 10% 32%)',
-        'foreground-subtle': 'hsl(28 8% 45%)',
-      },
-      dark: {
-        background: 'hsl(24 10% 7%)',
-        'background-subtle': 'hsl(24 9% 10%)',
-        'background-muted': 'hsl(24 8% 14%)',
-        card: 'hsl(24 9% 11%)',
-        popover: 'hsl(24 9% 11%)',
-        border: 'hsl(24 8% 18%)',
-        'border-strong': 'hsl(24 7% 27%)',
-        'border-input': 'hsl(24 6% 45%)',
-        'surface-hover': 'hsl(24 8% 18%)',
-        'surface-active': 'hsl(24 7% 27%)',
-      },
-    },
-  },
-  {
-    name: 'sage',
-    label: 'Sage',
-    hint: 'Grey with a green cast',
-    swatch: 'hsl(150 12% 88%)',
-    tokens: {
-      light: {
-        'background-subtle': 'hsl(150 20% 98%)',
-        'background-muted': 'hsl(150 16% 95%)',
-        border: 'hsl(150 14% 89%)',
-        'border-strong': 'hsl(150 12% 82%)',
-        'border-input': 'hsl(150 8% 52%)',
-        'surface-hover': 'hsl(150 14% 89%)',
-        'surface-active': 'hsl(150 12% 82%)',
-        'foreground-muted': 'hsl(155 12% 30%)',
-        'foreground-subtle': 'hsl(155 10% 42%)',
-      },
-      dark: {
-        background: 'hsl(155 14% 6%)',
-        'background-subtle': 'hsl(155 12% 9%)',
-        'background-muted': 'hsl(155 10% 13%)',
-        card: 'hsl(155 12% 10%)',
-        popover: 'hsl(155 12% 10%)',
-        border: 'hsl(155 10% 17%)',
-        'border-strong': 'hsl(155 9% 26%)',
-        'border-input': 'hsl(155 8% 44%)',
-      },
-    },
+    tokens: { light: {} },
   },
 ];
 
@@ -278,96 +136,7 @@ export const CHART_PALETTES: NamedPreset[] = [
     label: 'Ocean',
     hint: 'Cool — blue through teal',
     swatch: 'hsl(196 70% 42%)',
-    tokens: {
-      light: {
-        'chart-1': 'hsl(196 70% 40%)',
-        'chart-2': 'hsl(174 62% 32%)',
-        'chart-3': 'hsl(212 68% 48%)',
-        'chart-4': 'hsl(160 55% 34%)',
-        'chart-5': 'hsl(226 45% 52%)',
-        'chart-6': 'hsl(186 60% 30%)',
-      },
-      dark: {
-        'chart-1': 'hsl(196 75% 62%)',
-        'chart-2': 'hsl(174 60% 55%)',
-        'chart-3': 'hsl(212 78% 68%)',
-        'chart-4': 'hsl(160 55% 58%)',
-        'chart-5': 'hsl(226 60% 72%)',
-        'chart-6': 'hsl(186 60% 52%)',
-      },
-    },
-  },
-  {
-    name: 'sunset',
-    label: 'Sunset',
-    hint: 'Warm — amber through red',
-    swatch: 'hsl(24 80% 45%)',
-    tokens: {
-      light: {
-        'chart-1': 'hsl(24 80% 42%)',
-        'chart-2': 'hsl(0 68% 46%)',
-        'chart-3': 'hsl(42 88% 38%)',
-        'chart-4': 'hsl(340 60% 46%)',
-        'chart-5': 'hsl(12 70% 38%)',
-        'chart-6': 'hsl(58 70% 32%)',
-      },
-      dark: {
-        'chart-1': 'hsl(24 88% 64%)',
-        'chart-2': 'hsl(0 78% 68%)',
-        'chart-3': 'hsl(42 92% 60%)',
-        'chart-4': 'hsl(340 72% 68%)',
-        'chart-5': 'hsl(12 80% 62%)',
-        'chart-6': 'hsl(58 70% 55%)',
-      },
-    },
-  },
-  {
-    name: 'forest',
-    label: 'Forest',
-    hint: 'Green — natural tones',
-    swatch: 'hsl(150 55% 30%)',
-    tokens: {
-      light: {
-        'chart-1': 'hsl(150 55% 30%)',
-        'chart-2': 'hsl(90 45% 32%)',
-        'chart-3': 'hsl(174 50% 30%)',
-        'chart-4': 'hsl(48 60% 34%)',
-        'chart-5': 'hsl(122 35% 36%)',
-        'chart-6': 'hsl(200 40% 36%)',
-      },
-      dark: {
-        'chart-1': 'hsl(150 50% 58%)',
-        'chart-2': 'hsl(90 45% 58%)',
-        'chart-3': 'hsl(174 50% 56%)',
-        'chart-4': 'hsl(48 70% 60%)',
-        'chart-5': 'hsl(122 35% 62%)',
-        'chart-6': 'hsl(200 45% 62%)',
-      },
-    },
-  },
-  {
-    name: 'mono',
-    label: 'Mono',
-    hint: 'Single hue — safe in print and greyscale',
-    swatch: 'hsl(215 16% 47%)',
-    tokens: {
-      light: {
-        'chart-1': 'hsl(215 25% 22%)',
-        'chart-2': 'hsl(215 20% 36%)',
-        'chart-3': 'hsl(215 16% 50%)',
-        'chart-4': 'hsl(215 14% 62%)',
-        'chart-5': 'hsl(215 14% 72%)',
-        'chart-6': 'hsl(215 14% 82%)',
-      },
-      dark: {
-        'chart-1': 'hsl(210 30% 92%)',
-        'chart-2': 'hsl(213 22% 78%)',
-        'chart-3': 'hsl(215 18% 64%)',
-        'chart-4': 'hsl(215 16% 52%)',
-        'chart-5': 'hsl(215 16% 42%)',
-        'chart-6': 'hsl(215 16% 32%)',
-      },
-    },
+    tokens: { light: {} },
   },
 ];
 

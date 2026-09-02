@@ -78,6 +78,7 @@ export const Switch = forwardRef<ElementRef<typeof SwitchPrimitive.Root>, Switch
 
     const control = (
       <SwitchPrimitive.Root
+        data-slot="switch"
         ref={ref}
         id={fieldId}
         disabled={disabled}

@@ -64,7 +64,7 @@ export const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, Ch
     const isError = Boolean(error) || ariaInvalid === true || ariaInvalid === 'true';
 
     return (
-      <div className={cn('flex flex-col gap-1', className)}>
+      <div data-slot="checkbox-field" className={cn('flex flex-col gap-1', className)}>
         <div className="flex items-start gap-2.5">
           <CheckboxPrimitive.Root
             ref={ref}

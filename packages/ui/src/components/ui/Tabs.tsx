@@ -46,6 +46,7 @@ export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, TabsLi
     return (
       <TabsVariantContext.Provider value={variant ?? 'underline'}>
         <TabsPrimitive.List
+          data-slot="tabs-list"
           ref={ref}
           data-variant={variant}
           className={cn(list({ variant, size }), className)}

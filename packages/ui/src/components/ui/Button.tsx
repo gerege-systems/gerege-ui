@@ -174,6 +174,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   return (
     <button
+      data-slot="button"
       ref={ref}
       type={type}
       aria-busy={loading || undefined}

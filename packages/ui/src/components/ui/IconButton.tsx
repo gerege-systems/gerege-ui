@@ -78,6 +78,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
 ) {
   return (
     <button
+      data-slot="icon-button"
       ref={ref}
       type={type}
       aria-busy={loading || undefined}

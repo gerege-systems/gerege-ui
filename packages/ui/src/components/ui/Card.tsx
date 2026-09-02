@@ -82,6 +82,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   };
   return (
     <Comp
+      data-slot="card"
       ref={ref}
       role={role ?? (isButtonLike ? 'button' : undefined)}
       tabIndex={tabIndex ?? (isButtonLike ? 0 : undefined)}

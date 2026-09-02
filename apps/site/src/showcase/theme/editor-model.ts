@@ -296,6 +296,12 @@ export function generateCss(s: ThemeState, withImports: boolean): string {
     parts.push('/* Nothing changed — the library defaults still apply. */');
     return parts.join('\n\n');
   }
+  if (s.style !== DEFAULT_STATE.style) {
+    parts.push(
+      `/* Style: put data-style="${s.style}" on <html> (or any subtree).
+` + '   The rules ship with the library — nothing to copy for this line. */',
+    );
+  }
   parts.push('/* Theme editor — ui.gecore.mn/#theme */');
   if (Object.keys(light).length) parts.push(block(':root', light));
   if (Object.keys(dark).length) parts.push(block('.dark', dark));

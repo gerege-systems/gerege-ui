@@ -109,7 +109,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
   }, [autoResize, recompute]);
 
   return (
-    <div className={cn('flex flex-col gap-1.5', className)}>
+    <div data-slot="textarea-field" className={cn('flex flex-col gap-1.5', className)}>
       {label && (
         <label
           htmlFor={fieldId}
