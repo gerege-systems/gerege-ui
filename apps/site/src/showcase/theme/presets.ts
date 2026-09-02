@@ -30,14 +30,14 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'nova',
     label: 'Nova',
-    hint: 'Сангийн default — 6px радиус, 14px суурь',
+    hint: 'Library default — 6px radius, 14px base',
     swatch: 'hsl(238 50% 49%)',
     tokens: { light: {} },
   },
   {
     name: 'vega',
     label: 'Vega',
-    hint: 'Өнцөгтэй, бүтэцлэг — 0px радиус, тод хүрээ',
+    hint: 'Square and structural — 0px radius, hard borders',
     swatch: 'hsl(215 20% 45%)',
     tokens: {
       light: {
@@ -61,7 +61,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'maia',
     label: 'Maia',
-    hint: 'Зөөлөн — 12px радиус, сул хүрээ',
+    hint: 'Soft — 12px radius, light borders',
     swatch: 'hsl(200 45% 55%)',
     tokens: {
       light: {
@@ -85,7 +85,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'lyra',
     label: 'Lyra',
-    hint: 'Бөөрөнхий — товч, input нь бүтэн дугуй',
+    hint: 'Pill — controls fully rounded',
     swatch: 'hsl(330 45% 55%)',
     tokens: {
       light: {
@@ -99,7 +99,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'mira',
     label: 'Mira',
-    hint: 'Нягт — 13px суурь, богино зай (ERP)',
+    hint: 'Dense — 13px base, tight spacing (ERP)',
     swatch: 'hsl(160 40% 40%)',
     tokens: {
       light: {
@@ -120,7 +120,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'luma',
     label: 'Luma',
-    hint: 'Уужим — 15px суурь, өргөн зай',
+    hint: 'Airy — 15px base, wide spacing',
     swatch: 'hsl(45 70% 50%)',
     tokens: {
       light: {
@@ -140,7 +140,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'sera',
     label: 'Sera',
-    hint: 'Өндөр контраст — хараагаар хүнд орчинд',
+    hint: 'High contrast — for hard viewing conditions',
     swatch: 'hsl(222 47% 11%)',
     tokens: {
       light: {
@@ -168,7 +168,7 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'rhea',
     label: 'Rhea',
-    hint: 'Намуухан — сул хүрээ, зөөлөн текст',
+    hint: 'Quiet — light borders, softer text',
     swatch: 'hsl(215 16% 70%)',
     tokens: {
       light: {
@@ -200,14 +200,14 @@ export const BASE_COLORS: NamedPreset[] = [
   {
     name: 'slate',
     label: 'Slate',
-    hint: 'Сангийн default — хүйтэн саарал',
+    hint: 'Library default — cool grey',
     swatch: 'hsl(210 40% 90%)',
     tokens: { light: {} },
   },
   {
     name: 'zinc',
     label: 'Zinc',
-    hint: 'Төвийг сахисан, бага өнгөтэй',
+    hint: 'Neutral, almost hueless',
     swatch: 'hsl(240 5% 88%)',
     tokens: {
       light: {
@@ -238,7 +238,7 @@ export const BASE_COLORS: NamedPreset[] = [
   {
     name: 'stone',
     label: 'Stone',
-    hint: 'Дулаан саарал',
+    hint: 'Warm grey',
     swatch: 'hsl(30 18% 88%)',
     tokens: {
       light: {
@@ -269,7 +269,7 @@ export const BASE_COLORS: NamedPreset[] = [
   {
     name: 'sage',
     label: 'Sage',
-    hint: 'Ногоон тонтой саарал',
+    hint: 'Grey with a green cast',
     swatch: 'hsl(150 12% 88%)',
     tokens: {
       light: {
@@ -308,14 +308,14 @@ export const CHART_PALETTES: NamedPreset[] = [
   {
     name: 'default',
     label: 'Default',
-    hint: 'Сангийн категорик 6 өнгө',
+    hint: 'The library’s six categorical colours',
     swatch: 'hsl(217 70% 50%)',
     tokens: { light: {} },
   },
   {
     name: 'ocean',
     label: 'Ocean',
-    hint: 'Хүйтэн — цэнхэрээс ногоон руу',
+    hint: 'Cool — blue through teal',
     swatch: 'hsl(196 70% 42%)',
     tokens: {
       light: {
@@ -339,7 +339,7 @@ export const CHART_PALETTES: NamedPreset[] = [
   {
     name: 'sunset',
     label: 'Sunset',
-    hint: 'Дулаан — улбар шарнаас улаан руу',
+    hint: 'Warm — amber through red',
     swatch: 'hsl(24 80% 45%)',
     tokens: {
       light: {
@@ -363,7 +363,7 @@ export const CHART_PALETTES: NamedPreset[] = [
   {
     name: 'forest',
     label: 'Forest',
-    hint: 'Ногоон — байгалийн тон',
+    hint: 'Green — natural tones',
     swatch: 'hsl(150 55% 30%)',
     tokens: {
       light: {
@@ -387,7 +387,7 @@ export const CHART_PALETTES: NamedPreset[] = [
   {
     name: 'mono',
     label: 'Mono',
-    hint: 'Нэг тон — хэвлэх, ч/х-д аюулгүй',
+    hint: 'Single hue — safe in print and greyscale',
     swatch: 'hsl(215 16% 47%)',
     tokens: {
       light: {

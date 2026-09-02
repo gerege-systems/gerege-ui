@@ -67,12 +67,12 @@ export const ACCENT_PRESETS: {
   c: number;
   h: number;
 }[] = [
-  { name: 'default', label: 'Indigo', hint: 'Сангийн default', l: 0.457, c: 0.185, h: 274.5 },
-  { name: 'blue', label: 'Blue', hint: 'Хүйтэн, тод цэнхэр', l: 0.55, c: 0.16, h: 250 },
-  { name: 'violet', label: 'Violet', hint: 'Ягаан ягаавтар', l: 0.53, c: 0.2, h: 295 },
-  { name: 'emerald', label: 'Emerald', hint: 'Ногоон', l: 0.55, c: 0.13, h: 160 },
-  { name: 'rose', label: 'Rose', hint: 'Улаан ягаан', l: 0.55, c: 0.19, h: 15 },
-  { name: 'amber', label: 'Amber', hint: 'Шар улбар', l: 0.56, c: 0.14, h: 65 },
+  { name: 'default', label: 'Indigo', hint: 'Library default', l: 0.457, c: 0.185, h: 274.5 },
+  { name: 'blue', label: 'Blue', hint: 'Cool, brighter blue', l: 0.55, c: 0.16, h: 250 },
+  { name: 'violet', label: 'Violet', hint: 'Violet', l: 0.53, c: 0.2, h: 295 },
+  { name: 'emerald', label: 'Emerald', hint: 'Green', l: 0.55, c: 0.13, h: 160 },
+  { name: 'rose', label: 'Rose', hint: 'Pink red', l: 0.55, c: 0.19, h: 15 },
+  { name: 'amber', label: 'Amber', hint: 'Amber', l: 0.56, c: 0.14, h: 65 },
 ];
 
 const SANS_STACK = "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
@@ -293,7 +293,7 @@ export function generateCss(s: ThemeState, withImports: boolean): string {
   const parts: string[] = [];
   if (withImports) parts.push(IMPORTS);
   if (!Object.keys(light).length && !Object.keys(dark).length) {
-    parts.push('/* Токен өөрчлөгдөөгүй — сангийн default хэвээр. */');
+    parts.push('/* Nothing changed — the library defaults still apply. */');
     return parts.join('\n\n');
   }
   parts.push('/* Theme editor — ui.gecore.mn/#theme */');

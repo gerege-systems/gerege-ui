@@ -77,17 +77,17 @@ function shuffle<T>(items: readonly T[], seed: number): T[] {
 /* ------------------------------------------------------------------ blocks -- */
 
 const KPIS = [
-  { label: 'Нийт борлуулалт', value: formatMNT(48_250_000), delta: '+12.4%', tone: 'up' },
-  { label: 'Захиалга', value: '1,284', delta: '+3.1%', tone: 'up' },
-  { label: 'Дундаж дүн', value: formatMNT(37_570), delta: 'Өөрчлөлтгүй', tone: 'flat' },
-  { label: 'Буцаалт', value: '2.8%', delta: '+0.4%', tone: 'down' },
+  { label: 'Total revenue', value: formatMNT(48_250_000), delta: '+12.4%', tone: 'up' },
+  { label: 'Orders', value: '1,284', delta: '+3.1%', tone: 'up' },
+  { label: 'Average order', value: formatMNT(37_570), delta: 'No change', tone: 'flat' },
+  { label: 'Refunds', value: '2.8%', delta: '+0.4%', tone: 'down' },
 ] as const;
 
 function Kpis() {
   return (
     <Card padding="sm">
       <CardHeader>
-        <CardTitle>Үзүүлэлт</CardTitle>
+        <CardTitle>Metrics</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {KPIS.map((k) => (
@@ -113,7 +113,7 @@ function Kpis() {
   );
 }
 
-const MONTHS = ['1-р', '2-р', '3-р', '4-р', '5-р', '6-р', '7-р', '8-р', '9-р', '10-р'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
 const SALES = [3.2, 4.4, 2.6, 5.3, 4.0, 6.0, 4.6, 3.5, 5.1, 4.2];
 const TARGET = [2.3, 3.1, 1.9, 3.8, 2.8, 4.2, 3.2, 2.2, 3.6, 2.7];
 
@@ -121,17 +121,17 @@ function RevenueChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Сарын урсгал</CardTitle>
-        <p className="text-foreground-subtle text-xs">2026 · сая ₮ · UTC+8</p>
+        <CardTitle>Monthly revenue</CardTitle>
+        <p className="text-foreground-subtle text-xs">2026 · millions of ₮ · UTC+8</p>
       </CardHeader>
       <CardContent>
         <BarChart
           height={180}
           showTableToggle
-          aria-label="Сарын борлуулалт ба зорилт"
+          aria-label="Monthly revenue against target"
           series={[
-            { name: 'Борлуулалт', data: MONTHS.map((m, i) => ({ x: m, y: SALES[i] })) },
-            { name: 'Зорилт', data: MONTHS.map((m, i) => ({ x: m, y: TARGET[i] })) },
+            { name: 'Revenue', data: MONTHS.map((m, i) => ({ x: m, y: SALES[i] })) },
+            { name: 'Target', data: MONTHS.map((m, i) => ({ x: m, y: TARGET[i] })) },
           ]}
         />
       </CardContent>
@@ -143,27 +143,27 @@ function SignIn() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Нэвтрэх</CardTitle>
-        <p className="text-foreground-subtle text-xs">Байгууллагын и-мэйлээрээ орно уу.</p>
+        <CardTitle>Sign in</CardTitle>
+        <p className="text-foreground-subtle text-xs">Use your work email address.</p>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <Input label="И-мэйл" type="email" placeholder="ner@gerege.mn" autoComplete="off" />
-        <Input label="Нууц үг" type="password" autoComplete="off" />
-        <Button className="w-full">Нэвтрэх</Button>
+        <Input label="Email" type="email" placeholder="name@gerege.mn" autoComplete="off" />
+        <Input label="Password" type="password" autoComplete="off" />
+        <Button className="w-full">Sign in</Button>
         {/* Separator ships `w-full shrink-0`; both must be overridden or the
             row pushes past the card. */}
         <div className="flex items-center gap-3">
           <Separator className="w-auto shrink grow" />
-          <span className="text-foreground-subtle shrink-0 text-xs">эсвэл</span>
+          <span className="text-foreground-subtle shrink-0 text-xs">or</span>
           <Separator className="w-auto shrink grow" />
         </div>
         <Button variant="secondary" className="w-full">
           <Github aria-hidden />
-          GitHub-ээр
+          Continue with GitHub
         </Button>
         <Button variant="secondary" className="w-full">
           <Mail aria-hidden />
-          Нэг удаагийн холбоос
+          Email me a link
         </Button>
       </CardContent>
     </Card>
@@ -173,25 +173,25 @@ function SignIn() {
 const INVOICES = [
   {
     id: 'INV-1042',
-    customer: 'Гэрэгэ Системс',
+    customer: 'Gerege Systems',
     amount: 8_900_000,
     tone: 'warning',
-    label: 'Хүлээгдэж буй',
+    label: 'Pending',
   },
   {
     id: 'INV-1041',
-    customer: 'М. Оюунчимэг',
+    customer: 'Oyunchimeg M.',
     amount: 1_240_000,
     tone: 'success',
-    label: 'Төлөгдсөн',
+    label: 'Paid',
   },
-  { id: 'INV-1040', customer: 'Үүрсайхан ХХК', amount: 460_000, tone: 'neutral', label: 'Ноорог' },
+  { id: 'INV-1040', customer: 'Uursaikhan LLC', amount: 460_000, tone: 'neutral', label: 'Draft' },
   {
     id: 'INV-1039',
-    customer: 'Дэлгэрэх Трейд',
+    customer: 'Delgerekh Trade',
     amount: 2_150_000,
     tone: 'danger',
-    label: 'Хэтэрсэн',
+    label: 'Overdue',
   },
 ] as const;
 
@@ -199,15 +199,15 @@ function Invoices() {
   return (
     <Card padding="sm">
       <CardHeader>
-        <CardTitle>Нэхэмжлэх</CardTitle>
+        <CardTitle>Invoices</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Дугаар</TableHead>
-              <TableHead>Төлөв</TableHead>
-              <TableHead className="text-right">Дүн</TableHead>
+              <TableHead>Number</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -233,16 +233,16 @@ function Notifications() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Мэдэгдэл</CardTitle>
+        <CardTitle>Notifications</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Switch defaultChecked label="И-мэйл" description="Захиалга бүрт нэг мэдэгдэл" />
-        <Switch label="Түлхэлт" description="Хөтчийн мэдэгдэл" />
-        <Switch defaultChecked label="Долоо хоногийн тайлан" description="Даваа гараг бүр" />
+        <Switch defaultChecked label="Email" description="One message per order" />
+        <Switch label="Push" description="Browser notifications" />
+        <Switch defaultChecked label="Weekly digest" description="Every Monday" />
         <Separator />
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm">Сарын багц</span>
+            <span className="text-sm">Monthly quota</span>
             <span className="grow" />
             <span className="text-foreground-subtle text-xs">68%</span>
           </div>
@@ -251,7 +251,7 @@ function Notifications() {
       </CardContent>
       <CardFooter>
         <Button size="sm" variant="secondary">
-          Хадгалах
+          Save
         </Button>
       </CardFooter>
     </Card>
@@ -262,7 +262,7 @@ function CalendarCard() {
   return (
     <Card padding="sm">
       <CardHeader>
-        <CardTitle>Хуанли</CardTitle>
+        <CardTitle>Calendar</CardTitle>
       </CardHeader>
       <CardContent>
         <Calendar mode="single" />
@@ -272,17 +272,17 @@ function CalendarCard() {
 }
 
 const TEAM = [
-  { name: 'Оюунчимэг', initials: 'ОЧ', role: 'Owner', status: 'online' },
-  { name: 'Батсайхан', initials: 'БС', role: 'Admin', status: 'busy' },
-  { name: 'Нарантуяа', initials: 'НТ', role: 'Member', status: 'offline' },
+  { name: 'Oyunchimeg', initials: 'OC', role: 'Owner', status: 'online' },
+  { name: 'Batsaikhan', initials: 'BS', role: 'Admin', status: 'busy' },
+  { name: 'Narantuya', initials: 'NT', role: 'Member', status: 'offline' },
 ] as const;
 
 function Team() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Баг</CardTitle>
-        <p className="text-foreground-subtle text-xs">3 гишүүн</p>
+        <CardTitle>Team</CardTitle>
+        <p className="text-foreground-subtle text-xs">3 members</p>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {TEAM.map((m) => (
@@ -290,11 +290,11 @@ function Team() {
             <Avatar fallback={m.initials} status={m.status} />
             <span className="min-w-0 grow truncate text-sm">{m.name}</span>
             <Select defaultValue={m.role}>
-              <SelectTrigger size="sm" aria-label={`${m.name}-ийн эрх`} className="w-28" />
+              <SelectTrigger size="sm" aria-label={`Role for ${m.name}`} className="w-28" />
               <SelectContent>
-                <SelectItem value="Owner">Эзэн</SelectItem>
-                <SelectItem value="Admin">Админ</SelectItem>
-                <SelectItem value="Member">Гишүүн</SelectItem>
+                <SelectItem value="Owner">Owner</SelectItem>
+                <SelectItem value="Admin">Admin</SelectItem>
+                <SelectItem value="Member">Member</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -302,7 +302,7 @@ function Team() {
       </CardContent>
       <CardFooter>
         <Button size="sm" variant="secondary" className="w-full">
-          Гишүүн урих
+          Invite member
         </Button>
       </CardFooter>
     </Card>
@@ -313,7 +313,7 @@ function Controls() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Элементүүд</CardTitle>
+        <CardTitle>Elements</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-wrap gap-2">
@@ -325,29 +325,29 @@ function Controls() {
             Ghost
           </Button>
           <Button size="sm" variant="destructive">
-            Устгах
+            Delete
           </Button>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Badge>Идэвхтэй</Badge>
-          <Badge tone="success">Баталгаажсан</Badge>
-          <Badge tone="warning">Хугацаа дуусах</Badge>
-          <Badge tone="neutral">Архив</Badge>
+          <Badge>Active</Badge>
+          <Badge tone="success">Verified</Badge>
+          <Badge tone="warning">Expiring</Badge>
+          <Badge tone="neutral">Archived</Badge>
         </div>
         <Tabs defaultValue="overview">
           <TabsList>
-            <TabsTrigger value="overview">Тойм</TabsTrigger>
-            <TabsTrigger value="history">Түүх</TabsTrigger>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="history">History</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="text-foreground-muted pt-3 text-sm">
-            Токен солиход энэ картын бүх элемент нэг дор өөрчлөгдөнө.
+            Change a token and every element in this card moves at once.
           </TabsContent>
           <TabsContent value="history" className="text-foreground-muted pt-3 text-sm">
-            Сүүлийн 30 хоногийн өөрчлөлт.
+            Changes over the last 30 days.
           </TabsContent>
         </Tabs>
-        <Alert variant="info" title="Шинэ тайлан бэлэн">
-          8-р сарын нэгтгэл татахад бэлэн боллоо.
+        <Alert variant="info" title="New report ready">
+          The August summary is ready to download.
         </Alert>
       </CardContent>
     </Card>
@@ -358,26 +358,26 @@ function Pricing() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Багц</CardTitle>
-        <p className="text-foreground-subtle text-xs">Жилээр төлбөл 2 сар үнэгүй.</p>
+        <CardTitle>Plans</CardTitle>
+        <p className="text-foreground-subtle text-xs">Pay yearly and get two months free.</p>
       </CardHeader>
       <CardContent>
         <RadioGroup defaultValue="business" className="flex flex-col gap-3">
-          <RadioItem value="start" label="Эхлэл — 0₮" description="1 хэрэглэгч, 1 орчин" />
+          <RadioItem value="start" label="Starter — free" description="1 user, 1 environment" />
           <RadioItem
             value="business"
-            label="Бизнес — 89,000₮ / сар"
-            description="10 хэрэглэгч, SSO, аудит"
+            label="Business — 89,000₮ / month"
+            description="10 users, SSO, audit log"
           />
           <RadioItem
             value="enterprise"
-            label="Байгууллага — тохиролцоно"
-            description="SLA, тусдаа орчин"
+            label="Enterprise — talk to us"
+            description="SLA, dedicated environment"
           />
         </RadioGroup>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Багц сонгох</Button>
+        <Button className="w-full">Choose plan</Button>
       </CardFooter>
     </Card>
   );
@@ -387,27 +387,27 @@ function ReportIssue() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Асуудал мэдэгдэх</CardTitle>
+        <CardTitle>Report an issue</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium">Хэсэг</span>
+          <span className="text-sm font-medium">Area</span>
           <Select defaultValue="billing">
-            <SelectTrigger aria-label="Хэсэг" />
+            <SelectTrigger aria-label="Area" />
             <SelectContent>
-              <SelectItem value="billing">Төлбөр</SelectItem>
-              <SelectItem value="auth">Нэвтрэлт</SelectItem>
-              <SelectItem value="reports">Тайлан</SelectItem>
+              <SelectItem value="billing">Billing</SelectItem>
+              <SelectItem value="auth">Sign-in</SelectItem>
+              <SelectItem value="reports">Reports</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <Input label="Гарчиг" placeholder="Товч тайлбар" />
-        <Textarea label="Дэлгэрэнгүй" rows={3} placeholder="Юу болсныг бичнэ үү" />
+        <Input label="Subject" placeholder="Short summary" />
+        <Textarea label="Details" rows={3} placeholder="What happened?" />
       </CardContent>
       <CardFooter className="gap-2">
-        <Button size="sm">Илгээх</Button>
+        <Button size="sm">Send</Button>
         <Button size="sm" variant="ghost">
-          Болих
+          Cancel
         </Button>
       </CardFooter>
     </Card>
@@ -418,13 +418,13 @@ function Upload() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Файл хавсаргах</CardTitle>
+        <CardTitle>Attachments</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <FileUpload multiple accept="image/*" hint="PNG эсвэл JPG, 5MB хүртэл" />
+        <FileUpload multiple accept="image/*" hint="PNG or JPG, up to 5MB" />
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-foreground-muted grow truncate">tailan-2026-08.pdf</span>
+            <span className="text-foreground-muted grow truncate">report-2026-08.pdf</span>
             <span className="text-foreground-subtle tabular-nums">42%</span>
           </div>
           <Progress value={42} size="sm" />
@@ -438,22 +438,22 @@ function Onboarding() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Эхлэх</CardTitle>
+        <CardTitle>Get started</CardTitle>
       </CardHeader>
       <CardContent>
         <Stepper
           current={1}
           steps={[
-            { title: 'Бүртгэл', description: 'Нэр, и-мэйл' },
-            { title: 'Баг', description: 'Гишүүд урих' },
-            { title: 'Төлбөр', description: 'Багц сонгох' },
+            { title: 'Account', description: 'Name and email' },
+            { title: 'Team', description: 'Invite members' },
+            { title: 'Billing', description: 'Choose a plan' },
           ]}
         />
       </CardContent>
       <CardFooter className="gap-2">
-        <Button size="sm">Үргэлжлүүлэх</Button>
+        <Button size="sm">Continue</Button>
         <Button size="sm" variant="ghost">
-          Алгасах
+          Skip
         </Button>
       </CardFooter>
     </Card>
@@ -464,21 +464,21 @@ function Faq() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Түгээмэл асуулт</CardTitle>
+        <CardTitle>FAQ</CardTitle>
       </CardHeader>
       <CardContent>
         <Accordion type="single" collapsible>
           <AccordionItem value="a">
-            <AccordionTrigger>Төлбөрөө буцаах боломжтой юу?</AccordionTrigger>
-            <AccordionContent>14 хоногийн дотор, тайлбаргүйгээр.</AccordionContent>
+            <AccordionTrigger>What is the refund policy?</AccordionTrigger>
+            <AccordionContent>14 days, no questions asked.</AccordionContent>
           </AccordionItem>
           <AccordionItem value="b">
-            <AccordionTrigger>SSO дэмждэг үү?</AccordionTrigger>
-            <AccordionContent>Бизнес багцаас дээш OIDC болон SAML.</AccordionContent>
+            <AccordionTrigger>Do you support SSO?</AccordionTrigger>
+            <AccordionContent>OIDC and SAML on Business and above.</AccordionContent>
           </AccordionItem>
           <AccordionItem value="c">
-            <AccordionTrigger>Өгөгдлөө экспортлож болох уу?</AccordionTrigger>
-            <AccordionContent>CSV, JSON — Тохиргоо → Экспорт.</AccordionContent>
+            <AccordionTrigger>Can I export my data?</AccordionTrigger>
+            <AccordionContent>CSV and JSON — Settings → Export.</AccordionContent>
           </AccordionItem>
         </Accordion>
       </CardContent>
@@ -490,15 +490,15 @@ function Empty() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Төсөл</CardTitle>
+        <CardTitle>Projects</CardTitle>
       </CardHeader>
       <CardContent>
         <EmptyState
-          title="Төсөл алга"
-          description="Эхний төслөө үүсгээд багаа урина уу."
+          title="No projects yet"
+          description="Create your first project, then invite the team."
           action={
             <Button size="sm" leadingIcon={<Plus />}>
-              Шинэ төсөл
+              New project
             </Button>
           }
         />
@@ -514,7 +514,7 @@ function Forbidden() {
         <ErrorState
           variant="403"
           headingLevel={3}
-          action={<Button variant="secondary">Хяналтын самбар руу</Button>}
+          action={<Button variant="secondary">Back to dashboard</Button>}
         />
       </CardContent>
     </Card>
@@ -525,12 +525,16 @@ function CommandHint() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Хайлт</CardTitle>
+        <CardTitle>Search</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <Input type="search" placeholder="Захиалга, харилцагч, дугаар…" prefix={<Search />} />
+        <Input
+          type="search"
+          placeholder="Orders, customers, invoice numbers…"
+          prefix={<Search />}
+        />
         <div className="text-foreground-muted flex items-center gap-2 text-sm">
-          Хаанаас ч нээх: <Kbd>⌘</Kbd>
+          Open anywhere: <Kbd>⌘</Kbd>
           <span className="text-foreground-subtle">+</span>
           <Kbd>K</Kbd>
         </div>
@@ -540,16 +544,21 @@ function CommandHint() {
 }
 
 const ACTIVITY = [
-  { who: 'Оюунчимэг', initials: 'ОЧ', what: 'INV-1042-ыг илгээв', when: '10 минутын өмнө' },
-  { who: 'Батсайхан', initials: 'БС', what: 'Багцыг Бизнес болгов', when: '2 цагийн өмнө' },
-  { who: 'Нарантуяа', initials: 'НТ', what: '8-р сарын тайлан татав', when: 'Өчигдөр 17:40' },
+  { who: 'Oyunchimeg', initials: 'OC', what: 'sent INV-1042', when: '10 minutes ago' },
+  { who: 'Batsaikhan', initials: 'BS', what: 'moved the plan to Business', when: '2 hours ago' },
+  {
+    who: 'Narantuya',
+    initials: 'NT',
+    what: 'downloaded the August report',
+    when: 'Yesterday 17:40',
+  },
 ] as const;
 
 function Activity() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Сүүлийн үйлдэл</CardTitle>
+        <CardTitle>Recent activity</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {ACTIVITY.map((a) => (
@@ -570,15 +579,15 @@ function Activity() {
 
 function Usage() {
   const rows = [
-    { label: 'API дуудалт', used: 82, note: '410к / 500к' },
-    { label: 'Хадгалалт', used: 47, note: '9.4GB / 20GB' },
-    { label: 'Гишүүд', used: 30, note: '3 / 10' },
+    { label: 'API calls', used: 82, note: '410k / 500k' },
+    { label: 'Storage', used: 47, note: '9.4GB / 20GB' },
+    { label: 'Seats', used: 30, note: '3 / 10' },
   ];
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ашиглалт</CardTitle>
-        <p className="text-foreground-subtle text-xs">9-р сарын мөчлөг</p>
+        <CardTitle>Usage</CardTitle>
+        <p className="text-foreground-subtle text-xs">September cycle</p>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {rows.map((r) => (

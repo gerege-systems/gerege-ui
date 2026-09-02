@@ -48,42 +48,42 @@ export function GetCodeDialog({ open, onOpenChange, state }: Props) {
         <DialogHeader>
           <DialogTitle>Get code</DialogTitle>
           <DialogDescription>
-            Хоёр алхам: сан суулгах, доорх блокийг style файлдаа буулгах.
+            Two steps: install the package, paste the block into your stylesheet.
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-5">
           <section className="flex flex-col gap-2">
-            <h3 className="text-sm font-medium">1. Сан суулгах</h3>
+            <h3 className="text-sm font-medium">1. Install</h3>
             <CodeBlock language="bash" code="pnpm add @gerege-systems/ui" />
           </section>
 
           <section className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium">2. Style файлдаа буулгах</h3>
+              <h3 className="text-sm font-medium">2. Paste into your stylesheet</h3>
               <code className="text-foreground-subtle font-mono text-xs">app/globals.css</code>
               <span className="grow" />
               <span className="text-foreground-subtle text-xs">
-                {changed === 0 ? 'токен өөрчлөгдөөгүй' : `${changed} токен`}
+                {changed === 0 ? 'no changes' : `${changed} tokens`}
               </span>
             </div>
             <CodeBlock language="css" code={css} />
           </section>
 
           <p className="text-foreground-muted text-sm">
-            Компонентууд өнгө, радиусаа шууд бичдэггүй — зөвхөн эдгээр токеноос уншдаг. Тиймээс
-            блокийг буулгамагц бүх компонент шинэ загвараар гарна, өөрчлөөгүй токенууд сангийн
-            default дээрээ үлдэнэ.
+            Components never hard-code a colour or a radius — they read these tokens. So the moment
+            this block lands, every component follows it, and anything you did not change stays on
+            the library default.
           </p>
         </div>
 
         <DialogFooter>
           <Button variant="ghost" onClick={copyLink}>
             {copiedLink ? <Check aria-hidden /> : <Copy aria-hidden />}
-            {copiedLink ? 'Хуулагдлаа' : 'Холбоос хуулах'}
+            {copiedLink ? 'Copied' : 'Copy link'}
           </Button>
           <Button variant="secondary" onClick={() => onOpenChange(false)}>
-            Хаах
+            Close
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -45,14 +45,14 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-2">
-        <h2 className="text-sm font-semibold">Тохиргоо</h2>
+        <h2 className="text-sm font-semibold">Customise</h2>
         <span className="text-foreground-subtle text-xs">
-          {changed === 0 ? 'default хэвээр' : `${changed} токен`}
+          {changed === 0 ? 'defaults' : `${changed} tokens`}
         </span>
         <span className="grow" />
         {changed > 0 && (
           <Button variant="ghost" size="sm" onClick={onReset}>
-            Сэргээх
+            Reset
           </Button>
         )}
       </div>
@@ -76,7 +76,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         <Row
           label="Theme"
           value={activeAccent?.label ?? 'Custom'}
-          hint={activeAccent?.hint ?? 'Гараар тохируулсан'}
+          hint={activeAccent?.hint ?? 'Custom values'}
           swatch={hex}
         >
           <div className="grid grid-cols-3 gap-2">
@@ -108,7 +108,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         </Row>
 
         <div>
-          <p className="text-foreground-subtle mb-1.5 text-xs">Өнгөний тон</p>
+          <p className="text-foreground-subtle mb-1.5 text-xs">Hue</p>
           <div className="grid grid-cols-12 gap-1">
             {HUES.map((h) => {
               const active = Math.round(state.hue / 30) * 30 === h;
@@ -116,7 +116,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
                 <button
                   key={h}
                   type="button"
-                  aria-label={`Тон ${h}°`}
+                  aria-label={`Hue ${h}°`}
                   aria-pressed={active}
                   onClick={() => onChange({ hue: h })}
                   className={cn(
@@ -134,7 +134,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         </div>
 
         <Slider
-          label="Гэрэлтэлт"
+          label="Lightness"
           showValue
           min={0.3}
           max={0.8}
@@ -144,7 +144,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
           formatValue={(v) => v.toFixed(3)}
         />
         <Slider
-          label="Ханалт"
+          label="Chroma"
           showValue
           min={0}
           max={MAX_CHROMA}
@@ -189,7 +189,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
 
       <section className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold">Радиус</h3>
+          <h3 className="text-sm font-semibold">Radius</h3>
           {state.radius !== null && (
             <span aria-hidden className="bg-accent size-1.5 rounded-full" />
           )}
@@ -200,7 +200,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
               onClick={() => onChange({ radius: null })}
               className="text-accent focus-visible:ring-ring rounded-sm text-xs focus-visible:ring-2 focus-visible:outline-none"
             >
-              Style-ийнхээр
+              Follow style
             </button>
           )}
         </div>
@@ -219,14 +219,14 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         </div>
         {state.radius !== null && (
           <p className="text-foreground-subtle text-xs">
-            Товч/input {styleRadius.md}px · карт {styleRadius.lg}px · modal {styleRadius.xl}px
+            Control {styleRadius.md}px · card {styleRadius.lg}px · modal {styleRadius.xl}px
           </p>
         )}
       </section>
 
       <section className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold">Фонт</h3>
+          <h3 className="text-sm font-semibold">Font</h3>
           {(state.fontSans !== DEFAULT_STATE.fontSans ||
             state.fontMono !== DEFAULT_STATE.fontMono) && (
             <span aria-hidden className="bg-accent size-1.5 rounded-full" />
@@ -247,7 +247,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
           onCustom={(v) => onChange({ customMono: v })}
         />
         <p className="text-foreground-subtle text-xs">
-          Өөрийн фонт сонговол түүнийг төсөлдөө өөрөө ачаална — энэ хуудсанд Geist л ачаалагдсан.
+          A custom family is yours to load — only Geist is loaded on this page.
         </p>
       </section>
     </div>
@@ -346,8 +346,8 @@ function ContrastLine({ mode, ratio, passes }: { mode: string; ratio: number; pa
         <AlertTriangle aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       )}
       <span>
-        {mode}: товчны текст {ratio.toFixed(2)}:1 —{' '}
-        {passes ? 'AA (4.5:1) давсан' : 'AA (4.5:1) хүрэхгүй'}
+        {mode}: button text {ratio.toFixed(2)}:1 —{' '}
+        {passes ? 'passes AA (4.5:1)' : 'fails AA (4.5:1)'}
       </span>
     </div>
   );
@@ -369,17 +369,17 @@ function FontPicker({
   return (
     <div className="flex flex-col gap-2">
       <Select value={value} onValueChange={(v) => onValue(v as FontChoice)}>
-        <SelectTrigger size="sm" aria-label={`${label} фонт`} />
+        <SelectTrigger size="sm" aria-label={`${label} font`} />
         <SelectContent>
           <SelectItem value="geist">{label === 'Sans' ? 'Geist' : 'Geist Mono'}</SelectItem>
           <SelectItem value="system">System</SelectItem>
-          <SelectItem value="custom">Өөрийн…</SelectItem>
+          <SelectItem value="custom">Custom…</SelectItem>
         </SelectContent>
       </Select>
       {value === 'custom' && (
         <Input
-          aria-label={`${label} фонтын нэр`}
-          placeholder="Жишээ нь: Inter"
+          aria-label={`${label} font family`}
+          placeholder="e.g. Inter"
           value={custom}
           maxLength={60}
           onChange={(e) => onCustom(e.target.value)}
