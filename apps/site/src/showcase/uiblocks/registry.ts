@@ -41,6 +41,17 @@ import { SignUp } from './blocks/SignUp';
 import { TopNavShell } from './blocks/TopNavShell';
 import { TwoFactor } from './blocks/TwoFactor';
 import { GoalRing } from './blocks/GoalRing';
+import { TransactionList } from './blocks/TransactionList';
+import { ReceivingMethod } from './blocks/ReceivingMethod';
+import { ConnectBank } from './blocks/ConnectBank';
+import { NavMenus } from './blocks/NavMenus';
+import { PreferencesPanel } from './blocks/PreferencesPanel';
+import { DividendIncome } from './blocks/DividendIncome';
+import { TransferConfirm } from './blocks/TransferConfirm';
+import { PaymentsMenu } from './blocks/PaymentsMenu';
+import { SyncingState } from './blocks/SyncingState';
+import { LoadingCard } from './blocks/LoadingCard';
+import { NotificationChecklist } from './blocks/NotificationChecklist';
 import { InvoiceDetail } from './blocks/InvoiceDetail';
 import { ShippingAddress } from './blocks/ShippingAddress';
 import { ProfileSettings } from './blocks/ProfileSettings';
@@ -190,7 +201,6 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'onboarding-steps',
-    page: 1,
     name: 'Onboarding steps',
     category: 'App',
     file: 'Onboarding',
@@ -558,6 +568,107 @@ export const UI_BLOCKS: UiBlock[] = [
     file: 'TrafficChannels',
     Component: TrafficChannels,
     description: 'Two series by month, with the figures that matter under them.',
+  },
+  {
+    slug: 'transaction-list',
+    page: 2,
+    wide: true,
+    name: 'Transactions 02 — list',
+    category: 'Commerce',
+    file: 'TransactionList',
+    Component: TransactionList,
+    description: 'Merchant, category, date and signed amount, with a row menu.',
+  },
+  {
+    slug: 'receiving-method',
+    page: 2,
+    name: 'Receiving method 01',
+    category: 'Commerce',
+    file: 'ReceivingMethod',
+    Component: ReceivingMethod,
+    description:
+      'Holder name, two payout methods, and the disabled state a settings form opens in.',
+  },
+  {
+    slug: 'connect-bank',
+    page: 2,
+    name: 'Connect bank 01',
+    category: 'Commerce',
+    file: 'ConnectBank',
+    Component: ConnectBank,
+    description: 'The empty state before a payout method exists.',
+  },
+  {
+    slug: 'nav-menu',
+    page: 1,
+    name: 'Nav menu 01',
+    category: 'App',
+    file: 'NavMenus',
+    Component: NavMenus,
+    description: 'Grouped navigation with the current page marked.',
+  },
+  {
+    slug: 'preferences',
+    page: 1,
+    name: 'Preferences 01',
+    category: 'App',
+    file: 'PreferencesPanel',
+    Component: PreferencesPanel,
+    description: 'A select over two switch rows, with reset and save.',
+  },
+  {
+    slug: 'dividend-income',
+    page: 2,
+    name: 'Dividend income 01',
+    category: 'Commerce',
+    file: 'DividendIncome',
+    Component: DividendIncome,
+    description: 'Holdings with a four-quarter sparkline and the payout beside it.',
+  },
+  {
+    slug: 'transfer-confirm',
+    page: 2,
+    name: 'Transfer 02 — confirm',
+    category: 'Commerce',
+    file: 'TransferConfirm',
+    Component: TransferConfirm,
+    description: 'Amount, accounts with balances, and the totals before you commit.',
+  },
+  {
+    slug: 'payments-menu',
+    page: 1,
+    name: 'Settings menu 01',
+    category: 'App',
+    file: 'PaymentsMenu',
+    Component: PaymentsMenu,
+    description: 'Breadcrumb over navigable rows, each with what it does.',
+  },
+  {
+    slug: 'syncing',
+    page: 1,
+    name: 'Syncing 01',
+    category: 'App',
+    file: 'SyncingState',
+    Component: SyncingState,
+    description: 'A working state that says what is happening and offers a way out.',
+  },
+  {
+    slug: 'loading-card',
+    page: 1,
+    name: 'Loading card 01',
+    category: 'App',
+    file: 'LoadingCard',
+    Component: LoadingCard,
+    description: 'The shape a card holds while its data is in flight.',
+  },
+  {
+    slug: 'notification-checklist',
+    page: 1,
+    name: 'Notifications 02 — checklist',
+    category: 'App',
+    file: 'NotificationChecklist',
+    Component: NotificationChecklist,
+    description: 'Select-all in its indeterminate state over four choices.',
   },
 ];
 
