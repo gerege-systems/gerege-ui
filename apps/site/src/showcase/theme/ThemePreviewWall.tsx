@@ -22,7 +22,7 @@ export function ThemePreviewWall({ seed, page }: { seed: number; page: 1 | 2 }) 
     [seed, page],
   );
   return (
-    <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+    <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
       {blocks.map(({ slug, Component, wide }) => (
         // `column-span: all` lifts a wide block out of the columns for one row.
         // It also breaks the column flow, so the block above it cannot reach it
