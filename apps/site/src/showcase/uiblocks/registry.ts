@@ -302,7 +302,7 @@ export const UI_BLOCKS: UiBlock[] = [
     category: 'App',
     file: 'LineTrend',
     Component: LineTrend,
-    description: 'Two series over fourteen days with a table fallback.',
+    description: 'One series over fourteen days, with the figures it implies underneath.',
   },
   {
     slug: 'product-grid',
