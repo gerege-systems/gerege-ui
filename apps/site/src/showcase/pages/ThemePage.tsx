@@ -117,13 +117,11 @@ export function ThemePage() {
             </div>
           </header>
 
-          {/* The provider renders `display: contents`, so the frame is its own
-              element — otherwise the border and padding would never paint. */}
-          <div className="border-border bg-background rounded-lg border p-4 sm:p-6">
-            <DesignSystemProvider tokens={tokens}>
-              <ThemePreviewWall seed={seed} />
-            </DesignSystemProvider>
-          </div>
+          {/* No frame: every block is a Card already, so a border around the
+              wall was one more box drawn around thirty boxes. */}
+          <DesignSystemProvider tokens={tokens}>
+            <ThemePreviewWall seed={seed} />
+          </DesignSystemProvider>
         </div>
       </div>
 
