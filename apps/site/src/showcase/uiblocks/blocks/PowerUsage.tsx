@@ -1,6 +1,8 @@
 import { AreaChart, Badge, Card, CardContent, CardHeader, CardTitle } from '@gerege-systems/ui';
 
-const HOURS = ['00', '03', '06', '09', '12', '15', '18', '21'];
+// Full clock times: the axis renders only the first and last label, and a
+// bare '00' there reads as a stray zero rather than midnight.
+const HOURS = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
 const KWH = [0.6, 0.4, 1.1, 2.4, 2.0, 1.7, 3.4, 2.2];
 
 export function PowerUsage() {
