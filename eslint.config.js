@@ -12,6 +12,8 @@ export default tseslint.config(
       '**/*.d.ts',
       'apps/site/src/generated/**',
       'packages/create-app/templates/**',
+      // Ad-hoc probe scripts run from the working tree, never committed.
+      '**/zz-*.mjs',
     ],
   },
   ...tseslint.configs.recommended,
