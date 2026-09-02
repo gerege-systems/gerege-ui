@@ -23,9 +23,12 @@ export function UpcomingPayments() {
         <p className="text-foreground-subtle text-xs">Pick a date to see what is scheduled.</p>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        {/* Calendar draws its own bordered card; inside one it reads as a box
-            in a box, so the frame comes off and it spans the card instead. */}
-        <Calendar mode="single" className="w-full rounded-none border-0 p-0" />
+        {/* Calendar draws its own bordered card; inside one that reads as a box
+            in a box. Frame off, natural width, centred — stretching it to the
+            card just parked the grid on the left with dead space beside it. */}
+        <div className="flex justify-center">
+          <Calendar mode="single" className="rounded-none border-0 p-0" />
+        </div>
         <Separator />
         {/* Name over date, amount alone on the right: the three of them on one
             line pushed the amount past the card in a narrow column. */}
