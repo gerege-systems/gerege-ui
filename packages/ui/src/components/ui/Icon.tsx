@@ -23,9 +23,7 @@ function getIcon(name: IconName): LazyExoticComponent<LucideIcon> | null {
     // Unknown name (data-driven input) → render nothing, warn once in dev.
     if (process.env.NODE_ENV !== 'production' && !warned.has(name)) {
       warned.add(name);
-      console.warn(
-        `[@gerege/ui] <Icon name="${name}"> is not a lucide icon; rendering nothing.`,
-      );
+      console.warn(`[@gerege/ui] <Icon name="${name}"> is not a lucide icon; rendering nothing.`);
     }
     return null;
   }

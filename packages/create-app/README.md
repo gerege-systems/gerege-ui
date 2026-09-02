@@ -21,10 +21,10 @@ pnpm dev
 
 ## Templates
 
-| ID               | What you get                                                           |
-| ---------------- | ---------------------------------------------------------------------- |
+| ID               | What you get                                                        |
+| ---------------- | ------------------------------------------------------------------- |
 | `vite-blank`     | Minimal Vite + React + `@gerege/ui` starter (Card + Input + Switch) |
-| `vite-dashboard` | `AppShell` + `Dashboard` template, ready to wire data                  |
+| `vite-dashboard` | `AppShell` + `Dashboard` template, ready to wire data               |
 
 Pass `--template <id>` to skip the picker:
 

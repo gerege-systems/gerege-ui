@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  ConfirmationDialog,
-  Toaster,
-  cn,
-  useCommandPaletteShortcut,
-  useToast,
-} from '@gerege/ui';
+import { ConfirmationDialog, Toaster, cn, useCommandPaletteShortcut, useToast } from '@gerege/ui';
 import { ALL_SECTIONS, STUB_PAGES, WORKSPACES, findModule } from './admin/data';
 import {
   AdminLayoutContext,
