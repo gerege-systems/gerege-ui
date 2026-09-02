@@ -163,9 +163,14 @@ export function ThemePage() {
           {/* font-sans here on purpose: html already resolved font-family from
               the old value, so a nested --font-sans override changes nothing
               unless something re-applies it. */}
-          <div data-style={state.style} className="font-sans">
+          <div data-style={state.style}>
             <DesignSystemProvider tokens={tokens}>
-              <ThemePreviewWall seed={seed} />
+              {/* font-sans has to sit INSIDE the provider: the override lives on
+                  the provider's own element, so an ancestor would resolve the
+                  variable to the old value and hand that down. */}
+              <div className="font-sans">
+                <ThemePreviewWall seed={seed} />
+              </div>
             </DesignSystemProvider>
           </div>
         </div>
