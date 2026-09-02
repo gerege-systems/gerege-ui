@@ -40,6 +40,20 @@ import { SignInSplit } from './blocks/SignInSplit';
 import { SignUp } from './blocks/SignUp';
 import { TopNavShell } from './blocks/TopNavShell';
 import { TwoFactor } from './blocks/TwoFactor';
+import { ContributionHeatmap } from './blocks/ContributionHeatmap';
+import { DevicePairing } from './blocks/DevicePairing';
+import { BalanceCard } from './blocks/BalanceCard';
+import { PayoutThreshold } from './blocks/PayoutThreshold';
+import { SmartDevice } from './blocks/SmartDevice';
+import { SavingsTargets } from './blocks/SavingsTargets';
+import { TransferFunds } from './blocks/TransferFunds';
+import { RecentTransactions } from './blocks/RecentTransactions';
+import { AccountAccess } from './blocks/AccountAccess';
+import { PaymentCard } from './blocks/PaymentCard';
+import { PowerUsage } from './blocks/PowerUsage';
+import { UpcomingPayments } from './blocks/UpcomingPayments';
+import { SocialLinks } from './blocks/SocialLinks';
+import { ExplainerCard } from './blocks/ExplainerCard';
 
 export type BlockCategory = 'App' | 'Auth' | 'Commerce' | 'Marketing';
 
@@ -338,6 +352,132 @@ export const UI_BLOCKS: UiBlock[] = [
     file: 'HeroCta',
     Component: HeroCta,
     description: 'One promise, one primary action, one supporting line.',
+  },
+  {
+    slug: 'activity-heatmap',
+    page: 1,
+    name: 'Activity heatmap 01',
+    category: 'App',
+    file: 'ContributionHeatmap',
+    Component: ContributionHeatmap,
+    description: 'Six months of activity as a density grid, with a legend.',
+  },
+  {
+    slug: 'device-pairing',
+    page: 1,
+    name: 'Device pairing 01',
+    category: 'App',
+    file: 'DevicePairing',
+    Component: DevicePairing,
+    description: 'Scan-to-link card with a fallback code.',
+  },
+  {
+    slug: 'balance',
+    page: 2,
+    name: 'Balance 01',
+    category: 'Commerce',
+    file: 'BalanceCard',
+    Component: BalanceCard,
+    description: 'A headline figure, what is pending, and the two actions on it.',
+  },
+  {
+    slug: 'payout-threshold',
+    page: 1,
+    name: 'Payout threshold 01',
+    category: 'App',
+    file: 'PayoutThreshold',
+    Component: PayoutThreshold,
+    description: 'Slider and exact-amount field kept in step.',
+  },
+  {
+    slug: 'device-control',
+    page: 1,
+    name: 'Device control 01',
+    category: 'App',
+    file: 'SmartDevice',
+    Component: SmartDevice,
+    description: 'Two sliders and a schedule switch for one device.',
+  },
+  {
+    slug: 'goal-progress',
+    page: 1,
+    name: 'Goal progress 01',
+    category: 'App',
+    file: 'SavingsTargets',
+    Component: SavingsTargets,
+    description: 'Milestones with progress that turns success past 75%.',
+  },
+  {
+    slug: 'transfer',
+    page: 2,
+    name: 'Transfer 01',
+    category: 'Commerce',
+    file: 'TransferFunds',
+    Component: TransferFunds,
+    description: 'From, to, amount and the fee before you commit.',
+  },
+  {
+    slug: 'transactions',
+    page: 2,
+    name: 'Transactions 01',
+    category: 'Commerce',
+    file: 'RecentTransactions',
+    Component: RecentTransactions,
+    description: 'Direction, counterparty and signed amounts.',
+  },
+  {
+    slug: 'account-access',
+    page: 2,
+    name: 'Account access 01',
+    category: 'Auth',
+    file: 'AccountAccess',
+    Component: AccountAccess,
+    description: 'Password change with a session-revoke switch.',
+  },
+  {
+    slug: 'payment-card',
+    page: 2,
+    name: 'Payment card 01',
+    category: 'Commerce',
+    file: 'PaymentCard',
+    Component: PaymentCard,
+    description: 'Balance, credit used, minimum payment, due date.',
+  },
+  {
+    slug: 'usage-chart',
+    page: 1,
+    name: 'Usage chart 01',
+    category: 'App',
+    file: 'PowerUsage',
+    Component: PowerUsage,
+    description: 'Area chart with the day total beside the title.',
+  },
+  {
+    slug: 'schedule',
+    page: 1,
+    name: 'Schedule 01',
+    category: 'App',
+    file: 'UpcomingPayments',
+    Component: UpcomingPayments,
+    description: 'Calendar over a dated list of what is due.',
+  },
+  {
+    slug: 'social-links',
+    page: 1,
+    name: 'Social links 01',
+    category: 'App',
+    file: 'SocialLinks',
+    Component: SocialLinks,
+    description: 'Prefixed inputs, one per network.',
+  },
+  {
+    slug: 'explainer',
+    page: 2,
+    name: 'Explainer 01',
+    category: 'Marketing',
+    file: 'ExplainerCard',
+    Component: ExplainerCard,
+    description: 'Three ticked points and two ways on.',
   },
 ];
 
