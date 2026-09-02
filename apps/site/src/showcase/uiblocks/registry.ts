@@ -41,6 +41,13 @@ import { SignUp } from './blocks/SignUp';
 import { TopNavShell } from './blocks/TopNavShell';
 import { TwoFactor } from './blocks/TwoFactor';
 import { GoalRing } from './blocks/GoalRing';
+import { InvoiceDetail } from './blocks/InvoiceDetail';
+import { ShippingAddress } from './blocks/ShippingAddress';
+import { ProfileSettings } from './blocks/ProfileSettings';
+import { BookAppointment } from './blocks/BookAppointment';
+import { SleepReport } from './blocks/SleepReport';
+import { BrowserShare } from './blocks/BrowserShare';
+import { TrafficChannels } from './blocks/TrafficChannels';
 import { ContributionHeatmap } from './blocks/ContributionHeatmap';
 import { DevicePairing } from './blocks/DevicePairing';
 import { BalanceCard } from './blocks/BalanceCard';
@@ -488,6 +495,69 @@ export const UI_BLOCKS: UiBlock[] = [
     file: 'GoalRing',
     Component: GoalRing,
     description: 'A single-arc ring around the figure, with the facts behind it listed under.',
+  },
+  {
+    slug: 'invoice',
+    page: 2,
+    name: 'Invoice 01',
+    category: 'Commerce',
+    file: 'InvoiceDetail',
+    Component: InvoiceDetail,
+    description: 'Line items, subtotal, VAT and the two actions on an unpaid invoice.',
+  },
+  {
+    slug: 'shipping-address',
+    page: 2,
+    name: 'Shipping address 01',
+    category: 'Commerce',
+    file: 'ShippingAddress',
+    Component: ShippingAddress,
+    description: 'Two-column address form with a save-as-default checkbox.',
+  },
+  {
+    slug: 'profile',
+    page: 1,
+    name: 'Profile 01',
+    category: 'App',
+    file: 'ProfileSettings',
+    Component: ProfileSettings,
+    description: 'Name, public email and bio, each with the note that belongs to it.',
+  },
+  {
+    slug: 'book-appointment',
+    page: 1,
+    name: 'Appointment 01',
+    category: 'App',
+    file: 'BookAppointment',
+    Component: BookAppointment,
+    description: 'Time slots as a radio group, with the note a first visit needs.',
+  },
+  {
+    slug: 'sleep-report',
+    page: 1,
+    name: 'Sleep report 01',
+    category: 'App',
+    file: 'SleepReport',
+    Component: SleepReport,
+    description: 'Stacked phase bars over a four-figure summary.',
+  },
+  {
+    slug: 'share-donut',
+    page: 1,
+    name: 'Share donut 01',
+    category: 'App',
+    file: 'BrowserShare',
+    Component: BrowserShare,
+    description: 'Four-segment donut with the total in the middle and a legend.',
+  },
+  {
+    slug: 'traffic-channels',
+    page: 1,
+    name: 'Traffic channels 01',
+    category: 'App',
+    file: 'TrafficChannels',
+    Component: TrafficChannels,
+    description: 'Two series by month, with the figures that matter under them.',
   },
 ];
 
