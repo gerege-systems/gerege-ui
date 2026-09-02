@@ -26,13 +26,13 @@ import {
  * `#theme` — pick tokens in the panel, watch the wall, take the CSS away with
  * Get code.
  *
- * The panel is a sticky column at the right edge of the site's own container,
- * not a viewport-docked drawer. Docked to the viewport it left dead space on
- * wide screens — the wall stopped at the 1400px column while the panel sat at
- * the window edge — and nothing can close that gap while both are true. In the
- * container the two edges meet, the page still lines up with the top bar, and
- * the panel keeps the thing that mattered: its own scroll, so a menu opened
- * inside it never fights the page.
+ * The panel is docked to the viewport: flush right, starting under the sticky
+ * top bar, with its own scrollport so a menu opened inside it never fights the
+ * page. The wall then cannot also stop at the site's centred 1400px column —
+ * that combination is what left dead space between the two — so from xl the
+ * content drops the width cap and is padded by the panel's width instead. It
+ * runs edge to edge up to the panel; the trade is that on very wide screens
+ * the wall is wider than the top bar's column.
  *
  * The wall is wrapped in a `DesignSystemProvider` rather than writing to
  * `<html>`: the page's own chrome must keep the site theme so the two are
@@ -69,9 +69,10 @@ export function ThemePage() {
 
   return (
     <>
-      {/* Same column as the top bar and the footer: max-w-[1400px] px-6. */}
-      <div className="mx-auto flex w-full max-w-[1400px] items-start gap-6 px-6 py-8">
-        <div className="min-w-0 grow">
+      {/* Up to xl the page keeps the site's column; from xl the docked panel
+          owns the right edge, so the content is padded past it instead. */}
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:max-w-none xl:pr-[22rem]">
+        <div className="min-w-0">
           <header className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
             <div className="flex max-w-2xl flex-col gap-1.5">
               <h1 className="text-3xl font-semibold tracking-tight">Theme</h1>
@@ -121,21 +122,20 @@ export function ThemePage() {
             </DesignSystemProvider>
           </div>
         </div>
-
-        {/* Sticky from xl up; below that the same controls live in the Sheet.
-            `h-[calc(100dvh-…)]` gives it its own scrollport so a long rail
-            never drags the page with it. */}
-        <aside
-          aria-label="Theme controls"
-          className="border-border bg-card sticky top-[4.5rem] hidden h-[calc(100dvh-6rem)] w-80 shrink-0 overflow-y-auto rounded-lg border p-5 xl:block"
-        >
-          {controls}
-          <Button className="mt-5 w-full" onClick={() => setDialogOpen(true)}>
-            <FileText aria-hidden />
-            Get code
-          </Button>
-        </aside>
       </div>
+
+      {/* Docked from xl up; below that the same controls live in the Sheet.
+          top-14 clears the 56px sticky top bar. */}
+      <aside
+        aria-label="Theme controls"
+        className="border-border bg-card fixed top-14 right-0 bottom-0 z-[var(--z-sticky)] hidden w-80 overflow-y-auto border-l p-5 xl:block"
+      >
+        {controls}
+        <Button className="mt-5 w-full" onClick={() => setDialogOpen(true)}>
+          <FileText aria-hidden />
+          Get code
+        </Button>
+      </aside>
 
       <GetCodeDialog open={dialogOpen} onOpenChange={setDialogOpen} state={state} />
     </>
