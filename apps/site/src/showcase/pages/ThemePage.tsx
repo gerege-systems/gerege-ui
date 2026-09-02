@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { DesignSystemProvider } from '@/components/ui/DesignSystemProvider';
 import {
@@ -50,13 +50,27 @@ export function ThemePage() {
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
 
   // Keep the hash in step so the theme survives a reload and can be shared.
+  const written = useRef('');
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const next = `#theme${encodeState(state)}`;
+    written.current = next;
     if (window.location.hash !== next) {
       window.history.replaceState(null, '', next);
     }
   }, [state]);
+
+  // …and read it back when it changes from outside — pasting a shared theme
+  // link while already on this page used to do nothing, because the state was
+  // only ever decoded on mount and the effect above then overwrote the hash.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onHash = () => {
+      if (window.location.hash !== written.current) setState(decodeState(window.location.hash));
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
 
   const patch = useCallback((p: Partial<ThemeState>) => setState((s) => ({ ...s, ...p })), []);
   const reset = useCallback(() => setState(DEFAULT_STATE), []);
