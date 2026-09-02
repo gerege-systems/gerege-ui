@@ -18,67 +18,52 @@ export interface NamedPreset {
   name: string;
   label: string;
   hint: string;
-  /** Small swatch shown in the trigger and the menu. */
+  /**
+   * Colour swatch for the colour dropdowns; for Style it is a radius value,
+   * drawn as a rounded square — a colour dot there would suggest Style moves
+   * colour, which it deliberately does not.
+   */
   swatch: string;
   tokens: Bundle;
 }
 
 /* ------------------------------------------------------------------ style -- */
 
-/** Radius + type + spacing. The lever that changes the look the most. */
+/** Radius + type + spacing. Shape only: colour belongs to the other three
+ *  dropdowns, so nothing here touches a colour token. */
 export const STYLES: NamedPreset[] = [
   {
     name: 'nova',
     label: 'Nova',
     hint: 'Library default — 6px radius, 14px base',
-    swatch: 'hsl(238 50% 49%)',
+    swatch: '6px',
     tokens: { light: {} },
   },
   {
     name: 'vega',
     label: 'Vega',
-    hint: 'Square and structural — 0px radius, hard borders',
-    swatch: 'hsl(215 20% 45%)',
+    hint: 'Square — no radius anywhere',
+    swatch: '0px',
     tokens: {
       light: {
         'radius-sm': '0px',
         'radius-md': '0px',
         'radius-lg': '0px',
         'radius-xl': '0px',
-        border: 'hsl(215 20% 80%)',
-        'border-strong': 'hsl(215 18% 62%)',
-      },
-      dark: {
-        'radius-sm': '0px',
-        'radius-md': '0px',
-        'radius-lg': '0px',
-        'radius-xl': '0px',
-        border: 'hsl(215 20% 28%)',
-        'border-strong': 'hsl(215 18% 40%)',
       },
     },
   },
   {
     name: 'maia',
     label: 'Maia',
-    hint: 'Soft — 12px radius, light borders',
-    swatch: 'hsl(200 45% 55%)',
+    hint: 'Soft — 12px controls, 16px cards',
+    swatch: '12px',
     tokens: {
       light: {
         'radius-sm': '8px',
         'radius-md': '12px',
         'radius-lg': '16px',
         'radius-xl': '24px',
-        border: 'hsl(214 32% 94%)',
-        'border-strong': 'hsl(214 30% 88%)',
-      },
-      dark: {
-        'radius-sm': '8px',
-        'radius-md': '12px',
-        'radius-lg': '16px',
-        'radius-xl': '24px',
-        border: 'hsl(217 33% 15%)',
-        'border-strong': 'hsl(215 25% 24%)',
       },
     },
   },
@@ -86,7 +71,7 @@ export const STYLES: NamedPreset[] = [
     name: 'lyra',
     label: 'Lyra',
     hint: 'Pill — controls fully rounded',
-    swatch: 'hsl(330 45% 55%)',
+    swatch: '9999px',
     tokens: {
       light: {
         'radius-sm': '9999px',
@@ -100,7 +85,7 @@ export const STYLES: NamedPreset[] = [
     name: 'mira',
     label: 'Mira',
     hint: 'Dense — 13px base, tight spacing (ERP)',
-    swatch: 'hsl(160 40% 40%)',
+    swatch: '4px',
     tokens: {
       light: {
         'radius-sm': '3px',
@@ -121,7 +106,7 @@ export const STYLES: NamedPreset[] = [
     name: 'luma',
     label: 'Luma',
     hint: 'Airy — 15px base, wide spacing',
-    swatch: 'hsl(45 70% 50%)',
+    swatch: '10px',
     tokens: {
       light: {
         'radius-sm': '8px',
@@ -140,54 +125,30 @@ export const STYLES: NamedPreset[] = [
   {
     name: 'sera',
     label: 'Sera',
-    hint: 'High contrast — for hard viewing conditions',
-    swatch: 'hsl(222 47% 11%)',
+    hint: 'Editorial — bigger headings, normal controls',
+    swatch: '6px',
     tokens: {
       light: {
-        'radius-sm': '3px',
-        'radius-md': '4px',
-        'radius-lg': '6px',
-        'radius-xl': '10px',
-        foreground: 'hsl(222 60% 6%)',
-        'foreground-muted': 'hsl(215 30% 22%)',
-        'foreground-subtle': 'hsl(215 25% 32%)',
-        border: 'hsl(215 25% 68%)',
-        'border-strong': 'hsl(215 25% 45%)',
-        'border-input': 'hsl(215 25% 40%)',
-      },
-      dark: {
-        foreground: 'hsl(0 0% 100%)',
-        'foreground-muted': 'hsl(210 30% 92%)',
-        'foreground-subtle': 'hsl(210 25% 80%)',
-        border: 'hsl(215 20% 35%)',
-        'border-strong': 'hsl(215 20% 52%)',
-        'border-input': 'hsl(215 20% 58%)',
+        'text-lg': '1.0625rem',
+        'text-xl': '1.25rem',
+        'text-2xl': '1.625rem',
+        'text-3xl': '2.125rem',
       },
     },
   },
   {
     name: 'rhea',
     label: 'Rhea',
-    hint: 'Quiet — light borders, softer text',
-    swatch: 'hsl(215 16% 70%)',
+    hint: 'Quiet — smaller labels, 8px radius',
+    swatch: '8px',
     tokens: {
       light: {
         'radius-sm': '6px',
         'radius-md': '8px',
         'radius-lg': '10px',
         'radius-xl': '14px',
-        foreground: 'hsl(222 22% 20%)',
-        'foreground-muted': 'hsl(215 14% 42%)',
-        'foreground-subtle': 'hsl(215 12% 52%)',
-        border: 'hsl(214 25% 93%)',
-        'border-strong': 'hsl(214 22% 87%)',
-      },
-      dark: {
-        foreground: 'hsl(210 25% 92%)',
-        'foreground-muted': 'hsl(213 18% 76%)',
-        'foreground-subtle': 'hsl(215 14% 60%)',
-        border: 'hsl(217 25% 15%)',
-        'border-strong': 'hsl(215 20% 23%)',
+        'text-xs': '0.6875rem',
+        'text-sm': '0.75rem',
       },
     },
   },

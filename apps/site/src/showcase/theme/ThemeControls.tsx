@@ -69,6 +69,14 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         list={STYLES}
         value={state.style}
         onValue={(v) => onChange({ style: v, radius: null })}
+        preview={(p) => (
+          // A radius square, not a colour dot: Style moves shape and type only.
+          <span
+            aria-hidden
+            className="border-foreground-subtle size-4 border-2"
+            style={{ borderRadius: p.swatch }}
+          />
+        )}
       />
 
       <PresetSelect
