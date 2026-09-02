@@ -105,7 +105,7 @@ export function BlocksIndexPage() {
           }
         />
       ) : (
-        <div className="grid items-start gap-6 lg:grid-cols-2">
+        <div className="grid items-start gap-6 lg:grid-cols-2 [&>*]:min-w-0">
           {matches.map((b) => (
             <section key={b.slug} className="flex flex-col gap-3">
               {/* Stacks below sm: the title plus two actions do not fit 375px. */}

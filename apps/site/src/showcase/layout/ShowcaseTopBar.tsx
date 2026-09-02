@@ -74,12 +74,14 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        {/* min-w-0 + shrink: at 768 the search field and the switchers ran
+            past the page instead of giving way. */}
+        <div className="ml-auto flex min-w-0 shrink items-center gap-2">
           <button
             type="button"
             onClick={onOpenPalette}
             aria-label={`Search (${mod.label}+K)`}
-            className="border-border-input bg-card text-foreground-subtle hover:border-border-strong hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-8 w-44 items-center gap-2 rounded-md border pr-1.5 pl-2.5 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:flex lg:w-56"
+            className="border-border-input bg-card text-foreground-subtle hover:border-border-strong hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-8 w-44 shrink items-center gap-2 rounded-md border pr-1.5 pl-2.5 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 lg:flex lg:w-56"
           >
             <Search className="size-4 shrink-0" aria-hidden />
             <span className="flex-1 truncate text-left text-xs">Search docs…</span>
