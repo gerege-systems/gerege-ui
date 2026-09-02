@@ -281,6 +281,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'topnav-shell',
+    wall: false,
     wide: true,
     name: 'Top nav shell 01',
     category: 'App',
@@ -330,6 +331,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'pricing-table',
+    wall: false,
     wide: true,
     name: 'Pricing 02 — table',
     category: 'Marketing',
