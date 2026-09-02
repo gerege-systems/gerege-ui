@@ -54,6 +54,11 @@ export function ThemePage() {
   const written = useRef('');
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // Only ever write over a theme hash. Without this guard, navigating away
+    // (to #blocks, say) would be undone: the listener below decodes the new
+    // hash into default state, that state change runs this effect, and it
+    // rewrites #theme — putting you straight back on this page.
+    if (!window.location.hash.startsWith('#theme')) return;
     const next = `#theme${encodeState(state)}`;
     written.current = next;
     if (window.location.hash !== next) {
@@ -67,7 +72,9 @@ export function ThemePage() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const onHash = () => {
-      if (window.location.hash !== written.current) setState(decodeState(window.location.hash));
+      const hash = window.location.hash;
+      if (!hash.startsWith('#theme')) return; // navigating away is not our business
+      if (hash !== written.current) setState(decodeState(hash));
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
