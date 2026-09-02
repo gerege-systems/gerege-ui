@@ -146,7 +146,9 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
   const overflow = selected.length - visibleChips.length;
 
   return (
-    <div ref={ref} className={cn('flex flex-col gap-1.5', className)}>
+    // min-w-0: as a grid or flex child the trigger's chips would otherwise
+    // set a min-content width and push the field past its column.
+    <div ref={ref} className={cn('flex min-w-0 flex-col gap-1.5', className)}>
       {label && (
         <label
           id={`${fieldId}-label`}

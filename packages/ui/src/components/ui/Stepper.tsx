@@ -78,7 +78,10 @@ export const Stepper = forwardRef<HTMLOListElement, StepperProps>(function Stepp
             aria-current={state === 'current' ? 'step' : undefined}
             className={cn(
               orientation === 'horizontal'
-                ? 'flex flex-1 items-center gap-3 last:flex-initial'
+                ? // min-w-0: a flex item will not shrink below its content, so
+                  // without this the titles push the row past its container and
+                  // the last one is clipped on a narrow screen.
+                  'flex min-w-0 flex-1 items-center gap-3 last:flex-initial'
                 : 'flex items-start gap-3',
             )}
           >
@@ -113,9 +116,10 @@ export const Stepper = forwardRef<HTMLOListElement, StepperProps>(function Stepp
             <div className={cn('flex flex-col', orientation === 'horizontal' && 'min-w-0')}>
               <span
                 className={cn(
-                  'text-sm font-medium',
+                  'truncate text-sm font-medium',
                   state === 'upcoming' ? 'text-foreground-subtle' : 'text-foreground',
                 )}
+                title={typeof step.title === 'string' ? step.title : undefined}
               >
                 {step.title}
                 <span className="sr-only">, {stateLabels[state]}</span>

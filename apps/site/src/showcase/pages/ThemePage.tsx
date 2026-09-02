@@ -69,10 +69,12 @@ export function ThemePage() {
 
   return (
     <>
-      {/* Up to xl the page keeps the site's column; from xl the docked panel
-          owns the right edge, so the content is padded past it instead. */}
-      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:max-w-none xl:pr-[22rem]">
-        <div className="min-w-0">
+      {/* The panel owns the right edge of the window, so the page column is
+          centred in what is left of it rather than in the whole window. Same
+          container as every other page — max-w-[1400px] px-6 — and the margin
+          either side of it stays even instead of piling up next to the panel. */}
+      <div className="xl:pr-80">
+        <div className="mx-auto w-full max-w-[1400px] px-6 py-8">
           <header className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
             <div className="flex max-w-2xl flex-col gap-1.5">
               <h1 className="text-3xl font-semibold tracking-tight">Theme</h1>
@@ -125,10 +127,12 @@ export function ThemePage() {
       </div>
 
       {/* Docked from xl up; below that the same controls live in the Sheet.
-          top-14 clears the 56px sticky top bar. */}
+          Full height and above the sticky top bar (--z-overlay > --z-sticky),
+          so the panel reads as one surface rather than a strip beneath the
+          site chrome. */}
       <aside
         aria-label="Theme controls"
-        className="border-border bg-card fixed top-14 right-0 bottom-0 z-[var(--z-sticky)] hidden w-80 overflow-y-auto border-l p-5 xl:block"
+        className="border-border bg-card fixed inset-y-0 right-0 z-[var(--z-overlay)] hidden w-80 overflow-y-auto border-l p-5 xl:block"
       >
         {controls}
         <Button className="mt-5 w-full" onClick={() => setDialogOpen(true)}>

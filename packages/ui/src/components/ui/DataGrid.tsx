@@ -170,7 +170,9 @@ export function DataGrid<TRow extends { id: string | number }>({
 
   return (
     <div className={cn('flex flex-col gap-3', className)}>
-      <div className="flex items-center justify-between gap-2">
+      {/* wrap + min-w-0: search and the column toggle do not fit side by side
+          on a phone, and without min-w-0 the row widens its grid column. */}
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-2">
         {filter ? (
           <Input
             type="search"
