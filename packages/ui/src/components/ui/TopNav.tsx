@@ -41,6 +41,7 @@ export const TopNav = forwardRef<HTMLElement, TopNavProps>(function TopNav(
   const strings = useStrings();
   return (
     <header
+      data-slot="top-nav"
       ref={ref}
       className={cn(
         'sticky top-0 z-[var(--z-sticky)] flex h-14 w-full items-center gap-4',

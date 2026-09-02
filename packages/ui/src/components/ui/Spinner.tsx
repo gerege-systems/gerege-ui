@@ -40,6 +40,7 @@ export const Spinner = forwardRef<SVGSVGElement, SpinnerProps>(function Spinner(
   const strings = useStrings();
   return (
     <svg
+      data-slot="spinner"
       ref={ref}
       viewBox="0 0 24 24"
       role={decorative ? undefined : 'status'}

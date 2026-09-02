@@ -99,6 +99,7 @@ export const SheetContent = forwardRef<
     <SheetPortal>
       <SheetOverlay />
       <DialogPrimitive.Content
+        data-slot="sheet-content"
         ref={ref}
         className={cn(sheet({ side }), className)}
         onCloseAutoFocus={withReturnFocus(returnFocusTo, onCloseAutoFocus)}

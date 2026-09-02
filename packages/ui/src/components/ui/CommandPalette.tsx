@@ -28,6 +28,7 @@ export const Command = forwardRef<
 >(function Command({ className, ...props }, ref) {
   return (
     <CommandPrimitive
+      data-slot="command"
       ref={ref}
       className={cn(
         'bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-lg',

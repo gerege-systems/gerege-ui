@@ -26,6 +26,7 @@ export const DialogOverlay = forwardRef<
 >(function DialogOverlay({ className, ...props }, ref) {
   return (
     <DialogPrimitive.Overlay
+      data-slot="dialog-overlay"
       ref={ref}
       className={cn(
         'bg-overlay fixed inset-0 z-[var(--z-overlay)]',
@@ -68,6 +69,7 @@ export const DialogContent = forwardRef<
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Content
+        data-slot="dialog-content"
         ref={ref}
         onCloseAutoFocus={withReturnFocus(returnFocusTo, onCloseAutoFocus)}
         className={cn(

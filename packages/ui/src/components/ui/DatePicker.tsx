@@ -173,6 +173,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(function D
     <div ref={ref} className={cn(className)}>
       <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
         <PickerTrigger
+          data-slot="date-picker"
           label={label}
           placeholder={placeholder}
           hasValue={Boolean(value)}

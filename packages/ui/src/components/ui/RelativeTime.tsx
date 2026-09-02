@@ -55,6 +55,7 @@ export const RelativeTime = forwardRef<HTMLTimeElement, RelativeTimeProps>(funct
 
   return (
     <time
+      data-slot="relative-time"
       ref={ref}
       dateTime={Number.isNaN(d.getTime()) ? undefined : d.toISOString()}
       title={title}

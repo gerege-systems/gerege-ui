@@ -107,6 +107,7 @@ export function Calendar({
 
   return (
     <DayPicker
+      data-slot="calendar"
       showOutsideDays
       weekStartsOn={weekStartsOn}
       captionLayout={captionLayout}

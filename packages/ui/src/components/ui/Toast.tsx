@@ -23,6 +23,7 @@ export const ToastViewport = forwardRef<
   const strings = useStrings();
   return (
     <ToastPrimitive.Viewport
+      data-slot="toast-viewport"
       ref={ref}
       // Radix's default is "Notifications ({hotkey})" — route it through the
       // strings so the region landmark is localised like the rest.

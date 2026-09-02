@@ -48,6 +48,7 @@ export const Progress = forwardRef<ElementRef<typeof ProgressPrimitive.Root>, Pr
     const pct = (clamped / safeMax) * 100;
     return (
       <ProgressPrimitive.Root
+        data-slot="progress"
         ref={ref}
         value={indeterminate ? undefined : clamped}
         max={safeMax}

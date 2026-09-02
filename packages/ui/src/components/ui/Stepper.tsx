@@ -61,6 +61,7 @@ export const Stepper = forwardRef<HTMLOListElement, StepperProps>(function Stepp
   };
   return (
     <ol
+      data-slot="stepper"
       ref={ref}
       aria-label={ariaLabel ?? strings.stepper.label}
       className={cn(

@@ -67,6 +67,7 @@ export const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>(function Snack
       {action}
       {onClose && (
         <button
+          data-slot="snackbar"
           type="button"
           onClick={onClose}
           aria-label={strings.snackbar.dismiss}

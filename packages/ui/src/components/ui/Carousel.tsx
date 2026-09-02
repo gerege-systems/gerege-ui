@@ -127,6 +127,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(function Carou
 
   return (
     <CarouselContext.Provider
+      data-slot="carousel"
       value={{
         carouselRef,
         api,

@@ -151,6 +151,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
     <div ref={ref} className={cn('flex min-w-0 flex-col gap-1.5', className)}>
       {label && (
         <label
+          data-slot="multi-select"
           id={`${fieldId}-label`}
           htmlFor={fieldId}
           className="text-foreground text-sm font-medium"

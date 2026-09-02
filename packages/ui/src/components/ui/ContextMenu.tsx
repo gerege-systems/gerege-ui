@@ -53,6 +53,7 @@ export const ContextMenuSubTrigger = forwardRef<
 >(function ContextMenuSubTrigger({ className, inset, children, ...props }, ref) {
   return (
     <ContextMenuPrimitive.SubTrigger
+      data-slot="context-menu-sub-trigger"
       ref={ref}
       className={cn(
         itemClasses,
@@ -96,6 +97,7 @@ export const ContextMenuContent = forwardRef<
   return (
     <ContextMenuPortal>
       <ContextMenuPrimitive.Content
+        data-slot="context-menu-content"
         ref={ref}
         className={cn(
           'border-border bg-popover text-popover-foreground z-[var(--z-popover)] min-w-[12rem] overflow-hidden rounded-lg border p-1 shadow-md',

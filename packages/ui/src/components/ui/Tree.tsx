@@ -218,6 +218,7 @@ export const Tree = forwardRef<HTMLUListElement, TreeProps>(function Tree(props,
 
     return (
       <li
+        data-slot="tree"
         key={node.id}
         ref={(el) => {
           if (el) itemRefs.current.set(node.id, el);

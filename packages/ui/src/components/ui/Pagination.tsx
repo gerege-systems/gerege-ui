@@ -132,6 +132,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
 
   return (
     <nav
+      data-slot="pagination"
       ref={ref}
       aria-label={ariaLabel ?? labels.nav}
       className={cn('flex flex-wrap items-center justify-between gap-3', className)}

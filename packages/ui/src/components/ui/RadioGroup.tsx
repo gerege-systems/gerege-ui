@@ -19,6 +19,7 @@ export const RadioGroup = forwardRef<ElementRef<typeof RadioGroupPrimitive.Root>
   function RadioGroup({ className, orientation = 'vertical', ...props }, ref) {
     return (
       <RadioGroupPrimitive.Root
+        data-slot="radio-group"
         ref={ref}
         orientation={orientation}
         className={cn(

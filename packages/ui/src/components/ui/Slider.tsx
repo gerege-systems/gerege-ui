@@ -97,6 +97,7 @@ export const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, Slider
         )}
 
         <SliderPrimitive.Root
+          data-slot="slider"
           ref={ref}
           value={value}
           defaultValue={defaultValue}

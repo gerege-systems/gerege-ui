@@ -48,6 +48,7 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skele
   if (!show) return null;
   return (
     <div
+      data-slot="skeleton"
       ref={ref}
       aria-hidden
       className={cn(

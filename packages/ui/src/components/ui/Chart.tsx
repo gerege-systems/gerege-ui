@@ -457,6 +457,7 @@ function Frame({
             <div ref={plotRef} className="min-w-0 flex-1">
               {/* role=group (not img): series inside are focusable and carry their own labels. */}
               <svg
+                data-slot="chart"
                 viewBox={`0 0 ${plotW} ${height}`}
                 width={plotW}
                 height={height}

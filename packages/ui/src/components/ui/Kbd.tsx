@@ -24,6 +24,7 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
 ) {
   return (
     <kbd
+      data-slot="kbd"
       ref={ref}
       className={cn(
         'border-border bg-background-subtle inline-flex items-center justify-center rounded-sm border font-mono',

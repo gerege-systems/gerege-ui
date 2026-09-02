@@ -45,6 +45,7 @@ export const DrawerOverlay = forwardRef<
 >(function DrawerOverlay({ className, ...props }, ref) {
   return (
     <DrawerPrimitive.Overlay
+      data-slot="drawer-overlay"
       ref={ref}
       className={cn('bg-overlay fixed inset-0 z-[var(--z-overlay)]', className)}
       {...props}
@@ -117,6 +118,7 @@ export const DrawerContent = forwardRef<
     <DrawerPortal>
       <DrawerOverlay />
       <DrawerPrimitive.Content
+        data-slot="drawer-content"
         ref={ref}
         onCloseAutoFocus={withReturnFocus(returnFocusTo, onCloseAutoFocus)}
         className={cn(

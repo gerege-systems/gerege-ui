@@ -21,6 +21,7 @@ export const Separator = forwardRef<
 >(function Separator({ className, orientation = 'horizontal', decorative = true, ...props }, ref) {
   return (
     <SeparatorPrimitive.Root
+      data-slot="separator"
       ref={ref}
       orientation={orientation}
       decorative={decorative}

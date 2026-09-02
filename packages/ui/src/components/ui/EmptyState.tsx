@@ -67,6 +67,7 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(function E
 ) {
   return (
     <div
+      data-slot="empty-state"
       ref={ref}
       className={cn(
         'border-border bg-background-subtle flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed p-10 text-center',

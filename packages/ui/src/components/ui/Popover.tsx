@@ -16,6 +16,7 @@ export const PopoverContent = forwardRef<
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
+        data-slot="popover-content"
         ref={ref}
         align={align}
         sideOffset={sideOffset}

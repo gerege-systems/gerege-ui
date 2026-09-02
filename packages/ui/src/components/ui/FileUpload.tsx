@@ -116,6 +116,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
   return (
     <div ref={ref} className={cn('flex flex-col gap-3', className)}>
       <label
+        data-slot="file-upload"
         htmlFor={inputId}
         onDragEnter={() => {
           dragDepth.current += 1;

@@ -31,6 +31,7 @@ export const TooltipContent = forwardRef<
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
+        data-slot="tooltip-content"
         ref={ref}
         sideOffset={sideOffset}
         className={cn(

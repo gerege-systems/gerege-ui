@@ -28,6 +28,7 @@ export const ScrollArea = forwardRef<ElementRef<typeof ScrollAreaPrimitive.Root>
     const strings = useStrings();
     return (
       <ScrollAreaPrimitive.Root
+        data-slot="scroll-area"
         ref={ref}
         className={cn('relative overflow-hidden', className)}
         {...props}

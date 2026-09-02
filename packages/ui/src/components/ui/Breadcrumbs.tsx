@@ -59,6 +59,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
 
   return (
     <nav
+      data-slot="breadcrumbs"
       ref={ref}
       aria-label={ariaLabel ?? strings.breadcrumbs.label}
       className={cn('text-sm', className)}

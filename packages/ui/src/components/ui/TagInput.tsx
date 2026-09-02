@@ -109,6 +109,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(function TagIn
     <div ref={ref} className={cn('flex flex-col gap-1.5', className)}>
       {label && (
         <label
+          data-slot="tag-input"
           htmlFor={fieldId}
           className={cn('text-foreground text-sm font-medium', hideLabel && 'sr-only')}
         >

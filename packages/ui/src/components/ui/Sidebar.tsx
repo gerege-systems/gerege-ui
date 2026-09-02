@@ -87,6 +87,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   return (
     <SidebarContext.Provider value={{ collapsed }}>
       <nav
+        data-slot="sidebar"
         ref={ref}
         aria-label={ariaLabel ?? strings.sidebar.label}
         className={cn(

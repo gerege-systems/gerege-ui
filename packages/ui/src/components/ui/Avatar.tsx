@@ -72,6 +72,7 @@ export const Avatar = forwardRef<ElementRef<typeof AvatarPrimitive.Root>, Avatar
     return (
       <span className={cn(avatarWrapper({ size }), className)}>
         <AvatarPrimitive.Root
+          data-slot="avatar"
           ref={ref}
           className="bg-background-muted text-foreground-muted block size-full overflow-hidden rounded-full"
           {...props}

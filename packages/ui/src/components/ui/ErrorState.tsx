@@ -99,6 +99,7 @@ export const ErrorState = forwardRef<HTMLDivElement, ErrorStateProps>(function E
   const preset = presets(strings)[variant];
   return (
     <div
+      data-slot="error-state"
       ref={ref}
       className={cn(
         'border-border bg-background-subtle flex flex-col items-center justify-center gap-3 rounded-lg border p-10 text-center',

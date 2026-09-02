@@ -37,6 +37,7 @@ export const DropdownMenuSubTrigger = forwardRef<
 >(function DropdownMenuSubTrigger({ className, inset, children, ...props }, ref) {
   return (
     <DropdownMenuPrimitive.SubTrigger
+      data-slot="dropdown-menu-sub-trigger"
       ref={ref}
       className={cn(
         itemClasses,
@@ -83,6 +84,7 @@ export const DropdownMenuContent = forwardRef<
   return (
     <DropdownMenuPortal>
       <DropdownMenuPrimitive.Content
+        data-slot="dropdown-menu-content"
         ref={ref}
         sideOffset={sideOffset}
         align={align}
