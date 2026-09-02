@@ -40,6 +40,7 @@ import { SignInSplit } from './blocks/SignInSplit';
 import { SignUp } from './blocks/SignUp';
 import { TopNavShell } from './blocks/TopNavShell';
 import { TwoFactor } from './blocks/TwoFactor';
+import { GoalRing } from './blocks/GoalRing';
 import { ContributionHeatmap } from './blocks/ContributionHeatmap';
 import { DevicePairing } from './blocks/DevicePairing';
 import { BalanceCard } from './blocks/BalanceCard';
@@ -478,6 +479,15 @@ export const UI_BLOCKS: UiBlock[] = [
     file: 'ExplainerCard',
     Component: ExplainerCard,
     description: 'Three ticked points and two ways on.',
+  },
+  {
+    slug: 'goal-ring',
+    page: 1,
+    name: 'Goal ring 01',
+    category: 'App',
+    file: 'GoalRing',
+    Component: GoalRing,
+    description: 'A single-arc ring around the figure, with the facts behind it listed under.',
   },
 ];
 
