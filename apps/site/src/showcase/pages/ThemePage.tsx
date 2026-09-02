@@ -12,6 +12,7 @@ import {
 import { FileText, Settings, Sparkles } from '@/icons';
 import { GetCodeDialog } from '../theme/GetCodeDialog';
 import { ThemeControls } from '../theme/ThemeControls';
+import { FONTS, MONO_FONTS, findFont, googleFontsUrl } from '../theme/fonts';
 import { BLOCK_COUNT, ThemePreviewWall } from '../theme/ThemePreviewWall';
 import {
   DEFAULT_STATE,
@@ -71,6 +72,30 @@ export function ThemePage() {
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
+
+  // Pull the chosen families in on demand — the page ships with Geist only, and
+  // a theme is not judgeable in a fallback face.
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const url = googleFontsUrl([
+      findFont(FONTS, state.fontSans).google,
+      findFont(FONTS, state.fontHeading).google,
+      findFont(MONO_FONTS, state.fontMono).google,
+    ]);
+    const id = 'theme-editor-fonts';
+    const existing = document.getElementById(id) as HTMLLinkElement | null;
+    if (!url) {
+      existing?.remove();
+      return;
+    }
+    const link = existing ?? document.createElement('link');
+    if (!existing) {
+      link.id = id;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+    if (link.href !== url) link.href = url;
+  }, [state.fontSans, state.fontHeading, state.fontMono]);
 
   const patch = useCallback((p: Partial<ThemeState>) => setState((s) => ({ ...s, ...p })), []);
   const reset = useCallback(() => setState(DEFAULT_STATE), []);

@@ -13,10 +13,10 @@ import {
   hexToOklch,
   oklchToHex,
   radiusScale,
-  type FontChoice,
   type ThemeState,
 } from './editor-model';
 import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset, type NamedPreset } from './presets';
+import { FONTS, MONO_FONTS, findFont, type FontChoice } from './fonts';
 
 const HUES = Array.from({ length: 12 }, (_, i) => i * 30);
 const RADII: { value: number; label: string }[] = [
@@ -245,32 +245,29 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         )}
       </section>
 
-      <section className="flex flex-col gap-2.5">
-        <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold">Font</h3>
-          {(state.fontSans !== DEFAULT_STATE.fontSans ||
-            state.fontMono !== DEFAULT_STATE.fontMono) && (
-            <span aria-hidden className="bg-accent size-1.5 rounded-full" />
-          )}
-        </div>
-        <FontPicker
-          label="Sans"
-          value={state.fontSans}
-          custom={state.customSans}
-          onValue={(v) => onChange({ fontSans: v })}
-          onCustom={(v) => onChange({ customSans: v })}
-        />
-        <FontPicker
-          label="Mono"
-          value={state.fontMono}
-          custom={state.customMono}
-          onValue={(v) => onChange({ fontMono: v })}
-          onCustom={(v) => onChange({ customMono: v })}
-        />
-        <p className="text-foreground-subtle text-xs">
-          A custom family is yours to load — only Geist is loaded on this page.
-        </p>
-      </section>
+      <Separator />
+
+      <FontSelect
+        label="Font"
+        list={FONTS}
+        value={state.fontSans}
+        changed={state.fontSans !== DEFAULT_STATE.fontSans}
+        onValue={(v) => onChange({ fontSans: v })}
+      />
+      <FontSelect
+        label="Heading"
+        list={FONTS}
+        value={state.fontHeading}
+        changed={state.fontHeading !== DEFAULT_STATE.fontHeading}
+        onValue={(v) => onChange({ fontHeading: v })}
+      />
+      <FontSelect
+        label="Mono"
+        list={MONO_FONTS}
+        value={state.fontMono}
+        changed={state.fontMono !== DEFAULT_STATE.fontMono}
+        onValue={(v) => onChange({ fontMono: v })}
+      />
     </div>
   );
 }
@@ -374,38 +371,46 @@ function ContrastLine({ mode, ratio, passes }: { mode: string; ratio: number; pa
   );
 }
 
-function FontPicker({
+/** A font dropdown that says whether the family covers Cyrillic. */
+function FontSelect({
   label,
+  list,
   value,
-  custom,
+  changed,
   onValue,
-  onCustom,
 }: {
   label: string;
-  value: FontChoice;
-  custom: string;
-  onValue: (v: FontChoice) => void;
-  onCustom: (v: string) => void;
+  list: FontChoice[];
+  value: string;
+  changed: boolean;
+  onValue: (v: string) => void;
 }) {
+  const active = findFont(list, value);
   return (
-    <div className="flex flex-col gap-2">
-      <Select value={value} onValueChange={(v) => onValue(v as FontChoice)}>
-        <SelectTrigger size="sm" aria-label={`${label} font`} />
+    <section className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <h3 className="text-sm font-semibold">{label}</h3>
+        {changed && <span aria-hidden className="bg-accent size-1.5 rounded-full" />}
+        <span className="grow" />
+        <span aria-hidden className="text-lg leading-none" style={{ fontFamily: active.stack }}>
+          Aa
+        </span>
+      </div>
+      <Select value={value} onValueChange={onValue}>
+        <SelectTrigger aria-label={`${label} font`} />
         <SelectContent>
-          <SelectItem value="geist">{label === 'Sans' ? 'Geist' : 'Geist Mono'}</SelectItem>
-          <SelectItem value="system">System</SelectItem>
-          <SelectItem value="custom">Custom…</SelectItem>
+          {list.map((f) => (
+            <SelectItem key={f.name} value={f.name}>
+              {f.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
-      {value === 'custom' && (
-        <Input
-          aria-label={`${label} font family`}
-          placeholder="e.g. Inter"
-          value={custom}
-          maxLength={60}
-          onChange={(e) => onCustom(e.target.value)}
-        />
-      )}
-    </div>
+      <p className="text-foreground-subtle text-xs">
+        {active.cyrillic
+          ? 'Covers Cyrillic — Өө Үү render as themselves.'
+          : 'No Cyrillic subset: Өө Үү fall back to another face.'}
+      </p>
+    </section>
   );
 }

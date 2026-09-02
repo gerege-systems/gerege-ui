@@ -12,8 +12,7 @@
  */
 import type { BrandTokens } from '@/components/ui/DesignSystemProvider';
 import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset } from './presets';
-
-export type FontChoice = 'geist' | 'system' | 'custom';
+import { FONTS, MONO_FONTS, findFont, googleFontsUrl } from './fonts';
 
 export interface ThemeState {
   /** Accent lightness in light mode (OKLCH L). */
@@ -30,11 +29,12 @@ export interface ThemeState {
   chart: string;
   /** Explicit radius override in px; `null` follows the style. */
   radius: number | null;
-  fontSans: FontChoice;
-  fontMono: FontChoice;
-  /** Family name used when the matching choice is `custom`. */
-  customSans: string;
-  customMono: string;
+  /** Body family — a key into FONTS. */
+  fontSans: string;
+  /** Heading family; headings resolve through their own token. */
+  fontHeading: string;
+  /** Monospace family — a key into MONO_FONTS. */
+  fontMono: string;
 }
 
 /**
@@ -51,9 +51,8 @@ export const DEFAULT_STATE: ThemeState = {
   chart: 'default',
   radius: null,
   fontSans: 'geist',
-  fontMono: 'geist',
-  customSans: '',
-  customMono: '',
+  fontHeading: 'geist',
+  fontMono: 'geist-mono',
 };
 
 export const MAX_CHROMA = 0.2;
@@ -115,10 +114,6 @@ export const ACCENT_PRESETS: {
   { name: 'violet', label: 'Violet', hint: 'Between indigo and purple', l: 0.53, c: 0.2, h: 295 },
   { name: 'purple', label: 'Purple', hint: 'Deep magenta-violet', l: 0.5, c: 0.21, h: 312 },
 ];
-
-const SANS_STACK = "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
-const MONO_STACK =
-  "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace";
 
 /* ---------------------------------------------------------------- colour -- */
 
@@ -234,15 +229,6 @@ export function radiusScale(base: number): { sm: number; md: number; lg: number;
   return { sm: Math.max(2, base - 2), md: base, lg: base + 2, xl: base + 6 };
 }
 
-function fontValue(choice: FontChoice, custom: string, kind: 'sans' | 'mono'): string | null {
-  const stack = kind === 'sans' ? SANS_STACK : MONO_STACK;
-  if (choice === 'geist') return null; // the library default
-  if (choice === 'system') return stack;
-  const name = custom.trim();
-  if (!name) return null;
-  return `'${name.replace(/'/g, '')}', ${stack}`;
-}
-
 export function accentChanged(s: ThemeState): boolean {
   return (
     s.lightness !== DEFAULT_STATE.lightness ||
@@ -299,10 +285,13 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
     light['radius-xl'] = `${r.xl}px`;
   }
 
-  const sans = fontValue(s.fontSans, s.customSans, 'sans');
-  if (sans) light['font-sans'] = sans;
-  const mono = fontValue(s.fontMono, s.customMono, 'mono');
-  if (mono) light['font-mono'] = mono;
+  if (s.fontSans !== DEFAULT_STATE.fontSans) light['font-sans'] = findFont(FONTS, s.fontSans).stack;
+  if (s.fontHeading !== DEFAULT_STATE.fontHeading) {
+    light['font-heading'] = findFont(FONTS, s.fontHeading).stack;
+  }
+  if (s.fontMono !== DEFAULT_STATE.fontMono) {
+    light['font-mono'] = findFont(MONO_FONTS, s.fontMono).stack;
+  }
 
   return { light, dark };
 }
@@ -332,7 +321,16 @@ function block(selector: string, tokens: BrandTokens): string {
 export function generateCss(s: ThemeState, withImports: boolean): string {
   const { light, dark } = deriveTokens(s);
   const parts: string[] = [];
-  if (withImports) parts.push(IMPORTS);
+  const fontsUrl = googleFontsUrl([
+    s.fontSans !== DEFAULT_STATE.fontSans ? findFont(FONTS, s.fontSans).google : null,
+    s.fontHeading !== DEFAULT_STATE.fontHeading ? findFont(FONTS, s.fontHeading).google : null,
+    s.fontMono !== DEFAULT_STATE.fontMono ? findFont(MONO_FONTS, s.fontMono).google : null,
+  ]);
+  if (withImports) {
+    // The font import has to come first: CSS drops an @import that follows a
+    // rule, and the families must be there before the tokens name them.
+    parts.push(fontsUrl ? `@import url('${fontsUrl}');\n${IMPORTS}` : IMPORTS);
+  }
   if (!Object.keys(light).length && !Object.keys(dark).length) {
     parts.push('/* Nothing changed — the library defaults still apply. */');
     return parts.join('\n\n');
@@ -364,14 +362,11 @@ export function encodeState(s: ThemeState): string {
   if (s.chart !== DEFAULT_STATE.chart) p.set('ch', s.chart);
   if (s.radius !== null) p.set('r', String(s.radius));
   if (s.fontSans !== DEFAULT_STATE.fontSans) p.set('fs', s.fontSans);
+  if (s.fontHeading !== DEFAULT_STATE.fontHeading) p.set('fh', s.fontHeading);
   if (s.fontMono !== DEFAULT_STATE.fontMono) p.set('fm', s.fontMono);
-  if (s.customSans) p.set('cs', s.customSans);
-  if (s.customMono) p.set('cm', s.customMono);
   const q = p.toString();
   return q ? `?${q}` : '';
 }
-
-const isFont = (v: string): v is FontChoice => v === 'geist' || v === 'system' || v === 'custom';
 
 /** Read a state back out of a hash tail. Unknown or malformed values fall back. */
 export function decodeState(hash: string): ThemeState {
@@ -398,11 +393,13 @@ export function decodeState(hash: string): ThemeState {
     const v = p.get(key);
     if (v && list.some((x) => x.name === v)) s[field] = v;
   }
-  const fs = p.get('fs');
-  if (fs && isFont(fs)) s.fontSans = fs;
-  const fm = p.get('fm');
-  if (fm && isFont(fm)) s.fontMono = fm;
-  s.customSans = (p.get('cs') ?? '').slice(0, 60);
-  s.customMono = (p.get('cm') ?? '').slice(0, 60);
+  for (const [key, list, field] of [
+    ['fs', FONTS, 'fontSans'],
+    ['fh', FONTS, 'fontHeading'],
+    ['fm', MONO_FONTS, 'fontMono'],
+  ] as const) {
+    const v = p.get(key);
+    if (v && list.some((x) => x.name === v)) s[field] = v;
+  }
   return s;
 }
