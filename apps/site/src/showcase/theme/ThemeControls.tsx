@@ -19,7 +19,13 @@ import {
 import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset, type NamedPreset } from './presets';
 
 const HUES = Array.from({ length: 12 }, (_, i) => i * 30);
-const RADII = [0, 4, 6, 8, 12];
+const RADII: { value: number; label: string }[] = [
+  { value: 0, label: 'None' },
+  { value: 4, label: 'Small' },
+  { value: 6, label: 'Medium' },
+  { value: 10, label: 'Large' },
+  { value: 9999, label: 'Full' },
+];
 
 interface Props {
   state: ThemeState;
@@ -220,15 +226,15 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
           )}
         </div>
         <div className="grid grid-cols-5 gap-2">
-          {RADII.map((v) => (
+          {RADII.map((r) => (
             <Button
-              key={v}
+              key={r.value}
               size="sm"
-              variant={state.radius === v ? 'primary' : 'secondary'}
-              onClick={() => onChange({ radius: v })}
-              aria-pressed={state.radius === v}
+              variant={state.radius === r.value ? 'primary' : 'secondary'}
+              onClick={() => onChange({ radius: r.value })}
+              aria-pressed={state.radius === r.value}
             >
-              {v}
+              {r.label}
             </Button>
           ))}
         </div>

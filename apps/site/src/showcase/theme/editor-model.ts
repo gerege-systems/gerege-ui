@@ -68,11 +68,52 @@ export const ACCENT_PRESETS: {
   h: number;
 }[] = [
   { name: 'default', label: 'Indigo', hint: 'Library default', l: 0.457, c: 0.185, h: 274.5 },
-  { name: 'blue', label: 'Blue', hint: 'Cool, brighter blue', l: 0.55, c: 0.16, h: 250 },
-  { name: 'violet', label: 'Violet', hint: 'Violet', l: 0.53, c: 0.2, h: 295 },
-  { name: 'emerald', label: 'Emerald', hint: 'Green', l: 0.55, c: 0.13, h: 160 },
-  { name: 'rose', label: 'Rose', hint: 'Pink red', l: 0.55, c: 0.19, h: 15 },
-  { name: 'amber', label: 'Amber', hint: 'Amber', l: 0.56, c: 0.14, h: 65 },
+  {
+    name: 'neutral',
+    label: 'Neutral',
+    hint: 'Greyscale — the accent recedes',
+    l: 0.44,
+    c: 0.012,
+    h: 260,
+  },
+  {
+    name: 'red',
+    label: 'Red',
+    hint: 'Alarm-adjacent; keep destructive distinct',
+    l: 0.54,
+    c: 0.2,
+    h: 27,
+  },
+  { name: 'rose', label: 'Rose', hint: 'Pink red', l: 0.55, c: 0.19, h: 12 },
+  { name: 'orange', label: 'Orange', hint: 'Warm, high energy', l: 0.58, c: 0.16, h: 50 },
+  {
+    name: 'amber',
+    label: 'Amber',
+    hint: 'Golden; white text is borderline',
+    l: 0.56,
+    c: 0.14,
+    h: 70,
+  },
+  {
+    name: 'yellow',
+    label: 'Yellow',
+    hint: 'Darkened so white text still passes',
+    l: 0.57,
+    c: 0.13,
+    h: 95,
+  },
+  { name: 'green', label: 'Green', hint: 'Growth, confirmation', l: 0.53, c: 0.16, h: 148 },
+  { name: 'teal', label: 'Teal', hint: 'Cool green', l: 0.54, c: 0.12, h: 190 },
+  {
+    name: 'blue',
+    label: 'Blue',
+    hint: 'Cooler and brighter than indigo',
+    l: 0.55,
+    c: 0.18,
+    h: 245,
+  },
+  { name: 'violet', label: 'Violet', hint: 'Between indigo and purple', l: 0.53, c: 0.2, h: 295 },
+  { name: 'purple', label: 'Purple', hint: 'Deep magenta-violet', l: 0.5, c: 0.21, h: 312 },
 ];
 
 const SANS_STACK = "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
