@@ -12,8 +12,15 @@ import { UI_BLOCKS } from '../uiblocks/registry';
  * puts a different pair of blocks side by side, which is where mismatched
  * spacing and contrast actually show up.
  */
-export function ThemePreviewWall({ seed }: { seed: number }) {
-  const blocks = useMemo(() => shuffle(UI_BLOCKS, seed), [seed]);
+export function ThemePreviewWall({ seed, page }: { seed: number; page: 1 | 2 }) {
+  const blocks = useMemo(
+    () =>
+      shuffle(
+        UI_BLOCKS.filter((b) => b.page === page),
+        seed,
+      ),
+    [seed, page],
+  );
   return (
     <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
       {blocks.map(({ slug, Component, wide }) => (
@@ -47,3 +54,8 @@ function shuffle<T>(items: readonly T[], seed: number): T[] {
 
 /** Block count, for the page header. */
 export const BLOCK_COUNT = UI_BLOCKS.length;
+
+/** How many blocks a numbered page holds. */
+export function blocksOnPage(page: 1 | 2): number {
+  return UI_BLOCKS.filter((b) => b.page === page).length;
+}

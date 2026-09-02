@@ -56,12 +56,19 @@ export interface UiBlock {
    * viewport rather than the column they land in.
    */
   wide?: boolean;
+  /**
+   * Which numbered page of the theme wall a block belongs to. Thirty blocks at
+   * once is a wall to scroll past, not a thing to judge a theme by; two curated
+   * pages keep each one readable.
+   */
+  page: 1 | 2;
   Component: ComponentType;
 }
 
 export const UI_BLOCKS: UiBlock[] = [
   {
     slug: 'kpi-row',
+    page: 1,
     name: 'KPI row',
     category: 'App',
     file: 'Kpis',
@@ -70,6 +77,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'revenue-chart',
+    page: 1,
     name: 'Chart 01 — bars',
     category: 'App',
     file: 'RevenueChart',
@@ -78,6 +86,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sign-in',
+    page: 2,
     name: 'Sign in 01',
     category: 'Auth',
     file: 'SignIn',
@@ -86,6 +95,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'invoice-table',
+    page: 1,
     name: 'Invoice table',
     category: 'App',
     file: 'Invoices',
@@ -94,6 +104,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'notification-settings',
+    page: 1,
     name: 'Notification settings',
     category: 'App',
     file: 'Notifications',
@@ -102,6 +113,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'calendar',
+    page: 1,
     name: 'Calendar',
     category: 'App',
     file: 'CalendarCard',
@@ -110,6 +122,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'team-members',
+    page: 1,
     name: 'Team members',
     category: 'App',
     file: 'Team',
@@ -118,6 +131,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'element-strip',
+    page: 1,
     name: 'Element strip',
     category: 'App',
     file: 'Controls',
@@ -126,6 +140,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'plan-picker',
+    page: 2,
     name: 'Pricing 01 — picker',
     category: 'Marketing',
     file: 'Pricing',
@@ -134,6 +149,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'report-issue',
+    page: 1,
     name: 'Report an issue',
     category: 'App',
     file: 'ReportIssue',
@@ -142,6 +158,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'file-upload',
+    page: 1,
     name: 'File upload',
     category: 'App',
     file: 'Upload',
@@ -150,6 +167,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'onboarding-steps',
+    page: 1,
     name: 'Onboarding steps',
     category: 'App',
     file: 'Onboarding',
@@ -158,6 +176,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'faq',
+    page: 2,
     name: 'FAQ',
     category: 'Marketing',
     file: 'Faq',
@@ -166,6 +185,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'empty-state',
+    page: 1,
     name: 'Empty state',
     category: 'App',
     file: 'Empty',
@@ -174,6 +194,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'forbidden',
+    page: 1,
     name: 'Permission denied',
     category: 'App',
     file: 'Forbidden',
@@ -182,6 +203,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'search-box',
+    page: 1,
     name: 'Search box',
     category: 'App',
     file: 'CommandHint',
@@ -190,6 +212,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'activity-feed',
+    page: 1,
     name: 'Activity feed',
     category: 'App',
     file: 'Activity',
@@ -198,6 +221,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'usage-meters',
+    page: 1,
     name: 'Usage meters',
     category: 'App',
     file: 'Usage',
@@ -206,6 +230,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sign-in-split',
+    page: 2,
     name: 'Sign in 02 — split',
     category: 'Auth',
     file: 'SignInSplit',
@@ -214,6 +239,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sign-up',
+    page: 2,
     name: 'Sign up 01',
     category: 'Auth',
     file: 'SignUp',
@@ -222,6 +248,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'two-factor',
+    page: 2,
     name: 'Two-factor 01',
     category: 'Auth',
     file: 'TwoFactor',
@@ -230,6 +257,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sidebar-shell',
+    page: 1,
     wide: true,
     name: 'Sidebar shell 01',
     category: 'App',
@@ -239,6 +267,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'topnav-shell',
+    page: 2,
     wide: true,
     name: 'Top nav shell 01',
     category: 'App',
@@ -248,6 +277,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'dashboard-overview',
+    page: 1,
     name: 'Dashboard 01',
     category: 'App',
     file: 'DashboardOverview',
@@ -256,6 +286,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'line-trend',
+    page: 1,
     name: 'Chart 02 — lines',
     category: 'App',
     file: 'LineTrend',
@@ -264,6 +295,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'product-grid',
+    page: 2,
     name: 'Products 01',
     category: 'Commerce',
     file: 'ProductGrid',
@@ -272,6 +304,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'cart',
+    page: 2,
     name: 'Cart 01',
     category: 'Commerce',
     file: 'CartSummary',
@@ -280,6 +313,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'checkout',
+    page: 2,
     name: 'Checkout 01',
     category: 'Commerce',
     file: 'CheckoutSteps',
@@ -288,6 +322,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'pricing-table',
+    page: 2,
     wide: true,
     name: 'Pricing 02 — table',
     category: 'Marketing',
@@ -297,6 +332,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'hero',
+    page: 2,
     name: 'Hero 01',
     category: 'Marketing',
     file: 'HeroCta',

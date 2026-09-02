@@ -12,7 +12,7 @@ import {
 import { FileText, Settings, Sparkles } from '@/icons';
 import { GetCodeDialog } from '../theme/GetCodeDialog';
 import { ThemeControls } from '../theme/ThemeControls';
-import { BLOCK_COUNT, ThemePreviewWall } from '../theme/ThemePreviewWall';
+import { BLOCK_COUNT, ThemePreviewWall, blocksOnPage } from '../theme/ThemePreviewWall';
 import {
   DEFAULT_STATE,
   changedCount,
@@ -48,6 +48,7 @@ export function ThemePage() {
   // A different arrangement each visit: a fixed order teaches you the page
   // rather than the theme.
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
+  const [page, setPage] = useState<1 | 2>(1);
 
   // Keep the hash in step so the theme survives a reload and can be shared.
   useEffect(() => {
@@ -82,8 +83,8 @@ export function ThemePage() {
               <p className="text-foreground-muted text-sm">
                 Pick a style, base colour, accent and chart palette, then hit{' '}
                 <strong>Get code</strong>. Paste the snippet into one stylesheet and every component
-                follows — no component edits. The {BLOCK_COUNT} blocks below repaint on every
-                change.
+                follows — no component edits. The {blocksOnPage(page)} blocks below — {BLOCK_COUNT}{' '}
+                across both pages — repaint on every change.
               </p>
             </div>
             <div className="sm:grow" />
@@ -106,6 +107,29 @@ export function ThemePage() {
                   <div className="py-4">{controls}</div>
                 </SheetContent>
               </Sheet>
+              {/* Two curated pages — thirty blocks at once is a wall to scroll
+                  past rather than something you can judge a theme by. */}
+              <div
+                role="group"
+                aria-label="Preview page"
+                className="border-border-input flex overflow-hidden rounded-md border"
+              >
+                {([1, 2] as const).map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    aria-pressed={page === n}
+                    onClick={() => setPage(n)}
+                    className={
+                      page === n
+                        ? 'bg-accent text-on-accent px-3 py-1.5 font-mono text-xs font-medium'
+                        : 'text-foreground-muted hover:bg-background-muted px-3 py-1.5 font-mono text-xs'
+                    }
+                  >
+                    {String(n).padStart(2, '0')}
+                  </button>
+                ))}
+              </div>
               <Button variant="secondary" onClick={() => setSeed((n) => n + 1)}>
                 <Sparkles aria-hidden />
                 Shuffle
@@ -120,7 +144,7 @@ export function ThemePage() {
           {/* No frame: every block is a Card already, so a border around the
               wall was one more box drawn around thirty boxes. */}
           <DesignSystemProvider tokens={tokens}>
-            <ThemePreviewWall seed={seed} />
+            <ThemePreviewWall seed={seed} page={page} />
           </DesignSystemProvider>
         </div>
       </div>
