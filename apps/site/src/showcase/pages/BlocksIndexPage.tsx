@@ -105,7 +105,7 @@ export function BlocksIndexPage() {
           }
         />
       ) : (
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid items-start gap-6 lg:grid-cols-2">
           {matches.map((b) => (
             <section key={b.slug} className="flex flex-col gap-3">
               <div className="flex items-start gap-3">
