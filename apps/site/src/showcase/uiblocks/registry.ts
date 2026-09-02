@@ -50,6 +50,12 @@ export interface UiBlock {
   description: string;
   /** File stem under ./blocks — also the key into the raw-source map. */
   file: string;
+  /**
+   * Needs a full row. App shells and comparison tables are laid out for a page,
+   * not for a ~400px masonry column, and Tailwind's `md:` responds to the
+   * viewport rather than the column they land in.
+   */
+  wide?: boolean;
   Component: ComponentType;
 }
 
@@ -224,6 +230,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'sidebar-shell',
+    wide: true,
     name: 'Sidebar shell 01',
     category: 'App',
     file: 'SidebarShell',
@@ -232,6 +239,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'topnav-shell',
+    wide: true,
     name: 'Top nav shell 01',
     category: 'App',
     file: 'TopNavShell',
@@ -280,6 +288,7 @@ export const UI_BLOCKS: UiBlock[] = [
   },
   {
     slug: 'pricing-table',
+    wide: true,
     name: 'Pricing 02 — table',
     category: 'Marketing',
     file: 'PricingTable',

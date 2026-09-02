@@ -16,8 +16,9 @@ export function ThemePreviewWall({ seed }: { seed: number }) {
   const blocks = useMemo(() => shuffle(UI_BLOCKS, seed), [seed]);
   return (
     <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
-      {blocks.map(({ slug, Component }) => (
-        <div key={slug}>
+      {blocks.map(({ slug, Component, wide }) => (
+        // `column-span: all` lifts a wide block out of the columns for one row.
+        <div key={slug} className={wide ? '[column-span:all]' : undefined}>
           <Component />
         </div>
       ))}
