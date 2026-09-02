@@ -18,7 +18,9 @@ export function ThemePreviewWall({ seed }: { seed: number }) {
     <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
       {blocks.map(({ slug, Component, wide }) => (
         // `column-span: all` lifts a wide block out of the columns for one row.
-        <div key={slug} className={wide ? '[column-span:all]' : undefined}>
+        // It also breaks the column flow, so the block above it cannot reach it
+        // with a margin — hence the explicit mt-4, or the two would touch.
+        <div key={slug} className={wide ? 'mt-4 [column-span:all]' : undefined}>
           <Component />
         </div>
       ))}
