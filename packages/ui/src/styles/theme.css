@@ -604,8 +604,21 @@
     border-color: var(--border);
   }
 
+  /* Radix's modal layers (Dialog, Sheet, Select, DropdownMenu…) lock the page
+   * with react-remove-scroll, which hides the page scrollbar and then adds
+   * `padding-right` to <body> to compensate for the width it just reclaimed.
+   * The gutter below already reserves that width permanently, so the
+   * compensation double-counts and shoves the whole page sideways for as long
+   * as a menu is open — most visible on systems with classic (non-overlay)
+   * scrollbars. Refuse it; the gutter is doing the job. */
+  body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
   html {
-    /* Reserve the scrollbar track so layout doesn't shift when content height changes. */
+    /* Reserve the scrollbar track so layout doesn't shift when content height
+     * changes, and so hiding the scrollbar for a modal reclaims nothing. */
     scrollbar-gutter: stable;
     font-family: var(--font-sans);
     font-feature-settings:
