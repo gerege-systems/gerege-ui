@@ -69,12 +69,13 @@ export function ThemePage() {
 
   return (
     <>
-      {/* The panel owns the right edge of the window, so the page column is
-          centred in what is left of it rather than in the whole window. Same
-          container as every other page — max-w-[1400px] px-6 — and the margin
-          either side of it stays even instead of piling up next to the panel. */}
-      <div className="xl:pr-80">
-        <div className="mx-auto w-full max-w-[1400px] px-6 py-8">
+      {/* The site column, centred in the window exactly like every other page,
+          so the content starts under the brand mark rather than 95px to its
+          left. The right padding is what the panel eats: it shrinks as the
+          window grows (the centred column's own right margin already covers
+          part of the panel) and never drops below the normal px-6. */}
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:pr-[max(1.5rem,calc(21.5rem-(100vw-1400px)/2))]">
+        <div className="min-w-0">
           <header className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
             <div className="flex max-w-2xl flex-col gap-1.5">
               <h1 className="text-3xl font-semibold tracking-tight">Theme</h1>
