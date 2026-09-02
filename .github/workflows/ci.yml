@@ -60,7 +60,7 @@ jobs:
         run: git diff --exit-code apps/site/src/showcase/registry/generated-props.ts
 
       - name: Test showcase
-        run: pnpm --filter @gerege/site test
+        run: pnpm --filter @gerege-systems/site test
 
   # Library peer range is ^18 || ^19 — typecheck + test the library against React 19.
   # React is overridden for the whole workspace in this job (see step below).
@@ -88,7 +88,7 @@ jobs:
           node -p "'react-dom ' + require('react-dom/package.json').version"
 
       - name: Typecheck (React 19)
-        run: pnpm --filter @gerege/ui typecheck
+        run: pnpm --filter @gerege-systems/ui typecheck
 
       - name: Test (React 19)
         run: pnpm test
@@ -139,7 +139,7 @@ jobs:
 
       - name: Playwright version
         id: pw
-        run: echo "v=$(pnpm --filter @gerege/site exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+        run: echo "v=$(pnpm --filter @gerege-systems/site exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
 
       - name: Cache Playwright chromium
         id: pw-cache
@@ -150,11 +150,11 @@ jobs:
 
       - name: Install Playwright chromium
         if: steps.pw-cache.outputs.cache-hit != 'true'
-        run: pnpm --filter @gerege/site exec playwright install --with-deps chromium
+        run: pnpm --filter @gerege-systems/site exec playwright install --with-deps chromium
 
       - name: Install Playwright OS deps (cache hit)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: pnpm --filter @gerege/site exec playwright install-deps chromium
+        run: pnpm --filter @gerege-systems/site exec playwright install-deps chromium
 
       - name: E2E (shard ${{ matrix.shard }}/2)
         run: pnpm test:e2e --shard=${{ matrix.shard }}/2

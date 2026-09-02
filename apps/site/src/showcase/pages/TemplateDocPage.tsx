@@ -30,7 +30,7 @@ const pillClass = (active: boolean) =>
   );
 
 /**
- * A "block" page: a complete example composed from @gerege/ui primitives.
+ * A "block" page: a complete example composed from @gerege-systems/ui primitives.
  * It is not an importable component — the deliverable is the source below,
  * which you copy into your app and adapt. The preview is the real
  * `#preview/<slug>` route in an iframe, so the width toggle exercises the
@@ -237,7 +237,7 @@ export function TemplateDocPage({ doc }: TemplateDocPageProps) {
         </code>
         ), composed from{' '}
         <code className="bg-background-muted rounded px-1 py-0.5 font-mono text-xs">
-          @gerege/ui
+          @gerege-systems/ui
         </code>{' '}
         primitives. Copy it — plus the building blocks it imports — and wire your own data and
         handlers.

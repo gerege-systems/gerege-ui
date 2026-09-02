@@ -74,7 +74,7 @@ const doc: ComponentDoc = {
           description="Try a different search term or clear your filters."
         />
       ),
-      code: `import { Illustrations } from '@gerege/ui';
+      code: `import { Illustrations } from '@gerege-systems/ui';
 
 <EmptyState
   illustration={<Illustrations.NoSearchResults className="size-32" />}

@@ -1,4 +1,4 @@
-# @gerege/ui
+# @gerege-systems/ui
 
 > Releases up to **0.11.2** were published as `@craftzbay/ui` from
 > [craftzbay/craftzbay-ui](https://github.com/craftzbay/craftzbay-ui). The project split into a

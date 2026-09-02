@@ -15,7 +15,7 @@ const MEMO = Symbol.for('react.memo');
 
 /** Files under components/ui intentionally not re-exported from the root entry. */
 const NOT_IN_INDEX: Record<string, string> = {
-  Icon: 'shipped via the separate `@gerege/ui/icon` entry so lucide stays out of the root bundle',
+  Icon: 'shipped via the separate `@gerege-systems/ui/icon` entry so lucide stays out of the root bundle',
 };
 
 /**

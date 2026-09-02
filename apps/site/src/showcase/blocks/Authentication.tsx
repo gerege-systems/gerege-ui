@@ -1,9 +1,9 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowRight, CheckCircle2, Mail } from '@/icons';
-import { Button } from '@gerege/ui';
-import { Input } from '@gerege/ui';
-import { Alert } from '@gerege/ui';
-import { Separator } from '@gerege/ui';
+import { Button } from '@gerege-systems/ui';
+import { Input } from '@gerege-systems/ui';
+import { Alert } from '@gerege-systems/ui';
+import { Separator } from '@gerege-systems/ui';
 import { Github } from '@/icons';
 import { useT } from '../i18n/locale';
 import { authDict } from '../i18n/auth';

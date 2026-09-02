@@ -1,5 +1,5 @@
 {
-  "name": "@gerege/site",
+  "name": "@gerege-systems/site",
   "private": true,
   "version": "0.0.7",
   "type": "module",
@@ -16,7 +16,7 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@gerege/ui": "workspace:*",
+    "@gerege-systems/ui": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

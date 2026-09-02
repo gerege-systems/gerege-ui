@@ -5,7 +5,7 @@ const PORT = 4173;
 
 /**
  * Showcase E2E. Runs against the production build served by `vite preview`
- * (`pnpm --filter @gerege/site build` first). Chromium only — the bundled
+ * (`pnpm --filter @gerege-systems/site build` first). Chromium only — the bundled
  * headless shell renders 320/375px viewports faithfully (headed Chrome clamps
  * the window to ≥500px).
  *
@@ -38,7 +38,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `pnpm --filter @gerege/site preview --port ${PORT} --strictPort`,
+    command: `pnpm --filter @gerege-systems/site preview --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !CI,
     timeout: 60_000,

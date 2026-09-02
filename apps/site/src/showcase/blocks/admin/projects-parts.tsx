@@ -13,7 +13,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 import { STATUSES, STATUS_KEY, type Project, type ProjectStatus } from './data';
 import { adminDict } from '../../i18n/admin';
 import { useT } from '../../i18n/locale';

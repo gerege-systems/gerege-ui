@@ -1,15 +1,15 @@
-# @gerege/create-app
+# @gerege-systems/create-app
 
-Scaffold a new project preconfigured with [`@gerege/ui`](https://www.npmjs.com/package/@gerege/ui).
+Scaffold a new project preconfigured with [`@gerege-systems/ui`](https://www.npmjs.com/package/@gerege-systems/ui).
 
 ```bash
-npm create @gerege/app my-app
+npm create @gerege-systems/app my-app
 # or
-pnpm create @gerege/app my-app
+pnpm create @gerege-systems/app my-app
 # or
-yarn create @gerege/app my-app
+yarn create @gerege-systems/app my-app
 # or
-bun create @gerege/app my-app
+bun create @gerege-systems/app my-app
 ```
 
 Then:
@@ -21,15 +21,15 @@ pnpm dev
 
 ## Templates
 
-| ID               | What you get                                                        |
-| ---------------- | ------------------------------------------------------------------- |
-| `vite-blank`     | Minimal Vite + React + `@gerege/ui` starter (Card + Input + Switch) |
-| `vite-dashboard` | `AppShell` + `Dashboard` template, ready to wire data               |
+| ID               | What you get                                                                |
+| ---------------- | --------------------------------------------------------------------------- |
+| `vite-blank`     | Minimal Vite + React + `@gerege-systems/ui` starter (Card + Input + Switch) |
+| `vite-dashboard` | `AppShell` + `Dashboard` template, ready to wire data                       |
 
 Pass `--template <id>` to skip the picker:
 
 ```bash
-npm create @gerege/app my-app -- --template vite-dashboard
+npm create @gerege-systems/app my-app -- --template vite-dashboard
 ```
 
 ## Options

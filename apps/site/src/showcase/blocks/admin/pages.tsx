@@ -39,7 +39,7 @@ import {
   formatNumber,
   useStrings,
   useToast,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 import {
   INVOICES,
   MEMBER_STATUS_KEY,

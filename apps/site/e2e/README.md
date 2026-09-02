@@ -1,10 +1,10 @@
 # Showcase E2E (Playwright)
 
 ```sh
-pnpm --filter @gerege/site build      # preview serves dist/
+pnpm --filter @gerege-systems/site build      # preview serves dist/
 pnpm test:e2e                            # root alias; starts `vite preview --port 4173`
-pnpm --filter @gerege/site test:e2e docs       # one spec
-pnpm --filter @gerege/site exec playwright show-report
+pnpm --filter @gerege-systems/site test:e2e docs       # one spec
+pnpm --filter @gerege-systems/site exec playwright show-report
 ```
 
 Specs are data-driven from `e2e/routes.ts` (mirrors `src/showcase/routing.ts`,

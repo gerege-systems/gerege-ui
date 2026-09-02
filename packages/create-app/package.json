@@ -1,7 +1,7 @@
 {
-  "name": "@gerege/create-app",
+  "name": "@gerege-systems/create-app",
   "version": "1.0.4",
-  "description": "Scaffold a new project preconfigured with @gerege/ui. Invoke via `npm create @gerege/app my-app`.",
+  "description": "Scaffold a new project preconfigured with @gerege-systems/ui. Invoke via `npm create @gerege-systems/app my-app`.",
   "license": "MIT",
   "author": "Gerege Systems",
   "homepage": "https://ui.gecore.mn",

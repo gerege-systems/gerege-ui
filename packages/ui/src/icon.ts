@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Secondary entry — `@gerege/ui/icon`.
+ * Secondary entry — `@gerege-systems/ui/icon`.
  *
  * Name-addressed `<Icon name="…">` plus the full `iconNames` list. Kept out of
  * the main barrel because it references `lucide-react/dynamicIconImports`

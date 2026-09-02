@@ -111,8 +111,8 @@ export function FormsBody() {
       <h2>Why react-hook-form</h2>
       <p>
         Battle-tested, fast (no re-render storm), tiny, and works with any validation library (Zod,
-        Yup, custom). All <code>@gerege/ui</code> inputs forward refs correctly so they slot into
-        RHF without adapters.
+        Yup, custom). All <code>@gerege-systems/ui</code> inputs forward refs correctly so they slot
+        into RHF without adapters.
       </p>
 
       <h2>Live sign-in demo</h2>
@@ -125,7 +125,7 @@ export function FormsBody() {
       <h2>The composition</h2>
       <CodeBlock
         code={`import { useForm } from 'react-hook-form';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormError, Input, Button } from '@gerege/ui';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormError, Input, Button } from '@gerege-systems/ui';
 
 const form = useForm({ defaultValues: { email: '', password: '' } });
 

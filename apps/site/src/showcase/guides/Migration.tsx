@@ -112,10 +112,10 @@ export function MigrationBody() {
       </p>
       <CodeBlock
         code={`// Before
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@gerege/ui';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@gerege-systems/ui';
 
 // After
-import { Form, FormField, FormItem, FormLabel, FormControl, FormError } from '@gerege/ui';`}
+import { Form, FormField, FormItem, FormLabel, FormControl, FormError } from '@gerege-systems/ui';`}
       />
 
       <h2>

@@ -68,7 +68,7 @@ const doc: ComponentDoc = {
           </DesignSystemProvider>
         </div>
       ),
-      code: `import { DesignSystemProvider, brandPresets } from '@gerege/ui';
+      code: `import { DesignSystemProvider, brandPresets } from '@gerege-systems/ui';
 
 <DesignSystemProvider tokens={brandPresets.violet}>
   <App />
@@ -82,7 +82,7 @@ const doc: ComponentDoc = {
       description:
         'Every label the library renders on its own (close buttons, placeholders, pagination copy, chart summaries, relative time) comes from `UiStrings`. `strings` is a deep partial merged over the parent provider and the English defaults; pass `mnStrings` for Mongolian. Per-component props still win.',
       preview: <StringsDemo />,
-      code: `import { DesignSystemProvider, mnStrings } from '@gerege/ui';
+      code: `import { DesignSystemProvider, mnStrings } from '@gerege-systems/ui';
 
 // Whole app in Mongolian
 <DesignSystemProvider strings={mnStrings}>
@@ -104,7 +104,7 @@ const doc: ComponentDoc = {
       description:
         'Read the resolved strings from your own components so custom UI stays in the same language as the library. Returns `defaultStrings` without a provider.',
       preview: <CurrentStrings />,
-      code: `import { useStrings } from '@gerege/ui';
+      code: `import { useStrings } from '@gerege-systems/ui';
 
 function EmptyRow() {
   const s = useStrings();

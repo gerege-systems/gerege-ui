@@ -1,4 +1,4 @@
-# @gerege/site
+# @gerege-systems/site
 
 ## 0.0.7
 

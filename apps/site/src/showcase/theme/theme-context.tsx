@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { brandPresets, type BrandName } from '@gerege/ui';
+import { brandPresets, type BrandName } from '@gerege-systems/ui';
 
 /* -----------------------------------------------------------------------------
  *  Theme + brand context.

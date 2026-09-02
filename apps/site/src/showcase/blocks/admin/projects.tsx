@@ -45,7 +45,7 @@ import {
   formatNumber,
   useStrings,
   useToast,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 import {
   SEED_PROJECTS,
   STATUSES,

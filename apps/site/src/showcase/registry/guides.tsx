@@ -18,7 +18,7 @@ const quickstart: GuideDoc = {
   body: (
     <div className="prose-block">
       <h2>1. Install</h2>
-      <CodeBlock language="bash" code="pnpm add @gerege/ui" />
+      <CodeBlock language="bash" code="pnpm add @gerege-systems/ui" />
       <p>
         Peer dependencies: <code>react@&gt;=18</code>, <code>react-dom@&gt;=18</code>. Already in
         your app — no extra setup.
@@ -26,11 +26,11 @@ const quickstart: GuideDoc = {
 
       <h2>2. Import the stylesheet</h2>
       <p>Once, at the top of your app entry:</p>
-      <CodeBlock code={`import '@gerege/ui/styles.css';`} />
+      <CodeBlock code={`import '@gerege-systems/ui/styles.css';`} />
 
       <h2>3. Use a component</h2>
       <CodeBlock
-        code={`import { Button, Dialog, DialogContent, DialogTrigger, DialogTitle } from '@gerege/ui';
+        code={`import { Button, Dialog, DialogContent, DialogTrigger, DialogTitle } from '@gerege-systems/ui';
 
 export function ExportDialog() {
   return (

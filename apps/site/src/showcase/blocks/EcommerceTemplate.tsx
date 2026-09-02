@@ -13,15 +13,15 @@ import {
   X,
   ImageIcon,
 } from '@/icons';
-import { Badge } from '@gerege/ui';
-import { Button } from '@gerege/ui';
-import { Card, CardContent } from '@gerege/ui';
-import { EmptyState } from '@gerege/ui';
-import { IconButton } from '@gerege/ui';
-import { Input } from '@gerege/ui';
-import { Separator } from '@gerege/ui';
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@gerege/ui';
-import { cn, formatMNT, formatNumber } from '@gerege/ui';
+import { Badge } from '@gerege-systems/ui';
+import { Button } from '@gerege-systems/ui';
+import { Card, CardContent } from '@gerege-systems/ui';
+import { EmptyState } from '@gerege-systems/ui';
+import { IconButton } from '@gerege-systems/ui';
+import { Input } from '@gerege-systems/ui';
+import { Separator } from '@gerege-systems/ui';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@gerege-systems/ui';
+import { cn, formatMNT, formatNumber } from '@gerege-systems/ui';
 import type { TemplateProps } from './meta';
 import { readHashParams, writeHash } from './admin/use-hash-params';
 import { useT, type Locale } from '../i18n/locale';

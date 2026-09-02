@@ -162,8 +162,8 @@ Reported via `axe-moderate` / `axe-minor` annotations on each test; not collecte
 ## Reproduce
 
 ```sh
-pnpm --filter @gerege/site build
+pnpm --filter @gerege-systems/site build
 pnpm test:e2e                                  # full suite (~6 min, 4 workers)
-pnpm --filter @gerege/site test:e2e docs -g "component/tabs"
-pnpm --filter @gerege/site exec playwright show-report
+pnpm --filter @gerege-systems/site test:e2e docs -g "component/tabs"
+pnpm --filter @gerege-systems/site exec playwright show-report
 ```

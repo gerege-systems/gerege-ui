@@ -44,7 +44,7 @@ importers:
 
   apps/site:
     dependencies:
-      '@gerege/ui':
+      '@gerege-systems/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:

@@ -3,15 +3,15 @@
  * and the brand presets surfaced by the on-page brand switcher. Keeping these
  * in one place means a repo rename or version bump touches a single file.
  */
-import type { BrandName } from '@gerege/ui';
+import type { BrandName } from '@gerege-systems/ui';
 
-export const PKG_NAME = '@gerege/ui';
+export const PKG_NAME = '@gerege-systems/ui';
 /** Injected by vite.config.ts from packages/ui/package.json. */
 declare const __UI_VERSION__: string;
 export const VERSION: string = typeof __UI_VERSION__ === 'string' ? __UI_VERSION__ : '0.0.0';
 
 export const GITHUB_URL = 'https://github.com/gerege-systems/gerege-ui';
-export const NPM_URL = 'https://www.npmjs.com/package/@gerege/ui';
+export const NPM_URL = 'https://www.npmjs.com/package/@gerege-systems/ui';
 export const CHANGELOG_URL = `${GITHUB_URL}/blob/main/packages/ui/CHANGELOG.md`;
 
 /** Source-file link bases (monorepo layout). */

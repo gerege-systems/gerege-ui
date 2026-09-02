@@ -8,21 +8,21 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "pnpm --filter @gerege/site dev",
-    "build": "pnpm --filter @gerege/ui build && pnpm --filter @gerege/site build",
-    "build:lib": "pnpm --filter @gerege/ui build",
-    "build:site": "pnpm --filter @gerege/site build",
+    "dev": "pnpm --filter @gerege-systems/site dev",
+    "build": "pnpm --filter @gerege-systems/ui build && pnpm --filter @gerege-systems/site build",
+    "build:lib": "pnpm --filter @gerege-systems/ui build",
+    "build:site": "pnpm --filter @gerege-systems/site build",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @gerege/ui test",
+    "test": "pnpm --filter @gerege-systems/ui test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "size": "size-limit",
     "publint": "publint packages/ui",
     "attw": "attw --pack packages/ui --exclude-entrypoints ./styles.css ./theme.css --ignore-rules cjs-resolves-to-esm",
-    "test:create-app": "pnpm --filter @gerege/create-app test",
-    "test:treeshake": "pnpm --filter @gerege/ui test:treeshake",
-    "test:e2e": "pnpm --filter @gerege/site test:e2e"
+    "test:create-app": "pnpm --filter @gerege-systems/create-app test",
+    "test:treeshake": "pnpm --filter @gerege-systems/ui test:treeshake",
+    "test:e2e": "pnpm --filter @gerege-systems/site test:e2e"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

@@ -16,7 +16,11 @@ interface Template {
 }
 
 const TEMPLATES: Template[] = [
-  { id: 'vite-blank', label: 'Vite + Blank', hint: 'Minimal Vite + React + @gerege/ui starter' },
+  {
+    id: 'vite-blank',
+    label: 'Vite + Blank',
+    hint: 'Minimal Vite + React + @gerege-systems/ui starter',
+  },
   {
     id: 'vite-dashboard',
     label: 'Vite + Dashboard',
@@ -67,10 +71,11 @@ function parseArgs(argv: string[]): {
 function printHelp() {
   const lines = [
     '',
-    kleur.bold('  @gerege/create-app') + kleur.gray(' — scaffold a new @gerege/ui project'),
+    kleur.bold('  @gerege-systems/create-app') +
+      kleur.gray(' — scaffold a new @gerege-systems/ui project'),
     '',
     '  Usage:',
-    '    npm create @gerege/app [project-name] [options]',
+    '    npm create @gerege-systems/app [project-name] [options]',
     '',
     '  Options:',
     '    -t, --template <name>   Skip the prompt and use a known template',
@@ -125,7 +130,7 @@ function walk(srcDir: string, destDir: string, projectName: string) {
 }
 
 async function run() {
-  intro(kleur.bold(kleur.cyan('  ✦  @gerege/create-app  ')));
+  intro(kleur.bold(kleur.cyan('  ✦  @gerege-systems/create-app  ')));
 
   const { projectName: cliName, template: cliTemplate, noInstall, yes } = parseArgs(process.argv);
 

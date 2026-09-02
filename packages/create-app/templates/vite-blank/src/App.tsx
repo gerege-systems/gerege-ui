@@ -8,7 +8,7 @@ import {
   CardTitle,
   Input,
   Switch,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 
 export function App() {
   const [name, setName] = useState('');
@@ -21,7 +21,7 @@ export function App() {
           <CardHeader>
             <CardTitle>Hello, __PROJECT_NAME__</CardTitle>
             <CardDescription>
-              Your new app is wired up with @gerege/ui. Edit{' '}
+              Your new app is wired up with @gerege-systems/ui. Edit{' '}
               <code className="rounded bg-background-muted px-1">src/App.tsx</code> to start
               building.
             </CardDescription>

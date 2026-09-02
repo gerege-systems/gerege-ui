@@ -1,4 +1,4 @@
-# @gerege/ui
+# @gerege-systems/ui
 
 A refined-minimal Tailwind v4 + React design system. Production-grade
 primitives — Button through DataGrid — plus composed patterns
@@ -15,7 +15,7 @@ primitives — Button through DataGrid — plus composed patterns
 ## Install
 
 ```bash
-pnpm add @gerege/ui            # peers: react ^18 || ^19, react-dom ^18 || ^19
+pnpm add @gerege-systems/ui            # peers: react ^18 || ^19, react-dom ^18 || ^19
 ```
 
 **1. Fonts** — Geist + Geist Mono are referenced by the tokens but not bundled (Inter is only a fallback in the stack). Google Fonts serves the `cyrillic-ext` subset automatically; self-hosting (≤4 woff2, weights 400/500/600) is equally fine. Add to `<head>`:
@@ -33,13 +33,13 @@ pnpm add @gerege/ui            # peers: react ^18 || ^19, react-dom ^18 || ^19
 
 ```css
 /* a) No Tailwind in your app: one precompiled sheet (tokens + base + every utility the components use) */
-@import '@gerege/ui/styles.css';
+@import '@gerege-systems/ui/styles.css';
 
 /* b) Your app already uses Tailwind v4: share the tokens and let Tailwind compile the library's classes */
 @import 'tailwindcss';
 @import 'tw-animate-css'; /* required on this path — overlays use animate-in / animate-out */
-@import '@gerege/ui/theme.css';
-@source "../node_modules/@gerege/ui/dist-lib";
+@import '@gerege-systems/ui/theme.css';
+@source "../node_modules/@gerege-systems/ui/dist-lib";
 ```
 
 Path (b) needs `tw-animate-css` installed (`pnpm add -D tw-animate-css`; it is an optional peer). Path (a) already bundles it.
@@ -49,7 +49,7 @@ Path (b) needs `tw-animate-css` installed (`pnpm add -D tw-animate-css`; it is a
 **4. Providers** — `<Toaster />` once near the root if you use `toast()`; wrap the app in `<TooltipProvider>` if you use `Tooltip`. Nothing else is required.
 
 ```tsx
-import { Button, Toaster, TooltipProvider, toast } from '@gerege/ui';
+import { Button, Toaster, TooltipProvider, toast } from '@gerege-systems/ui';
 
 export function App() {
   return (
@@ -61,12 +61,12 @@ export function App() {
 }
 ```
 
-**Next.js App Router** — since 0.10 every built module carries a `'use client'` banner, so `import { Button } from '@gerege/ui'` works directly inside Server Components without a local re-export file. Put the CSS import and fonts in `app/layout.tsx`. Note: the pure helpers (`formatDate`, `formatNumber`, `formatMNT`, `mnStrings`, `defaultStrings`) are also client-marked today — they still run fine in Server Components (the directive only affects the boundary), but they are not tree-shaken into a server-only chunk.
+**Next.js App Router** — since 0.10 every built module carries a `'use client'` banner, so `import { Button } from '@gerege-systems/ui'` works directly inside Server Components without a local re-export file. Put the CSS import and fonts in `app/layout.tsx`. Note: the pure helpers (`formatDate`, `formatNumber`, `formatMNT`, `mnStrings`, `defaultStrings`) are also client-marked today — they still run fine in Server Components (the directive only affects the boundary), but they are not tree-shaken into a server-only chunk.
 
 **Name-addressed icons** — `Icons.*` (curated, tree-shaken) ships in the main entry. The lazy `<Icon name="…">` + `iconNames` list lives in a separate entry so its ~1500-icon import map never enters your bundle unless asked for:
 
 ```tsx
-import { Icon } from '@gerege/ui/icon';
+import { Icon } from '@gerege-systems/ui/icon';
 <Icon name="calendar" className="size-4" />;
 ```
 
@@ -77,7 +77,7 @@ The package is ESM-only, ships one module per component (`sideEffects` limited t
 Every built-in string (close/dismiss labels, placeholders, "No results.", pagination summary, error-state copy…) is typed in `UiStrings` and read through `useStrings()`. Defaults are English; a full Mongolian set ships as `mnStrings`.
 
 ```tsx
-import { DesignSystemProvider, mnStrings } from '@gerege/ui';
+import { DesignSystemProvider, mnStrings } from '@gerege-systems/ui';
 <DesignSystemProvider strings={mnStrings}>…</DesignSystemProvider>; // whole library in Mongolian
 <DesignSystemProvider strings={{ dialog: { close: 'Schließen' } }}>…</DesignSystemProvider>; // partial override, deep-merged over defaults
 ```

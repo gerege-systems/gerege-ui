@@ -49,9 +49,9 @@ export interface ComponentDoc {
   group: ComponentGroup;
   /** One-line tagline shown under the title and in lists. */
   description: string;
-  /** Names re-exported from `@gerege/ui` for this component. */
+  /** Names re-exported from `@gerege-systems/ui` for this component. */
   exports: string[];
-  /** Package entry the exports come from. Default `@gerege/ui`. */
+  /** Package entry the exports come from. Default `@gerege-systems/ui`. */
   importPath?: string;
   /**
    * Which `UiStrings` keys the component reads (e.g. `dialog.close`). Shown

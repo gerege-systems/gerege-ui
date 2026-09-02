@@ -1,9 +1,16 @@
 import { useState, type MouseEvent, type ReactNode } from 'react';
 import { ArrowRight, BarChart3, Github, Lock, Menu, Plug, Sparkles, Star, Zap } from '@/icons';
-import { Avatar } from '@gerege/ui';
-import { Button } from '@gerege/ui';
-import { Card, CardContent } from '@gerege/ui';
-import { IconButton, Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@gerege/ui';
+import { Avatar } from '@gerege-systems/ui';
+import { Button } from '@gerege-systems/ui';
+import { Card, CardContent } from '@gerege-systems/ui';
+import {
+  IconButton,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@gerege-systems/ui';
 import { AuthLayout, SignUpForm } from './Authentication';
 import { Pricing } from './Pricing';
 import type { TemplateProps } from './meta';

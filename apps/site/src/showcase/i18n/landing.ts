@@ -99,7 +99,7 @@ export const landingDict = defineDict({
     footPrivacy: 'Privacy',
     footTerms: 'Terms',
     footSecurity: 'Security',
-    copyright: '© {year} Northwind, Inc. · Built with @gerege/ui',
+    copyright: '© {year} Northwind, Inc. · Built with @gerege-systems/ui',
 
     backToSite: 'Back to site',
     legalNav: 'Legal',
@@ -238,7 +238,7 @@ export const landingDict = defineDict({
     footPrivacy: 'Нууцлал',
     footTerms: 'Үйлчилгээний нөхцөл',
     footSecurity: 'Аюулгүй байдал',
-    copyright: '© {year} Northwind, Inc. · @gerege/ui дээр бүтээв',
+    copyright: '© {year} Northwind, Inc. · @gerege-systems/ui дээр бүтээв',
 
     backToSite: 'Сайт руу буцах',
     legalNav: 'Хууль эрх зүй',

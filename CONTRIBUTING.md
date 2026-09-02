@@ -13,7 +13,7 @@ Releases are fully automated via [`changesets/action`](https://github.com/change
    pnpm changeset
    ```
 
-   - Pick the affected packages (currently `@gerege/ui`).
+   - Pick the affected packages (currently `@gerege-systems/ui`).
    - Pick the bump level: `patch` (bug fix), `minor` (new feature, backwards-compatible), `major` (breaking).
    - Write a short summary — it becomes the CHANGELOG entry.
 
@@ -38,7 +38,7 @@ pnpm changeset version    # consume pending changesets, bump version
 git commit -am "chore: release X.Y.Z"
 git push
 pnpm build:lib
-cd packages/ui && npm publish   # requires ~/.npmrc with an npm token that can publish to `@gerege/*`
+cd packages/ui && npm publish   # requires ~/.npmrc with an npm token that can publish to `@gerege-systems/*`
 cd ../.. && git tag vX.Y.Z && git push --tags
 ```
 
@@ -48,13 +48,13 @@ But the bot is the canonical path — keep it intact.
 
 Required in GitHub repo settings → Secrets and variables → Actions:
 
-- `NPM_TOKEN` — npm automation token with publish rights on the `@gerege/*` scope. **Not set on this repo yet** — it was not carried over when the project split from craftzbay-ui.
+- `NPM_TOKEN` — npm automation token with publish rights on the `@gerege-systems/*` scope. **Not set on this repo yet** — it was not carried over when the project split from craftzbay-ui.
 
 ## Repository layout
 
 ```
-packages/ui/          # @gerege/ui — the published library
-packages/create-app/  # @gerege/create-app — project scaffolder
+packages/ui/          # @gerege-systems/ui — the published library
+packages/create-app/  # @gerege-systems/create-app — project scaffolder
 apps/site/            # the showcase site (not published; consumes packages/ui)
 ```
 
@@ -66,7 +66,7 @@ Run from the repo root (pnpm workspace):
 pnpm install
 pnpm dev            # showcase site (apps/site) at localhost:5173
 pnpm typecheck      # all packages
-pnpm test           # @gerege/ui component tests
+pnpm test           # @gerege-systems/ui component tests
 pnpm build:lib      # build packages/ui → packages/ui/dist-lib/
 pnpm build:site     # build apps/site → apps/site/dist/
 pnpm build          # build the library, then the site

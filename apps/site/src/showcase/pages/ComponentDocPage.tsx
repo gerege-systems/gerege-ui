@@ -17,7 +17,7 @@ interface ComponentDocPageProps {
 export function ComponentDocPage({ doc }: ComponentDocPageProps) {
   const related = doc.related ? getRelatedDocs(doc.related.map((r) => r.slug)) : [];
 
-  const importLine = `import { ${doc.exports.join(', ')} } from '${doc.importPath ?? '@gerege/ui'}';`;
+  const importLine = `import { ${doc.exports.join(', ')} } from '${doc.importPath ?? '@gerege-systems/ui'}';`;
 
   // The generated-props table is ~5k lines of data used only here — load it on
   // demand so it never sits in the initial bundle. Generated rows render by

@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@gerege/ui": ["../../packages/ui/src/index.ts"],
+      "@gerege-systems/ui": ["../../packages/ui/src/index.ts"],
       "@/*": ["../../packages/ui/src/*"],
       "@site/*": ["./src/*"]
     },

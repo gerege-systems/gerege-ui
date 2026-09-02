@@ -56,7 +56,7 @@ import {
   cn,
   useSidebar,
   useStrings,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 import {
   MODULES,
   NAV,

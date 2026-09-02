@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TopNav,
   toast,
-} from '@gerege/ui';
+} from '@gerege-systems/ui';
 
 type NavKey = 'overview' | 'projects' | 'customers' | 'billing' | 'settings';
 
@@ -187,7 +187,7 @@ export function App() {
             ) : (
               <EmptyState
                 title={`Nothing in ${active} yet`}
-                description="This page is a placeholder — build it from @gerege/ui primitives."
+                description="This page is a placeholder — build it from @gerege-systems/ui primitives."
                 action={<Button onClick={() => setActive('overview')}>Back to overview</Button>}
               />
             )}

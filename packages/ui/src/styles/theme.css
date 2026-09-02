@@ -1,4 +1,4 @@
-/* @gerege/ui theme — tokens, semantic vars, dark variant, base layer. No `@import 'tailwindcss'` here:
+/* @gerege-systems/ui theme — tokens, semantic vars, dark variant, base layer. No `@import 'tailwindcss'` here:
  * consumers with Tailwind v4 import this AFTER tailwindcss (+ tw-animate-css for animate-in/out utilities). */
 /* =============================================================================
  * Refined-Minimal Design System — Tailwind v4 token definitions
