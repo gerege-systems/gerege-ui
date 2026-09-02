@@ -108,7 +108,8 @@ export function BlocksIndexPage() {
         <div className="grid items-start gap-6 lg:grid-cols-2">
           {matches.map((b) => (
             <section key={b.slug} className="flex flex-col gap-3">
-              <div className="flex items-start gap-3">
+              {/* Stacks below sm: the title plus two actions do not fit 375px. */}
+              <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
                 <div className="flex min-w-0 flex-col gap-0.5">
                   <div className="flex items-center gap-2">
                     <h2 className="truncate text-sm font-semibold">
@@ -118,7 +119,7 @@ export function BlocksIndexPage() {
                   </div>
                   <p className="text-foreground-subtle text-xs">{b.description}</p>
                 </div>
-                <span className="grow" />
+                <span className="hidden grow sm:block" />
                 <div className="flex shrink-0 items-center gap-2">
                   <CopyBlockButton file={b.file} />
                   <Button variant="ghost" size="sm" asChild>
