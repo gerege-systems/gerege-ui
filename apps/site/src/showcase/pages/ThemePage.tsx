@@ -160,7 +160,10 @@ export function ThemePage() {
               wall was one more box drawn around thirty boxes. */}
           {/* data-style drives the library's per-component style layer; the
               provider carries the colour tokens. The two compose. */}
-          <div data-style={state.style}>
+          {/* font-sans here on purpose: html already resolved font-family from
+              the old value, so a nested --font-sans override changes nothing
+              unless something re-applies it. */}
+          <div data-style={state.style} className="font-sans">
             <DesignSystemProvider tokens={tokens}>
               <ThemePreviewWall seed={seed} />
             </DesignSystemProvider>
