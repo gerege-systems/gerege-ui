@@ -44,11 +44,18 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-2">
-        <h2 className="text-sm font-semibold">Customise</h2>
-        <span className="text-foreground-subtle text-xs">
-          {changed === 0 ? 'defaults' : `${changed} tokens`}
-        </span>
+      {/* Sticks to the top of the panel's own scrollport (hence the negative
+          offsets, which bleed it out to the panel's padding edges) so the
+          token count and Reset stay reachable while the rail is scrolled. */}
+      <div className="bg-card border-border sticky -top-5 z-10 -mx-5 -mt-5 flex items-center gap-2 border-b px-5 pt-5 pb-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <h2 className="text-sm font-semibold">Customise</h2>
+          <p className="text-foreground-subtle text-xs">
+            {changed === 0
+              ? 'Library defaults'
+              : `${changed} token${changed === 1 ? '' : 's'} changed`}
+          </p>
+        </div>
         <span className="grow" />
         {changed > 0 && (
           <Button variant="ghost" size="sm" onClick={onReset}>
