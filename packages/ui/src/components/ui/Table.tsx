@@ -43,6 +43,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     // Whether the wrapper actually overflows is not knowable statically, so it
     // is always a tab stop (WCAG 2.1.1 / axe scrollable-region-focusable).
     <div
+      data-slot="table-container"
       role="group"
       aria-label={scrollLabel ?? strings.table.scrollRegion}
       tabIndex={0}

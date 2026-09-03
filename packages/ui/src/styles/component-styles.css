@@ -1,5 +1,9 @@
 /* =============================================================================
- * Style layer — shape, not colour.
+ * Attribute layers — shape (`data-style`) and elevation (`data-depth`).
+ *
+ * Both are attributes you put on a root element and both stop at colour, so a
+ * style, a depth and a palette compose instead of fighting. The depth layer is
+ * at the bottom of this file; everything above it is the style layer.
  *
  * A style is an attribute you put on a root element (`<html data-style="vega">`
  * or any subtree), and everything under it is reshaped. Colour is deliberately
@@ -159,15 +163,49 @@
     [data-slot='top-nav'],
     [data-slot='sidebar'],
     [data-slot='stepper'],
-    [data-slot='scroll-area']
+    [data-slot='scroll-area'],
+    [data-slot='tabs-list'],
+    [data-slot='table-container']
   ) {
   border-radius: var(--style-radius-surface, var(--radius-lg));
 }
 
-/* Pills and small marks. */
+/* Pills and small marks. A radio stays circular in every style: round-vs-square
+ * is how a radio is told from a checkbox, so it is not a style's to move. */
 [data-style]:not([data-style='nova'])
-  :is([data-slot='badge'], [data-slot='kbd'], [data-slot='avatar']) {
+  :is(
+    [data-slot='badge'],
+    [data-slot='kbd'],
+    [data-slot='avatar'],
+    [data-slot='progress'],
+    [data-slot='slider-track'],
+    [data-slot='slider-thumb'],
+    [data-slot='timeline-bullet']
+  ) {
   border-radius: var(--style-radius-pill, 9999px);
+}
+
+/* Small controls that live inside another component: page numbers and pill
+ * tabs. They take the control radius but not its height — their box is square
+ * by construction. */
+[data-style]:not([data-style='nova'])
+  :is([data-slot='pagination'] button, [data-slot='tabs-list'][data-variant='pills'] [role='tab']) {
+  border-radius: var(--style-radius-control, var(--radius-md));
+}
+
+/* Marks and menu rows: they follow the control radius but must not become
+ * circles — a pill checkbox reads as a radio, and a fully rounded menu row
+ * loses its edge against the surface behind it. `min()` caps what lyra and maia
+ * ask for while still going square under vega. */
+[data-style]:not([data-style='nova'])
+  :is(
+    [data-slot='checkbox-field'] [role='checkbox'],
+    [role='menuitem'],
+    [role='menuitemcheckbox'],
+    [role='menuitemradio'],
+    [role='option']
+  ) {
+  border-radius: min(var(--style-radius-control, var(--radius-sm)), 0.25rem);
 }
 
 /* A skeleton stands in for a control, so it takes the control radius — as a
@@ -175,6 +213,11 @@
 [data-style]:not([data-style='nova']) [data-slot='skeleton'] {
   border-radius: var(--style-radius-control, var(--radius-md));
 }
+
+/* Deliberately shape-free, so nothing below reaches them: separators, spinners,
+ * chart canvases, breadcrumbs, relative times, toast viewports and modal
+ * overlays have no box of their own; accordion items are a bottom border; and
+ * radios are circles by convention (see the pills group). */
 
 /* Table rhythm — the one place row height is a style decision, not a variant. */
 [data-style]:not([data-style='nova']) [data-slot='table'] :is(th, td) {
@@ -235,4 +278,64 @@
 /* rhea: nothing shouts. */
 [data-style='rhea'] [data-slot='badge'] {
   font-weight: 400;
+}
+
+/* =============================================================================
+ *  Depth layer — how far surfaces float off the page.
+ *
+ * Why this is CSS and not a token: Tailwind resolves `--shadow-*` at build
+ * time, inlining the value into `.shadow-md` and friends, so overriding the
+ * token at runtime moves nothing. The utilities do read one variable at
+ * runtime — `--tw-shadow`, the slot the box-shadow composite is built from —
+ * so a depth re-declares that on the element the utility is on. Going through
+ * the slot rather than `box-shadow` keeps rings and insets composing: a focused
+ * card still draws its focus ring.
+ *
+ * A depth only moves shadows that already exist, which in this library means
+ * floating surfaces: cards and other inline surfaces have a hairline border and
+ * no shadow at every depth, and no depth may give them one.
+ *
+ * `soft` is the default and declares nothing: it is what theme.css already
+ * gives. Values stay neutral black at low alpha — a coloured shadow is
+ * forbidden, and depth is not allowed to become a second accent.
+ * ========================================================================== */
+
+/* flat: borders carry the layering on their own. */
+[data-depth='flat'] :is(.shadow-xs, .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl) {
+  --tw-shadow: 0 0 #0000;
+}
+
+/* raised: the same shapes, lifted about half a step. */
+[data-depth='raised'] .shadow-xs {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.07);
+}
+[data-depth='raised'] .shadow-sm {
+  --tw-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.09), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+}
+[data-depth='raised'] .shadow-md {
+  --tw-shadow: 0 6px 12px -3px rgb(0 0 0 / 0.1), 0 3px 6px -3px rgb(0 0 0 / 0.06);
+}
+[data-depth='raised'] .shadow-lg {
+  --tw-shadow: 0 16px 32px -8px rgb(0 0 0 / 0.13), 0 6px 12px -6px rgb(0 0 0 / 0.07);
+}
+[data-depth='raised'] .shadow-xl {
+  --tw-shadow: 0 28px 56px -14px rgb(0 0 0 / 0.18), 0 10px 20px -10px rgb(0 0 0 / 0.09);
+}
+
+/* deep: for dense screens where a floating surface has to win against a busy
+ * background. Still neutral, still no colour. */
+[data-depth='deep'] .shadow-xs {
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+[data-depth='deep'] .shadow-sm {
+  --tw-shadow: 0 2px 6px -1px rgb(0 0 0 / 0.13), 0 1px 3px -1px rgb(0 0 0 / 0.09);
+}
+[data-depth='deep'] .shadow-md {
+  --tw-shadow: 0 10px 20px -4px rgb(0 0 0 / 0.16), 0 4px 8px -4px rgb(0 0 0 / 0.1);
+}
+[data-depth='deep'] .shadow-lg {
+  --tw-shadow: 0 22px 44px -10px rgb(0 0 0 / 0.2), 0 8px 16px -8px rgb(0 0 0 / 0.11);
+}
+[data-depth='deep'] .shadow-xl {
+  --tw-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.26), 0 14px 28px -14px rgb(0 0 0 / 0.13);
 }

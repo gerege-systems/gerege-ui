@@ -109,12 +109,16 @@ export const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, Slider
           aria-labelledby={label && !stringLabel ? labelId : undefined}
           {...props}
         >
-          <SliderPrimitive.Track className="bg-background-muted relative h-1 w-full grow overflow-hidden rounded-full">
+          <SliderPrimitive.Track
+            data-slot="slider-track"
+            className="bg-background-muted relative h-1 w-full grow overflow-hidden rounded-full"
+          >
             <SliderPrimitive.Range className="bg-accent absolute h-full" />
           </SliderPrimitive.Track>
           {currentValue.map((_, i) => (
             <SliderPrimitive.Thumb
               key={i}
+              data-slot="slider-thumb"
               className={cn(
                 'border-accent bg-card relative block size-4 rounded-full border-2 shadow-sm',
                 // 44px touch target without growing the visible thumb.

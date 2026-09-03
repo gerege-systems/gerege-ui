@@ -10,7 +10,12 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(function Tim
   ref,
 ) {
   return (
-    <ol ref={ref} className={cn('relative flex flex-col gap-6', className)} {...props}>
+    <ol
+      data-slot="timeline"
+      ref={ref}
+      className={cn('relative flex flex-col gap-6', className)}
+      {...props}
+    >
       {children}
     </ol>
   );
@@ -29,9 +34,17 @@ export const TimelineItem = forwardRef<HTMLLIElement, TimelineItemProps>(functio
   ref,
 ) {
   return (
-    <li ref={ref} className={cn('relative flex gap-4 pb-1', className)} {...props}>
+    <li
+      data-slot="timeline-item"
+      ref={ref}
+      className={cn('relative flex gap-4 pb-1', className)}
+      {...props}
+    >
       <div className="relative flex shrink-0 flex-col items-center">
-        <div className="border-border bg-card text-foreground-muted flex size-6 items-center justify-center rounded-full border">
+        <div
+          data-slot="timeline-bullet"
+          className="border-border bg-card text-foreground-muted flex size-6 items-center justify-center rounded-full border"
+        >
           {bullet ?? <span className="bg-accent size-2 rounded-full" aria-hidden />}
         </div>
         {!isLast && <span className="bg-border mt-1 w-px flex-1" aria-hidden />}
