@@ -11,7 +11,7 @@
  * behaves like a built-in one in both modes.
  */
 import type { BrandTokens } from '@/components/ui/DesignSystemProvider';
-import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset } from './presets';
+import { BASE_COLORS, CHART_PALETTES, DEPTHS, STYLES, findPreset } from './presets';
 import { FONTS, MONO_FONTS, findFont, googleFontsUrl } from './fonts';
 
 export interface ThemeState {
@@ -23,6 +23,8 @@ export interface ThemeState {
   hue: number;
   /** Named style bundle — radius, type scale, spacing. */
   style: string;
+  /** Named elevation step — how far surfaces float. */
+  depth: string;
   /** Named neutral family — surfaces, borders, secondary text. */
   base: string;
   /** Named categorical series palette. */
@@ -47,6 +49,7 @@ export const DEFAULT_STATE: ThemeState = {
   chroma: 0.185,
   hue: 274.5,
   style: 'nova',
+  depth: 'soft',
   base: 'slate',
   chart: 'default',
   radius: null,
@@ -331,19 +334,26 @@ export function generateCss(s: ThemeState, withImports: boolean): string {
     // rule, and the families must be there before the tokens name them.
     parts.push(fontsUrl ? `@import url('${fontsUrl}');\n${IMPORTS}` : IMPORTS);
   }
-  if (!Object.keys(light).length && !Object.keys(dark).length) {
+  const attrsChanged = s.style !== DEFAULT_STATE.style || s.depth !== DEFAULT_STATE.depth;
+  if (!Object.keys(light).length && !Object.keys(dark).length && !attrsChanged) {
     parts.push('/* Nothing changed — the library defaults still apply. */');
     return parts.join('\n\n');
   }
-  if (s.style !== DEFAULT_STATE.style) {
+  for (const [attr, value, fallback] of [
+    ['data-style', s.style, DEFAULT_STATE.style],
+    ['data-depth', s.depth, DEFAULT_STATE.depth],
+  ] as const) {
+    if (value === fallback) continue;
     parts.push(
-      `/* Style: put data-style="${s.style}" on <html> (or any subtree).
+      `/* Put ${attr}="${value}" on <html> (or any subtree).
 ` + '   The rules ship with the library — nothing to copy for this line. */',
     );
   }
-  parts.push('/* Theme editor — ui.gecore.mn/#theme */');
-  if (Object.keys(light).length) parts.push(block(':root', light));
-  if (Object.keys(dark).length) parts.push(block('.dark', dark));
+  if (Object.keys(light).length || Object.keys(dark).length) {
+    parts.push('/* Theme editor — ui.gecore.mn/#theme */');
+    if (Object.keys(light).length) parts.push(block(':root', light));
+    if (Object.keys(dark).length) parts.push(block('.dark', dark));
+  }
   return parts.join('\n\n');
 }
 
@@ -358,6 +368,7 @@ export function encodeState(s: ThemeState): string {
     p.set('h', String(s.hue));
   }
   if (s.style !== DEFAULT_STATE.style) p.set('st', s.style);
+  if (s.depth !== DEFAULT_STATE.depth) p.set('dp', s.depth);
   if (s.base !== DEFAULT_STATE.base) p.set('bc', s.base);
   if (s.chart !== DEFAULT_STATE.chart) p.set('ch', s.chart);
   if (s.radius !== null) p.set('r', String(s.radius));
@@ -387,6 +398,7 @@ export function decodeState(hash: string): ThemeState {
   s.radius = rawRadius === null ? null : num('r', 0, 24, 6);
   for (const [key, list, field] of [
     ['st', STYLES, 'style'],
+    ['dp', DEPTHS, 'depth'],
     ['bc', BASE_COLORS, 'base'],
     ['ch', CHART_PALETTES, 'chart'],
   ] as const) {

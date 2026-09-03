@@ -15,7 +15,15 @@ import {
   radiusScale,
   type ThemeState,
 } from './editor-model';
-import { BASE_COLORS, CHART_PALETTES, STYLES, findPreset, type NamedPreset } from './presets';
+import {
+  BASE_COLORS,
+  CHART_PALETTES,
+  DEPTHS,
+  STYLES,
+  baseRamp,
+  findPreset,
+  type SwatchOption,
+} from './presets';
 import { FONTS, MONO_FONTS, findFont, type FontChoice } from './fonts';
 
 const HUES = Array.from({ length: 12 }, (_, i) => i * 30);
@@ -44,9 +52,30 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
   const light = accentContrast(state, 'light');
   const dark = accentContrast(state, 'dark');
   const styleRadius = radiusScale(state.radius ?? 6);
+  // Style and Depth move no tokens, so a token count cannot tell whether the
+  // rail has been touched — Reset would vanish after changing either one.
+  const dirty = (Object.keys(DEFAULT_STATE) as (keyof ThemeState)[]).some(
+    (k) => state[k] !== DEFAULT_STATE[k],
+  );
   const activeAccent = ACCENT_PRESETS.find(
     (p) => p.l === state.lightness && p.c === state.chroma && p.h === state.hue,
   );
+  const accentOptions: SwatchOption[] = ACCENT_PRESETS.map((p) => ({
+    name: p.name,
+    label: p.label,
+    hint: p.hint,
+    swatch: oklchToHex(p.l, p.c, p.h),
+  }));
+  // A hand-tuned accent has no name, and Select needs its value to exist in the
+  // list — so the list grows a "Custom" row only while that is the case.
+  if (!activeAccent) {
+    accentOptions.push({
+      name: 'custom',
+      label: 'Custom',
+      hint: 'Tuned by hand — the controls below own this value.',
+      swatch: hex,
+    });
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -57,13 +86,15 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         <div className="flex min-w-0 flex-col gap-0.5">
           <h2 className="text-sm font-semibold">Customise</h2>
           <p className="text-foreground-subtle text-xs">
-            {changed === 0
-              ? 'Library defaults'
-              : `${changed} token${changed === 1 ? '' : 's'} changed`}
+            {changed > 0
+              ? `${changed} token${changed === 1 ? '' : 's'} changed`
+              : dirty
+                ? 'Attributes only — no tokens changed'
+                : 'Library defaults'}
           </p>
         </div>
         <span className="grow" />
-        {changed > 0 && (
+        {dirty && (
           <Button variant="ghost" size="sm" onClick={onReset}>
             Reset
           </Button>
@@ -90,43 +121,33 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         list={BASE_COLORS}
         value={state.base}
         onValue={(v) => onChange({ base: v })}
+        preview={(p) => (
+          // Three tones, not one dot: these neutrals differ by a couple of
+          // percent at the pale end, so a single chip read as "nothing changed".
+          <div className="flex gap-1" aria-hidden>
+            {baseRamp(p).map((c) => (
+              <span
+                key={c}
+                className="border-border size-3 rounded-full border"
+                style={{ background: c }}
+              />
+            ))}
+          </div>
+        )}
       />
 
-      {/* Theme = the accent. A named row plus the fine-tune underneath. */}
+      {/* Theme = the accent. Same dropdown as the other three, then the
+          fine-tune underneath for anything the twelve names do not cover. */}
       <div className="flex flex-col gap-2.5">
-        <Row
+        <PresetSelect
           label="Theme"
-          value={activeAccent?.label ?? 'Custom'}
-          hint={activeAccent?.hint ?? 'Custom values'}
-          swatch={hex}
-        >
-          <div className="grid grid-cols-3 gap-2">
-            {ACCENT_PRESETS.map((p) => {
-              const active = activeAccent?.name === p.name;
-              return (
-                <button
-                  key={p.name}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => onChange({ lightness: p.l, chroma: p.c, hue: p.h })}
-                  className={cn(
-                    'focus-visible:ring-ring flex items-center gap-2 rounded-md border px-2 py-1.5 text-xs focus-visible:ring-2 focus-visible:outline-none',
-                    active
-                      ? 'border-accent text-foreground font-medium'
-                      : 'border-border text-foreground-muted hover:border-border-strong',
-                  )}
-                >
-                  <span
-                    aria-hidden
-                    className="size-3.5 shrink-0 rounded-full"
-                    style={{ background: oklchToHex(p.l, p.c, p.h) }}
-                  />
-                  <span className="truncate">{p.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </Row>
+          list={accentOptions}
+          value={activeAccent?.name ?? 'custom'}
+          onValue={(v) => {
+            const p = ACCENT_PRESETS.find((a) => a.name === v);
+            if (p) onChange({ lightness: p.l, chroma: p.c, hue: p.h });
+          }}
+        />
 
         <div>
           <p className="text-foreground-subtle mb-1.5 text-xs">Hue</p>
@@ -245,6 +266,22 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         )}
       </section>
 
+      <PresetSelect
+        label="Depth"
+        list={DEPTHS}
+        value={state.depth}
+        onValue={(v) => onChange({ depth: v })}
+        preview={(p) => (
+          // A card-coloured chip lifted off the rail — a colour dot would say
+          // nothing about elevation. The shadow is chip-scale (see presets).
+          <span
+            aria-hidden
+            className="bg-card border-border size-5 rounded-[3px] border"
+            style={{ boxShadow: p.swatch }}
+          />
+        )}
+      />
+
       <Separator />
 
       <FontSelect
@@ -272,8 +309,8 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
   );
 }
 
-/** A named dropdown with a swatch — Style, Base Color, Chart Color. */
-function PresetSelect({
+/** A named dropdown with a swatch — Style, Base Color, Theme, Chart Color. */
+function PresetSelect<T extends SwatchOption>({
   label,
   list,
   value,
@@ -281,10 +318,10 @@ function PresetSelect({
   preview,
 }: {
   label: string;
-  list: NamedPreset[];
+  list: T[];
   value: string;
   onValue: (v: string) => void;
-  preview?: (p: NamedPreset) => React.ReactNode;
+  preview?: (p: T) => React.ReactNode;
 }) {
   const active = findPreset(list, value);
   return (
@@ -314,37 +351,6 @@ function PresetSelect({
       </Select>
       <p className="text-foreground-subtle text-xs">{active.hint}</p>
     </section>
-  );
-}
-
-function Row({
-  label,
-  value,
-  hint,
-  swatch,
-  children,
-}: {
-  label: string;
-  value: string;
-  hint: string;
-  swatch: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <h3 className="text-sm font-semibold">{label}</h3>
-        <span className="text-foreground-subtle text-xs">{value}</span>
-        <span className="grow" />
-        <span
-          aria-hidden
-          className="border-border size-4 rounded-full border"
-          style={{ background: swatch }}
-        />
-      </div>
-      {children}
-      <p className="text-foreground-subtle text-xs">{hint}</p>
-    </div>
   );
 }
 

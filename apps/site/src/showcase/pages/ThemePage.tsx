@@ -126,7 +126,7 @@ export function ThemePage() {
             <div className="flex max-w-2xl min-w-0 flex-col gap-1.5">
               <h1 className="text-3xl font-semibold tracking-tight">Theme</h1>
               <p className="text-foreground-muted text-sm">
-                Pick a style, base colour, accent and chart palette, then hit{' '}
+                Pick a style, base colour, accent, chart palette and depth, then hit{' '}
                 <strong>Get code</strong>. Paste the snippet into one stylesheet and every component
                 follows — no component edits. The {BLOCK_COUNT} blocks below repaint on every
                 change.
@@ -145,8 +145,8 @@ export function ThemePage() {
                   <SheetHeader>
                     <SheetTitle>Customise</SheetTitle>
                     <SheetDescription>
-                      Style, base colour, accent and chart palette. Changes apply to the preview
-                      behind this panel.
+                      Style, base colour, accent, chart palette and depth. Changes apply to the
+                      preview behind this panel.
                     </SheetDescription>
                   </SheetHeader>
                   <div className="py-4">{controls}</div>
@@ -170,7 +170,7 @@ export function ThemePage() {
           {/* font-sans here on purpose: html already resolved font-family from
               the old value, so a nested --font-sans override changes nothing
               unless something re-applies it. */}
-          <div data-style={state.style}>
+          <div data-style={state.style} data-depth={state.depth}>
             <DesignSystemProvider tokens={tokens}>
               {/* font-sans has to sit INSIDE the provider: the override lives on
                   the provider's own element, so an ancestor would resolve the

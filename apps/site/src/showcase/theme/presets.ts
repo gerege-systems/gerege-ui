@@ -14,7 +14,12 @@ export interface Bundle {
   dark?: BrandTokens;
 }
 
-export interface NamedPreset {
+/**
+ * What a rail dropdown needs to draw a row. Kept separate from `NamedPreset`
+ * because Theme (the accent) is not a token bundle — it is three OKLCH numbers
+ * — yet it renders through the same control.
+ */
+export interface SwatchOption {
   name: string;
   label: string;
   hint: string;
@@ -24,6 +29,9 @@ export interface NamedPreset {
    * colour, which it deliberately does not.
    */
   swatch: string;
+}
+
+export interface NamedPreset extends SwatchOption {
   tokens: Bundle;
 }
 
@@ -92,6 +100,50 @@ export const STYLES: NamedPreset[] = [
     label: 'Rhea',
     hint: 'Quiet — smaller labels, 8px radius',
     swatch: '8px',
+    tokens: { light: {} },
+  },
+];
+
+/* ------------------------------------------------------------------ depth -- */
+
+/**
+ * How far *floating* surfaces float — menus, dialogs, popovers, toasts. Cards
+ * and other inline surfaces keep their hairline border and no shadow in every
+ * depth; that is a library rule (see Card), not something a preset may undo.
+ *
+ * Like Style this is an attribute (`data-depth`), not a token bundle: Tailwind
+ * inlines `--shadow-*` at build time, so the rules ship in the library's
+ * component-styles.css and a project only writes the attribute. `swatch` is a chip-scale stand-in, not the shipped value: the real
+ * shadows are tuned for a dialog, and at 20px square their blur falls outside
+ * the chip entirely, so every depth would look flat in the rail.
+ */
+export const DEPTHS: NamedPreset[] = [
+  {
+    name: 'flat',
+    label: 'Flat',
+    hint: 'No shadow — menus and dialogs sit on their borders',
+    swatch: 'none',
+    tokens: { light: {} },
+  },
+  {
+    name: 'soft',
+    label: 'Soft',
+    hint: 'Library default — whisper-soft on floating surfaces',
+    swatch: '0 1px 2px 0 rgb(0 0 0 / 0.12)',
+    tokens: { light: {} },
+  },
+  {
+    name: 'raised',
+    label: 'Raised',
+    hint: 'Menus, dialogs and toasts lift half a step',
+    swatch: '0 2px 4px -1px rgb(0 0 0 / 0.2)',
+    tokens: { light: {} },
+  },
+  {
+    name: 'deep',
+    label: 'Deep',
+    hint: 'Strong lift for dense, busy screens',
+    swatch: '0 4px 7px -2px rgb(0 0 0 / 0.3)',
     tokens: { light: {} },
   },
 ];
@@ -418,6 +470,27 @@ export const CHART_PALETTES: NamedPreset[] = [
   },
 ];
 
-export function findPreset(list: NamedPreset[], name: string): NamedPreset {
+export function findPreset<T extends SwatchOption>(list: T[], name: string): T {
   return list.find((p) => p.name === name) ?? list[0];
+}
+
+/**
+ * Three tones of a base colour, light-mode, for the rail swatch.
+ *
+ * A single pale dot cannot show these families apart: every one of them sits at
+ * ~88% lightness and differs only in hue by a few percent, so switching the
+ * dropdown looked like nothing happened. The dark end of the ramp is where the
+ * hue actually reads, hence surface → border → text rather than one chip.
+ *
+ * Slate declares no tokens (it is what theme.css already gives), so its values
+ * are spelled out here; every family is quoted in light mode, so the swatch
+ * stays comparable when the site itself is dark.
+ */
+export function baseRamp(p: NamedPreset): string[] {
+  const t = p.tokens.light;
+  return [
+    t['background-muted'] ?? 'hsl(210 40% 96%)',
+    t['border-strong'] ?? 'hsl(213 27% 84%)',
+    t['foreground-muted'] ?? 'hsl(215 19% 35%)',
+  ];
 }
