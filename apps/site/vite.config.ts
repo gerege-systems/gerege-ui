@@ -1,9 +1,10 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
+import { siteCounts } from './scripts/site-counts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const UI_SRC = path.resolve(__dirname, '../../packages/ui/src');
@@ -22,8 +23,22 @@ const UI_VERSION = (
  * alias just points that bare specifier (and the legacy `@/…` paths the ported
  * docs use) at the workspace source.
  */
+/** `%COMPONENT_COUNT%` / `%TEMPLATE_COUNT%` / `%GUIDE_COUNT%` in index.html. */
+function metaCounts(): Plugin {
+  return {
+    name: 'site-meta-counts',
+    transformIndexHtml(html) {
+      const c = siteCounts();
+      return html
+        .replaceAll('%COMPONENT_COUNT%', String(c.components))
+        .replaceAll('%TEMPLATE_COUNT%', String(c.templates))
+        .replaceAll('%GUIDE_COUNT%', String(c.guides));
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), metaCounts()],
   define: { __UI_VERSION__: JSON.stringify(UI_VERSION) },
   resolve: {
     alias: {

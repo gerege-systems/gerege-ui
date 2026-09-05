@@ -127,8 +127,7 @@ src/
 │   ├── format.ts             # formatDate / formatNumber / formatMNT
 │   └── strings.ts            # UiStrings, defaultStrings (+ strings.mn.ts)
 ├── components/
-│   ├── ui/                   # primitives — 52 components
-│   └── patterns/             # composed layouts
+│   └── ui/                   # primitives, one file per component
 ├── hooks/
 │   ├── use-toast.ts
 │   └── use-media-query.ts
