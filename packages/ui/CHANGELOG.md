@@ -1,5 +1,21 @@
 # @gerege-systems/ui
 
+## 0.13.0
+
+### Minor Changes
+
+- fb33266: Add the `data-radius="full"` layer: pill controls (button, input, select, combobox, pagination, pill tabs) by slot, while cards, textareas and skeletons keep the radius tokens. The theme editor's "Full" radius now emits this attribute plus bounded surface tokens instead of `--radius-*: 9999px`, which turned every card into an ellipse.
+  
+  Style layer fixes: a textarea and a card-sized skeleton are capped at the surface radius (lyra made them stadiums); underline tabs no longer take the surface radius (their bottom border bent up at both ends).
+
+### Patch Changes
+
+- 55014bc: `DropdownMenuItem` and `ContextMenuItem` now size a bare `<svg>` child to 16px
+  (`[&_svg]:size-4 [&_svg]:shrink-0`), the same default `Button`, `Sidebar` and
+  `Command` items already apply. A lucide icon dropped into a menu item rendered at
+  its 24px default, so every consumer sized it by hand — the admin template's
+  `className="size-4"` on each item icon is now redundant (and harmless).
+
 ## 0.12.4
 
 ### Patch Changes
