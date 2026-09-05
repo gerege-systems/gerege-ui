@@ -37,7 +37,9 @@ export interface ThemeState {
   chart: string;
   /**
    * Explicit control radius in px; `null` follows the style. `PILL` (9999)
-   * is the "Full" choice. Ignored under a style that owns its shape (vega, lyra).
+   * is the "Full" choice — pill controls through the library's `data-radius`
+   * layer, with bounded surface tokens (see `radiusScale`). Ignored under a
+   * style that owns its shape (vega, lyra).
    */
   radius: number | null;
   /** Body family — a key into FONTS. */
@@ -48,7 +50,7 @@ export interface ThemeState {
   fontMono: string;
 }
 
-/** The "Full" radius: every corner a pill. */
+/** The "Full" radius: every control a pill. */
 export const PILL = 9999;
 
 /**
@@ -308,14 +310,28 @@ function darkC(s: ThemeState): number {
   return Math.max(0.04, s.chroma - 0.02);
 }
 
-/** Radius scale derived from the base control radius. */
+/**
+ * Radius scale derived from the base control radius.
+ *
+ * `sm` is capped at the library default: it is the checkbox radius, and a 16px
+ * box with an 8px corner is a circle — a radio. Full does not put 9999px into
+ * the tokens at all: a length cannot say "pill", and `--radius-md: 9999px`
+ * rounds every `rounded-md` box (a textarea, a list row) into a stadium and
+ * every card into an ellipse. The pill comes from `data-radius="full"`
+ * (`fullRadius`) and the tokens carry the larger surface radii that go with it.
+ */
 export function radiusScale(base: number): { sm: number; md: number; lg: number; xl: number } {
   if (base === 0) return { sm: 0, md: 0, lg: 0, xl: 0 };
-  if (base >= PILL) return { sm: PILL, md: PILL, lg: PILL, xl: PILL };
-  return { sm: Math.max(2, base - 2), md: base, lg: base + 2, xl: base + 6 };
+  if (base >= PILL) return { sm: 4, md: 12, lg: 16, xl: 24 };
+  return { sm: Math.min(4, Math.max(2, base - 2)), md: base, lg: base + 2, xl: base + 6 };
 }
 
-/** `9999px` reads as nonsense in copy; the choice is called Full. */
+/** Whether the pill layer is on: Full chosen under a style that does not own its shape. */
+export function fullRadius(s: ThemeState): boolean {
+  return s.radius === PILL && !styleOwnsRadius(s.style);
+}
+
+/** Copy for the control radius: Full is a pill whatever the `md` token says. */
 export function formatRadius(px: number): string {
   return px >= PILL ? 'full' : `${px}px`;
 }
@@ -465,6 +481,7 @@ export function generateCss(s: ThemeState, setup: CssSetup | null): string {
   const lib = libraryAccent(s);
   const attrs: [string, string][] = [];
   if (s.style !== DEFAULT_STATE.style) attrs.push(['data-style', s.style]);
+  if (fullRadius(s)) attrs.push(['data-radius', 'full']);
   if (s.depth !== DEFAULT_STATE.depth) attrs.push(['data-depth', s.depth]);
   if (lib && lib !== 'default') {
     attrs.push(['data-accent', lib]);

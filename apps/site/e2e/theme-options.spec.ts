@@ -181,21 +181,43 @@ test.describe('theme rail options', () => {
   }) => {
     await gotoHash(page, 'theme');
     const r = rail(page);
+    await injectProbe(page);
+    const probeButton = () =>
+      page.$eval("#option-probe [data-slot='button']", (el) => getComputedStyle(el).borderRadius);
+    const scopeRadiusAttr = () => page.$eval(SCOPE, (el) => el.getAttribute('data-radius'));
+    // Full is not 9999px in the token — that rounded every card into an
+    // ellipse. The token stays a length and the pill is the data-radius layer.
     const expected: Record<string, string> = {
       None: '0px',
       Small: '4px',
       Medium: '6px',
       Large: '10px',
-      Full: '9999px',
+      Full: '12px',
     };
     for (const [label, value] of Object.entries(expected)) {
       await r.getByRole('button', { name: label, exact: true }).click();
       expect(await scopeVar(page, '--radius-md'), label).toBe(value);
+      expect(await probeButton(), `${label} control`).toBe(label === 'Full' ? '9999px' : value);
+      expect(await scopeRadiusAttr(), `${label} attribute`).toBe(label === 'Full' ? 'full' : null);
     }
+    await expect(r.getByText('Control full · card 16px · modal 24px')).toBeVisible();
     await r.getByRole('button', { name: 'Follow style', exact: true }).click();
     // Nothing set on the scope: the inherited library value shows through.
     expect(await scopeVar(page, '--radius-md')).toBe('6px');
+    expect(await scopeRadiusAttr()).toBeNull();
+
+    // A style's radius is `calc(var(--radius-md) * n)`, resolved where the
+    // style variable is declared — so the attributes and the tokens must sit on
+    // the same element for the Radius control to reach a styled component.
+    await choose(page, r.getByLabel('Style', { exact: true }), 'Maia');
+    expect(await probeButton(), 'maia follows style').toBe('12px');
+    await r.getByRole('button', { name: 'Large', exact: true }).click();
+    expect(await probeButton(), 'maia × Large').toBe('20px');
+    await r.getByRole('button', { name: 'Full', exact: true }).click();
+    expect(await probeButton(), 'maia × Full').toBe('9999px');
+
     await choose(page, r.getByLabel('Style', { exact: true }), 'Vega');
+    expect(await scopeRadiusAttr(), 'vega owns its shape').toBeNull();
     for (const label of Object.keys(expected)) {
       await expect(r.getByRole('button', { name: label, exact: true })).toBeDisabled();
     }

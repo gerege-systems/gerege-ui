@@ -19,6 +19,7 @@ import {
   changedCount,
   decodeState,
   encodeState,
+  fullRadius,
   previewTokens,
   type ThemeState,
 } from '../theme/editor-model';
@@ -194,22 +195,29 @@ export function ThemePage() {
 
           {/* No frame: every block is a Card already, so a border around the
               wall was one more box drawn around thirty boxes. */}
-          {/* data-style drives the library's per-component style layer; the
-              provider carries the colour tokens. The two compose. */}
+          {/* The attribute layers (data-style, data-radius, data-depth) sit on
+              the provider's own element, next to the tokens — as they would on
+              a consumer's <html>. A style's `calc(var(--radius-md) * 2)` is
+              resolved where the style variable is declared, so on a wrapper
+              above the provider it read the library default and the Radius
+              control never reached a styled component. */}
           {/* font-sans here on purpose: html already resolved font-family from
               the old value, so a nested --font-sans override changes nothing
               unless something re-applies it. Headings get the same treatment
               through previewTokens (the --font-heading alias). */}
-          <div data-style={state.style} data-depth={state.depth}>
-            <DesignSystemProvider tokens={tokens}>
-              {/* font-sans has to sit INSIDE the provider: the override lives on
-                  the provider's own element, so an ancestor would resolve the
-                  variable to the old value and hand that down. */}
-              <div className="font-sans">
-                <ThemePreviewWall seed={seed} />
-              </div>
-            </DesignSystemProvider>
-          </div>
+          <DesignSystemProvider
+            tokens={tokens}
+            data-style={state.style}
+            data-radius={fullRadius(state) ? 'full' : undefined}
+            data-depth={state.depth}
+          >
+            {/* font-sans has to sit INSIDE the provider: the override lives on
+                the provider's own element, so an ancestor would resolve the
+                variable to the old value and hand that down. */}
+            <div className="font-sans">
+              <ThemePreviewWall seed={seed} />
+            </div>
+          </DesignSystemProvider>
         </div>
       </div>
 

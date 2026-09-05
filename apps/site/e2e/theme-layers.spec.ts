@@ -26,6 +26,10 @@ const PROBE = `
   <span role="radio" class="rounded-full size-4 border block"></span>
   <div data-slot="card" class="rounded-lg border shadow-md p-4">Card</div>
   <div data-slot="popover-content" class="rounded-lg border shadow-lg p-4">Popover</div>
+  <div data-slot="tabs-list" id="underline-tabs" class="border-b flex"><button role="tab">Tab</button></div>
+  <div data-slot="skeleton" class="rounded-md h-32 w-40"></div>
+  <div data-slot="textarea-field"><textarea class="rounded-md h-20 w-40"></textarea></div>
+  <button data-slot="button" class="h-9 rounded-md px-3.5">Button</button>
 `;
 
 /** Inject the probe into the preview scope — the subtree both attributes sit on. */
@@ -79,6 +83,37 @@ test.describe('style layer', () => {
     // A pill checkbox would read as a radio, so the mark radius is capped.
     expect(await radius(page, "[data-slot='checkbox-field'] [role=checkbox]")).toBe('4px');
     expect(await radius(page, '[role=menuitem]')).toBe('4px');
+    // Boxes are capped at the surface radius: a stadium textarea runs its
+    // lines into the corner arc, a stadium skeleton stops reading as content.
+    expect(await radius(page, "[data-slot='skeleton']")).toBe('20px');
+    expect(await radius(page, "[data-slot='textarea-field'] textarea")).toBe('20px');
+    // Underline tabs are a bottom border, not a surface — a radius would bend
+    // the line up at both ends.
+    expect(await radius(page, '#underline-tabs')).toBe('0px');
+  });
+});
+
+test.describe('radius layer', () => {
+  test('Full pills the controls and leaves the boxes to the tokens', async ({ page }) => {
+    await gotoHash(page, 'theme?r=9999');
+    await injectProbe(page);
+    for (const sel of ["[data-slot='button']", "[data-slot='pagination'] button", '[role=tab]']) {
+      expect(await radius(page, sel), sel).toBe('9999px');
+    }
+    expect(await radius(page, "[data-slot='card']")).toBe('16px');
+    expect(await radius(page, "[data-slot='textarea-field'] textarea")).toBe('12px');
+    expect(await radius(page, "[data-slot='checkbox-field'] [role=checkbox]")).toBe('4px');
+  });
+
+  test('Full composes with a style; a shape-owning style drops it', async ({ page }) => {
+    await gotoHash(page, 'theme?st=maia&r=9999');
+    await injectProbe(page);
+    expect(await radius(page, "[data-slot='button']")).toBe('9999px');
+    expect(await radius(page, "[data-slot='card']")).toBe('36px'); // 16px × 2.25
+    await gotoHash(page, 'theme?st=vega&r=9999');
+    await injectProbe(page);
+    expect(await radius(page, "[data-slot='button']")).toBe('0px');
+    expect(await radius(page, "[data-slot='card']")).toBe('0px');
   });
 });
 

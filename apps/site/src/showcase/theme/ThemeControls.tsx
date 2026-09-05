@@ -283,8 +283,8 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         ) : (
           state.radius !== null && (
             <p className="text-foreground-subtle text-xs">
-              Control {formatRadius(styleRadius.md)} · card {formatRadius(styleRadius.lg)} · modal{' '}
-              {formatRadius(styleRadius.xl)}
+              Control {formatRadius(state.radius === PILL ? PILL : styleRadius.md)} · card{' '}
+              {formatRadius(styleRadius.lg)} · modal {formatRadius(styleRadius.xl)}
             </p>
           )
         )}

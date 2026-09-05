@@ -9,11 +9,13 @@ import {
   decodeState,
   deriveTokens,
   encodeState,
+  fullRadius,
   generateCss,
   hexToOklch,
   libraryAccent,
   oklchToHex,
   previewTokens,
+  radiusScale,
   type ThemeState,
 } from '../editor-model';
 import { BASE_COLORS, STYLES } from '../presets';
@@ -65,10 +67,26 @@ describe('accent maths', () => {
 });
 
 describe('radius and styles', () => {
-  it('Full survives a shared link and is emitted as a pill', () => {
+  it('Full survives a shared link; the pill is an attribute, the tokens stay lengths', () => {
     const s = { ...DEFAULT_STATE, radius: PILL };
     expect(decodeState(`#theme${encodeState(s)}`)).toEqual(s);
-    expect(deriveTokens(s).light['radius-md']).toBe(`${PILL}px`);
+    // 9999px in a token would round every rounded-md box and every card into
+    // a stadium — the pill reaches the controls through data-radius instead.
+    const light = deriveTokens(s).light;
+    expect(light['radius-md']).toBe('12px');
+    expect(light['radius-lg']).toBe('16px');
+    expect(Object.values(light).some((v) => v.includes('9999'))).toBe(false);
+    expect(fullRadius(s)).toBe(true);
+    expect(generateCss(s, null)).toContain('data-radius="full"');
+    // Under a shape-owning style the attribute is dropped with the radius.
+    expect(fullRadius({ ...s, style: 'lyra' })).toBe(false);
+    expect(generateCss({ ...s, style: 'lyra' }, null)).not.toContain('data-radius');
+  });
+
+  it('the checkbox radius never reaches a circle', () => {
+    // 16px box, 8px corner = a radio. Large used to hand it exactly that.
+    for (const base of [4, 6, 10, 24]) expect(radiusScale(base).sm).toBeLessThanOrEqual(4);
+    expect(radiusScale(0).sm).toBe(0);
   });
 
   it('a style that owns its shape drops the radius', () => {

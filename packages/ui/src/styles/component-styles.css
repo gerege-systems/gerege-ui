@@ -1,9 +1,11 @@
 /* =============================================================================
- * Attribute layers — shape (`data-style`) and elevation (`data-depth`).
+ * Attribute layers — shape (`data-style`), pill controls (`data-radius`) and
+ * elevation (`data-depth`).
  *
- * Both are attributes you put on a root element and both stop at colour, so a
- * style, a depth and a palette compose instead of fighting. The depth layer is
- * at the bottom of this file; everything above it is the style layer.
+ * All are attributes you put on a root element and all stop at colour, so a
+ * style, a radius, a depth and a palette compose instead of fighting. The
+ * radius and depth layers are at the bottom of this file; everything above
+ * them is the style layer.
  *
  * A style is an attribute you put on a root element (`<html data-style="vega">`
  * or any subtree), and everything under it is reshaped. Colour is deliberately
@@ -136,8 +138,14 @@
   font-weight: var(--style-control-weight, 500);
 }
 
+/* A textarea is a control by role but a box by shape: under lyra its lines
+ * would run into the arc of a 9999px corner. It takes the control radius up to
+ * the surface radius and no further. */
 [data-style]:not([data-style='nova']) [data-slot='textarea-field'] textarea {
-  border-radius: var(--style-radius-control, var(--radius-md));
+  border-radius: min(
+    var(--style-radius-control, var(--radius-md)),
+    var(--style-radius-surface, var(--radius-lg))
+  );
 }
 
 /* Surfaces: anything that frames content — cards, overlays, panels, states. */
@@ -165,7 +173,7 @@
     [data-slot='sidebar'],
     [data-slot='stepper'],
     [data-slot='scroll-area'],
-    [data-slot='tabs-list'],
+    [data-slot='tabs-list'][data-variant='pills'],
     [data-slot='table-container']
   ) {
   border-radius: var(--style-radius-surface, var(--radius-lg));
@@ -210,9 +218,13 @@
 }
 
 /* A skeleton stands in for a control, so it takes the control radius — as a
- * pill it stopped reading as a block of missing content. */
+ * pill it stopped reading as a block of missing content. Capped at the surface
+ * radius: a card-sized skeleton under lyra was a stadium. */
 [data-style]:not([data-style='nova']) [data-slot='skeleton'] {
-  border-radius: var(--style-radius-control, var(--radius-md));
+  border-radius: min(
+    var(--style-radius-control, var(--radius-md)),
+    var(--style-radius-surface, var(--radius-lg))
+  );
 }
 
 /* Deliberately shape-free, so nothing below reaches them: separators, spinners,
@@ -279,6 +291,35 @@
 /* rhea: nothing shouts. */
 [data-style='rhea'] [data-slot='badge'] {
   font-weight: 400;
+}
+
+/* =============================================================================
+ *  Radius layer — `data-radius="full"`.
+ *
+ * The radius tokens are lengths, and a length cannot say "pill": 9999px on
+ * `--radius-md` turns every `rounded-md` box — a textarea, a drop zone, a list
+ * row — into a stadium, and on `--radius-lg` it does the same to cards. So Full
+ * is an attribute, like a style: it pills the controls by slot and leaves the
+ * tokens to the surfaces (the theme editor pairs it with a larger card and
+ * modal radius). Marks keep their cap and radios were round already. Vega owns
+ * its square shape and is exempt; lyra is a pill already, so this is a no-op
+ * there. It composes with every other style — the selector outweighs the
+ * control group above on purpose.
+ * ========================================================================== */
+[data-radius='full']:not([data-style='vega'])
+  :is(
+    [data-slot='button'],
+    [data-slot='icon-button'],
+    [data-slot='select-trigger'],
+    [data-slot='input-field'],
+    [data-slot='tag-input'],
+    [data-slot='multi-select'],
+    [data-slot='combobox'],
+    [data-slot='date-picker'],
+    [data-slot='pagination'] button,
+    [data-slot='tabs-list'][data-variant='pills'] [role='tab']
+  ) {
+  border-radius: 9999px;
 }
 
 /* =============================================================================
