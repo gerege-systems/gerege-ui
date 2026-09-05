@@ -25,6 +25,17 @@ That's it. The bot does the rest:
 - **On push to `main` with pending changesets** → opens (or updates) a "Version Packages" PR that bumps `package.json` versions and rewrites `CHANGELOG.md`.
 - **When that PR is merged** → runs `pnpm build:lib` (builds `packages/ui`) + `pnpm changeset publish`, which publishes to npm (using the `NPM_TOKEN` secret), creates a GitHub release for each package, and pushes git tags.
 
+### The red X on the release PR
+
+Every "Version Packages" PR shows a failed CI check with no jobs in it. The PR is
+opened by `github-actions[bot]` using the workflow's own `GITHUB_TOKEN`, and
+GitHub refuses to run workflows for events that token creates — the run is filed
+but never starts, so it lands as a failure. Nothing is wrong with the tree:
+Release re-runs lint, typecheck, tests and the package checks on `main` before it
+publishes, and the merge commit gets a full CI run. Merge it as normal. Giving
+`changesets/action` a user PAT instead would make the check run for real; that is
+the only fix, and it costs a secret to rotate.
+
 ### Adding multiple changes before releasing
 
 Add as many `.changeset/*.md` files as you want — the bot coalesces them. A `patch` + `minor` queued together produces a single `minor` release; multiple `minor`s produce one `minor`. The release PR refreshes on every push.
@@ -48,7 +59,9 @@ But the bot is the canonical path — keep it intact.
 
 Required in GitHub repo settings → Secrets and variables → Actions:
 
-- `NPM_TOKEN` — npm automation token with publish rights on the `@gerege-systems/*` scope. **Not set on this repo yet** — it was not carried over when the project split from craftzbay-ui.
+- `NPM_TOKEN` — a granular npm token with publish rights on the `@gerege-systems/*` scope. Set,
+  and the path 0.12.0 was published through. **Bypass 2FA must be on** for the token, or the
+  publish step gets a 403; leave the allowed-IP list empty.
 
 ## Repository layout
 

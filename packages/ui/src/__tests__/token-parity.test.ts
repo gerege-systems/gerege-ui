@@ -1,15 +1,22 @@
 // @vitest-environment node
 import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { parseTheme } from './helpers/theme';
 
 /**
- * design-research/08-design-tokens.md mirrors theme.css by hand. If the doc
- * exists on this machine, assert every value it lists still matches the
+ * design-research/08-design-tokens.md mirrors theme.css by hand. If the doc is
+ * checked out next to this repo, assert every value it lists still matches the
  * source of truth. The doc is never edited here — mismatches are reported.
+ *
+ * The path is resolved from this repo, not from a home directory: an absolute
+ * one only ever matched a single machine, so the whole check skipped in silence
+ * everywhere else. CI has no checkout of the doc and skips.
  */
 
-const DOC = '/Users/bayarsaikhanotgonbayar/Documents/projects/design-research/08-design-tokens.md';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DOC = path.resolve(__dirname, '../../../../../gerege-design-research/08-design-tokens.md');
 const exists = existsSync(DOC);
 
 const COLOR = /(?:hsl|oklch)\([^)]*\)/g;
