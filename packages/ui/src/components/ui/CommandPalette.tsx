@@ -6,7 +6,7 @@ import {
   useRef,
   type ComponentPropsWithoutRef,
   type Dispatch,
-  type ElementRef,
+  type ComponentRef,
   type ReactNode,
   type SetStateAction,
 } from 'react';
@@ -23,7 +23,7 @@ import { useStrings } from '@/hooks/use-strings';
  * --------------------------------------------------------------------------- */
 
 export const Command = forwardRef<
-  ElementRef<typeof CommandPrimitive>,
+  ComponentRef<typeof CommandPrimitive>,
   ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(function Command({ className, ...props }, ref) {
   return (
@@ -41,7 +41,7 @@ export const Command = forwardRef<
 Command.displayName = 'Command';
 
 export const CommandInput = forwardRef<
-  ElementRef<typeof CommandPrimitive.Input>,
+  ComponentRef<typeof CommandPrimitive.Input>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(function CommandInput({ className, ...props }, ref) {
   return (
@@ -62,7 +62,7 @@ export const CommandInput = forwardRef<
 CommandInput.displayName = 'CommandInput';
 
 export const CommandList = forwardRef<
-  ElementRef<typeof CommandPrimitive.List>,
+  ComponentRef<typeof CommandPrimitive.List>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.List>
 >(function CommandList({ className, label, ...props }, ref) {
   const strings = useStrings();
@@ -78,7 +78,7 @@ export const CommandList = forwardRef<
 CommandList.displayName = 'CommandList';
 
 export const CommandEmpty = forwardRef<
-  ElementRef<typeof CommandPrimitive.Empty>,
+  ComponentRef<typeof CommandPrimitive.Empty>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >(function CommandEmpty({ className, ...props }, ref) {
   return (
@@ -92,7 +92,7 @@ export const CommandEmpty = forwardRef<
 CommandEmpty.displayName = 'CommandEmpty';
 
 export const CommandGroup = forwardRef<
-  ElementRef<typeof CommandPrimitive.Group>,
+  ComponentRef<typeof CommandPrimitive.Group>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
 >(function CommandGroup({ className, ...props }, ref) {
   return (
@@ -112,7 +112,7 @@ export const CommandGroup = forwardRef<
 CommandGroup.displayName = 'CommandGroup';
 
 export const CommandSeparator = forwardRef<
-  ElementRef<typeof CommandPrimitive.Separator>,
+  ComponentRef<typeof CommandPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
 >(function CommandSeparator({ className, ...props }, ref) {
   // cmdk hard-codes role="separator", which is not a permitted child of the
@@ -126,7 +126,7 @@ export const CommandSeparator = forwardRef<
 CommandSeparator.displayName = 'CommandSeparator';
 
 export const CommandItem = forwardRef<
-  ElementRef<typeof CommandPrimitive.Item>,
+  ComponentRef<typeof CommandPrimitive.Item>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
 >(function CommandItem({ className, ...props }, ref) {
   return (

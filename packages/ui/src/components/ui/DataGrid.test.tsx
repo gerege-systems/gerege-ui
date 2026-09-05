@@ -29,7 +29,8 @@ describe('DataGrid', () => {
     expect(screen.getByText('Alpha')).toBeInTheDocument();
     expect(screen.getByText('ALPHA').tagName).toBe('B');
     expect(container.querySelectorAll('colgroup col')).toHaveLength(5);
-    expect(container.querySelectorAll('colgroup col')[1]).toHaveStyle({ width: '8rem' });
+    // Inline style, not computed: jsdom 30 resolves rem to px in getComputedStyle.
+    expect((container.querySelectorAll('colgroup col')[1] as HTMLElement).style.width).toBe('8rem');
   });
 
   it('default cell rendering: Date formatted, null / undefined / "" as a labelled em dash', () => {

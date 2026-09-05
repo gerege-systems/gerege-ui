@@ -6,7 +6,7 @@ import {
   forwardRef,
   isValidElement,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -66,7 +66,7 @@ const statusColour: Record<NonNullable<AvatarProps['status']>, string> = {
  *      fallback so screen readers announce something useful.
  * @dont Use the status dot without a tooltip explaining what it means.
  */
-export const Avatar = forwardRef<ElementRef<typeof AvatarPrimitive.Root>, AvatarProps>(
+export const Avatar = forwardRef<ComponentRef<typeof AvatarPrimitive.Root>, AvatarProps>(
   function Avatar({ className, size, src, alt, fallback, status, ...props }, ref) {
     const strings = useStrings();
     return (

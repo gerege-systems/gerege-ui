@@ -172,7 +172,7 @@ export const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement
 FormItem.displayName = 'FormItem';
 
 export const FormLabel = forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
 >(function FormLabel({ className, ...props }, ref) {
   const { formItemId, error } = useFormField();

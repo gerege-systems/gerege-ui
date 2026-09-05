@@ -4,7 +4,7 @@ import {
   forwardRef,
   useState,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -21,7 +21,7 @@ export const DialogPortal = DialogPrimitive.Portal;
 export const DialogClose = DialogPrimitive.Close;
 
 export const DialogOverlay = forwardRef<
-  ElementRef<typeof DialogPrimitive.Overlay>,
+  ComponentRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(function DialogOverlay({ className, ...props }, ref) {
   return (
@@ -58,7 +58,7 @@ export interface DialogContentProps extends ComponentPropsWithoutRef<
 }
 
 export const DialogContent = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
+  ComponentRef<typeof DialogPrimitive.Content>,
   DialogContentProps
 >(function DialogContent(
   { className, children, showClose = true, size = 'md', returnFocusTo, onCloseAutoFocus, ...props },
@@ -122,7 +122,7 @@ export function DialogFooter({ className, ...props }: HTMLAttributes<HTMLDivElem
 DialogFooter.displayName = 'DialogFooter';
 
 export const DialogTitle = forwardRef<
-  ElementRef<typeof DialogPrimitive.Title>,
+  ComponentRef<typeof DialogPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(function DialogTitle({ className, ...props }, ref) {
   return (
@@ -136,7 +136,7 @@ export const DialogTitle = forwardRef<
 DialogTitle.displayName = 'DialogTitle';
 
 export const DialogDescription = forwardRef<
-  ElementRef<typeof DialogPrimitive.Description>,
+  ComponentRef<typeof DialogPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(function DialogDescription({ className, ...props }, ref) {
   return (

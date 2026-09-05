@@ -1,6 +1,11 @@
 'use client';
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
+import {
+  forwardRef,
+  type ComponentPropsWithoutRef,
+  type ComponentRef,
+  type ReactNode,
+} from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { Check, ChevronDown, ChevronUp, ChevronsUpDown } from '@/icons';
 import { cn } from '@/lib/utils';
@@ -44,7 +49,7 @@ export interface SelectTriggerProps extends Omit<
 }
 
 export const SelectTrigger = forwardRef<
-  ElementRef<typeof SelectPrimitive.Trigger>,
+  ComponentRef<typeof SelectPrimitive.Trigger>,
   SelectTriggerProps
 >(function SelectTrigger({ className, placeholder, size = 'md', tone = 'default', ...props }, ref) {
   const strings = useStrings();
@@ -84,7 +89,7 @@ SelectTrigger.displayName = 'SelectTrigger';
 const scrollBtn = 'flex h-6 cursor-default items-center justify-center text-foreground-subtle';
 
 export const SelectScrollUpButton = forwardRef<
-  ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+  ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
 >(function SelectScrollUpButton({ className, ...props }, ref) {
   return (
@@ -96,7 +101,7 @@ export const SelectScrollUpButton = forwardRef<
 SelectScrollUpButton.displayName = 'SelectScrollUpButton';
 
 export const SelectScrollDownButton = forwardRef<
-  ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+  ComponentRef<typeof SelectPrimitive.ScrollDownButton>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
 >(function SelectScrollDownButton({ className, ...props }, ref) {
   return (
@@ -108,7 +113,7 @@ export const SelectScrollDownButton = forwardRef<
 SelectScrollDownButton.displayName = 'SelectScrollDownButton';
 
 export const SelectContent = forwardRef<
-  ElementRef<typeof SelectPrimitive.Content>,
+  ComponentRef<typeof SelectPrimitive.Content>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(function SelectContent({ className, children, position = 'popper', ...props }, ref) {
   return (
@@ -139,7 +144,7 @@ export const SelectContent = forwardRef<
 SelectContent.displayName = 'SelectContent';
 
 export const SelectLabel = forwardRef<
-  ElementRef<typeof SelectPrimitive.Label>,
+  ComponentRef<typeof SelectPrimitive.Label>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
 >(function SelectLabel({ className, ...props }, ref) {
   return (
@@ -157,7 +162,7 @@ export interface SelectItemProps extends ComponentPropsWithoutRef<typeof SelectP
   leadingIcon?: ReactNode;
 }
 
-export const SelectItem = forwardRef<ElementRef<typeof SelectPrimitive.Item>, SelectItemProps>(
+export const SelectItem = forwardRef<ComponentRef<typeof SelectPrimitive.Item>, SelectItemProps>(
   function SelectItem({ className, children, leadingIcon, ...props }, ref) {
     return (
       <SelectPrimitive.Item
@@ -189,7 +194,7 @@ export const SelectItem = forwardRef<ElementRef<typeof SelectPrimitive.Item>, Se
 SelectItem.displayName = 'SelectItem';
 
 export const SelectSeparator = forwardRef<
-  ElementRef<typeof SelectPrimitive.Separator>,
+  ComponentRef<typeof SelectPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
 >(function SelectSeparator({ className, ...props }, ref) {
   return (
@@ -206,7 +211,7 @@ SelectSeparator.displayName = 'SelectSeparator';
 export interface SelectGroupProps extends ComponentPropsWithoutRef<typeof SelectPrimitive.Group> {
   label?: ReactNode;
 }
-export const SelectGroup = forwardRef<ElementRef<typeof SelectPrimitive.Group>, SelectGroupProps>(
+export const SelectGroup = forwardRef<ComponentRef<typeof SelectPrimitive.Group>, SelectGroupProps>(
   function SelectGroup({ label, children, ...props }, ref) {
     return (
       <SelectPrimitive.Group ref={ref} {...props}>

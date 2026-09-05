@@ -4,7 +4,7 @@ import {
   forwardRef,
   useId,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type ReactNode,
 } from 'react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
@@ -55,7 +55,7 @@ const thumbSize = {
  * @dont Use Switch inside a form that requires submission — Checkbox
  *       better matches that mental model.
  */
-export const Switch = forwardRef<ElementRef<typeof SwitchPrimitive.Root>, SwitchProps>(
+export const Switch = forwardRef<ComponentRef<typeof SwitchPrimitive.Root>, SwitchProps>(
   function Switch(
     {
       className,

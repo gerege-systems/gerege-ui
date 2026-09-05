@@ -4,7 +4,7 @@ import {
   forwardRef,
   useId,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type ReactNode,
 } from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -15,23 +15,24 @@ export interface RadioGroupProps extends ComponentPropsWithoutRef<typeof RadioGr
   orientation?: 'horizontal' | 'vertical';
 }
 
-export const RadioGroup = forwardRef<ElementRef<typeof RadioGroupPrimitive.Root>, RadioGroupProps>(
-  function RadioGroup({ className, orientation = 'vertical', ...props }, ref) {
-    return (
-      <RadioGroupPrimitive.Root
-        data-slot="radio-group"
-        ref={ref}
-        orientation={orientation}
-        className={cn(
-          'flex gap-3',
-          orientation === 'vertical' ? 'flex-col' : 'flex-row flex-wrap',
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
-);
+export const RadioGroup = forwardRef<
+  ComponentRef<typeof RadioGroupPrimitive.Root>,
+  RadioGroupProps
+>(function RadioGroup({ className, orientation = 'vertical', ...props }, ref) {
+  return (
+    <RadioGroupPrimitive.Root
+      data-slot="radio-group"
+      ref={ref}
+      orientation={orientation}
+      className={cn(
+        'flex gap-3',
+        orientation === 'vertical' ? 'flex-col' : 'flex-row flex-wrap',
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 RadioGroup.displayName = 'RadioGroup';
 
 export interface RadioItemProps extends Omit<
@@ -57,7 +58,7 @@ export interface RadioItemProps extends Omit<
  *      screen reader users.
  * @dont Use RadioGroup for binary choices — use Switch.
  */
-export const RadioItem = forwardRef<ElementRef<typeof RadioGroupPrimitive.Item>, RadioItemProps>(
+export const RadioItem = forwardRef<ComponentRef<typeof RadioGroupPrimitive.Item>, RadioItemProps>(
   function RadioItem(
     {
       className,

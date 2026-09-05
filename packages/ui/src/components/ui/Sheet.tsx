@@ -3,7 +3,7 @@
 import {
   forwardRef,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type HTMLAttributes,
 } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -24,7 +24,7 @@ export const SheetClose = DialogPrimitive.Close;
 export const SheetPortal = DialogPrimitive.Portal;
 
 const SheetOverlay = forwardRef<
-  ElementRef<typeof DialogPrimitive.Overlay>,
+  ComponentRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(function SheetOverlay({ className, ...props }, ref) {
   return (
@@ -80,7 +80,7 @@ export interface SheetContentProps
 }
 
 export const SheetContent = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
+  ComponentRef<typeof DialogPrimitive.Content>,
   SheetContentProps
 >(function SheetContent(
   {
@@ -144,7 +144,7 @@ export function SheetFooter({ className, ...props }: HTMLAttributes<HTMLDivEleme
 SheetFooter.displayName = 'SheetFooter';
 
 export const SheetTitle = forwardRef<
-  ElementRef<typeof DialogPrimitive.Title>,
+  ComponentRef<typeof DialogPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(function SheetTitle({ className, ...props }, ref) {
   return (
@@ -158,7 +158,7 @@ export const SheetTitle = forwardRef<
 SheetTitle.displayName = 'SheetTitle';
 
 export const SheetDescription = forwardRef<
-  ElementRef<typeof DialogPrimitive.Description>,
+  ComponentRef<typeof DialogPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(function SheetDescription({ className, ...props }, ref) {
   return (

@@ -1480,6 +1480,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
     {
       "rows": [
         {
+          "name": "align",
+          "type": "enum",
+          "required": false,
+          "description": "Controls the direction the subcontent appears from its anchor menu item Default: start"
+        },
+        {
           "name": "alignOffset",
           "type": "number",
           "required": false,
@@ -1596,6 +1602,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void)",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "open",
+          "type": "boolean",
           "required": false,
           "description": ""
         }
@@ -1900,6 +1912,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "description": ""
         },
         {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will wait for the interaction's click event before dispatching, allowing third-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
           "name": "forceMount",
           "type": "true",
           "required": false,
@@ -2115,6 +2133,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "type": "boolean",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will wait for the interaction's click event before dispatching, allowing third-party code to stop propagation of later events and cancel dismissal."
         },
         {
           "name": "direction",
@@ -2535,6 +2559,13 @@ export const generatedProps: Record<string, PropGroup[]> = {
     {
       "rows": [
         {
+          "name": "align",
+          "type": "enum",
+          "default": "end",
+          "required": false,
+          "description": "Controls the direction the subcontent appears from its anchor menu item Default: start"
+        },
+        {
           "name": "alignOffset",
           "type": "number",
           "required": false,
@@ -2857,6 +2888,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "description": ""
         },
         {
+          "name": "getErrors",
+          "type": "UseFormGetErrors<TFieldValues>",
+          "required": true,
+          "description": ""
+        },
+        {
           "name": "getFieldState",
           "type": "UseFormGetFieldState<TFieldValues>",
           "required": true,
@@ -2883,6 +2920,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
         {
           "name": "reset",
           "type": "UseFormReset<TFieldValues>",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "resetDefaultValues",
+          "type": "UseFormResetDefaultValues<TFieldValues>",
           "required": true,
           "description": ""
         },
@@ -2984,7 +3027,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
         },
         {
           "name": "rules",
-          "type": "Omit<RegisterOptions<TFieldValues, TName>, \"disabled\" | \"valueAsNumber\" | \"valueAsDate\" | \"setValueAs\">",
+          "type": "Omit<RegisterOptions<TFieldValues, TName>, \"valueAsNumber\" | \"valueAsDate\" | \"setValueAs\" | \"disabled\">",
           "required": false,
           "description": ""
         },
@@ -3456,7 +3499,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
         },
         {
           "name": "virtualRef",
-          "type": "RefObject<Measurable>",
+          "type": "RefObject<Measurable | null>",
           "required": false,
           "description": ""
         }
@@ -3520,6 +3563,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will wait for the interaction's click event before dispatching, allowing third-party code to stop propagation of later events and cancel dismissal."
         },
         {
           "name": "forceMount",
@@ -3717,6 +3766,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
         {
           "name": "disabled",
           "type": "boolean",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "form",
+          "type": "string",
           "required": false,
           "description": ""
         },
@@ -3931,6 +3986,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when controlling animation with React animation libraries."
         },
         {
           "name": "hideWhenDetached",
@@ -4192,6 +4253,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "type": "boolean",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will wait for the interaction's click event before dispatching, allowing third-party code to stop propagation of later events and cancel dismissal."
         },
         {
           "name": "forceMount",
@@ -5315,6 +5382,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
     {
       "rows": [
         {
+          "name": "announcerContainer",
+          "type": "Element | DocumentFragment",
+          "required": false,
+          "description": "An optional container where the toast announcements should be appended. This is useful when working with focus traps or modal dialogs that make other elements inert. @defaultValue document.body"
+        },
+        {
           "name": "duration",
           "type": "number",
           "required": false,
@@ -5778,7 +5851,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
     {
       "rows": [
         {
-          "name": "__@hasInstance@10293",
+          "name": "__@hasInstance@7792",
           "type": "(value: any) => boolean",
           "required": true,
           "description": "Determines whether the given value inherits from this function if this function was used as a constructor function. A constructor function can control which objects are recognized as its instances by 'instanceof' by overriding this method."

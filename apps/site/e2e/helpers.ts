@@ -8,7 +8,7 @@ import type { Theme } from './routes';
 /* -----------------------------------------------------------------------------
  *  Shared helpers: theme setup, page-error collection, overflow, axe, focus.
  *  Every failure is also appended to test-results/findings.jsonl so the run's
- *  defects can be summarised (see FINDINGS.md) without re-reading the report.
+ *  defects can be summarised without re-reading the report.
  * --------------------------------------------------------------------------- */
 
 // Playwright empties test-results/ at the start of every run; point

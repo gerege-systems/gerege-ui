@@ -5,7 +5,7 @@ import {
   forwardRef,
   useContext,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
 } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cn } from '@/lib/utils';
@@ -41,7 +41,7 @@ const list = cva('inline-flex items-center', {
 export interface TabsListProps
   extends ComponentPropsWithoutRef<typeof TabsPrimitive.List>, VariantProps<typeof list> {}
 
-export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, TabsListProps>(
+export const TabsList = forwardRef<ComponentRef<typeof TabsPrimitive.List>, TabsListProps>(
   function TabsList({ className, variant = 'underline', size, ...props }, ref) {
     return (
       <TabsVariantContext.Provider value={variant ?? 'underline'}>
@@ -59,7 +59,7 @@ export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, TabsLi
 TabsList.displayName = 'TabsList';
 
 export const TabsTrigger = forwardRef<
-  ElementRef<typeof TabsPrimitive.Trigger>,
+  ComponentRef<typeof TabsPrimitive.Trigger>,
   ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
 >(function TabsTrigger({ className, ...props }, ref) {
   const variant = useContext(TabsVariantContext);
@@ -98,7 +98,7 @@ export const TabsTrigger = forwardRef<
 TabsTrigger.displayName = 'TabsTrigger';
 
 export const TabsContent = forwardRef<
-  ElementRef<typeof TabsPrimitive.Content>,
+  ComponentRef<typeof TabsPrimitive.Content>,
   ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
 >(function TabsContent({ className, ...props }, ref) {
   return (

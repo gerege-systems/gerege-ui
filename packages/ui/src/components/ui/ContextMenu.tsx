@@ -3,7 +3,7 @@
 import {
   forwardRef,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type HTMLAttributes,
 } from 'react';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
@@ -48,7 +48,7 @@ const itemClasses = cn(
 );
 
 export const ContextMenuSubTrigger = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.SubTrigger>,
+  ComponentRef<typeof ContextMenuPrimitive.SubTrigger>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> & { inset?: boolean }
 >(function ContextMenuSubTrigger({ className, inset, children, ...props }, ref) {
   return (
@@ -71,7 +71,7 @@ export const ContextMenuSubTrigger = forwardRef<
 ContextMenuSubTrigger.displayName = 'ContextMenuSubTrigger';
 
 export const ContextMenuSubContent = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.SubContent>,
+  ComponentRef<typeof ContextMenuPrimitive.SubContent>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
 >(function ContextMenuSubContent({ className, ...props }, ref) {
   return (
@@ -91,7 +91,7 @@ export const ContextMenuSubContent = forwardRef<
 ContextMenuSubContent.displayName = 'ContextMenuSubContent';
 
 export const ContextMenuContent = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Content>,
+  ComponentRef<typeof ContextMenuPrimitive.Content>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
 >(function ContextMenuContent({ className, ...props }, ref) {
   return (
@@ -114,7 +114,7 @@ export const ContextMenuContent = forwardRef<
 ContextMenuContent.displayName = 'ContextMenuContent';
 
 export const ContextMenuItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Item>,
+  ComponentRef<typeof ContextMenuPrimitive.Item>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {
     inset?: boolean;
     destructive?: boolean;
@@ -137,7 +137,7 @@ export const ContextMenuItem = forwardRef<
 ContextMenuItem.displayName = 'ContextMenuItem';
 
 export const ContextMenuCheckboxItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.CheckboxItem>,
+  ComponentRef<typeof ContextMenuPrimitive.CheckboxItem>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem>
 >(function ContextMenuCheckboxItem({ className, children, ...props }, ref) {
   return (
@@ -158,7 +158,7 @@ export const ContextMenuCheckboxItem = forwardRef<
 ContextMenuCheckboxItem.displayName = 'ContextMenuCheckboxItem';
 
 export const ContextMenuRadioItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.RadioItem>,
+  ComponentRef<typeof ContextMenuPrimitive.RadioItem>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioItem>
 >(function ContextMenuRadioItem({ className, children, ...props }, ref) {
   return (
@@ -179,7 +179,7 @@ export const ContextMenuRadioItem = forwardRef<
 ContextMenuRadioItem.displayName = 'ContextMenuRadioItem';
 
 export const ContextMenuLabel = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Label>,
+  ComponentRef<typeof ContextMenuPrimitive.Label>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label> & { inset?: boolean }
 >(function ContextMenuLabel({ className, inset, ...props }, ref) {
   return (
@@ -197,7 +197,7 @@ export const ContextMenuLabel = forwardRef<
 ContextMenuLabel.displayName = 'ContextMenuLabel';
 
 export const ContextMenuSeparator = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Separator>,
+  ComponentRef<typeof ContextMenuPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>
 >(function ContextMenuSeparator({ className, ...props }, ref) {
   return (

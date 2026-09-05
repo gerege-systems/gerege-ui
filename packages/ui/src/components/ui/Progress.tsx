@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type SVGProps } from 'react';
+import { forwardRef, type ComponentPropsWithoutRef, type ComponentRef, type SVGProps } from 'react';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import { cn } from '@/lib/utils';
 
@@ -40,7 +40,7 @@ const fillTone = {
  * @do Always pair Progress with an `aria-label` describing what is progressing.
  * @dont Use a Progress for an unknown-completion task — use a Spinner.
  */
-export const Progress = forwardRef<ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
+export const Progress = forwardRef<ComponentRef<typeof ProgressPrimitive.Root>, ProgressProps>(
   function Progress({ className, value, max = 100, size = 'md', tone = 'accent', ...props }, ref) {
     const indeterminate = value === undefined || value === null || Number.isNaN(value);
     const safeMax = max > 0 ? max : 100;

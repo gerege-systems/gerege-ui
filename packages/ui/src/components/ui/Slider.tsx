@@ -5,7 +5,7 @@ import {
   useId,
   useState,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type ReactNode,
 } from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
@@ -46,7 +46,7 @@ export interface SliderProps extends Omit<
  * @do Use `showValue` when the absolute number matters (price, volume, weight).
  * @dont Hide the value when users will need to reason about exact thresholds.
  */
-export const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
+export const Slider = forwardRef<ComponentRef<typeof SliderPrimitive.Root>, SliderProps>(
   function Slider(
     {
       className,

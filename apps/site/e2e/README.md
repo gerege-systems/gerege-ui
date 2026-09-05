@@ -21,7 +21,7 @@ live index pages, so a new component/guide fails until added here.
 | `visual.spec.ts`             | screenshot baselines (home / admin overview / landing)                |
 
 Failures are also appended to `test-results/findings.jsonl` (kind, URL,
-viewport, theme, axe nodes) — `FINDINGS.md` is the curated summary.
+viewport, theme, axe nodes) for triage.
 
 ## Visual baselines
 

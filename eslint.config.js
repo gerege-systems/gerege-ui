@@ -22,7 +22,12 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     plugins: { 'react-hooks': reactHooks },
     rules: {
-      ...reactHooks.configs.recommended.rules,
+      // react-hooks 7 folds the React Compiler rules (set-state-in-effect,
+      // purity, refs, immutability, …) into `recommended`. The library's SSR /
+      // hydration patterns set state in effects on purpose, so only the two
+      // classic rules are enforced until the compiler rules are adopted deliberately.
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },

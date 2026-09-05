@@ -21,7 +21,11 @@ function getIcon(name: IconName): LazyExoticComponent<LucideIcon> | null {
   const loader = dynamicIconImports[name];
   if (typeof loader !== 'function') {
     // Unknown name (data-driven input) → render nothing, warn once in dev.
-    if (process.env.NODE_ENV !== 'production' && !warned.has(name)) {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV !== 'production' &&
+      !warned.has(name)
+    ) {
       warned.add(name);
       console.warn(
         `[@gerege-systems/ui] <Icon name="${name}"> is not a lucide icon; rendering nothing.`,

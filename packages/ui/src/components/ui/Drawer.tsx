@@ -5,7 +5,7 @@ import {
   forwardRef,
   useContext,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type HTMLAttributes,
 } from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
@@ -40,7 +40,7 @@ export const DrawerPortal = DrawerPrimitive.Portal;
 export const DrawerClose = DrawerPrimitive.Close;
 
 export const DrawerOverlay = forwardRef<
-  ElementRef<typeof DrawerPrimitive.Overlay>,
+  ComponentRef<typeof DrawerPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(function DrawerOverlay({ className, ...props }, ref) {
   return (
@@ -95,7 +95,7 @@ export interface DrawerContentProps extends ComponentPropsWithoutRef<
 }
 
 export const DrawerContent = forwardRef<
-  ElementRef<typeof DrawerPrimitive.Content>,
+  ComponentRef<typeof DrawerPrimitive.Content>,
   DrawerContentProps
 >(function DrawerContent(
   {
@@ -163,7 +163,7 @@ export function DrawerFooter({ className, ...props }: HTMLAttributes<HTMLDivElem
 DrawerFooter.displayName = 'DrawerFooter';
 
 export const DrawerTitle = forwardRef<
-  ElementRef<typeof DrawerPrimitive.Title>,
+  ComponentRef<typeof DrawerPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(function DrawerTitle({ className, ...props }, ref) {
   return (
@@ -177,7 +177,7 @@ export const DrawerTitle = forwardRef<
 DrawerTitle.displayName = 'DrawerTitle';
 
 export const DrawerDescription = forwardRef<
-  ElementRef<typeof DrawerPrimitive.Description>,
+  ComponentRef<typeof DrawerPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(function DrawerDescription({ className, ...props }, ref) {
   return (

@@ -101,6 +101,22 @@ function nameOf(v: unknown): string | undefined {
   return o.render?.name || undefined;
 }
 
+/** Every value exported by the primitive libraries this package wraps. */
+async function thirdPartyExports(): Promise<Set<unknown>> {
+  const pkg = JSON.parse(readFileSync(path.resolve(srcDir, '../package.json'), 'utf8')) as {
+    dependencies: Record<string, string>;
+  };
+  const primitives = Object.keys(pkg.dependencies).filter(
+    (d) => d.startsWith('@radix-ui/') || d === 'vaul' || d === 'cmdk',
+  );
+  const out = new Set<unknown>();
+  for (const name of primitives) {
+    const mod = (await import(name)) as Record<string, unknown>;
+    for (const v of Object.values(mod)) out.add(v);
+  }
+  return out;
+}
+
 const componentFiles = readdirSync(uiDir)
   .filter((f) => f.endsWith('.tsx') && !f.endsWith('.test.tsx'))
   .map((f) => f.replace(/\.tsx$/, ''));
@@ -142,9 +158,13 @@ describe('public API surface', () => {
     expect(unnamed).toEqual([]);
   });
 
-  it('forwardRef components carry an explicit displayName (not just the render fn name)', () => {
+  it('forwardRef components carry an explicit displayName (not just the render fn name)', async () => {
+    // Direct re-exports of a primitive (`export const DialogTrigger = DialogPrimitive.Trigger`)
+    // are exempt: recent Radix builds ship forwardRef objects without displayName, and
+    // that is theirs to name. Everything defined in this package must still set it.
+    const thirdParty = await thirdPartyExports();
     const missing = componentExports
-      .filter(([, v]) => forwardsRef(v))
+      .filter(([, v]) => forwardsRef(v) && !thirdParty.has(v))
       .filter(([, v]) => !(v as { displayName?: string }).displayName)
       .map(([n]) => n);
     expect(missing).toEqual([]);

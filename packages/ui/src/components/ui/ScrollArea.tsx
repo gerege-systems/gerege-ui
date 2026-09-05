@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
+import { forwardRef, type ComponentPropsWithoutRef, type ComponentRef } from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { cn } from '@/lib/utils';
 import { useStrings } from '@/hooks/use-strings';
@@ -23,37 +23,38 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollA
   viewportLabel?: string;
 }
 
-export const ScrollArea = forwardRef<ElementRef<typeof ScrollAreaPrimitive.Root>, ScrollAreaProps>(
-  function ScrollArea({ className, children, viewportLabel, ...props }, ref) {
-    const strings = useStrings();
-    return (
-      <ScrollAreaPrimitive.Root
-        data-slot="scroll-area"
-        ref={ref}
-        className={cn('relative overflow-hidden', className)}
-        {...props}
+export const ScrollArea = forwardRef<
+  ComponentRef<typeof ScrollAreaPrimitive.Root>,
+  ScrollAreaProps
+>(function ScrollArea({ className, children, viewportLabel, ...props }, ref) {
+  const strings = useStrings();
+  return (
+    <ScrollAreaPrimitive.Root
+      data-slot="scroll-area"
+      ref={ref}
+      className={cn('relative overflow-hidden', className)}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Viewport
+        role="group"
+        aria-label={viewportLabel ?? strings.scrollArea.region}
+        tabIndex={0}
+        className={cn(
+          'h-full w-full rounded-[inherit]',
+          'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        )}
       >
-        <ScrollAreaPrimitive.Viewport
-          role="group"
-          aria-label={viewportLabel ?? strings.scrollArea.region}
-          tabIndex={0}
-          className={cn(
-            'h-full w-full rounded-[inherit]',
-            'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-          )}
-        >
-          {children}
-        </ScrollAreaPrimitive.Viewport>
-        <ScrollBar />
-        <ScrollAreaPrimitive.Corner />
-      </ScrollAreaPrimitive.Root>
-    );
-  },
-);
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  );
+});
 ScrollArea.displayName = 'ScrollArea';
 
 export const ScrollBar = forwardRef<
-  ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  ComponentRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
 >(function ScrollBar({ className, orientation = 'vertical', ...props }, ref) {
   return (

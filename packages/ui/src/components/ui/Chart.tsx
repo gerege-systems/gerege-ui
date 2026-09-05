@@ -418,7 +418,12 @@ function Frame({
   const { ref: plotRef, width: plotW } = useMeasuredWidth<HTMLDivElement>();
   const roving = useRovingPoints(all, t, labels);
 
-  if (process.env.NODE_ENV !== 'production' && !name && !caption) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env.NODE_ENV !== 'production' &&
+    !name &&
+    !caption
+  ) {
     console.warn(
       '[gerege-systems/ui] Chart: provide `caption`, `aria-label`, or `title` so the chart has an accessible name.',
     );

@@ -4,7 +4,7 @@ import {
   forwardRef,
   useId,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type ReactNode,
 } from 'react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -40,7 +40,7 @@ export interface CheckboxProps extends Omit<
  * @do Use indeterminate to summarise child rows in a table header.
  * @dont Use a Checkbox for mutually exclusive choices — use RadioGroup.
  */
-export const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
+export const Checkbox = forwardRef<ComponentRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
   function Checkbox(
     {
       className,

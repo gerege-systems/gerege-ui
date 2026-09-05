@@ -4,7 +4,7 @@ import {
   forwardRef,
   useEffect,
   type ComponentPropsWithoutRef,
-  type ElementRef,
+  type ComponentRef,
   type ReactElement,
 } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
@@ -17,7 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 export const ToastProvider = ToastPrimitive.Provider;
 
 export const ToastViewport = forwardRef<
-  ElementRef<typeof ToastPrimitive.Viewport>,
+  ComponentRef<typeof ToastPrimitive.Viewport>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport>
 >(function ToastViewport({ className, label, ...props }, ref) {
   const strings = useStrings();
@@ -77,26 +77,25 @@ const iconMap = {
 export interface ToastProps
   extends ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, VariantProps<typeof toast> {}
 
-export const Toast = forwardRef<ElementRef<typeof ToastPrimitive.Root>, ToastProps>(function Toast(
-  { className, variant = 'default', children, ...props },
-  ref,
-) {
-  return (
-    <ToastPrimitive.Root
-      ref={ref}
-      data-slot="toast"
-      className={cn(toast({ variant }), className)}
-      {...props}
-    >
-      {iconMap[variant ?? 'default']}
-      <div className="flex-1 space-y-1">{children}</div>
-    </ToastPrimitive.Root>
-  );
-});
+export const Toast = forwardRef<ComponentRef<typeof ToastPrimitive.Root>, ToastProps>(
+  function Toast({ className, variant = 'default', children, ...props }, ref) {
+    return (
+      <ToastPrimitive.Root
+        ref={ref}
+        data-slot="toast"
+        className={cn(toast({ variant }), className)}
+        {...props}
+      >
+        {iconMap[variant ?? 'default']}
+        <div className="flex-1 space-y-1">{children}</div>
+      </ToastPrimitive.Root>
+    );
+  },
+);
 Toast.displayName = 'Toast';
 
 export const ToastTitle = forwardRef<
-  ElementRef<typeof ToastPrimitive.Title>,
+  ComponentRef<typeof ToastPrimitive.Title>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Title>
 >(function ToastTitle({ className, ...props }, ref) {
   return (
@@ -106,7 +105,7 @@ export const ToastTitle = forwardRef<
 ToastTitle.displayName = 'ToastTitle';
 
 export const ToastDescription = forwardRef<
-  ElementRef<typeof ToastPrimitive.Description>,
+  ComponentRef<typeof ToastPrimitive.Description>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Description>
 >(function ToastDescription({ className, ...props }, ref) {
   return (
@@ -120,7 +119,7 @@ export const ToastDescription = forwardRef<
 ToastDescription.displayName = 'ToastDescription';
 
 export const ToastAction = forwardRef<
-  ElementRef<typeof ToastPrimitive.Action>,
+  ComponentRef<typeof ToastPrimitive.Action>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Action>
 >(function ToastAction({ className, ...props }, ref) {
   return (
@@ -139,7 +138,7 @@ export const ToastAction = forwardRef<
 ToastAction.displayName = 'ToastAction';
 
 export const ToastClose = forwardRef<
-  ElementRef<typeof ToastPrimitive.Close>,
+  ComponentRef<typeof ToastPrimitive.Close>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Close>
 >(function ToastClose({ className, ...props }, ref) {
   const strings = useStrings();
