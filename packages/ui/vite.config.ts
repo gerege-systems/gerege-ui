@@ -26,7 +26,7 @@ export default defineConfig({
     dts({
       entryRoot: 'src',
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**'],
+      exclude: ['src/**/*.test.{ts,tsx}', 'src/**/__tests__/**', 'src/test/**'],
     }),
   ],
   resolve: {
