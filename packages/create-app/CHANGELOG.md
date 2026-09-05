@@ -1,5 +1,13 @@
 # @gerege-systems/create-app
 
+## 1.0.5
+
+### Patch Changes
+
+- 11d2160: Templates depend on `@gerege-systems/ui@^0.12.0`. The previous `^0.11.0` range
+  stays below 0.12 on a 0.x caret, so a fresh scaffold installed 0.11.2 and missed
+  the depth layer and the new style slots.
+
 > Releases up to **1.0.4** were published as `@craftzbay/create-app`. Renamed on 2026-09-02 when the
 > project split from craftzbay-ui.
 
