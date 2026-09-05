@@ -45,6 +45,9 @@ const itemClasses = cn(
   'data-[highlighted]:bg-background-muted data-[highlighted]:text-foreground',
   'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
   'transition-colors duration-[var(--duration-fast)]',
+  // Leading icons in items default to 16px like Button/Sidebar/Command do —
+  // a bare lucide icon is 24px and every consumer was sizing it by hand.
+  '[&_svg]:size-4 [&_svg]:shrink-0',
 );
 
 export const ContextMenuSubTrigger = forwardRef<

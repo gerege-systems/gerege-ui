@@ -224,3 +224,24 @@ describe('DropdownMenu', () => {
     expect(await axeBody()).toHaveNoViolations();
   });
 });
+
+describe('DropdownMenuItem icons', () => {
+  it('sizes a bare svg child to 16px like the other menus and buttons', async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu>
+        <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>
+            <svg data-testid="icon" viewBox="0 0 24 24" />
+            Open
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText('Actions'));
+    const item = await screen.findByRole('menuitem');
+    expect(item.className).toContain('[&_svg]:size-4');
+    expect(item).toContainElement(screen.getByTestId('icon'));
+  });
+});
