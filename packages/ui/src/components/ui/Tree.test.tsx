@@ -196,6 +196,8 @@ describe('Tree', () => {
       />,
     );
     expect(screen.getByTestId('icon')).toBeInTheDocument();
+    // Custom icon sits in the same 16px box as the default file/folder icons.
+    expect(screen.getByTestId('icon').parentElement?.className).toContain('[&_svg]:size-4');
     expect(screen.getByRole('treeitem', { name: 'B' })).toHaveAttribute('aria-expanded', 'false');
   });
 

@@ -265,7 +265,15 @@ export const Tree = forwardRef<HTMLUListElement, TreeProps>(function Tree(props,
           ) : (
             <span className="w-3.5 shrink-0" aria-hidden />
           )}
-          {node.icon ?? (
+          {node.icon ? (
+            // Custom icons get the same box as the defaults — a bare lucide icon is 24px.
+            <span
+              className="text-foreground-muted inline-flex shrink-0 [&_svg]:size-4 [&_svg]:shrink-0"
+              aria-hidden
+            >
+              {node.icon}
+            </span>
+          ) : (
             <DefaultIcon className="text-foreground-muted size-4 shrink-0" aria-hidden />
           )}
           <span

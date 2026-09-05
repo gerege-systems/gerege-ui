@@ -154,3 +154,20 @@ describe('Tabs', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+describe('TabsTrigger icons', () => {
+  it('sizes a bare svg child to 16px', () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList>
+          <TabsTrigger value="a">
+            <svg data-testid="icon" viewBox="0 0 24 24" />A
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">a</TabsContent>
+      </Tabs>,
+    );
+    expect(screen.getByRole('tab', { name: 'A' }).className).toContain('[&_svg]:size-4');
+    expect(screen.getByTestId('icon')).toBeInTheDocument();
+  });
+});

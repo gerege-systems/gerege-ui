@@ -69,6 +69,8 @@ export const TabsTrigger = forwardRef<
       data-variant={variant}
       className={cn(
         'inline-flex items-center gap-2 font-medium whitespace-nowrap',
+        // Icon + label tabs: a bare lucide icon is 24px; match Button/menu items.
+        '[&_svg]:size-4 [&_svg]:shrink-0',
         'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none',
         'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
         'disabled:pointer-events-none disabled:opacity-50',
