@@ -1,5 +1,15 @@
 # @gerege-systems/ui
 
+## 0.12.4
+
+### Patch Changes
+
+- c50a408: `brandPresets` and the `[data-accent]` presets in theme.css no longer set
+  `--color-accent-700` / `--color-accent-800`. Hover and active states have
+  derived from `--accent` (`--accent-hover`, `--accent-active`) since 0.11, so
+  those two steps were dead weight in every preset. The raw `accent-700` /
+  `accent-800` utilities still exist and keep the library's indigo ramp.
+
 ## 0.12.3
 
 ### Patch Changes
