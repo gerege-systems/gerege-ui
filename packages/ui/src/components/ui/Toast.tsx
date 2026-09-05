@@ -82,7 +82,12 @@ export const Toast = forwardRef<ElementRef<typeof ToastPrimitive.Root>, ToastPro
   ref,
 ) {
   return (
-    <ToastPrimitive.Root ref={ref} className={cn(toast({ variant }), className)} {...props}>
+    <ToastPrimitive.Root
+      ref={ref}
+      data-slot="toast"
+      className={cn(toast({ variant }), className)}
+      {...props}
+    >
       {iconMap[variant ?? 'default']}
       <div className="flex-1 space-y-1">{children}</div>
     </ToastPrimitive.Root>

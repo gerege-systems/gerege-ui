@@ -203,6 +203,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(function Combo
           <PopoverPrimitive.Trigger asChild>
             <button
               id={fieldId}
+              data-slot="combobox"
               type="button"
               role="combobox"
               aria-expanded={open}
@@ -256,6 +257,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(function Combo
 
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
+            data-slot="popover-content"
             // Radix gives the popover role="dialog"; name it after the field.
             aria-labelledby={label ? `${fieldId}-label` : undefined}
             aria-label={label ? undefined : placeholder}

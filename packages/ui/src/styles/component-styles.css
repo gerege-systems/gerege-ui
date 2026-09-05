@@ -115,6 +115,7 @@
     [data-slot='input-field'],
     [data-slot='tag-input'],
     [data-slot='multi-select'],
+    [data-slot='combobox'],
     [data-slot='date-picker']
   ) {
   border-radius: var(--style-radius-control, var(--radius-md));
