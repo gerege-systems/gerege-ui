@@ -111,7 +111,7 @@ test.describe('theme rail', () => {
     const errors = collectErrors(page);
     await gotoHash(page, 'theme');
     const rail = page.locator('aside[aria-label="Theme controls"]');
-    for (const label of ['Style', 'Base Color', 'Theme', 'Chart Color', 'Depth']) {
+    for (const label of ['Style', 'Base Color', 'Accent', 'Chart Color', 'Depth']) {
       await expect(rail.getByLabel(label, { exact: true })).toBeVisible();
     }
 
@@ -123,5 +123,47 @@ test.describe('theme rail', () => {
     // Style and Depth move no tokens, so Reset has to survive on them alone.
     await expect(rail.getByRole('button', { name: 'Reset' })).toBeVisible();
     await expectNoErrors(page, errors, 'light', test.info());
+  });
+});
+
+test.describe('theme rail owns the accent', () => {
+  test('the top-bar brand stays off the wall, and the switcher is gone', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('brand', 'violet'));
+    await gotoHash(page, 'theme');
+    // The stored brand still reaches every other page…
+    await expect(page.getByRole('button', { name: /Accent colour/ })).toHaveCount(0);
+    // …but on #theme <html> carries no data-accent, so the wall shows the
+    // library default the rail reports.
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.getAttribute('data-accent')))
+      .toBeNull();
+    const wallAccent = await page.$eval('[data-brand-scope]', (el) =>
+      getComputedStyle(el).getPropertyValue('--accent').trim(),
+    );
+    // theme.css says hsl(238 50% 49%); the build serialises it as its hex.
+    expect(['hsl(238 50% 49%)', '#3e43bb']).toContain(wallAccent);
+    await gotoHash(page, 'components');
+    await expect(page.getByRole('button', { name: /Accent colour/ })).toBeVisible();
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.getAttribute('data-accent')))
+      .toBe('violet');
+  });
+
+  test('the HEX field takes a value one keystroke at a time', async ({ page }) => {
+    await gotoHash(page, 'theme');
+    const hex = page.locator('aside[aria-label="Theme controls"]').getByLabel('HEX');
+    await hex.fill('');
+    await hex.pressSequentially('#0076d2');
+    await expect(hex).toHaveValue('#0076d2');
+    await expect.poll(() => page.evaluate(() => location.hash)).toContain('h=');
+  });
+
+  test('a body font change reaches headings on the wall', async ({ page }) => {
+    await gotoHash(page, 'theme?fs=inter');
+    const heading = await page.$eval(
+      '[data-brand-scope] :is(h1,h2,h3,h4)',
+      (el) => getComputedStyle(el).fontFamily,
+    );
+    expect(heading).toContain('Inter');
   });
 });

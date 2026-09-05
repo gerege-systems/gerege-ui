@@ -4,6 +4,7 @@
  * in one place means a repo rename or version bump touches a single file.
  */
 import type { BrandName } from '@gerege-systems/ui';
+import { ACCENT_PRESETS, oklchToHex } from './theme/editor-model';
 
 export const PKG_NAME = '@gerege-systems/ui';
 /** Injected by vite.config.ts from packages/ui/package.json. */
@@ -20,9 +21,10 @@ export const SRC_UI = `${GITHUB_URL}/blob/main/packages/ui/src/components/ui`;
 export const SRC_BLOCKS = `${GITHUB_URL}/blob/main/apps/site/src/showcase/blocks`;
 
 /**
- * Accent presets the switcher cycles through. `name` keys into the library's
- * exported `brandPresets`; `swatch` is the dot shown in the menu (a plain CSS
- * colour, not a token, so the menu reads correctly regardless of active accent).
+ * Accent presets the top-bar switcher cycles through: the library's own
+ * `brandPresets`, as listed by the theme editor (one list, one set of numbers).
+ * `swatch` is a plain hex so the menu reads correctly regardless of the active
+ * accent.
  */
 export interface BrandOption {
   name: BrandName;
@@ -31,41 +33,9 @@ export interface BrandOption {
   swatch: string;
 }
 
-export const BRANDS: BrandOption[] = [
-  {
-    name: 'default',
-    label: 'Indigo',
-    description: 'The library default — graphite indigo.',
-    swatch: '#4e5fc4',
-  },
-  {
-    name: 'blue',
-    label: 'Blue',
-    description: 'A cooler, brighter blue.',
-    swatch: '#2f6bd6',
-  },
-  {
-    name: 'violet',
-    label: 'Violet',
-    description: 'Saturated purple-violet.',
-    swatch: '#7c4ddb',
-  },
-  {
-    name: 'emerald',
-    label: 'Emerald',
-    description: 'Calm green.',
-    swatch: '#1f9d6b',
-  },
-  {
-    name: 'rose',
-    label: 'Rose',
-    description: 'Warm pink-red.',
-    swatch: '#df3f6b',
-  },
-  {
-    name: 'amber',
-    label: 'Amber',
-    description: 'Warm amber-orange.',
-    swatch: '#c2832e',
-  },
-];
+export const BRANDS: BrandOption[] = ACCENT_PRESETS.filter((p) => p.library).map((p) => ({
+  name: p.library as BrandName,
+  label: p.label,
+  description: p.hint,
+  swatch: oklchToHex(p.l, p.c, p.h),
+}));

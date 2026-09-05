@@ -8,16 +8,8 @@ import {
   brandPresets,
   type BrandName,
 } from '@/components/ui/DesignSystemProvider';
+import { BRANDS } from '../site.config';
 import { CodeBlock } from '../widgets/CodeBlock';
-
-const BRANDS: { name: BrandName; label: string }[] = [
-  { name: 'default', label: 'Indigo' },
-  { name: 'blue', label: 'Blue' },
-  { name: 'violet', label: 'Violet' },
-  { name: 'emerald', label: 'Emerald' },
-  { name: 'rose', label: 'Rose' },
-  { name: 'amber', label: 'Amber' },
-];
 
 function BrandSwapDemo() {
   const [brand, setBrand] = useState<BrandName>('default');

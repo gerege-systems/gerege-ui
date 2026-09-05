@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/Select';
@@ -9,10 +10,14 @@ import {
   ACCENT_PRESETS,
   DEFAULT_STATE,
   MAX_CHROMA,
+  PILL,
   accentContrast,
+  formatRadius,
   hexToOklch,
   oklchToHex,
   radiusScale,
+  styleOwnsRadius,
+  type ContrastReport,
   type ThemeState,
 } from './editor-model';
 import {
@@ -32,7 +37,7 @@ const RADII: { value: number; label: string }[] = [
   { value: 4, label: 'Small' },
   { value: 6, label: 'Medium' },
   { value: 10, label: 'Large' },
-  { value: 9999, label: 'Full' },
+  { value: PILL, label: 'Full' },
 ];
 
 interface Props {
@@ -49,9 +54,16 @@ interface Props {
  */
 export function ThemeControls({ state, onChange, onReset, changed }: Props) {
   const hex = oklchToHex(state.lightness, state.chroma, state.hue);
+  // The field is controlled from state, but a hex is only valid once all six
+  // digits are in — so the keystrokes in between live here, or React would
+  // snap the field back to the old value after every one.
+  const [hexDraft, setHexDraft] = useState<string | null>(null);
+  const hexInvalid = hexDraft !== null && hexToOklch(hexDraft) === null;
   const light = accentContrast(state, 'light');
   const dark = accentContrast(state, 'dark');
   const styleRadius = radiusScale(state.radius ?? 6);
+  const radiusOwnedByStyle = styleOwnsRadius(state.style);
+  const styleName = findPreset(STYLES, state.style).label;
   // Style and Depth move no tokens, so a token count cannot tell whether the
   // rail has been touched — Reset would vanish after changing either one.
   const dirty = (Object.keys(DEFAULT_STATE) as (keyof ThemeState)[]).some(
@@ -136,11 +148,11 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         )}
       />
 
-      {/* Theme = the accent. Same dropdown as the other three, then the
-          fine-tune underneath for anything the twelve names do not cover. */}
+      {/* The accent. Same dropdown as the other three, then the fine-tune
+          underneath for anything the twelve names do not cover. */}
       <div className="flex flex-col gap-2.5">
         <PresetSelect
-          label="Theme"
+          label="Accent"
           list={accentOptions}
           value={activeAccent?.name ?? 'custom'}
           onValue={(v) => {
@@ -197,16 +209,20 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
         />
         <Input
           label="HEX"
-          value={hex}
+          value={hexDraft ?? hex}
           spellCheck={false}
+          error={hexInvalid ? 'Six hex digits, e.g. #3e43bb' : undefined}
           onChange={(e) => {
-            const next = hexToOklch(e.target.value);
+            const v = e.target.value;
+            setHexDraft(v);
+            const next = hexToOklch(v);
             if (next) onChange({ lightness: next[0], chroma: next[1], hue: next[2] });
           }}
+          onBlur={() => setHexDraft(null)}
           className="font-mono"
         />
-        <ContrastLine mode="Light" ratio={light.ratio} passes={light.passes} />
-        <ContrastLine mode="Dark" ratio={dark.ratio} passes={dark.passes} />
+        <ContrastLine mode="Light" report={light} />
+        <ContrastLine mode="Dark" report={dark} />
       </div>
 
       <PresetSelect
@@ -232,11 +248,11 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
       <section className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold">Radius</h3>
-          {state.radius !== null && (
+          {state.radius !== null && !radiusOwnedByStyle && (
             <span aria-hidden className="bg-accent size-1.5 rounded-full" />
           )}
           <span className="grow" />
-          {state.radius !== null && (
+          {state.radius !== null && !radiusOwnedByStyle && (
             <button
               type="button"
               onClick={() => onChange({ radius: null })}
@@ -254,15 +270,23 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
               variant={state.radius === r.value ? 'primary' : 'secondary'}
               onClick={() => onChange({ radius: r.value })}
               aria-pressed={state.radius === r.value}
+              disabled={radiusOwnedByStyle}
             >
               {r.label}
             </Button>
           ))}
         </div>
-        {state.radius !== null && (
+        {radiusOwnedByStyle ? (
           <p className="text-foreground-subtle text-xs">
-            Control {styleRadius.md}px · card {styleRadius.lg}px · modal {styleRadius.xl}px
+            {styleName} sets its own shape — radius follows the style.
           </p>
+        ) : (
+          state.radius !== null && (
+            <p className="text-foreground-subtle text-xs">
+              Control {formatRadius(styleRadius.md)} · card {formatRadius(styleRadius.lg)} · modal{' '}
+              {formatRadius(styleRadius.xl)}
+            </p>
+          )
         )}
       </section>
 
@@ -354,24 +378,34 @@ function PresetSelect<T extends SwatchOption>({
   );
 }
 
-function ContrastLine({ mode, ratio, passes }: { mode: string; ratio: number; passes: boolean }) {
+/**
+ * The three pairs the library holds every accent to. One line per mode: the
+ * failing pairs are named, so the fix (usually lightness) is obvious.
+ */
+function ContrastLine({ mode, report }: { mode: string; report: ContrastReport }) {
+  const pairs: [string, ContrastReport['button']][] = [
+    ['button text', report.button],
+    ['link text', report.text],
+    ['soft surface', report.soft],
+  ];
+  const failing = pairs.filter(([, c]) => !c.passes).map(([name]) => name);
   return (
     <div
       className={cn(
         'flex items-start gap-2 rounded-md border px-2.5 py-2 text-xs',
-        passes
+        report.passes
           ? 'border-success-border bg-success-subtle text-success-foreground'
           : 'border-warning-border bg-warning-subtle text-warning-foreground',
       )}
     >
-      {passes ? (
+      {report.passes ? (
         <Check aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       ) : (
         <AlertTriangle aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       )}
       <span>
-        {mode}: button text {ratio.toFixed(2)}:1 —{' '}
-        {passes ? 'passes AA (4.5:1)' : 'fails AA (4.5:1)'}
+        {mode}: {pairs.map(([name, c]) => `${name} ${c.ratio.toFixed(2)}:1`).join(' · ')} —{' '}
+        {report.passes ? 'passes AA (4.5:1)' : `${failing.join(', ')} below AA (4.5:1)`}
       </span>
     </div>
   );

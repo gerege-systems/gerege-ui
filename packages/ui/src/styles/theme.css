@@ -429,16 +429,13 @@
  *  Accent presets — opt in by setting `data-accent="<name>"` on <html>.
  *
  *  Only the accent ramp changes; everything else (neutrals, status colours) is
- *  shared. The hover/active steps (`--color-accent-700/800`) are mode-agnostic;
- *  the semantic `--accent` / `--accent-subtle` / `--accent-subtle-foreground` /
- *  `--ring` have a light value (:root[data-accent]) and a brightened dark value
- *  (.dark[data-accent], listed second so it wins in dark mode). Applied pre-paint
- *  by theme-init.js, so switching accent never flashes.
+ *  shared. Hover / active derive from `--accent` (see `--accent-hover` above),
+ *  so a preset sets only the semantic `--accent` / `--accent-subtle` /
+ *  `--accent-subtle-foreground` / `--ring`: a light value (:root[data-accent])
+ *  and a brightened dark value (.dark[data-accent], listed second so it wins in
+ *  dark mode). Applied pre-paint by theme-init.js, so switching accent never
+ *  flashes.
  * --------------------------------------------------------------------------- */
-[data-accent='blue'] {
-  --color-accent-700: oklch(0.47 0.16 250);
-  --color-accent-800: oklch(0.39 0.14 250);
-}
 :root[data-accent='blue'] {
   --accent: oklch(0.55 0.16 250);
   --accent-subtle: oklch(0.96 0.03 250);
@@ -452,10 +449,6 @@
   --ring: oklch(0.68 0.15 250);
 }
 
-[data-accent='violet'] {
-  --color-accent-700: oklch(0.45 0.18 295);
-  --color-accent-800: oklch(0.38 0.16 295);
-}
 :root[data-accent='violet'] {
   --accent: oklch(0.53 0.2 295);
   --accent-subtle: oklch(0.96 0.03 295);
@@ -469,10 +462,6 @@
   --ring: oklch(0.68 0.18 295);
 }
 
-[data-accent='emerald'] {
-  --color-accent-700: oklch(0.47 0.13 160);
-  --color-accent-800: oklch(0.39 0.12 160);
-}
 :root[data-accent='emerald'] {
   --accent: oklch(0.55 0.13 160);
   --accent-subtle: oklch(0.96 0.03 160);
@@ -486,10 +475,6 @@
   --ring: oklch(0.68 0.14 160);
 }
 
-[data-accent='rose'] {
-  --color-accent-700: oklch(0.49 0.18 12);
-  --color-accent-800: oklch(0.41 0.16 12);
-}
 :root[data-accent='rose'] {
   --accent: oklch(0.57 0.19 12);
   --accent-subtle: oklch(0.96 0.03 12);
@@ -503,10 +488,6 @@
   --ring: oklch(0.7 0.18 12);
 }
 
-[data-accent='amber'] {
-  --color-accent-700: oklch(0.54 0.13 65);
-  --color-accent-800: oklch(0.46 0.12 65);
-}
 :root[data-accent='amber'] {
   --accent: oklch(0.56 0.14 65); /* 4.8:1 with white text (0.62 was 3.8:1) */
   --accent-subtle: oklch(0.96 0.04 75);

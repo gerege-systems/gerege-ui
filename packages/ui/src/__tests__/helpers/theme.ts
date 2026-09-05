@@ -15,7 +15,7 @@ export interface ParsedTheme {
   /** `@theme { … }` raw primitives (fonts, text scale, radius, shadow, z, motion, palette). */
   raw: TokenMap;
   /** `[data-accent='x']` presets: light (`:root[...]`) and dark (`.dark[...]`) overrides. */
-  accents: Record<string, { shared: TokenMap; light: TokenMap; dark: TokenMap }>;
+  accents: Record<string, { light: TokenMap; dark: TokenMap }>;
 }
 
 const stripComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -42,10 +42,9 @@ export function parseDeclarations(body: string): TokenMap {
 export function parseTheme(css = readFileSync(THEME_PATH, 'utf8')): ParsedTheme {
   const clean = stripComments(css);
   const accents: ParsedTheme['accents'] = {};
-  for (const m of clean.matchAll(/^\[data-accent='([\w-]+)'\]\s*\{/gm)) {
+  for (const m of clean.matchAll(/^:root\[data-accent='([\w-]+)'\]\s*\{/gm)) {
     const name = m[1];
     accents[name] = {
-      shared: parseDeclarations(block(clean, `[data-accent='${name}']`)),
       light: parseDeclarations(block(clean, `:root[data-accent='${name}']`)),
       dark: parseDeclarations(block(clean, `.dark[data-accent='${name}']`)),
     };

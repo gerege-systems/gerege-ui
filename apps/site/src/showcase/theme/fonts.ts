@@ -5,8 +5,8 @@
  * and a Mongolian product picking one gets fallback glyphs for Өө and Үү — so
  * the rail says which is which rather than letting you find out later.
  *
- * Families are loaded from Google Fonts on demand (see `useFontLoader`); Geist
- * is already in the page, and System loads nothing.
+ * Families are loaded from Google Fonts on demand (the font effect in
+ * pages/ThemePage.tsx); Geist is already in the page, and System loads nothing.
  */
 export interface FontChoice {
   name: string;

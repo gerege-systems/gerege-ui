@@ -10,7 +10,13 @@ import {
 } from '@/components/ui/Dialog';
 import { Check, Copy } from '@/icons';
 import { CodeBlock } from '../widgets/CodeBlock';
-import { changedCount, encodeState, generateCss, type ThemeState } from './editor-model';
+import {
+  changedCount,
+  encodeState,
+  generateCss,
+  type CssSetup,
+  type ThemeState,
+} from './editor-model';
 
 interface Props {
   open: boolean;
@@ -25,7 +31,11 @@ interface Props {
  */
 export function GetCodeDialog({ open, onOpenChange, state }: Props) {
   const [copiedLink, setCopiedLink] = useState(false);
-  const css = generateCss(state, true);
+  // The README documents two ways in: Tailwind v4 sharing the tokens, or the
+  // precompiled sheet for apps without Tailwind. The imports differ; the
+  // token block is the same.
+  const [setup, setSetup] = useState<CssSetup>('tailwind');
+  const css = generateCss(state, setup);
   const changed = changedCount(state);
   const shareUrl =
     typeof window === 'undefined'
@@ -59,7 +69,7 @@ export function GetCodeDialog({ open, onOpenChange, state }: Props) {
           </section>
 
           <section className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-sm font-medium">2. Paste into your stylesheet</h3>
               <code className="text-foreground-subtle font-mono text-xs">app/globals.css</code>
               <span className="grow" />
@@ -67,7 +77,30 @@ export function GetCodeDialog({ open, onOpenChange, state }: Props) {
                 {changed === 0 ? 'no changes' : `${changed} tokens`}
               </span>
             </div>
+            <div role="group" aria-label="Stylesheet setup" className="flex gap-2">
+              {(
+                [
+                  ['tailwind', 'Tailwind v4'],
+                  ['plain', 'No Tailwind'],
+                ] as const
+              ).map(([value, label]) => (
+                <Button
+                  key={value}
+                  size="sm"
+                  variant={setup === value ? 'primary' : 'secondary'}
+                  aria-pressed={setup === value}
+                  onClick={() => setSetup(value)}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
             <CodeBlock language="css" code={css} />
+            <p className="text-foreground-subtle text-xs">
+              {setup === 'tailwind'
+                ? 'Your app compiles the library’s classes with its own Tailwind; theme.css shares the tokens.'
+                : 'styles.css is the precompiled sheet — tokens, base layer and every utility the components use.'}
+            </p>
           </section>
 
           <p className="text-foreground-muted text-sm">

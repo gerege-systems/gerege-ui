@@ -18,10 +18,29 @@ import {
   DEFAULT_STATE,
   changedCount,
   decodeState,
-  deriveTokens,
   encodeState,
+  previewTokens,
   type ThemeState,
 } from '../theme/editor-model';
+import { useTheme } from '../theme/theme-context';
+
+/**
+ * Where the editor keeps its last state between visits. The hash wins when it
+ * carries a theme; a bare `#theme` (the nav link) restores this instead, so
+ * leaving for another page and coming back does not throw the work away.
+ */
+const STORAGE_KEY = 'theme-editor';
+
+function readInitialState(): ThemeState {
+  if (typeof window === 'undefined') return DEFAULT_STATE;
+  const hash = window.location.hash;
+  if (hash.includes('?')) return decodeState(hash);
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return decodeState(`#theme${stored}`);
+  } catch {}
+  return DEFAULT_STATE;
+}
 
 /**
  * `#theme` — pick tokens in the panel, watch the wall, take the CSS away with
@@ -41,9 +60,16 @@ import {
  * makes dark mode follow without a second set of controls.
  */
 export function ThemePage() {
-  const [state, setState] = useState<ThemeState>(() =>
-    typeof window === 'undefined' ? DEFAULT_STATE : decodeState(window.location.hash),
-  );
+  const [state, setState] = useState<ThemeState>(readInitialState);
+  // The top bar's accent switcher writes `data-accent` on <html>, which would
+  // cascade into the wall and show an accent the rail says is untouched. It is
+  // held off while this page is mounted; the rail's Accent dropdown is the
+  // one control here.
+  const { setBrandSuppressed } = useTheme();
+  useEffect(() => {
+    setBrandSuppressed(true);
+    return () => setBrandSuppressed(false);
+  }, [setBrandSuppressed]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   // A different arrangement each visit: a fixed order teaches you the page
@@ -64,6 +90,9 @@ export function ThemePage() {
     if (window.location.hash !== next) {
       window.history.replaceState(null, '', next);
     }
+    try {
+      localStorage.setItem(STORAGE_KEY, encodeState(state));
+    } catch {}
   }, [state]);
 
   // …and read it back when it changes from outside — pasting a shared theme
@@ -107,7 +136,7 @@ export function ThemePage() {
   const patch = useCallback((p: Partial<ThemeState>) => setState((s) => ({ ...s, ...p })), []);
   const reset = useCallback(() => setState(DEFAULT_STATE), []);
 
-  const tokens = deriveTokens(state);
+  const tokens = previewTokens(state);
   const changed = changedCount(state);
   const controls = (
     <ThemeControls state={state} onChange={patch} onReset={reset} changed={changed} />
@@ -169,7 +198,8 @@ export function ThemePage() {
               provider carries the colour tokens. The two compose. */}
           {/* font-sans here on purpose: html already resolved font-family from
               the old value, so a nested --font-sans override changes nothing
-              unless something re-applies it. */}
+              unless something re-applies it. Headings get the same treatment
+              through previewTokens (the --font-heading alias). */}
           <div data-style={state.style} data-depth={state.depth}>
             <DesignSystemProvider tokens={tokens}>
               {/* font-sans has to sit INSIDE the provider: the override lives on

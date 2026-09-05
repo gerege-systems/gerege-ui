@@ -88,7 +88,8 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
             <Kbd className="shrink-0">{mod.symbol} K</Kbd>
           </button>
 
-          <BrandSwitcher />
+          {/* On #theme the rail's Accent dropdown is the one accent control. */}
+          {current.kind !== 'theme' && <BrandSwitcher />}
 
           <a
             href={GITHUB_URL}

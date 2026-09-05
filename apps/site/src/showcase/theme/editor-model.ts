@@ -6,11 +6,16 @@
  * `deriveTokens()`, so what the wall shows is exactly what pasting the snippet
  * gives you, and the snippet stays short enough to read.
  *
- * Accent values are OKLCH because that is what the library's own presets use
- * (see `brandPresets`); the derived steps mirror their shape so a custom accent
- * behaves like a built-in one in both modes.
+ * Accent values are OKLCH because that is what the library's own presets use.
+ * The library's `brandPresets` are the source of truth for the named accents:
+ * picking one of them previews the library's exact light/dark tokens and the
+ * snippet hands over `data-accent="…"` instead of repeating those values.
  */
-import type { BrandTokens } from '@/components/ui/DesignSystemProvider';
+import {
+  brandPresets,
+  type BrandName,
+  type BrandTokens,
+} from '@/components/ui/DesignSystemProvider';
 import { BASE_COLORS, CHART_PALETTES, DEPTHS, STYLES, findPreset } from './presets';
 import { FONTS, MONO_FONTS, findFont, googleFontsUrl } from './fonts';
 
@@ -21,15 +26,18 @@ export interface ThemeState {
   chroma: number;
   /** Accent hue (OKLCH H, degrees). */
   hue: number;
-  /** Named style bundle — radius, type scale, spacing. */
+  /** Named style — radius, control size, density (`data-style`). */
   style: string;
-  /** Named elevation step — how far surfaces float. */
+  /** Named elevation step — how far surfaces float (`data-depth`). */
   depth: string;
   /** Named neutral family — surfaces, borders, secondary text. */
   base: string;
   /** Named categorical series palette. */
   chart: string;
-  /** Explicit radius override in px; `null` follows the style. */
+  /**
+   * Explicit control radius in px; `null` follows the style. `PILL` (9999)
+   * is the "Full" choice. Ignored under a style that owns its shape (vega, lyra).
+   */
   radius: number | null;
   /** Body family — a key into FONTS. */
   fontSans: string;
@@ -38,6 +46,9 @@ export interface ThemeState {
   /** Monospace family — a key into MONO_FONTS. */
   fontMono: string;
 }
+
+/** The "Full" radius: every corner a pill. */
+export const PILL = 9999;
 
 /**
  * The library's own `--accent` (`hsl(238 50% 49%)`) converted to OKLCH, so the
@@ -60,16 +71,44 @@ export const DEFAULT_STATE: ThemeState = {
 
 export const MAX_CHROMA = 0.2;
 
-/** Accent presets, mirroring `brandPresets` in the library. */
-export const ACCENT_PRESETS: {
+export interface AccentPreset {
   name: string;
   label: string;
   hint: string;
   l: number;
   c: number;
   h: number;
-}[] = [
-  { name: 'default', label: 'Indigo', hint: 'Library default', l: 0.457, c: 0.185, h: 274.5 },
+  /** Set when the accent is one of the library's `brandPresets` (or its default). */
+  library?: BrandName;
+}
+
+/** `oklch(l c h)` → numbers; the only colour syntax `brandPresets` uses. */
+function parseOklch(v: string): [number, number, number] {
+  const m = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/.exec(v);
+  if (!m) throw new Error(`not an oklch() value: ${v}`);
+  return [Number(m[1]), Number(m[2]), Number(m[3])];
+}
+
+function fromLibrary(name: BrandName, label: string, hint: string): AccentPreset {
+  const [l, c, h] = parseOklch(brandPresets[name].light.accent);
+  return { name, label, hint, l, c, h, library: name };
+}
+
+/**
+ * Accent presets in hue order. The five named after `brandPresets` read their
+ * numbers from the library, so the two can never disagree; the rest are
+ * editor-only and go out as plain tokens.
+ */
+export const ACCENT_PRESETS: AccentPreset[] = [
+  {
+    name: 'default',
+    label: 'Indigo',
+    hint: 'Library default — graphite indigo',
+    l: DEFAULT_STATE.lightness,
+    c: DEFAULT_STATE.chroma,
+    h: DEFAULT_STATE.hue,
+    library: 'default',
+  },
   {
     name: 'neutral',
     label: 'Neutral',
@@ -86,37 +125,32 @@ export const ACCENT_PRESETS: {
     c: 0.2,
     h: 27,
   },
-  { name: 'rose', label: 'Rose', hint: 'Pink red', l: 0.55, c: 0.19, h: 12 },
+  fromLibrary('rose', 'Rose', 'Warm pink-red'),
   { name: 'orange', label: 'Orange', hint: 'Warm, high energy', l: 0.58, c: 0.16, h: 50 },
-  {
-    name: 'amber',
-    label: 'Amber',
-    hint: 'Golden; white text is borderline',
-    l: 0.56,
-    c: 0.14,
-    h: 70,
-  },
+  fromLibrary('amber', 'Amber', 'Golden; white text is borderline'),
+  // 0.53: at 0.57 white text sat at 4.45:1, under AA.
   {
     name: 'yellow',
     label: 'Yellow',
-    hint: 'Darkened so white text still passes',
-    l: 0.57,
+    hint: 'Darkened so white text passes',
+    l: 0.53,
     c: 0.13,
     h: 95,
   },
-  { name: 'green', label: 'Green', hint: 'Growth, confirmation', l: 0.53, c: 0.16, h: 148 },
+  fromLibrary('emerald', 'Emerald', 'Calm green'),
   { name: 'teal', label: 'Teal', hint: 'Cool green', l: 0.54, c: 0.12, h: 190 },
-  {
-    name: 'blue',
-    label: 'Blue',
-    hint: 'Cooler and brighter than indigo',
-    l: 0.55,
-    c: 0.18,
-    h: 245,
-  },
-  { name: 'violet', label: 'Violet', hint: 'Between indigo and purple', l: 0.53, c: 0.2, h: 295 },
+  fromLibrary('blue', 'Blue', 'Cooler and brighter than indigo'),
+  fromLibrary('violet', 'Violet', 'Saturated purple-violet'),
   { name: 'purple', label: 'Purple', hint: 'Deep magenta-violet', l: 0.5, c: 0.21, h: 312 },
 ];
+
+/** The library preset the state's accent matches exactly, if any. */
+export function libraryAccent(s: ThemeState): BrandName | null {
+  const hit = ACCENT_PRESETS.find(
+    (p) => p.library && p.l === s.lightness && p.c === s.chroma && p.h === s.hue,
+  );
+  return hit?.library ?? null;
+}
 
 /* ---------------------------------------------------------------- colour -- */
 
@@ -148,18 +182,36 @@ function oklchToLinearRgb(l: number, c: number, hDeg: number): [number, number, 
   ];
 }
 
-/** WCAG relative luminance of an OKLCH colour. */
-function luminance(l: number, c: number, h: number): number {
-  const [r, g, b] = oklchToLinearRgb(l, c, h).map((v) => clamp(v, 0, 1));
+/** `hsl(h s% l%)` → linear sRGB. theme.css writes its neutrals this way. */
+function hslToLinearRgb(h: number, s: number, l: number): [number, number, number] {
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+  const lin = (v: number) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  return [lin(f(0)), lin(f(8)), lin(f(4))];
+}
+
+/** Linear sRGB of an `oklch()` / `hsl()` string — the two syntaxes the tokens use. */
+function linearRgb(color: string): [number, number, number] {
+  const ok = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/.exec(color);
+  if (ok) return oklchToLinearRgb(Number(ok[1]), Number(ok[2]), Number(ok[3]));
+  const hsl = /^hsl\(\s*([\d.]+)\s+([\d.]+)%\s+([\d.]+)%\s*\)$/.exec(color);
+  if (hsl) return hslToLinearRgb(Number(hsl[1]), Number(hsl[2]) / 100, Number(hsl[3]) / 100);
+  throw new Error(`unsupported colour: ${color}`);
+}
+
+/** WCAG relative luminance. */
+function luminance(color: string): number {
+  const [r, g, b] = linearRgb(color).map((v) => clamp(v, 0, 1));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-/** WCAG 2.x contrast ratio between two OKLCH colours. */
-export function contrastRatio(a: [number, number, number], b: [number, number, number]): number {
-  const la = luminance(...a);
-  const lb = luminance(...b);
+/** WCAG 2.x contrast ratio between two token colours. */
+export function contrast(a: string, b: string): number {
+  const la = luminance(a);
+  const lb = luminance(b);
   const [hi, lo] = la > lb ? [la, lb] : [lb, la];
-  return (hi + 0.05) / (lo + 0.05);
+  return round((hi + 0.05) / (lo + 0.05), 2);
 }
 
 /** OKLCH → `#rrggbb`, for the hex field and the swatches. */
@@ -197,23 +249,58 @@ export function hexToOklch(hex: string): [number, number, number] | null {
   return [round(L, 3), round(Math.hypot(A, B), 3), round(h, 1)];
 }
 
-/** White in OKLCH — `--accent-foreground` in light mode. */
-const WHITE: [number, number, number] = [1, 0, 0];
-/** `hsl(229 50% 6%)` — `--background` and `--accent-foreground` in dark mode. */
-const NEUTRAL_950: [number, number, number] = [0.16, 0.036, 273];
+/* --------------------------------------------------------------- contrast -- */
 
-export interface ContrastReport {
-  /** Accent fill + its foreground, the ratio a solid button actually renders. */
+/**
+ * The accent tokens theme.css ships, per mode — what the preview and a
+ * consumer see whenever the editor emits nothing for the accent.
+ */
+const THEME_ACCENT = {
+  light: {
+    accent: oklch(DEFAULT_STATE.lightness, DEFAULT_STATE.chroma, DEFAULT_STATE.hue),
+    'accent-foreground': 'hsl(0 0% 100%)',
+    'accent-subtle': 'hsl(232 100% 97%)',
+    'accent-subtle-foreground': 'hsl(238 48% 40%)',
+    background: 'hsl(0 0% 100%)',
+  },
+  dark: {
+    accent: 'hsl(238 60% 67%)',
+    'accent-foreground': 'hsl(229 50% 6%)',
+    'accent-subtle': 'hsl(238 50% 16%)',
+    'accent-subtle-foreground': 'hsl(234 71% 78%)',
+    background: 'hsl(229 50% 6%)',
+  },
+} as const;
+
+export interface ContrastCheck {
   ratio: number;
   passes: boolean;
 }
 
+/**
+ * The three pairs the library's own token test holds every accent to
+ * (WCAG 1.4.3, 4.5:1): button text on the accent fill, the accent as link
+ * text on the page background, and text on the soft accent surface.
+ */
+export interface ContrastReport {
+  button: ContrastCheck;
+  text: ContrastCheck;
+  soft: ContrastCheck;
+  passes: boolean;
+}
+
 export function accentContrast(s: ThemeState, mode: 'light' | 'dark'): ContrastReport {
-  const ratio =
-    mode === 'light'
-      ? contrastRatio([s.lightness, s.chroma, s.hue], WHITE)
-      : contrastRatio([darkL(s), darkC(s), s.hue], NEUTRAL_950);
-  return { ratio: round(ratio, 2), passes: ratio >= 4.5 };
+  const base = THEME_ACCENT[mode];
+  const derived = deriveTokens(s)[mode];
+  const tok = (k: keyof typeof base) => derived[k] ?? base[k];
+  const check = (a: string, b: string): ContrastCheck => {
+    const ratio = contrast(a, b);
+    return { ratio, passes: ratio >= 4.5 };
+  };
+  const button = check(tok('accent-foreground'), tok('accent'));
+  const text = check(tok('accent'), tok('background'));
+  const soft = check(tok('accent-subtle-foreground'), tok('accent-subtle'));
+  return { button, text, soft, passes: button.passes && text.passes && soft.passes };
 }
 
 /* ----------------------------------------------------------------- tokens -- */
@@ -229,7 +316,18 @@ function darkC(s: ThemeState): number {
 /** Radius scale derived from the base control radius. */
 export function radiusScale(base: number): { sm: number; md: number; lg: number; xl: number } {
   if (base === 0) return { sm: 0, md: 0, lg: 0, xl: 0 };
+  if (base >= PILL) return { sm: PILL, md: PILL, lg: PILL, xl: PILL };
   return { sm: Math.max(2, base - 2), md: base, lg: base + 2, xl: base + 6 };
+}
+
+/** `9999px` reads as nonsense in copy; the choice is called Full. */
+export function formatRadius(px: number): string {
+  return px >= PILL ? 'full' : `${px}px`;
+}
+
+/** vega and lyra set absolute radii, so the radius tokens cannot reach them. */
+export function styleOwnsRadius(style: string): boolean {
+  return findPreset(STYLES, style).absoluteRadius === true;
 }
 
 export function accentChanged(s: ThemeState): boolean {
@@ -245,6 +343,8 @@ export interface DerivedTokens {
   light: BrandTokens;
   dark: BrandTokens;
 }
+
+const ACCENT_KEYS = ['accent', 'accent-subtle', 'accent-subtle-foreground', 'ring'] as const;
 
 /**
  * The only place tokens are computed. Returns `{light, dark}` holding just the
@@ -265,13 +365,19 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
     Object.assign(dark, tokens.dark ?? {});
   }
 
-  if (accentChanged(s)) {
+  const lib = libraryAccent(s);
+  if (lib && lib !== 'default') {
+    // The library's own numbers, so the wall shows what `data-accent` gives.
+    const preset = brandPresets[lib];
+    Object.assign(light, preset.light);
+    Object.assign(dark, preset.dark ?? {});
+  } else if (accentChanged(s)) {
     const { lightness: l, chroma: c, hue: h } = s;
     light.accent = oklch(l, c, h);
-    light['color-accent-700'] = oklch(Math.max(0.2, l - 0.08), c, h);
-    light['color-accent-800'] = oklch(Math.max(0.15, l - 0.16), Math.max(0.03, c - 0.02), h);
     light['accent-subtle'] = oklch(0.96, Math.min(0.03, c), h);
-    light['accent-subtle-foreground'] = oklch(Math.max(0.2, l - 0.02), Math.max(0.04, c - 0.01), h);
+    // Two steps darker than the fill: warm hues (orange, teal) sat under 4.5:1
+    // on the soft surface at l - 0.02.
+    light['accent-subtle-foreground'] = oklch(Math.max(0.2, l - 0.06), Math.max(0.04, c - 0.01), h);
     light.ring = oklch(Math.min(0.8, l + 0.07), c, h);
 
     dark.accent = oklch(darkL(s), darkC(s), h);
@@ -280,7 +386,7 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
     dark.ring = oklch(Math.min(0.84, darkL(s) + 0.04), darkC(s), h);
   }
 
-  if (s.radius !== null) {
+  if (s.radius !== null && !styleOwnsRadius(s.style)) {
     const r = radiusScale(s.radius);
     light['radius-sm'] = `${r.sm}px`;
     light['radius-md'] = `${r.md}px`;
@@ -299,6 +405,22 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
   return { light, dark };
 }
 
+/**
+ * What the wall renders. Same tokens as the snippet plus one preview-only
+ * line: theme.css declares `--font-heading: var(--font-sans)` on `:root`, and
+ * a `var()` inside a custom property is substituted where it is declared —
+ * so headings under the provider would keep the old body face while a
+ * consumer's `:root { --font-sans }` moves both. Re-declaring the alias on the
+ * provider makes the preview resolve it against the new body face too.
+ */
+export function previewTokens(s: ThemeState): DerivedTokens {
+  const t = deriveTokens(s);
+  if (t.light['font-sans'] && !t.light['font-heading']) {
+    t.light['font-heading'] = 'var(--font-sans)';
+  }
+  return t;
+}
+
 export function changedCount(s: ThemeState): number {
   const { light, dark } = deriveTokens(s);
   return Object.keys(light).length + Object.keys(dark).length;
@@ -306,12 +428,18 @@ export function changedCount(s: ThemeState): number {
 
 /* -------------------------------------------------------------------- css -- */
 
-const IMPORTS = [
-  "@import 'tailwindcss';",
-  "@import 'tw-animate-css';",
-  "@import '@gerege-systems/ui/theme.css';",
-  '@source "../node_modules/@gerege-systems/ui/dist-lib";',
-].join('\n');
+/** How the consumer loads the library — the two setups the README documents. */
+export type CssSetup = 'tailwind' | 'plain';
+
+const IMPORTS: Record<CssSetup, string> = {
+  tailwind: [
+    "@import 'tailwindcss';",
+    "@import 'tw-animate-css';",
+    "@import '@gerege-systems/ui/theme.css';",
+    '@source "../node_modules/@gerege-systems/ui/dist-lib";',
+  ].join('\n'),
+  plain: "@import '@gerege-systems/ui/styles.css';",
+};
 
 function block(selector: string, tokens: BrandTokens): string {
   const body = Object.entries(tokens)
@@ -320,8 +448,12 @@ function block(selector: string, tokens: BrandTokens): string {
   return `${selector} {\n${body}\n}`;
 }
 
-/** The snippet the Get code dialog hands over — imports plus changed tokens. */
-export function generateCss(s: ThemeState, withImports: boolean): string {
+/**
+ * The snippet the Get code dialog hands over: imports for the chosen setup,
+ * the attributes to set, and the changed tokens. An accent that is one of the
+ * library's presets becomes `data-accent="…"` rather than its values.
+ */
+export function generateCss(s: ThemeState, setup: CssSetup | null): string {
   const { light, dark } = deriveTokens(s);
   const parts: string[] = [];
   const fontsUrl = googleFontsUrl([
@@ -329,24 +461,32 @@ export function generateCss(s: ThemeState, withImports: boolean): string {
     s.fontHeading !== DEFAULT_STATE.fontHeading ? findFont(FONTS, s.fontHeading).google : null,
     s.fontMono !== DEFAULT_STATE.fontMono ? findFont(MONO_FONTS, s.fontMono).google : null,
   ]);
-  if (withImports) {
+  if (setup) {
     // The font import has to come first: CSS drops an @import that follows a
     // rule, and the families must be there before the tokens name them.
-    parts.push(fontsUrl ? `@import url('${fontsUrl}');\n${IMPORTS}` : IMPORTS);
+    parts.push(fontsUrl ? `@import url('${fontsUrl}');\n${IMPORTS[setup]}` : IMPORTS[setup]);
   }
-  const attrsChanged = s.style !== DEFAULT_STATE.style || s.depth !== DEFAULT_STATE.depth;
-  if (!Object.keys(light).length && !Object.keys(dark).length && !attrsChanged) {
+
+  const lib = libraryAccent(s);
+  const attrs: [string, string][] = [];
+  if (s.style !== DEFAULT_STATE.style) attrs.push(['data-style', s.style]);
+  if (s.depth !== DEFAULT_STATE.depth) attrs.push(['data-depth', s.depth]);
+  if (lib && lib !== 'default') {
+    attrs.push(['data-accent', lib]);
+    for (const k of ACCENT_KEYS) {
+      delete light[k];
+      delete dark[k];
+    }
+  }
+
+  if (!Object.keys(light).length && !Object.keys(dark).length && !attrs.length) {
     parts.push('/* Nothing changed — the library defaults still apply. */');
     return parts.join('\n\n');
   }
-  for (const [attr, value, fallback] of [
-    ['data-style', s.style, DEFAULT_STATE.style],
-    ['data-depth', s.depth, DEFAULT_STATE.depth],
-  ] as const) {
-    if (value === fallback) continue;
+  for (const [attr, value] of attrs) {
     parts.push(
       `/* Put ${attr}="${value}" on <html> (or any subtree).
-` + '   The rules ship with the library — nothing to copy for this line. */',
+` + '   The values ship with the library — nothing to copy for this line. */',
     );
   }
   if (Object.keys(light).length || Object.keys(dark).length) {
@@ -393,9 +533,7 @@ export function decodeState(hash: string): ThemeState {
   };
   s.lightness = num('l', 0.3, 0.8, s.lightness);
   s.chroma = num('c', 0, MAX_CHROMA, s.chroma);
-  s.hue = num('h', 0, 360, s.hue);
-  const rawRadius = p.get('r');
-  s.radius = rawRadius === null ? null : num('r', 0, 24, 6);
+  s.hue = num('h', 0, 360, s.hue) % 360;
   for (const [key, list, field] of [
     ['st', STYLES, 'style'],
     ['dp', DEPTHS, 'depth'],
@@ -404,6 +542,11 @@ export function decodeState(hash: string): ThemeState {
   ] as const) {
     const v = p.get(key);
     if (v && list.some((x) => x.name === v)) s[field] = v;
+  }
+  // Full (9999) is a named choice, not a length — it must survive the clamp.
+  const rawRadius = p.get('r');
+  if (rawRadius !== null && !styleOwnsRadius(s.style)) {
+    s.radius = Number(rawRadius) >= PILL ? PILL : num('r', 0, 24, 6);
   }
   for (const [key, list, field] of [
     ['fs', FONTS, 'fontSans'],

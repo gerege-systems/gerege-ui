@@ -2,9 +2,9 @@
  * Named preset bundles for the theme editor — the four dropdowns in the rail.
  *
  * Each entry is a plain token bundle so switching one is a whole-look change,
- * not a single hue nudge: a style moves radius, type scale and spacing; a base
- * colour moves every neutral surface and border; a chart palette moves the
- * categorical series. Values are literal because the whole point is that the
+ * not a single hue nudge: a style moves radius, control size and density; a
+ * base colour moves every neutral surface and border; a chart palette moves
+ * the categorical series. Values are literal because the whole point is that the
  * generated CSS can be pasted into a project that has none of this code.
  */
 import type { BrandTokens } from '@/components/ui/DesignSystemProvider';
@@ -33,72 +33,81 @@ export interface SwatchOption {
 
 export interface NamedPreset extends SwatchOption {
   tokens: Bundle;
+  /**
+   * The style sets absolute radii (0 or a pill), so the `--radius-*` tokens
+   * cannot reach it and the Radius control is moot while it is active.
+   */
+  absoluteRadius?: boolean;
 }
 
 /* ------------------------------------------------------------------ style -- */
 
 /**
- * Shape only — colour belongs to the other three dropdowns.
+ * Shape and density only — colour belongs to the other three dropdowns, and
+ * the type scale is not a style's to move.
  *
  * A style is not a token bundle: it is the `data-style` attribute, and the
  * per-component rules in the library's component-styles.css do the work. That
  * is what lets a style change a control's height, border width or letter
- * spacing, none of which any single token can express.
+ * spacing, none of which any single token can express. Every hint below
+ * describes what those rules actually do.
  */
 export const STYLES: NamedPreset[] = [
   {
     name: 'nova',
     label: 'Nova',
-    hint: 'Library default — 6px radius, 14px base',
+    hint: 'Library default — 6px radius, 36px controls',
     swatch: '6px',
     tokens: { light: {} },
   },
   {
     name: 'vega',
     label: 'Vega',
-    hint: 'Square — no radius anywhere',
+    hint: 'Square — no radius, 1px control borders, uppercase badges',
     swatch: '0px',
     tokens: { light: {} },
+    absoluteRadius: true,
   },
   {
     name: 'maia',
     label: 'Maia',
-    hint: 'Soft — 12px controls, 16px cards',
+    hint: 'Soft — 12px controls, 18px cards, roomier padding',
     swatch: '12px',
     tokens: { light: {} },
   },
   {
     name: 'lyra',
     label: 'Lyra',
-    hint: 'Pill — controls fully rounded',
+    hint: 'Pill — controls fully rounded, 20px cards',
     swatch: '9999px',
     tokens: { light: {} },
+    absoluteRadius: true,
   },
   {
     name: 'mira',
     label: 'Mira',
-    hint: 'Dense — 13px base, tight spacing (ERP)',
+    hint: 'Dense — 32px controls, tight cells and cards (ERP)',
     swatch: '4px',
     tokens: { light: {} },
   },
   {
     name: 'luma',
     label: 'Luma',
-    hint: 'Airy — 15px base, wide spacing',
+    hint: 'Airy — 40px controls, tall cells, 32px card padding',
     swatch: '10px',
     tokens: { light: {} },
   },
   {
     name: 'sera',
     label: 'Sera',
-    hint: 'Editorial — bigger headings, normal controls',
-    swatch: '6px',
+    hint: 'Editorial — 3px radius, semibold controls, uppercase table heads',
+    swatch: '3px',
     tokens: { light: {} },
   },
   {
     name: 'rhea',
     label: 'Rhea',
-    hint: 'Quiet — smaller labels, 8px radius',
+    hint: 'Quiet — 8px controls, regular-weight controls and badges',
     swatch: '8px',
     tokens: { light: {} },
   },
@@ -150,7 +159,12 @@ export const DEPTHS: NamedPreset[] = [
 
 /* ------------------------------------------------------------- base colour -- */
 
-/** The neutral family every surface, border and secondary text is built from. */
+/**
+ * The neutral family every surface, border and secondary text is built from.
+ * Each bundle also moves the dark `--ring-offset` (theme.css ties it to the
+ * background, so a slate halo would show around focused controls on a stone
+ * page) and the tooltip surface, which is the same neutral inverted.
+ */
 export const BASE_COLORS: NamedPreset[] = [
   {
     name: 'slate',
@@ -166,6 +180,7 @@ export const BASE_COLORS: NamedPreset[] = [
     swatch: 'hsl(220 9% 88%)',
     tokens: {
       light: {
+        tooltip: 'hsl(220 9% 11%)',
         'background-subtle': 'hsl(220 9% 98%)',
         'background-muted': 'hsl(220 9% 96%)',
         border: 'hsl(220 9% 90%)',
@@ -177,6 +192,8 @@ export const BASE_COLORS: NamedPreset[] = [
         'foreground-subtle': 'hsl(220 8% 45%)',
       },
       dark: {
+        'ring-offset': 'hsl(220 9% 7%)',
+        tooltip: 'hsl(220 9% 98%)',
         background: 'hsl(220 9% 7%)',
         'background-subtle': 'hsl(220 9% 10%)',
         'background-muted': 'hsl(220 9% 14%)',
@@ -197,6 +214,7 @@ export const BASE_COLORS: NamedPreset[] = [
     swatch: 'hsl(240 5% 88%)',
     tokens: {
       light: {
+        tooltip: 'hsl(240 5% 11%)',
         'background-subtle': 'hsl(240 5% 98%)',
         'background-muted': 'hsl(240 5% 96%)',
         border: 'hsl(240 5% 90%)',
@@ -208,6 +226,8 @@ export const BASE_COLORS: NamedPreset[] = [
         'foreground-subtle': 'hsl(240 4% 45%)',
       },
       dark: {
+        'ring-offset': 'hsl(240 5% 7%)',
+        tooltip: 'hsl(240 5% 98%)',
         background: 'hsl(240 5% 7%)',
         'background-subtle': 'hsl(240 5% 10%)',
         'background-muted': 'hsl(240 5% 14%)',
@@ -228,6 +248,7 @@ export const BASE_COLORS: NamedPreset[] = [
     swatch: 'hsl(0 0% 88%)',
     tokens: {
       light: {
+        tooltip: 'hsl(0 0% 11%)',
         'background-subtle': 'hsl(0 0% 98%)',
         'background-muted': 'hsl(0 0% 96%)',
         border: 'hsl(0 0% 90%)',
@@ -239,6 +260,8 @@ export const BASE_COLORS: NamedPreset[] = [
         'foreground-subtle': 'hsl(0 3% 45%)',
       },
       dark: {
+        'ring-offset': 'hsl(0 0% 7%)',
+        tooltip: 'hsl(0 0% 98%)',
         background: 'hsl(0 0% 7%)',
         'background-subtle': 'hsl(0 0% 10%)',
         'background-muted': 'hsl(0 0% 14%)',
@@ -259,6 +282,7 @@ export const BASE_COLORS: NamedPreset[] = [
     swatch: 'hsl(30 8% 88%)',
     tokens: {
       light: {
+        tooltip: 'hsl(30 8% 11%)',
         'background-subtle': 'hsl(30 8% 98%)',
         'background-muted': 'hsl(30 8% 96%)',
         border: 'hsl(30 8% 90%)',
@@ -270,6 +294,8 @@ export const BASE_COLORS: NamedPreset[] = [
         'foreground-subtle': 'hsl(30 7% 45%)',
       },
       dark: {
+        'ring-offset': 'hsl(30 8% 7%)',
+        tooltip: 'hsl(30 8% 98%)',
         background: 'hsl(30 8% 7%)',
         'background-subtle': 'hsl(30 8% 10%)',
         'background-muted': 'hsl(30 8% 14%)',

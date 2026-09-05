@@ -129,11 +129,11 @@ describe('WCAG contrast — [data-accent] presets', () => {
   ];
   for (const [name, preset] of Object.entries(theme.accents)) {
     it(`${name} light`, () => {
-      const tokens = { ...theme.light, ...preset.shared, ...preset.light };
+      const tokens = { ...theme.light, ...preset.light };
       expect(table(tokens, presetChecks, `accent=${name} light`)).toEqual([]);
     });
     it(`${name} dark`, () => {
-      const tokens = { ...theme.dark, ...preset.shared, ...preset.dark };
+      const tokens = { ...theme.dark, ...preset.dark };
       expect(table(tokens, presetChecks, `accent=${name} dark`)).toEqual([]);
     });
   }

@@ -112,9 +112,9 @@ export function DesignSystemProvider({
  * maps the accent utilities with `@theme inline` (e.g. `bg-accent` →
  * `var(--accent)`, `bg-accent-soft` → `var(--accent-subtle)`), so the override
  * must target `--accent` / `--accent-subtle` / `--accent-subtle-foreground` /
- * `--ring` — NOT `--color-accent` (which `inline` never emits). The hover/
- * active steps (`--color-accent-700/800`) come from the raw palette and are
- * mode-agnostic. Values mirror the `[data-accent]` presets in theme.css: the
+ * `--ring` — NOT `--color-accent` (which `inline` never emits). Hover and
+ * active derive from `--accent` in theme.css, so a preset never sets them.
+ * Values mirror the `[data-accent]` presets in theme.css: the
  * dark half lifts the accent to the 400 step (readable as text on neutral-950)
  * and darkens the subtle surface. `default` is the built-in graphite-indigo.
  */
@@ -125,8 +125,6 @@ export const brandPresets = {
   blue: {
     light: {
       accent: 'oklch(0.55 0.16 250)',
-      'color-accent-700': 'oklch(0.47 0.16 250)',
-      'color-accent-800': 'oklch(0.39 0.14 250)',
       'accent-subtle': 'oklch(0.96 0.03 250)',
       'accent-subtle-foreground': 'oklch(0.45 0.15 250)',
       ring: 'oklch(0.62 0.16 250)',
@@ -142,8 +140,6 @@ export const brandPresets = {
   violet: {
     light: {
       accent: 'oklch(0.53 0.20 295)',
-      'color-accent-700': 'oklch(0.45 0.18 295)',
-      'color-accent-800': 'oklch(0.38 0.16 295)',
       'accent-subtle': 'oklch(0.96 0.03 295)',
       'accent-subtle-foreground': 'oklch(0.46 0.18 295)',
       ring: 'oklch(0.60 0.20 295)',
@@ -159,8 +155,6 @@ export const brandPresets = {
   emerald: {
     light: {
       accent: 'oklch(0.55 0.13 160)',
-      'color-accent-700': 'oklch(0.47 0.13 160)',
-      'color-accent-800': 'oklch(0.39 0.12 160)',
       'accent-subtle': 'oklch(0.96 0.03 160)',
       'accent-subtle-foreground': 'oklch(0.42 0.12 160)',
       ring: 'oklch(0.60 0.13 160)',
@@ -176,8 +170,6 @@ export const brandPresets = {
   rose: {
     light: {
       accent: 'oklch(0.57 0.19 12)',
-      'color-accent-700': 'oklch(0.49 0.18 12)',
-      'color-accent-800': 'oklch(0.41 0.16 12)',
       'accent-subtle': 'oklch(0.96 0.03 12)',
       'accent-subtle-foreground': 'oklch(0.48 0.18 12)',
       ring: 'oklch(0.62 0.19 12)',
@@ -194,8 +186,6 @@ export const brandPresets = {
     light: {
       // 0.56 keeps white text at 4.8:1 (0.62 was 3.8:1).
       accent: 'oklch(0.56 0.14 65)',
-      'color-accent-700': 'oklch(0.54 0.13 65)',
-      'color-accent-800': 'oklch(0.46 0.12 65)',
       'accent-subtle': 'oklch(0.96 0.04 75)',
       'accent-subtle-foreground': 'oklch(0.48 0.12 65)',
       ring: 'oklch(0.64 0.14 65)', // 3.17:1 on background-muted (0.66 was 2.93)
