@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { parseTheme } from './helpers/theme';
+import { ACCENT_PAIRS } from '../lib/accent-pairs';
 
 /**
  * design-research/08-design-tokens.md mirrors theme.css by hand. If the doc is
@@ -127,9 +128,11 @@ const norm = (s: string) =>
     .replace(/^0(px|rem|ms)$/, '0')
     .trim();
 
+const doc = exists ? readFileSync(DOC, 'utf8') : '';
+
 describe.skipIf(!exists)('design-research/08-design-tokens.md ↔ theme.css parity', () => {
   const theme = parseTheme();
-  const { expectations, skipped } = parseDoc(exists ? readFileSync(DOC, 'utf8') : '');
+  const { expectations, skipped } = parseDoc(doc);
 
   it('parsed a meaningful number of doc tokens', () => {
     expect(expectations.length).toBeGreaterThan(80);
@@ -152,5 +155,46 @@ describe.skipIf(!exists)('design-research/08-design-tokens.md ↔ theme.css pari
       .map((e) => `${e.mode} ${e.token}: doc=${e.expected} css=${theme[e.mode][e.token]}`);
     if (mismatches.length) console.error(`[token-parity] mismatches:\n${mismatches.join('\n')}`);
     expect(mismatches).toEqual([]);
+  });
+});
+
+/**
+ * The prose makes structural claims the value tables cannot carry: which
+ * presets exist, which tokens a preset writes, and which pairs an accent is
+ * held to. Each is parsed from the sentence that states it, so rewording the
+ * doc without keeping the claim breaks the test — that is the point.
+ */
+describe.skipIf(!exists)('design-research/08-design-tokens.md prose ↔ theme.css', () => {
+  const theme = parseTheme();
+  const line = (startsWith: string) => {
+    const hit = doc.split('\n').find((l) => l.startsWith(startsWith));
+    if (!hit) throw new Error(`doc line not found: ${startsWith}`);
+    return hit;
+  };
+  const tokens = (text: string) => [...text.matchAll(/`(--[\w-]+)`/g)].map((m) => m[1]);
+
+  it('names exactly the presets theme.css ships', () => {
+    const m = /data-accent="([a-z|]+)"/.exec(line('- Accent preset'));
+    expect(m, 'data-accent="a|b|…" in the preset bullet').not.toBeNull();
+    expect(m![1].split('|').sort()).toEqual(Object.keys(theme.accents).sort());
+  });
+
+  it('lists exactly the tokens every preset writes, in both modes', () => {
+    // The list sits before "сольдог"; later clauses mention other tokens.
+    const bullet = line('- Accent preset');
+    const claimed = [...new Set(tokens(bullet.slice(0, bullet.indexOf('сольдог'))))].sort();
+    expect(claimed.length).toBeGreaterThan(0);
+    for (const [name, preset] of Object.entries(theme.accents)) {
+      expect(Object.keys(preset.light).sort(), `${name} light`).toEqual(claimed);
+      expect(Object.keys(preset.dark).sort(), `${name} dark`).toEqual(claimed);
+    }
+  });
+
+  it('states the accent contrast rule as accent-pairs.ts has it', () => {
+    const rule = line('4. Контраст');
+    const after = rule.slice(rule.indexOf('Accent бүр'));
+    const pairs = [...after.matchAll(/`([\w-]+)` × `([\w-]+)`/g)].map(([, fg, bg]) => ({ fg, bg }));
+    expect(pairs).toEqual(ACCENT_PAIRS.map(({ fg, bg }) => ({ fg, bg })));
+    expect(after).toContain('accent-pairs.ts');
   });
 });
