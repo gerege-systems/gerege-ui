@@ -1,5 +1,13 @@
 # @gerege-systems/ui
 
+## 0.12.2
+
+### Patch Changes
+
+- 11d2160: The published package no longer carries `dist-lib/__tests__/helpers/*.d.ts`. The
+  declaration build excluded `*.test.*` and `src/test/**` but not `src/**/__tests__/**`,
+  so the two test helper modules were emitted and packed.
+
 ## 0.12.1
 
 ### Patch Changes

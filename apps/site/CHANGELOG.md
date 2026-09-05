@@ -1,5 +1,12 @@
 # @gerege-systems/site
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [11d2160]
+  - @gerege-systems/ui@0.12.2
+
 ## 0.0.9
 
 ### Patch Changes
