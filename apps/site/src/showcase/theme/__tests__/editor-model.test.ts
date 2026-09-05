@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { brandPresets } from '@/components/ui/DesignSystemProvider';
+import { ACCENT_PAIRS } from '@/lib/accent-pairs';
 import {
   ACCENT_PRESETS,
   DEFAULT_STATE,
@@ -33,7 +34,10 @@ describe('accent maths', () => {
     expect(deriveTokens(DEFAULT_STATE)).toEqual({ light: {}, dark: {} });
   });
 
-  it('every named accent passes the three AA pairs in both modes', () => {
+  it('every named accent passes the library accent pairs in both modes', () => {
+    expect(accentContrast(DEFAULT_STATE, 'light').checks.map((c) => c.key)).toEqual(
+      ACCENT_PAIRS.map((p) => p.key),
+    );
     for (const p of ACCENT_PRESETS) {
       for (const mode of ['light', 'dark'] as const) {
         const r = accentContrast(withAccent(p), mode);

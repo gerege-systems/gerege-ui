@@ -26,7 +26,13 @@ export default defineConfig({
     dts({
       entryRoot: 'src',
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.test.{ts,tsx}', 'src/**/__tests__/**', 'src/test/**'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/**/__tests__/**',
+        'src/test/**',
+        // A rule shared with the showcase, not a runtime module — nothing imports it.
+        'src/lib/accent-pairs.ts',
+      ],
     }),
   ],
   resolve: {

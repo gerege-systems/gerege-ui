@@ -16,6 +16,7 @@ import {
   type BrandName,
   type BrandTokens,
 } from '@/components/ui/DesignSystemProvider';
+import { ACCENT_PAIRS, type AccentPair } from '@/lib/accent-pairs';
 import { BASE_COLORS, CHART_PALETTES, DEPTHS, STYLES, findPreset } from './presets';
 import { FONTS, MONO_FONTS, findFont, googleFontsUrl } from './fonts';
 
@@ -272,35 +273,29 @@ const THEME_ACCENT = {
   },
 } as const;
 
-export interface ContrastCheck {
+export interface ContrastCheck extends AccentPair {
   ratio: number;
   passes: boolean;
 }
 
 /**
- * The three pairs the library's own token test holds every accent to
- * (WCAG 1.4.3, 4.5:1): button text on the accent fill, the accent as link
- * text on the page background, and text on the soft accent surface.
+ * One check per pair in the library's accent rule (`ACCENT_PAIRS` — the same
+ * list the token test holds every preset to), plus the verdict over all.
  */
 export interface ContrastReport {
-  button: ContrastCheck;
-  text: ContrastCheck;
-  soft: ContrastCheck;
+  checks: ContrastCheck[];
   passes: boolean;
 }
 
 export function accentContrast(s: ThemeState, mode: 'light' | 'dark'): ContrastReport {
   const base = THEME_ACCENT[mode];
   const derived = deriveTokens(s)[mode];
-  const tok = (k: keyof typeof base) => derived[k] ?? base[k];
-  const check = (a: string, b: string): ContrastCheck => {
-    const ratio = contrast(a, b);
-    return { ratio, passes: ratio >= 4.5 };
-  };
-  const button = check(tok('accent-foreground'), tok('accent'));
-  const text = check(tok('accent'), tok('background'));
-  const soft = check(tok('accent-subtle-foreground'), tok('accent-subtle'));
-  return { button, text, soft, passes: button.passes && text.passes && soft.passes };
+  const tok = (k: string) => derived[k] ?? base[k as keyof typeof base];
+  const checks = ACCENT_PAIRS.map((p) => {
+    const ratio = contrast(tok(p.fg), tok(p.bg));
+    return { ...p, ratio, passes: ratio >= p.min };
+  });
+  return { checks, passes: checks.every((c) => c.passes) };
 }
 
 /* ----------------------------------------------------------------- tokens -- */

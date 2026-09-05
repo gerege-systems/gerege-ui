@@ -383,12 +383,7 @@ function PresetSelect<T extends SwatchOption>({
  * failing pairs are named, so the fix (usually lightness) is obvious.
  */
 function ContrastLine({ mode, report }: { mode: string; report: ContrastReport }) {
-  const pairs: [string, ContrastReport['button']][] = [
-    ['button text', report.button],
-    ['link text', report.text],
-    ['soft surface', report.soft],
-  ];
-  const failing = pairs.filter(([, c]) => !c.passes).map(([name]) => name);
+  const failing = report.checks.filter((c) => !c.passes).map((c) => c.label);
   return (
     <div
       className={cn(
@@ -404,7 +399,7 @@ function ContrastLine({ mode, report }: { mode: string; report: ContrastReport }
         <AlertTriangle aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       )}
       <span>
-        {mode}: {pairs.map(([name, c]) => `${name} ${c.ratio.toFixed(2)}:1`).join(' · ')} —{' '}
+        {mode}: {report.checks.map((c) => `${c.label} ${c.ratio.toFixed(2)}:1`).join(' · ')} —{' '}
         {report.passes ? 'passes AA (4.5:1)' : `${failing.join(', ')} below AA (4.5:1)`}
       </span>
     </div>

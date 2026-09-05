@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { contrast, parseColor, toHex } from './helpers/color';
 import { parseTheme, type TokenMap } from './helpers/theme';
+import { ACCENT_PAIRS } from '../lib/accent-pairs';
 
 /**
  * WCAG contrast for every semantic colour pair theme.css promises in its
@@ -28,12 +29,13 @@ const uiOnSurfaces: Check[] = [];
 for (const fg of ['--border-input', '--switch-track-off', '--ring', '--accent']) {
   for (const bg of ['--background', '--background-muted']) uiOnSurfaces.push({ fg, bg, min: 3 });
 }
-const accentPairs: Check[] = [
-  // `--accent-foreground` is what `text-on-accent` resolves to (@theme inline).
-  { fg: '--accent-foreground', bg: '--accent', min: 4.5 },
-  { fg: '--accent-subtle-foreground', bg: '--accent-subtle', min: 4.5 },
-  { fg: '--accent', bg: '--background', min: 4.5 }, // accent as link text
-];
+// The accent rule lives in src/lib/accent-pairs.ts, shared with the showcase
+// theme editor; `--accent-foreground` is what `text-on-accent` resolves to.
+const accentPairs: Check[] = ACCENT_PAIRS.map((p) => ({
+  fg: `--${p.fg}`,
+  bg: `--${p.bg}`,
+  min: p.min,
+}));
 const statusPairs: Check[] = STATUSES.flatMap((s) => [
   { fg: `--${s}-foreground`, bg: `--${s}-subtle`, min: 4.5 },
   { fg: `--on-${s}`, bg: `--${s}-solid`, min: 4.5 },
