@@ -112,13 +112,14 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
             <NpmGlyph />
           </a>
 
+          <ThemeToggle />
+
+          {/* Last in the row: the one action that leaves the docs. */}
           {appPath && (
-            <Button asChild size="sm" variant="secondary" className="hidden sm:inline-flex">
+            <Button asChild size="sm" variant="ghost" className="hidden sm:inline-flex">
               <a href={appPath}>Sign in</a>
             </Button>
           )}
-
-          <ThemeToggle />
 
           {/* < sm: nav + search + external links collapse into one menu. */}
           <DropdownMenu>
