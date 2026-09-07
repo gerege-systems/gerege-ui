@@ -36,10 +36,11 @@ const button = cva(
     variants: {
       variant: {
         primary: ['bg-accent text-on-accent', 'hover:bg-accent-hover', 'active:bg-accent-active'],
+        // No border: the fill is the shape. `outline` owns the stroke.
         secondary: [
-          'bg-background-muted text-foreground border border-border-input',
-          'hover:bg-surface-hover',
-          'active:bg-surface-active',
+          'bg-secondary text-foreground',
+          'hover:bg-secondary-hover',
+          'active:bg-secondary-active',
         ],
         outline: [
           'border border-border-input bg-transparent text-foreground',

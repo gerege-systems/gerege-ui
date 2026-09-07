@@ -25,6 +25,7 @@
  *     success-solid bg + white text                                          →  5.2:1
  *     warning-solid bg + white text                                          →  4.6:1
  *     danger-solid bg + white text                                           →  4.8:1
+ *     secondary fill (neutral-200) + foreground text                         → 14.5:1 (text)
  *     border-input (hsl 215 16% 55%)           on background (white)         →  3.55:1 (UI)
  *     border-input                             on background-muted           →  3.24:1 (UI)
  *     switch-track-off (hsl 215 16% 55%)       on background / muted         →  3.55 / 3.24:1 (UI)
@@ -36,10 +37,15 @@
  *     accent-400 text                          on background (neutral-950)   →  5.4:1
  *     accent-400 bg + neutral-950 text                                       →  5.4:1
  *     success/warning/danger-solid + neutral-950 text                        →  9.0 / 9.3 / 5.2:1
+ *     secondary fill (neutral-800) + foreground text                         → 13.8:1 (text)
  *     border-input (hsl 215 16% 45%)           on background (neutral-950)   →  3.88:1 (UI)
  *     border-input                             on background-muted           →  3.28:1 (UI)
  *     switch-track-off (hsl 215 16% 45%)       on background / muted         →  3.88 / 3.28:1 (UI)
  *   background-muted on popover (menu highlight) is decorative: 1.10 (light) / 1.08 (dark) — not a 3:1 target.
+ *   secondary fill against the page is 1.24 (light) / 1.36 (dark) — also not a 3:1 target: a filled
+ *   button is identified by its label, and 1.4.11 asks 3:1 of a boundary only where the boundary is
+ *   the sole identifier. Where a stroke is required (a control with no text of its own), use
+ *   `outline`, whose border stays on `border-input` at 3.55 / 3.88:1.
  * ============================================================================= */
 
 /* Geist + Geist Mono are loaded via a <link> in index.html (Google Fonts). */
@@ -301,6 +307,15 @@
   --accent-hover: color-mix(in oklab, var(--accent) 88%, black);
   --accent-active: color-mix(in oklab, var(--accent) 78%, black);
 
+  /* Secondary control fill ---------------------------------------------- */
+  /* A filled button is its own shape, so `secondary` carries no border: the
+   * stroke belongs to `outline`, and having both made the two variants read as
+   * one. The fill is a step darker than `background-muted` so the shape is
+   * legible without it. */
+  --secondary: hsl(214 32% 91%); /* neutral-200 */
+  --secondary-hover: hsl(213 27% 84%); /* neutral-300 */
+  --secondary-active: hsl(215 20% 76%);
+
   /* Interaction surfaces ------------------------------------------------ */
   --surface-hover: hsl(214 32% 91%); /* neutral-200 */
   --surface-active: hsl(213 27% 84%); /* neutral-300 */
@@ -377,6 +392,10 @@
   --accent-subtle-foreground: hsl(234 71% 78%); /* accent-300 */
   --accent-hover: color-mix(in oklab, var(--accent) 88%, white);
   --accent-active: color-mix(in oklab, var(--accent) 78%, white);
+
+  --secondary: hsl(217 33% 17%); /* neutral-800 */
+  --secondary-hover: hsl(215 25% 27%); /* neutral-700 */
+  --secondary-active: hsl(215 20% 33%);
 
   --surface-hover: hsl(217 33% 17%); /* neutral-800 */
   --surface-active: hsl(215 25% 27%); /* neutral-700 */
@@ -541,11 +560,20 @@
 
   --color-accent: var(--accent);
   --color-on-accent: var(--accent-foreground);
+  /* Alias: the custom property is `--accent-foreground`, so `text-accent-foreground`
+   * is the class people reach for first. Without this it silently generates
+   * nothing and the label keeps the inherited colour — dark text on the accent.
+   * `text-on-accent` remains the name the components use. */
+  --color-accent-foreground: var(--accent-foreground);
   --color-accent-soft: var(--accent-subtle);
   --color-on-accent-soft: var(--accent-subtle-foreground);
+  --color-accent-subtle-foreground: var(--accent-subtle-foreground);
   --color-accent-hover: var(--accent-hover);
   --color-accent-active: var(--accent-active);
 
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
   --color-surface-hover: var(--surface-hover);
   --color-surface-active: var(--surface-active);
   --color-overlay: var(--overlay);

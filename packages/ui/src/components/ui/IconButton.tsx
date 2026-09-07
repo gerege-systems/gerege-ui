@@ -22,7 +22,7 @@ const iconButton = cva(
       variant: {
         primary: 'bg-accent text-on-accent hover:bg-accent-hover active:bg-accent-active',
         secondary:
-          'bg-background-muted text-foreground border border-border-input hover:bg-surface-hover active:bg-surface-active',
+          'bg-secondary text-foreground hover:bg-secondary-hover active:bg-secondary-active',
         outline:
           'border border-border-input bg-transparent text-foreground hover:bg-background-muted',
         ghost:
