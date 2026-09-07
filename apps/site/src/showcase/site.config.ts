@@ -15,6 +15,19 @@ export const GITHUB_URL = 'https://github.com/gerege-systems/gerege-ui';
 export const NPM_URL = 'https://www.npmjs.com/package/@gerege-systems/ui';
 export const CHANGELOG_URL = `${GITHUB_URL}/blob/main/packages/ui/CHANGELOG.md`;
 
+/**
+ * The signed-in app (eID Mongolia sign-in, per-user audit trail) is deployed
+ * beside this showcase on one host and nowhere else. A fork, a local run or any
+ * other deployment has no such app, so the link is host-gated rather than
+ * pointing everybody at a 404.
+ */
+export const APP_HOST = 'ui.gecore.mn';
+export const APP_PATH = '/app/';
+
+export function appPathForHost(hostname: string): string | null {
+  return hostname === APP_HOST ? APP_PATH : null;
+}
+
 /** Source-file link bases (monorepo layout). */
 export const SRC_UI = `${GITHUB_URL}/blob/main/packages/ui/src/components/ui`;
 /** Blocks (page templates) live in the showcase, not the published package. */

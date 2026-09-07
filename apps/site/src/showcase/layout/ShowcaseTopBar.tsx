@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Menu, Search } from '@/icons';
 import { Kbd } from '@/components/ui/Kbd';
+import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import {
   DropdownMenu,
@@ -11,7 +12,7 @@ import {
 } from '@/components/ui/DropdownMenu';
 import { useModifierKey } from '@/hooks/use-modifier-key';
 import { routeToHash, type Route } from '../routing';
-import { GITHUB_URL, NPM_URL } from '../site.config';
+import { appPathForHost, GITHUB_URL, NPM_URL } from '../site.config';
 import { BrandMark } from '../components/BrandMark';
 import { BrandSwitcher, ThemeToggle } from '../theme/Controls';
 
@@ -43,6 +44,7 @@ const NAV: { label: string; route: Route; matchKinds: Route['kind'][] }[] = [
 /** Persistent top bar shared by Home + docs pages (hidden on preview tabs). */
 export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) {
   const mod = useModifierKey();
+  const appPath = typeof window === 'undefined' ? null : appPathForHost(window.location.hostname);
   return (
     <header className="border-border bg-background sticky top-0 z-[var(--z-sticky)] border-b">
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-6 px-6">
@@ -110,6 +112,12 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
             <NpmGlyph />
           </a>
 
+          {appPath && (
+            <Button asChild size="sm" variant="secondary" className="hidden sm:inline-flex">
+              <a href={appPath}>Sign in</a>
+            </Button>
+          )}
+
           <ThemeToggle />
 
           {/* < sm: nav + search + external links collapse into one menu. */}
@@ -150,6 +158,14 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
                   npm
                 </a>
               </DropdownMenuItem>
+              {appPath && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <a href={appPath}>Sign in</a>
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
