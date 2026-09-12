@@ -1,5 +1,24 @@
 # @gerege-systems/ui
 
+## 0.14.0
+
+### Minor Changes
+
+- e8c5950: Secondary buttons drop their border, and the accent foreground gains an alias.
+  
+  `secondary` and `outline` differed only by a fill: both drew the same
+  `border-input` stroke, so the pair read as one variant with two moods. The fill
+  is now the shape — `secondary` uses new `--secondary` / `--secondary-hover` /
+  `--secondary-active` tokens, a step darker than `background-muted` so the button
+  is legible without a stroke, and `outline` keeps the 3:1 border for controls
+  that need one.
+  
+  `--accent-foreground` is now also exposed as `text-accent-foreground`. The
+  variable existed while the only utility was `text-on-accent`, so reaching for the
+  variable's own name generated nothing and left dark text on the accent fill.
+  `--accent-subtle-foreground` gains the same alias.
+- 6a91d57: Add the `nexus` style — `<html data-style="nexus">` — the Gerege Nexus platform's own shape as a named preset: 6px controls and 8px cards (the radius tokens unchanged), 36px controls with 1rem inline padding and semibold labels, 40px table rows. It sits in the theme editor's Style dropdown beside the eight existing styles.
+
 ## 0.13.1
 
 ### Patch Changes
