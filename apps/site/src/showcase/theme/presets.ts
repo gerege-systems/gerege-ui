@@ -111,6 +111,13 @@ export const STYLES: NamedPreset[] = [
     swatch: '8px',
     tokens: { light: {} },
   },
+  {
+    name: 'nexus',
+    label: 'Nexus',
+    hint: 'Gerege Nexus — 6px controls, 8px cards, semibold 36px controls, 40px rows',
+    swatch: '6px',
+    tokens: { light: {} },
+  },
 ];
 
 /* ------------------------------------------------------------------ depth -- */

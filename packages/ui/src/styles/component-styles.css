@@ -100,6 +100,20 @@
   --style-cell-py: 0.75rem;
 }
 
+/* Nexus — the Gerege Nexus platform's own shape, lifted from its screens after
+ * the 2026-09 audit: 6px controls and 8px cards (the radius tokens as they
+ * are), 36px controls with a full 1rem of inline padding and semibold labels,
+ * and 40px table rows. Denser than rhea, heavier than nova. */
+[data-style='nexus'] {
+  --style-radius-control: var(--radius-md);
+  --style-radius-surface: var(--radius-lg);
+  --style-radius-pill: 9999px;
+  --style-control-height: 2.25rem;
+  --style-control-px: 1rem;
+  --style-control-weight: 600;
+  --style-cell-py: 0.625rem;
+}
+
 /* -----------------------------------------------------------------------------
  *  Groups — where those variables land. `:not([data-style='nova'])` keeps the
  *  default untouched, and the `var(…, …)` fallbacks mean a style that declares

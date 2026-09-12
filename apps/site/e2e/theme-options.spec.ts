@@ -21,6 +21,7 @@ const STYLE_SHAPE: Record<string, { radius: string; height: number }> = {
   luma: { radius: '10.2px', height: 40 },
   sera: { radius: '3px', height: 36 },
   rhea: { radius: '8.1px', height: 36 },
+  nexus: { radius: '6px', height: 36 },
 };
 
 const PROBE = `
