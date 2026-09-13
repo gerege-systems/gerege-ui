@@ -37,7 +37,8 @@ describe('DataGrid', () => {
     render(<DataGrid columns={columns} rows={rows} />);
     // Asia/Ulaanbaatar is UTC+8
     expect(screen.getByText('2024-01-15 18:30')).toBeInTheDocument();
-    const dashes = screen.getAllByLabelText('Empty');
+    // The dash is aria-hidden; the name is sr-only text next to it.
+    const dashes = screen.getAllByText('Empty').map((el) => el.parentElement!);
     // Alpha: note undefined; Beta: amount null, updatedAt undefined, note '' → 4 dashes
     expect(dashes).toHaveLength(4);
     dashes.forEach((d) => expect(d).toHaveTextContent('—'));
@@ -224,7 +225,7 @@ describe('DataGrid', () => {
       'placeholder',
       mnStrings.dataGrid.filterPlaceholder,
     );
-    expect(screen.getAllByLabelText(mnStrings.dataGrid.emptyCell).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(mnStrings.dataGrid.emptyCell).length).toBeGreaterThan(0);
     await user.click(screen.getByRole('button', { name: mnStrings.dataGrid.columnVisibility }));
     expect(await screen.findByText(mnStrings.dataGrid.columns)).toBeInTheDocument();
     await user.keyboard('{Escape}');

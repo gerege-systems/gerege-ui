@@ -144,6 +144,9 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(function
             sizeMap[size],
             'font-medium',
           )}
+          // A generic <div> may not carry a name (ARIA 1.2); role=img lets
+          // `aria-label` replace the visible "+3".
+          role="img"
           aria-label={formatString(strings.avatar.more, { n: overflow })}
         >
           +{overflow}

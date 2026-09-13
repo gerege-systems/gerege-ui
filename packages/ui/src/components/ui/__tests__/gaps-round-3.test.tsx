@@ -110,7 +110,7 @@ describe('DataGrid empty cell', () => {
         rows={[{ id: 1, a: null, b: undefined, c: '' }]}
       />,
     );
-    const dashes = screen.getAllByLabelText('Empty');
+    const dashes = screen.getAllByText('Empty').map((el) => el.parentElement!);
     expect(dashes).toHaveLength(3);
     expect(dashes[0]).toHaveTextContent('—');
   });

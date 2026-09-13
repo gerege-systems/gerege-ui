@@ -174,7 +174,11 @@ export interface ConfirmationDialogProps {
   onConfirm: () => void | Promise<void>;
   /** Force the submitting state from outside (in addition to the awaited `onConfirm`). */
   loading?: boolean;
-  /** Map a rejected `onConfirm` to the message shown. Defaults to `Error.message`. */
+  /**
+   * Map a rejected `onConfirm` to the message shown. Without it the generic
+   * `errorState.genericDescription` string is shown — never `Error.message`,
+   * which is usually server or library text not meant for the user.
+   */
   formatError?: (err: unknown) => ReactNode;
 }
 
@@ -205,7 +209,7 @@ export function ConfirmationDialog({
   confirmVariant = 'primary',
   onConfirm,
   loading,
-  formatError = defaultFormatError,
+  formatError,
 }: ConfirmationDialogProps) {
   const strings = useStrings();
   const [pending, setPending] = useState(false);
@@ -218,7 +222,7 @@ export function ConfirmationDialog({
     try {
       await onConfirm();
     } catch (err) {
-      setFailure(formatError(err));
+      setFailure(formatError ? formatError(err) : strings.errorState.genericDescription);
     } finally {
       setPending(false);
     }
@@ -258,7 +262,4 @@ export function ConfirmationDialog({
   );
 }
 
-function defaultFormatError(err: unknown): ReactNode {
-  return err instanceof Error ? err.message : String(err);
-}
 ConfirmationDialog.displayName = 'ConfirmationDialog';

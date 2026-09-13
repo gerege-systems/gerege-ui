@@ -273,12 +273,13 @@ describe('ConfirmationDialog', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).not.toBeDisabled();
   });
 
-  it('rejection shows an inline alert with Error.message and keeps the dialog open', async () => {
+  it('rejection shows the generic message, never Error.message, and keeps the dialog open', async () => {
     const user = userEvent.setup();
-    render(<Demo onConfirm={() => Promise.reject(new Error('Network down'))} />);
+    render(<Demo onConfirm={() => Promise.reject(new Error('ECONNRESET 10.0.0.7:5432'))} />);
     await user.click(screen.getByRole('button', { name: 'Delete' }));
     const alert = await screen.findByRole('alert');
-    expect(alert).toHaveTextContent('Network down');
+    expect(alert).toHaveTextContent('Something interrupted this action.');
+    expect(alert).not.toHaveTextContent('ECONNRESET');
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByTestId('state')).toHaveTextContent('open');
   });

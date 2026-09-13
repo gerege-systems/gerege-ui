@@ -61,7 +61,8 @@ export const Slider = forwardRef<ComponentRef<typeof SliderPrimitive.Root>, Slid
     ref,
   ) {
     // Uncontrolled sliders track their own value so `showValue` stays live.
-    const [internal, setInternal] = useState<number[]>(defaultValue ?? [0]);
+    // Radix starts an uncontrolled thumb at `min`, so the live value must too.
+    const [internal, setInternal] = useState<number[]>(defaultValue ?? [props.min ?? 0]);
     const isControlled = value !== undefined;
     const currentValue = isControlled ? value : internal;
     const isRange = currentValue.length > 1;

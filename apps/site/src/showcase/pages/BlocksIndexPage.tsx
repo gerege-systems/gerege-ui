@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -7,7 +7,12 @@ import { ExternalLink, Search } from '@/icons';
 import { cn } from '@/lib/utils';
 import { routeToHash } from '../routing';
 import { CopyBlockButton } from '../uiblocks/BlockSource';
-import { BLOCK_CATEGORIES, UI_BLOCKS, type BlockCategory } from '../uiblocks/registry';
+import {
+  BLOCK_CATEGORIES,
+  UI_BLOCKS,
+  type BlockCategory,
+  type UiBlock,
+} from '../uiblocks/registry';
 
 /**
  * `#blocks` — the sections, rendered live at full size.
@@ -42,7 +47,11 @@ export function BlocksIndexPage() {
   );
 
   return (
-    <div className="mx-auto w-full max-w-[1400px] px-6 py-8">
+    <main
+      id="main"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[1400px] px-6 py-8 outline-hidden"
+    >
       <header className="flex max-w-2xl flex-col gap-1.5 pb-6">
         <h1 className="text-3xl font-semibold tracking-tight">Blocks</h1>
         <p className="text-foreground-muted text-sm">
@@ -107,36 +116,46 @@ export function BlocksIndexPage() {
       ) : (
         <div className="grid items-start gap-6 lg:grid-cols-2 [&>*]:min-w-0">
           {matches.map((b) => (
-            <section key={b.slug} className="flex flex-col gap-3">
-              {/* Stacks below sm: the title plus two actions do not fit 375px. */}
-              <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
-                <div className="flex min-w-0 flex-col gap-0.5">
-                  <div className="flex items-center gap-2">
-                    <h2 className="truncate text-sm font-semibold">
-                      <a href={`#${routeToHash({ kind: 'block', slug: b.slug })}`}>{b.name}</a>
-                    </h2>
-                    <Badge tone="neutral">{b.category}</Badge>
-                  </div>
-                  <p className="text-foreground-subtle text-xs">{b.description}</p>
-                </div>
-                <span className="hidden grow sm:block" />
-                <div className="flex shrink-0 items-center gap-2">
-                  <CopyBlockButton file={b.file} />
-                  <Button variant="ghost" size="sm" asChild>
-                    <a href={`#${routeToHash({ kind: 'block', slug: b.slug })}`}>
-                      <ExternalLink aria-hidden />
-                      Open
-                    </a>
-                  </Button>
-                </div>
-              </div>
-              {/* No frame around the preview: every block is already a Card,
-                  so a bordered surface behind it reads as a card in a card. */}
-              <b.Component />
-            </section>
+            <BlockCard key={b.slug} b={b} />
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
+
+/**
+ * Memoised: the whole wall of live blocks would otherwise re-render on every
+ * keystroke in the search field, and none of them depend on the query.
+ */
+const BlockCard = memo(function BlockCard({ b }: { b: UiBlock }) {
+  return (
+    <section className="flex flex-col gap-3">
+      {/* Stacks below sm: the title plus two actions do not fit 375px. */}
+      <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <div className="flex items-center gap-2">
+            <h2 className="truncate text-sm font-semibold">
+              <a href={`#${routeToHash({ kind: 'block', slug: b.slug })}`}>{b.name}</a>
+            </h2>
+            <Badge tone="neutral">{b.category}</Badge>
+          </div>
+          <p className="text-foreground-subtle text-xs">{b.description}</p>
+        </div>
+        <span className="hidden grow sm:block" />
+        <div className="flex shrink-0 items-center gap-2">
+          <CopyBlockButton file={b.file} />
+          <Button variant="ghost" size="sm" asChild>
+            <a href={`#${routeToHash({ kind: 'block', slug: b.slug })}`}>
+              <ExternalLink aria-hidden />
+              Open
+            </a>
+          </Button>
+        </div>
+      </div>
+      {/* No frame around the preview: every block is already a Card,
+                  so a bordered surface behind it reads as a card in a card. */}
+      <b.Component />
+    </section>
+  );
+});

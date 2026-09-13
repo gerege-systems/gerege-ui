@@ -31,6 +31,12 @@ export interface FileUploadProps {
   onReject?: (files: File[], reason: FileRejectReason) => void;
   /** Helper text inside the drop zone. */
   hint?: ReactNode;
+  /**
+   * Failure to show under the drop zone (an upload that did not go through).
+   * Rejections for `accept` / `maxSize` are shown here automatically, in the
+   * library's strings, until the next accepted file.
+   */
+  error?: ReactNode;
   /** Disable the picker entirely. */
   disabled?: boolean;
   className?: string;
@@ -64,7 +70,7 @@ function matchesAccept(file: File, accept?: string): boolean {
  * pass `value` + `onChange` to control externally.
  */
 export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function FileUpload(
-  { accept, multiple, maxSize, value, onChange, onReject, hint, disabled, className },
+  { accept, multiple, maxSize, value, onChange, onReject, hint, error, disabled, className },
   ref,
 ) {
   const strings = useStrings();
@@ -72,6 +78,8 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
   const inputId = useId();
   const [internal, setInternal] = useState<File[]>([]);
   const [over, setOver] = useState(false);
+  const [rejection, setRejection] = useState<FileRejectReason | null>(null);
+  const errorId = `${inputId}-error`;
   // dragenter/dragleave fire for every child element; count nesting depth so
   // the highlight does not flicker while the pointer crosses the label's children.
   const dragDepth = useRef(0);
@@ -97,6 +105,8 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
       }
       if (wrongType.length) onReject?.(wrongType, 'type');
       if (tooLarge.length) onReject?.(tooLarge, 'size');
+      // One notice at a time; a size problem is the more actionable of the two.
+      setRejection(tooLarge.length ? 'size' : wrongType.length ? 'type' : null);
       if (!accepted.length) return;
       update(multiple ? [...files, ...accepted] : accepted.slice(0, 1));
     },
@@ -150,6 +160,8 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
           accept={accept}
           multiple={multiple}
           disabled={disabled}
+          aria-invalid={error || rejection ? true : undefined}
+          aria-describedby={error || rejection ? errorId : undefined}
           className="sr-only"
           onChange={(e) => {
             if (e.target.files) addFiles(e.target.files);
@@ -158,6 +170,17 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
           }}
         />
       </label>
+
+      {(error || rejection) && (
+        <p id={errorId} role="alert" className="text-danger-text text-xs">
+          {error ??
+            (rejection === 'size'
+              ? formatString(strings.fileUpload.tooLarge, {
+                  max: formatSize(maxSize ?? 0, strings.fileUpload),
+                })
+              : strings.fileUpload.wrongType)}
+        </p>
+      )}
 
       {files.length > 0 && (
         <ul className="flex flex-col gap-2">

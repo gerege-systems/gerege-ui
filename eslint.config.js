@@ -8,6 +8,7 @@ export default tseslint.config(
     ignores: [
       '**/dist/**',
       '**/dist-lib/**',
+      '**/coverage/**',
       '**/node_modules/**',
       '**/*.d.ts',
       'apps/site/src/generated/**',

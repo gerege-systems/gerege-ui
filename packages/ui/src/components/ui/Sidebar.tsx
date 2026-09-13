@@ -1,8 +1,10 @@
 'use client';
 
 import {
+  cloneElement,
   createContext,
   forwardRef,
+  isValidElement,
   useContext,
   useId,
   useState,
@@ -185,7 +187,9 @@ interface SidebarItemBaseProps {
   tooltip?: ReactNode;
   /**
    * Render the child element (router `<Link>`) instead of `<a>`/`<button>`.
-   * The child receives className, aria-current and the item content.
+   * The child receives className, aria-current and the item content — its own
+   * children become the label, wrapped with `icon`, `trailing` and the
+   * collapsed sr-only text exactly like a plain item.
    */
   asChild?: boolean;
 }
@@ -221,7 +225,10 @@ export const SidebarItem = forwardRef<HTMLElement, SidebarItemProps>(
       className,
     );
 
-    const labelTitle = typeof children === 'string' ? children : undefined;
+    // asChild: the consumer's element is the control; its children are the label.
+    const child = asChild && isValidElement<{ children?: ReactNode }>(children) ? children : null;
+    const label = child ? child.props.children : children;
+    const labelTitle = typeof label === 'string' ? label : undefined;
     const tip = tooltip ?? labelTitle;
     // Collapsed: keep an sr-only label so the control always has a name —
     // the Tooltip only wires aria-describedby while it is open.
@@ -231,10 +238,10 @@ export const SidebarItem = forwardRef<HTMLElement, SidebarItemProps>(
       <>
         {icon && <span className="flex shrink-0 items-center [&_svg]:size-4">{icon}</span>}
         {collapsed ? (
-          <span className="sr-only">{children}</span>
+          <span className="sr-only">{label}</span>
         ) : (
           <span className="flex-1 truncate text-left" title={labelTitle}>
-            {children}
+            {label}
           </span>
         )}
         {!collapsed && trailing && <span className="ml-auto">{trailing}</span>}
@@ -251,9 +258,7 @@ export const SidebarItem = forwardRef<HTMLElement, SidebarItemProps>(
           className={classes}
           {...(slotProps as HTMLAttributes<HTMLElement>)}
         >
-          {children && typeof children === 'object' && 'props' in (children as object)
-            ? children
-            : null}
+          {child ? cloneElement(child, undefined, content) : null}
         </Slot>
       );
     } else if (rest.href !== undefined) {

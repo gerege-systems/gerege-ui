@@ -63,10 +63,20 @@ function Shell() {
     typeof window === 'undefined' ? { kind: 'home' } : parseHash(window.location.hash),
   );
 
+  // popstate fires before the hashchange it causes, so the flag is set by the
+  // time the route effect below decides whether to reset scroll.
+  const restoring = useRef(false);
   useEffect(() => {
     const onHash = () => setRoute(parseHash(window.location.hash));
+    const onPop = () => {
+      restoring.current = true;
+    };
+    window.addEventListener('popstate', onPop);
     window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('hashchange', onHash);
+    };
   }, []);
 
   // SPA route change = a new "page": set the document title, reset scroll and
@@ -77,7 +87,11 @@ function Shell() {
     const page = routeTitle(route);
     document.title = page ? `${page} — @gerege-systems/ui` : '@gerege-systems/ui';
     if (route.kind === 'preview') return;
-    window.scrollTo(0, 0);
+    // Back/forward: let the browser restore the previous scroll position;
+    // only a link click is a new page that starts at the top.
+    const wasHistory = restoring.current;
+    restoring.current = false;
+    if (!wasHistory) window.scrollTo(0, 0);
     // Keep the browser's initial focus on first load; only move it on navigation.
     if (firstRender.current) {
       firstRender.current = false;

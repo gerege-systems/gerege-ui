@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, type TimeHTMLAttributes } from 'react';
+import { forwardRef, useSyncExternalStore, type TimeHTMLAttributes } from 'react';
 import { formatDate, type FormatDateOptions } from '@/lib/format';
 import { formatString } from '@/lib/strings';
 import { useStrings } from '@/hooks/use-strings';
@@ -9,7 +9,11 @@ import { cn } from '@/lib/utils';
 export interface RelativeTimeProps extends Omit<TimeHTMLAttributes<HTMLTimeElement>, 'dateTime'> {
   /** The instant to describe. */
   date: Date | number | string;
-  /** Reference "now". Default `Date.now()` at render — pass one for stable SSR/tests. */
+  /**
+   * Reference "now". Omitted: the current minute, re-read every minute so the
+   * label does not go stale ("1 min ago" stays true). Pass a fixed value for
+   * deterministic SSR and tests.
+   */
   now?: Date | number;
   /** Options for the absolute `title` (tooltip). */
   absolute?: FormatDateOptions;
@@ -18,6 +22,27 @@ export interface RelativeTimeProps extends Omit<TimeHTMLAttributes<HTMLTimeEleme
 const MIN = 60_000;
 const HOUR = 60 * MIN;
 const DAY = 24 * HOUR;
+
+/**
+ * One shared minute ticker for every mounted RelativeTime. The snapshot is the
+ * current minute (not the millisecond) so it is referentially stable between
+ * renders, and so server and client agree unless a minute boundary falls
+ * between the two — the same granularity the label itself has.
+ */
+const listeners = new Set<() => void>();
+let timer: ReturnType<typeof setInterval> | undefined;
+const subscribe = (cb: () => void) => {
+  listeners.add(cb);
+  timer ??= setInterval(() => listeners.forEach((l) => l()), 30_000);
+  return () => {
+    listeners.delete(cb);
+    if (listeners.size === 0 && timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  };
+};
+const currentMinute = () => Math.floor(Date.now() / MIN) * MIN;
 
 /**
  * `<time>` showing "5 min ago" with the absolute timestamp as `title` and a
@@ -33,7 +58,8 @@ export const RelativeTime = forwardRef<HTMLTimeElement, RelativeTimeProps>(funct
 ) {
   const strings = useStrings().relativeTime;
   const d = date instanceof Date ? date : new Date(date);
-  const ref_ = now === undefined ? Date.now() : now instanceof Date ? now.getTime() : now;
+  const tick = useSyncExternalStore(subscribe, currentMinute, currentMinute);
+  const ref_ = now === undefined ? tick : now instanceof Date ? now.getTime() : now;
   const diff = d.getTime() - ref_;
   const abs = Math.abs(diff);
   const future = diff > 0;

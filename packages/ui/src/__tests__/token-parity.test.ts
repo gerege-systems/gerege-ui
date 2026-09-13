@@ -13,12 +13,20 @@ import { ACCENT_PAIRS } from '../lib/accent-pairs';
  *
  * The path is resolved from this repo, not from a home directory: an absolute
  * one only ever matched a single machine, so the whole check skipped in silence
- * everywhere else. CI has no checkout of the doc and skips.
+ * everywhere else. CI checks the doc out and points `TOKEN_DOC` at it; under
+ * `CI` a missing doc fails instead of skipping, so the check cannot go quiet.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DOC = path.resolve(__dirname, '../../../../../gerege-design-research/08-design-tokens.md');
+// The library's ambient `process` type only knows NODE_ENV; tests may read more.
+const env = process.env as Record<string, string | undefined>;
+const DOC =
+  env.TOKEN_DOC ??
+  path.resolve(__dirname, '../../../../../gerege-design-research/08-design-tokens.md');
 const exists = existsSync(DOC);
+if (env.CI && !exists) {
+  throw new Error(`token-parity: design-research doc not found at ${DOC} (set TOKEN_DOC)`);
+}
 
 const COLOR = /(?:hsl|oklch)\([^)]*\)/g;
 const WHITE = 'hsl(0 0% 100%)';

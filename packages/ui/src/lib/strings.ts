@@ -60,7 +60,17 @@ export interface UiStrings {
     filterRows: string;
   };
   datePicker: { pickDate: string; pickRange: string };
-  fileUpload: { drop: string; remove: string; bytes: string; kilobytes: string; megabytes: string };
+  fileUpload: {
+    drop: string;
+    remove: string;
+    bytes: string;
+    kilobytes: string;
+    megabytes: string;
+    /** Shown under the drop zone when a file exceeds `maxSize`; `{max}` is the formatted limit. */
+    tooLarge: string;
+    /** Shown under the drop zone when a file does not match `accept`. */
+    wrongType: string;
+  };
   input: { clear: string; showPassword: string; hidePassword: string };
   slider: { minimum: string; maximum: string; value: string };
   spinner: { loading: string };
@@ -175,6 +185,8 @@ export const defaultStrings: UiStrings = {
     bytes: '{n} B',
     kilobytes: '{n} KB',
     megabytes: '{n} MB',
+    tooLarge: 'File is larger than {max}.',
+    wrongType: 'That file type is not accepted.',
   },
   input: { clear: 'Clear input', showPassword: 'Show password', hidePassword: 'Hide password' },
   slider: { minimum: 'Minimum', maximum: 'Maximum', value: 'Value' },

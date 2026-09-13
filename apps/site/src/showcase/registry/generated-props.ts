@@ -1213,7 +1213,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "name": "formatError",
           "type": "((err: unknown) => ReactNode)",
           "required": false,
-          "description": "Map a rejected `onConfirm` to the message shown. Defaults to `Error.message`."
+          "description": "Map a rejected `onConfirm` to the message shown. Without it the generic `errorState.genericDescription` string is shown — never `Error.message`, which is usually server or library text not meant for the user."
         },
         {
           "name": "loading",
@@ -1648,6 +1648,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "description": "Empty-state node when no rows are visible."
         },
         {
+          "name": "error",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Load failure: shown in place of the rows (an `ErrorState`, a message with a retry). Takes precedence over `emptyState`; `loading` still wins."
+        },
+        {
           "name": "filter",
           "type": "{ value: string; onChange: (q: string) => void; placeholder?: string; }",
           "required": false,
@@ -1675,7 +1681,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "name": "sort",
           "type": "{ key: string; direction: \"asc\" | \"desc\"; } | null",
           "required": false,
-          "description": "Initial sort state."
+          "description": "Sort state (controlled — pair with `onSortChange`)."
         }
       ]
     }
@@ -2782,7 +2788,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "name": "live",
           "type": "boolean",
           "required": false,
-          "description": "Announce the error politely when it appears in-place (e.g. a failed refetch inside a panel). Off by default — page-level errors are read as part of the page and must not double-announce."
+          "description": "Announce the error when it appears in-place (e.g. a failed refetch inside a panel). Rendered as `role=\"alert\"`: a live region that mounts already populated is not announced, an alert inserted into the page is. Off by default — page-level errors are read as part of the page and must not double-announce."
         },
         {
           "name": "onRetry",
@@ -2826,6 +2832,12 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "type": "boolean",
           "required": false,
           "description": "Disable the picker entirely."
+        },
+        {
+          "name": "error",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Failure to show under the drop zone (an upload that did not go through). Rejections for `accept` / `maxSize` are shown here automatically, in the library's strings, until the next accepted file."
         },
         {
           "name": "hint",
@@ -3876,7 +3888,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "name": "now",
           "type": "number | Date",
           "required": false,
-          "description": "Reference \"now\". Default `Date.now()` at render — pass one for stable SSR/tests."
+          "description": "Reference \"now\". Omitted: the current minute, re-read every minute so the label does not go stale (\"1 min ago\" stays true). Pass a fixed value for deterministic SSR and tests."
         }
       ]
     }
@@ -4465,7 +4477,7 @@ export const generatedProps: Record<string, PropGroup[]> = {
           "name": "asChild",
           "type": "boolean",
           "required": false,
-          "description": "Render the child element (router `<Link>`) instead of `<a>`/`<button>`. The child receives className, aria-current and the item content."
+          "description": "Render the child element (router `<Link>`) instead of `<a>`/`<button>`. The child receives className, aria-current and the item content — its own children become the label, wrapped with `icon`, `trailing` and the collapsed sr-only text exactly like a plain item."
         },
         {
           "name": "icon",

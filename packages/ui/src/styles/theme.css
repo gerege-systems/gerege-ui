@@ -352,19 +352,21 @@
   --danger-hover: color-mix(in oklab, var(--danger-solid) 88%, black);
   --danger-active: color-mix(in oklab, var(--danger-solid) 78%, black);
 
-  --info-subtle: hsl(232 100% 97%);
+  /* Info re-uses the accent so a `[data-accent]` preset never leaves an
+     indigo badge behind as a second hue. */
+  --info-subtle: var(--accent-subtle);
   --info-border: hsl(233 79% 87%);
-  --info-foreground: hsl(238 48% 40%);
-  --info-solid: hsl(238 50% 49%);
-  --on-info: hsl(0 0% 100%);
+  --info-foreground: var(--accent-subtle-foreground);
+  --info-solid: var(--accent);
+  --on-info: var(--accent-foreground);
 
   /* Focus ring ----------------------------------------------------------- */
   --ring: hsl(238 55% 58%); /* accent-500 */
   --ring-offset: hsl(0 0% 100%);
 
   /* Selection ----------------------------------------------------------- */
-  --selection: hsl(232 100% 94%);
-  --selection-foreground: hsl(238 48% 40%);
+  --selection: var(--accent-subtle);
+  --selection-foreground: var(--accent-subtle-foreground);
 }
 
 .dark {
@@ -431,17 +433,17 @@
   --danger-hover: color-mix(in oklab, var(--danger-solid) 88%, white);
   --danger-active: color-mix(in oklab, var(--danger-solid) 78%, white);
 
-  --info-subtle: hsl(238 50% 16%);
+  --info-subtle: var(--accent-subtle);
   --info-border: hsl(238 43% 32%);
-  --info-foreground: hsl(234 71% 78%);
-  --info-solid: hsl(238 60% 67%);
-  --on-info: hsl(229 50% 6%);
+  --info-foreground: var(--accent-subtle-foreground);
+  --info-solid: var(--accent);
+  --on-info: var(--accent-foreground);
 
   --ring: hsl(238 60% 67%); /* accent-400 */
   --ring-offset: hsl(229 50% 6%);
 
-  --selection: hsl(238 43% 32%);
-  --selection-foreground: hsl(232 100% 97%);
+  --selection: var(--accent-subtle);
+  --selection-foreground: var(--accent-subtle-foreground);
 }
 
 /* -----------------------------------------------------------------------------
@@ -451,13 +453,15 @@
  *  shared. Hover / active derive from `--accent` (see `--accent-hover` above),
  *  so a preset sets only the semantic `--accent` / `--accent-subtle` /
  *  `--accent-subtle-foreground` / `--ring`: a light value (:root[data-accent])
+ *  — light accents sit at L 0.51–0.54 so the accent also reads as text on
+ *  `background-muted` and on its own soft surface (accent-pairs.ts) —
  *  and a brightened dark value (.dark[data-accent], listed second so it wins in
  *  dark mode). Applied pre-paint by theme-init.js, so switching accent never
  *  flashes.
  * --------------------------------------------------------------------------- */
 :root[data-accent='blue'] {
-  --accent: oklch(0.55 0.16 250);
-  --accent-subtle: oklch(0.96 0.03 250);
+  --accent: oklch(0.53 0.16 250);
+  --accent-subtle: oklch(0.97 0.03 250);
   --accent-subtle-foreground: oklch(0.45 0.15 250);
   --ring: oklch(0.62 0.16 250);
 }
@@ -470,7 +474,7 @@
 
 :root[data-accent='violet'] {
   --accent: oklch(0.53 0.2 295);
-  --accent-subtle: oklch(0.96 0.03 295);
+  --accent-subtle: oklch(0.97 0.03 295);
   --accent-subtle-foreground: oklch(0.46 0.18 295);
   --ring: oklch(0.6 0.2 295);
 }
@@ -482,8 +486,8 @@
 }
 
 :root[data-accent='emerald'] {
-  --accent: oklch(0.55 0.13 160);
-  --accent-subtle: oklch(0.96 0.03 160);
+  --accent: oklch(0.51 0.13 160);
+  --accent-subtle: oklch(0.97 0.03 160);
   --accent-subtle-foreground: oklch(0.42 0.12 160);
   --ring: oklch(0.6 0.13 160);
 }
@@ -495,8 +499,8 @@
 }
 
 :root[data-accent='rose'] {
-  --accent: oklch(0.57 0.19 12);
-  --accent-subtle: oklch(0.96 0.03 12);
+  --accent: oklch(0.54 0.19 12);
+  --accent-subtle: oklch(0.97 0.03 12);
   --accent-subtle-foreground: oklch(0.48 0.18 12);
   --ring: oklch(0.62 0.19 12);
 }
@@ -508,8 +512,8 @@
 }
 
 :root[data-accent='amber'] {
-  --accent: oklch(0.56 0.14 65); /* 4.8:1 with white text (0.62 was 3.8:1) */
-  --accent-subtle: oklch(0.96 0.04 75);
+  --accent: oklch(0.53 0.14 65); /* 5.5:1 with white text, 4.97:1 on background-muted */
+  --accent-subtle: oklch(0.97 0.04 75);
   --accent-subtle-foreground: oklch(0.48 0.12 65);
   --ring: oklch(0.64 0.14 65); /* 3.17:1 on background-muted (0.66 was 2.93) */
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { axe } from 'jest-axe';
 import { brandPresets, DesignSystemProvider } from './DesignSystemProvider';
 import { useStrings } from '@/hooks/use-strings';
@@ -59,6 +60,16 @@ describe('DesignSystemProvider', () => {
     );
     expect(css).toContain(`.dark [data-brand-scope="${id}"]`);
     expect(css).toContain(`--accent:${brandPresets.violet.dark.accent}`);
+  });
+
+  it('the scoped sheet survives server rendering unescaped', () => {
+    // A text child is HTML-escaped by the server renderer and <style> keeps
+    // the entities literally, so the selector would never match after SSR.
+    const html = renderToString(
+      <DesignSystemProvider tokens={brandPresets.violet}>x</DesignSystemProvider>,
+    );
+    expect(html).toMatch(/<style[^>]*>\[data-brand-scope="[^"]+"\]\{--accent:oklch/);
+    expect(html).not.toContain('&quot;');
   });
 
   it('a pair without `dark` emits only the light block', () => {

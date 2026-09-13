@@ -52,13 +52,18 @@ export interface DataGridProps<TRow extends { id: string | number }> {
   columns: DataGridColumn<TRow>[];
   rows: TRow[];
   loading?: boolean;
-  /** Initial sort state. */
+  /** Sort state (controlled — pair with `onSortChange`). */
   sort?: { key: string; direction: 'asc' | 'desc' } | null;
   onSortChange?: (sort: { key: string; direction: 'asc' | 'desc' }) => void;
   /** Show a filter input row above the grid. */
   filter?: { value: string; onChange: (q: string) => void; placeholder?: string };
   /** Empty-state node when no rows are visible. */
   emptyState?: ReactNode;
+  /**
+   * Load failure: shown in place of the rows (an `ErrorState`, a message with a
+   * retry). Takes precedence over `emptyState`; `loading` still wins.
+   */
+  error?: ReactNode;
   /**
    * Controlled column visibility: `{ [key]: boolean }` (missing = visible).
    * Omit for internal state. At least one column always stays visible.
@@ -72,8 +77,9 @@ export interface DataGridProps<TRow extends { id: string | number }> {
 function renderValue(v: unknown, emptyLabel: string): ReactNode {
   if (v === null || v === undefined || v === '') {
     return (
-      <span aria-label={emptyLabel} className="text-foreground-subtle">
-        —
+      <span className="text-foreground-subtle">
+        <span aria-hidden>—</span>
+        <span className="sr-only">{emptyLabel}</span>
       </span>
     );
   }
@@ -109,6 +115,7 @@ export function DataGrid<TRow extends { id: string | number }>({
   columns,
   rows,
   loading,
+  error,
   sort,
   onSortChange,
   filter,
@@ -145,6 +152,19 @@ export function DataGrid<TRow extends { id: string | number }>({
           ))}
         </TableRow>
       ));
+    }
+    if (error) {
+      return (
+        <TableRow>
+          <TableCell
+            colSpan={Math.max(1, visibleColumns.length)}
+            className="h-32 text-center"
+            role="alert"
+          >
+            {error}
+          </TableCell>
+        </TableRow>
+      );
     }
     if (rows.length === 0) {
       return (

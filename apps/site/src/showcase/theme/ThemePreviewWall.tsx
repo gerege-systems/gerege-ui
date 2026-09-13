@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { UI_BLOCKS } from '../uiblocks/registry';
 
 /**
@@ -12,7 +12,7 @@ import { UI_BLOCKS } from '../uiblocks/registry';
  * puts a different pair of blocks side by side, which is where mismatched
  * spacing and contrast actually show up.
  */
-export function ThemePreviewWall({ seed }: { seed: number }) {
+export const ThemePreviewWall = memo(function ThemePreviewWall({ seed }: { seed: number }) {
   const blocks = useMemo(() => shuffle(WALL_BLOCKS, seed), [seed]);
   return (
     <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
@@ -26,7 +26,7 @@ export function ThemePreviewWall({ seed }: { seed: number }) {
       ))}
     </div>
   );
-}
+});
 
 /** mulberry32 — small, seedable, and stable across reloads for a given seed. */
 function shuffle<T>(items: readonly T[], seed: number): T[] {

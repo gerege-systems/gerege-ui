@@ -12,7 +12,11 @@ export function BlockDocPage({ block }: { block: UiBlock }) {
   const exports = typeof source === 'string' ? usedExports(source) : [];
 
   return (
-    <div className="mx-auto w-full max-w-[1400px] px-6 py-8">
+    <main
+      id="main"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[1400px] px-6 py-8 outline-hidden"
+    >
       <Button variant="ghost" size="sm" asChild className="mb-4">
         <a href={`#${routeToHash({ kind: 'blocks-index' })}`}>
           <ArrowLeft aria-hidden />
@@ -65,6 +69,6 @@ export function BlockDocPage({ block }: { block: UiBlock }) {
           </p>
         </section>
       )}
-    </div>
+    </main>
   );
 }

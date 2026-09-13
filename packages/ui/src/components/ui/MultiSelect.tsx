@@ -218,8 +218,12 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
                   type="text"
                   autoComplete="off"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onFocus={() => setOpen(true)}
+                  // Typing opens the list; focus alone does not, so tabbing
+                  // through a form never pops a listbox on every pass.
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    if (!disabled) setOpen(true);
+                  }}
                   onKeyDown={handleKeyDown}
                   placeholder={visibleChips.length === 0 ? placeholder : undefined}
                   role="combobox"

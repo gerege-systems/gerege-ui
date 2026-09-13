@@ -57,11 +57,11 @@ describe('ErrorState', () => {
     expect(screen.queryByRole('button')).toBeNull();
   });
 
-  it('is a polite live region only when `live`', () => {
+  it('is an alert only when `live`', () => {
     const { rerender } = render(<ErrorState data-testid="es" />);
-    expect(screen.getByTestId('es')).not.toHaveAttribute('aria-live');
+    expect(screen.getByTestId('es')).not.toHaveAttribute('role');
     rerender(<ErrorState data-testid="es" live />);
-    expect(screen.getByTestId('es')).toHaveAttribute('aria-live', 'polite');
+    expect(screen.getByTestId('es')).toHaveAttribute('role', 'alert');
   });
 
   it('forwards ref, merges className and spreads props', () => {

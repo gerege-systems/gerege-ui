@@ -157,7 +157,11 @@ export function ThemePage() {
           left. The right padding is what the panel eats: it shrinks as the
           window grows (the centred column's own right margin already covers
           part of the panel) and never drops below the normal px-6. */}
-      <div className="mx-auto w-full max-w-[1400px] px-6 py-8 xl:pr-[clamp(1.5rem,calc(21.5rem-(100vw-1400px)/2),21.5rem)]">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="mx-auto w-full max-w-[1400px] px-6 py-8 outline-hidden xl:pr-[clamp(1.5rem,calc(21.5rem-(100vw-1400px)/2),21.5rem)]"
+      >
         <div className="min-w-0">
           <header className="flex flex-col flex-wrap gap-3 pb-6 sm:flex-row sm:items-start sm:gap-4">
             <div className="flex max-w-2xl min-w-0 flex-col gap-1.5">
@@ -226,7 +230,7 @@ export function ThemePage() {
             </div>
           </DesignSystemProvider>
         </div>
-      </div>
+      </main>
 
       {/* Docked from xl up; below that the same controls live in the Sheet.
           Full height and above the sticky top bar (--z-overlay > --z-sticky),

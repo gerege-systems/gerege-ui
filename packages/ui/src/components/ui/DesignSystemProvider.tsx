@@ -96,7 +96,13 @@ export function DesignSystemProvider({
 
   return (
     <StringsContext.Provider value={resolvedStrings}>
-      {sheet && <style data-brand-scope-style={scopeId}>{sheet}</style>}
+      {/* Raw, not a text child: the server renderer HTML-escapes text, and a
+          <style> keeps `&quot;` literally — the selector would never match
+          under SSR and hydration would report a text mismatch. The sheet is
+          built from app-authored token names and values, never user input. */}
+      {sheet && (
+        <style data-brand-scope-style={scopeId} dangerouslySetInnerHTML={{ __html: sheet }} />
+      )}
       <div data-brand-scope={scopeId} className={cn('contents', className)} style={css} {...props}>
         {children}
       </div>
@@ -124,8 +130,8 @@ export const brandPresets = {
   /** Blue. */
   blue: {
     light: {
-      accent: 'oklch(0.55 0.16 250)',
-      'accent-subtle': 'oklch(0.96 0.03 250)',
+      accent: 'oklch(0.53 0.16 250)',
+      'accent-subtle': 'oklch(0.97 0.03 250)',
       'accent-subtle-foreground': 'oklch(0.45 0.15 250)',
       ring: 'oklch(0.62 0.16 250)',
     },
@@ -140,7 +146,7 @@ export const brandPresets = {
   violet: {
     light: {
       accent: 'oklch(0.53 0.20 295)',
-      'accent-subtle': 'oklch(0.96 0.03 295)',
+      'accent-subtle': 'oklch(0.97 0.03 295)',
       'accent-subtle-foreground': 'oklch(0.46 0.18 295)',
       ring: 'oklch(0.60 0.20 295)',
     },
@@ -154,8 +160,8 @@ export const brandPresets = {
   /** Emerald. */
   emerald: {
     light: {
-      accent: 'oklch(0.55 0.13 160)',
-      'accent-subtle': 'oklch(0.96 0.03 160)',
+      accent: 'oklch(0.51 0.13 160)',
+      'accent-subtle': 'oklch(0.97 0.03 160)',
       'accent-subtle-foreground': 'oklch(0.42 0.12 160)',
       ring: 'oklch(0.60 0.13 160)',
     },
@@ -169,8 +175,8 @@ export const brandPresets = {
   /** Rose. */
   rose: {
     light: {
-      accent: 'oklch(0.57 0.19 12)',
-      'accent-subtle': 'oklch(0.96 0.03 12)',
+      accent: 'oklch(0.54 0.19 12)',
+      'accent-subtle': 'oklch(0.97 0.03 12)',
       'accent-subtle-foreground': 'oklch(0.48 0.18 12)',
       ring: 'oklch(0.62 0.19 12)',
     },
@@ -184,9 +190,9 @@ export const brandPresets = {
   /** Amber. */
   amber: {
     light: {
-      // 0.56 keeps white text at 4.8:1 (0.62 was 3.8:1).
-      accent: 'oklch(0.56 0.14 65)',
-      'accent-subtle': 'oklch(0.96 0.04 75)',
+      // 0.53: white text 5.5:1, accent as text on background-muted 4.97:1.
+      accent: 'oklch(0.53 0.14 65)',
+      'accent-subtle': 'oklch(0.97 0.04 75)',
       'accent-subtle-foreground': 'oklch(0.48 0.12 65)',
       ring: 'oklch(0.64 0.14 65)', // 3.17:1 on background-muted (0.66 was 2.93)
     },

@@ -10,7 +10,7 @@
  */
 export interface AccentPair {
   /** Stable key for callers that report per pair. */
-  key: 'button' | 'text' | 'soft';
+  key: 'button' | 'text' | 'muted' | 'soft' | 'soft-text';
   /** What the pair is in the UI, for a human-readable report. */
   label: string;
   fg: string;
@@ -23,11 +23,22 @@ export const ACCENT_PAIRS: readonly AccentPair[] = [
   { key: 'button', label: 'button text', fg: 'accent-foreground', bg: 'accent', min: 4.5 },
   // The accent as link text on the page background.
   { key: 'text', label: 'link text', fg: 'accent', bg: 'background', min: 4.5 },
+  // The accent as text on a hovered / highlighted row (`text-accent` inside
+  // `hover:bg-background-muted`, a menu's `data-[highlighted]` row).
+  { key: 'muted', label: 'text on muted surface', fg: 'accent', bg: 'background-muted', min: 4.5 },
   // Text on the soft accent surface (`text-on-accent-soft` on `bg-accent-soft`).
   {
     key: 'soft',
     label: 'soft surface',
     fg: 'accent-subtle-foreground',
+    bg: 'accent-subtle',
+    min: 4.5,
+  },
+  // The accent as text on its own soft surface (`bg-accent-soft text-accent`).
+  {
+    key: 'soft-text',
+    label: 'accent on soft surface',
+    fg: 'accent',
     bg: 'accent-subtle',
     min: 4.5,
   },

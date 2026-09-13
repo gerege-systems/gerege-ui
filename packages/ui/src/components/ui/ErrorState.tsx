@@ -26,9 +26,11 @@ export interface ErrorStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
   /** Heading level of the title. Default 3 — match the surrounding outline. */
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
   /**
-   * Announce the error politely when it appears in-place (e.g. a failed
-   * refetch inside a panel). Off by default — page-level errors are read as
-   * part of the page and must not double-announce.
+   * Announce the error when it appears in-place (e.g. a failed refetch inside
+   * a panel). Rendered as `role="alert"`: a live region that mounts already
+   * populated is not announced, an alert inserted into the page is. Off by
+   * default — page-level errors are read as part of the page and must not
+   * double-announce.
    */
   live?: boolean;
 }
@@ -105,7 +107,7 @@ export const ErrorState = forwardRef<HTMLDivElement, ErrorStateProps>(function E
         'border-border bg-background-subtle flex flex-col items-center justify-center gap-3 rounded-lg border p-10 text-center',
         className,
       )}
-      aria-live={live ? 'polite' : undefined}
+      role={live ? 'alert' : undefined}
       {...props}
     >
       {illustration ?? preset.illustration}

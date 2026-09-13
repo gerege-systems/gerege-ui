@@ -73,6 +73,15 @@ export const DEFAULT_STATE: ThemeState = {
 };
 
 export const MAX_CHROMA = 0.2;
+/** The accent range the editor supports; a typed HEX outside it is pulled in. */
+export const LIGHTNESS_RANGE = [0.3, 0.8] as const;
+export function clampAccent(l: number, c: number, h: number) {
+  return {
+    lightness: clamp(l, LIGHTNESS_RANGE[0], LIGHTNESS_RANGE[1]),
+    chroma: clamp(c, 0, MAX_CHROMA),
+    hue: ((h % 360) + 360) % 360,
+  };
+}
 
 export interface AccentPreset {
   name: string;
@@ -129,7 +138,8 @@ export const ACCENT_PRESETS: AccentPreset[] = [
     h: 27,
   },
   fromLibrary('rose', 'Rose', 'Warm pink-red'),
-  { name: 'orange', label: 'Orange', hint: 'Warm, high energy', l: 0.58, c: 0.16, h: 50 },
+  // 0.55: at 0.58 the accent sat at 4.1:1 as text on background-muted.
+  { name: 'orange', label: 'Orange', hint: 'Warm, high energy', l: 0.55, c: 0.16, h: 50 },
   fromLibrary('amber', 'Amber', 'Golden; white text is borderline'),
   // 0.53: at 0.57 white text sat at 4.45:1, under AA.
   {
@@ -141,7 +151,8 @@ export const ACCENT_PRESETS: AccentPreset[] = [
     h: 95,
   },
   fromLibrary('emerald', 'Emerald', 'Calm green'),
-  { name: 'teal', label: 'Teal', hint: 'Cool green', l: 0.54, c: 0.12, h: 190 },
+  // 0.52: at 0.54 the accent sat at 4.2:1 as text on background-muted.
+  { name: 'teal', label: 'Teal', hint: 'Cool green', l: 0.52, c: 0.12, h: 190 },
   fromLibrary('blue', 'Blue', 'Cooler and brighter than indigo'),
   fromLibrary('violet', 'Violet', 'Saturated purple-violet'),
   { name: 'purple', label: 'Purple', hint: 'Deep magenta-violet', l: 0.5, c: 0.21, h: 312 },
@@ -265,6 +276,7 @@ const THEME_ACCENT = {
     'accent-subtle': 'hsl(232 100% 97%)',
     'accent-subtle-foreground': 'hsl(238 48% 40%)',
     background: 'hsl(0 0% 100%)',
+    'background-muted': 'hsl(210 40% 96%)',
   },
   dark: {
     accent: 'hsl(238 60% 67%)',
@@ -272,6 +284,7 @@ const THEME_ACCENT = {
     'accent-subtle': 'hsl(238 50% 16%)',
     'accent-subtle-foreground': 'hsl(234 71% 78%)',
     background: 'hsl(229 50% 6%)',
+    'background-muted': 'hsl(217 33% 13%)',
   },
 } as const;
 
@@ -385,7 +398,7 @@ export function deriveTokens(s: ThemeState): DerivedTokens {
   } else if (accentChanged(s)) {
     const { lightness: l, chroma: c, hue: h } = s;
     light.accent = oklch(l, c, h);
-    light['accent-subtle'] = oklch(0.96, Math.min(0.03, c), h);
+    light['accent-subtle'] = oklch(0.97, Math.min(0.03, c), h);
     // Two steps darker than the fill: warm hues (orange, teal) sat under 4.5:1
     // on the soft surface at l - 0.02.
     light['accent-subtle-foreground'] = oklch(Math.max(0.2, l - 0.06), Math.max(0.04, c - 0.01), h);
@@ -543,7 +556,7 @@ export function decodeState(hash: string): ThemeState {
     const n = Number(raw);
     return Number.isFinite(n) ? clamp(n, lo, hi) : fallback;
   };
-  s.lightness = num('l', 0.3, 0.8, s.lightness);
+  s.lightness = num('l', LIGHTNESS_RANGE[0], LIGHTNESS_RANGE[1], s.lightness);
   s.chroma = num('c', 0, MAX_CHROMA, s.chroma);
   s.hue = num('h', 0, 360, s.hue) % 360;
   for (const [key, list, field] of [

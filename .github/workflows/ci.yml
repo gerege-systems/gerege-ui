@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same branch/PR supersedes the run in flight.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -23,6 +28,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # theme.css ↔ design-research/08-design-tokens.md parity runs against the
+      # doc's main branch; the test fails under CI when the doc is missing.
+      - name: Check out design-research (token doc)
+        uses: actions/checkout@v4
+        with:
+          repository: gerege-systems/design-research
+          path: design-research
+          sparse-checkout: 08-design-tokens.md
+          sparse-checkout-cone-mode: false
+
       - name: Typecheck
         run: pnpm typecheck
 
@@ -32,8 +47,11 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
-      - name: Test
-        run: pnpm test
+      # Coverage thresholds (vitest.config.ts) only bite when coverage runs.
+      - name: Test (with coverage thresholds)
+        run: pnpm --filter @gerege-systems/ui test:coverage
+        env:
+          TOKEN_DOC: ${{ github.workspace }}/design-research/08-design-tokens.md
 
       - name: Build library
         run: pnpm build:lib
@@ -98,6 +116,11 @@ jobs:
   # Decide whether the Playwright job is worth running for this change.
   e2e-filter:
     runs-on: ubuntu-latest
+    # paths-filter lists a PR's files through the API; without this it fails
+    # and the e2e job is skipped as if nothing relevant changed.
+    permissions:
+      contents: read
+      pull-requests: read
     outputs:
       run: ${{ steps.f.outputs.ui }}
     steps:

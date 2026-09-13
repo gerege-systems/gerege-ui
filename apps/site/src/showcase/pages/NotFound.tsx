@@ -4,7 +4,7 @@ import { routeToHash } from '../routing';
 
 export function NotFound() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
+    <main id="main" tabIndex={-1} className="mx-auto max-w-3xl px-6 py-16 outline-hidden">
       <ErrorState
         variant="404"
         title="Page not found"
@@ -15,6 +15,6 @@ export function NotFound() {
           </Button>
         }
       />
-    </div>
+    </main>
   );
 }

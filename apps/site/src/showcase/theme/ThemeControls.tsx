@@ -19,6 +19,7 @@ import {
   styleOwnsRadius,
   type ContrastReport,
   type ThemeState,
+  clampAccent,
 } from './editor-model';
 import {
   BASE_COLORS,
@@ -216,7 +217,9 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
             const v = e.target.value;
             setHexDraft(v);
             const next = hexToOklch(v);
-            if (next) onChange({ lightness: next[0], chroma: next[1], hue: next[2] });
+            // Same bounds as the share link: an out-of-range HEX would preview
+            // one theme and encode another.
+            if (next) onChange(clampAccent(next[0], next[1], next[2]));
           }}
           onBlur={() => setHexDraft(null)}
           className="font-mono"

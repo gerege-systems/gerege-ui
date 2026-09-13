@@ -71,6 +71,8 @@ export const mnStrings: UiStrings = {
     bytes: '{n} Б',
     kilobytes: '{n} КБ',
     megabytes: '{n} МБ',
+    tooLarge: 'Файл {max}-аас том байна.',
+    wrongType: 'Энэ төрлийн файл хүлээн авахгүй.',
   },
   input: { clear: 'Цэвэрлэх', showPassword: 'Нууц үг харуулах', hidePassword: 'Нууц үг нуух' },
   slider: { minimum: 'Доод хязгаар', maximum: 'Дээд хязгаар', value: 'Утга' },
