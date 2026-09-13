@@ -227,8 +227,54 @@ test.describe('admin › projects @1280', () => {
     await menu.getByRole('menuitem', { name: /^Customers/ }).click();
     await expect(page).toHaveURL(/#preview\/admin\/app\/topnav-module\/customers/);
     await expect(page.getByRole('heading', { level: 1, name: 'Customers' })).toBeVisible();
-    // The owning module is the active item; the trail names module › section › page.
+    // The owning module is the active item; the trail is rooted in the module
+    // (no Home — that would be another module's page).
     await expect(crm).toHaveAttribute('aria-current', 'page');
+    await expect(page.locator('main nav[aria-label="Breadcrumb"]')).toHaveText(
+      /^CRMSalesCustomers$/,
+    );
+  });
+
+  test('demo menu › Top bar off: the sidebar takes the bar’s utilities and the trail', async ({
+    page,
+  }) => {
+    await openProjects(page);
+    await page.getByRole('button', { name: /^Demo controls/ }).click();
+    await page.getByRole('menuitemcheckbox', { name: 'Top bar' }).click();
+    // The bar only serves the drawer below lg now.
+    await expect(page.locator('header').first()).toBeHidden();
+    const sidebar = page.locator('[data-slot="sidebar"]').first();
+    await expect(sidebar.getByRole('button', { name: 'Open command palette' })).toBeVisible();
+    await expect(sidebar.getByRole('button', { name: 'Account menu' })).toBeVisible();
+    await expect(page.locator('main nav[aria-label="Breadcrumb"]')).toHaveText(
+      /^HomeWorkspaceProjects$/,
+    );
+    // Back on: the bar returns with its cluster, the trail leaves the page.
+    await sidebar.getByRole('button', { name: /^Demo controls/ }).click();
+    await page.getByRole('menuitemcheckbox', { name: 'Top bar' }).click();
+    await expect(page.locator('header').first()).toBeVisible();
+    await expect(page.locator('main nav[aria-label="Breadcrumb"]')).toHaveCount(0);
+  });
+});
+
+test.describe('admin › top nav @1600', () => {
+  test.use({ viewport: { width: 1600, height: 900 } });
+
+  test('demo menu › Top bar in container: the bar’s content sits in the 1440px column', async ({
+    page,
+  }) => {
+    await applyTheme(page, 'light');
+    await gotoHash(page, 'preview/admin/app/topnav/projects');
+    const bar = page.locator('header').first();
+    // Edge to edge (minus a scrollbar, if the platform draws one).
+    expect((await bar.boundingBox())!.width).toBeGreaterThan(1500);
+    await page.getByRole('button', { name: /^Demo controls/ }).click();
+    await page.getByRole('menuitemcheckbox', { name: 'Top bar in container' }).click();
+    const box = (await bar.boundingBox())!;
+    expect(Math.round(box.width)).toBe(1440);
+    // Centred in the window (the offset shrinks by half a scrollbar, if any).
+    expect(box.x).toBeGreaterThan(70);
+    expect(box.x).toBeLessThan(90);
   });
 });
 

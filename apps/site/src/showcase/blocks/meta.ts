@@ -70,22 +70,10 @@ export const blockMeta: BlockMeta[] = [
         description: 'Collapsible 240px sidebar, icon rail when collapsed, drawer below lg',
       },
       {
-        key: 'sidebar-noheader',
-        label: 'Sidebar, no header',
-        description:
-          'The same sidebar without a top bar — search, theme, language, notifications and account move into the sidebar footer; the trail sits on the page',
-      },
-      {
         key: 'sidebar-module',
         label: 'Sidebar with module',
         description:
           'Icon rail of modules + 240px panel with the active module’s sections — for products with many areas',
-      },
-      {
-        key: 'sidebar-module-noheader',
-        label: 'Sidebar with module, no header',
-        description:
-          'Rail + panel without a top bar — the utility cluster moves into the panel footer; the trail sits on the page',
       },
       {
         key: 'topnav',
@@ -101,7 +89,7 @@ export const blockMeta: BlockMeta[] = [
     ],
     patterns: [
       'App shell — 256px sidebar, icon rail, drawer ≤1024px (10 · App shell)',
-      'Four shells: sidebar, sidebar with module, top nav, top nav with module — pick by section count; the sidebar shells also come without a top bar (10 · App shell)',
+      'Four shells: sidebar, sidebar with module, top nav, top nav with module — pick by section count; the sidebar shells can drop the top bar (demo menu › Top bar) (10 · App shell)',
       'Active nav = accent bar + weight + background; breadcrumbs at depth ≥2 (10 · Navigation)',
       'Overview: KPI row → chart → table; delta with arrow + sign + period (11 · KPI tile)',
       'Table: 3-state sort, filter chips, 300ms search, 25/50/100 pages, bulk bar, overflow actions (10 · Table)',

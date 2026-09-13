@@ -424,33 +424,45 @@ function PanelHeader({ label }: { label: string }) {
  *  page key so `renderLink` can route through `onNavigate`.
  * ------------------------------------------------------------------------ */
 
-export function pageCrumbs(page: string, t: (key: AdminKey) => string, withModule = false) {
+/**
+ * What the trail is rooted in.
+ * - `home`: `Home › Section › Page` — the plain shells; Home is the Overview.
+ * - `module`: `Module › Section › Page` — module shells whose trail sits on
+ *   the page. Home would point at another module's page, so the module is
+ *   the root; a section named like its module is skipped.
+ * - `section`: `Section › Page` — the bar of the sidebar-module shell, where
+ *   the module label already stands before the trail.
+ */
+export type TrailRoot = 'home' | 'module' | 'section';
+
+export function pageCrumbs(page: string, t: (key: AdminKey) => string, root: TrailRoot = 'home') {
   const nav = findNav(page);
   if (!nav || page === 'overview') return null;
   const mod = findModule(page);
-  return [
-    { label: t('crumb.home'), href: 'overview' },
-    ...(withModule && t(mod.label) !== t(nav.section.label)
-      ? [{ label: t(mod.label), href: mod.sections[0].items[0].key }]
-      : []),
-    { label: t(nav.section.label) },
-    { label: t(nav.item.label) },
-  ];
+  const sectionIsModule = t(mod.label) === t(nav.section.label);
+  const section = sectionIsModule && root !== 'home' ? [] : [{ label: t(nav.section.label) }];
+  const head =
+    root === 'home'
+      ? [{ label: t('crumb.home'), href: 'overview' }]
+      : root === 'module'
+        ? [{ label: t(mod.label), href: mod.sections[0].items[0].key }]
+        : [];
+  return [...head, ...section, { label: t(nav.item.label) }];
 }
 
 export function PageCrumbs({
   page,
-  withModule,
+  root,
   onNavigate,
   className,
 }: {
   page: string;
-  withModule?: boolean;
+  root?: TrailRoot;
   onNavigate?: (key: string) => void;
   className?: string;
 }) {
   const t = useT(adminDict);
-  const crumbs = pageCrumbs(page, t, withModule);
+  const crumbs = pageCrumbs(page, t, root);
   if (!crumbs) return null;
   return (
     <Breadcrumbs
@@ -470,13 +482,7 @@ export function PageCrumbs({
 }
 
 /** Shell layout, so `PageHeader` knows when the top bar already shows the trail. */
-export type ShellLayout =
-  | 'sidebar'
-  | 'sidebar-noheader'
-  | 'topnav'
-  | 'sidebar-module'
-  | 'sidebar-module-noheader'
-  | 'topnav-module';
+export type ShellLayout = 'sidebar' | 'topnav' | 'sidebar-module' | 'topnav-module';
 export const AdminLayoutContext = createContext<ShellLayout>('sidebar');
 
 /* ---------------------------------------------------------------------------
@@ -495,6 +501,18 @@ export interface DemoControls {
   setDensity: (d: Density) => void;
   banner: boolean;
   setBanner: (on: boolean) => void;
+  /**
+   * Sidebar shells only: whether the desktop top bar is shown. Off, the bar's
+   * utility cluster moves into the sidebar footer and the trail onto the page.
+   */
+  header: boolean;
+  setHeader: (on: boolean) => void;
+  /**
+   * Top-nav shells only: the bar's content sits in the page's 1440px container
+   * instead of spanning the window.
+   */
+  contained: boolean;
+  setContained: (on: boolean) => void;
 }
 
 export const DemoContext = createContext<DemoControls>({
@@ -504,6 +522,10 @@ export const DemoContext = createContext<DemoControls>({
   setDensity: () => {},
   banner: false,
   setBanner: () => {},
+  header: true,
+  setHeader: () => {},
+  contained: false,
+  setContained: () => {},
 });
 
 export const useDemo = () => useContext(DemoContext);
@@ -518,6 +540,11 @@ const DEMO_STATES: { value: DemoState; label: AdminKey }[] = [
 function DemoMenu() {
   const demo = useDemo();
   const t = useT(adminDict);
+  // The top bar is optional only where a sidebar can take over its duties;
+  // containing it only makes sense where it is the primary navigation.
+  const layout = useContext(AdminLayoutContext);
+  const sidebarShell = layout.startsWith('sidebar');
+  const topnavShell = layout.startsWith('topnav');
   const stateLabel = DEMO_STATES.find((s) => s.value === demo.state)?.label ?? 'demo.normal';
   return (
     <DropdownMenu>
@@ -560,6 +587,16 @@ function DemoMenu() {
         <DropdownMenuCheckboxItem checked={demo.banner} onCheckedChange={demo.setBanner}>
           {t('demo.banner')}
         </DropdownMenuCheckboxItem>
+        {sidebarShell && (
+          <DropdownMenuCheckboxItem checked={demo.header} onCheckedChange={demo.setHeader}>
+            {t('demo.header')}
+          </DropdownMenuCheckboxItem>
+        )}
+        {topnavShell && (
+          <DropdownMenuCheckboxItem checked={demo.contained} onCheckedChange={demo.setContained}>
+            {t('demo.contained')}
+          </DropdownMenuCheckboxItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -865,7 +902,7 @@ function ModuleLabel({ page }: { page: string }) {
   const mod = findModule(page);
   const Icon = mod.icon;
   // The home page has no trail; a hairline with nothing after it would dangle.
-  const hasTrail = pageCrumbs(page, t) !== null;
+  const hasTrail = pageCrumbs(page, t, 'section') !== null;
   return (
     <span className="hidden shrink-0 items-center gap-2 lg:inline-flex">
       <Icon className="text-foreground-muted size-4" aria-hidden />
@@ -1065,11 +1102,6 @@ export function SidebarUtilities(props: {
   );
 }
 
-/** Sidebar shells without the desktop top bar. */
-export function hasHeader(layout: ShellLayout): boolean {
-  return !layout.endsWith('-noheader');
-}
-
 /* ---------------------------------------------------------------------------
  *  Top bar — tenant name, search (`/`), ⌘K hint, notifications, profile
  * ------------------------------------------------------------------------ */
@@ -1112,12 +1144,16 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
   searchRef,
 ) {
   const t = useT(adminDict);
-  return (
+  const { header, contained } = useDemo();
+  const bar = (
     <TopNav
       className={cn(
         'bg-background supports-[backdrop-filter]:bg-background',
-        // Headerless sidebar shells: the bar only serves the drawer below lg.
-        !hasHeader(layout) && 'lg:hidden',
+        // Contained: the band spans the window, the content sits in the same
+        // 1440px column as the page (the wrapper below carries the border).
+        contained && 'mx-auto max-w-[1440px] border-b-0',
+        // Top bar switched off (sidebar shells): it only serves the drawer below lg.
+        !header && 'lg:hidden',
         // The module shells put more in the left track — five module menus +
         // the switcher, or the module label + a four-step trail — than six
         // plain links: twice the right track and a narrower search keep the
@@ -1150,7 +1186,12 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
             // module first, as its own label, and the trail follows it.
             <>
               {layout.startsWith('sidebar-module') && <ModuleLabel page={page} />}
-              <PageCrumbs page={page} onNavigate={onNavigate} className="hidden min-w-0 lg:block" />
+              <PageCrumbs
+                page={page}
+                root={layout.startsWith('sidebar-module') ? 'section' : 'home'}
+                onNavigate={onNavigate}
+                className="hidden min-w-0 lg:block"
+              />
               <span className="text-foreground truncate text-sm font-semibold lg:hidden">
                 {t(findNav(page)?.item.label ?? 'crumb.home')}
               </span>
@@ -1194,6 +1235,11 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
       }
     />
   );
+  return contained ? (
+    <div className={cn('border-border bg-background border-b', !header && 'lg:hidden')}>{bar}</div>
+  ) : (
+    bar
+  );
 });
 
 /* ---------------------------------------------------------------------------
@@ -1219,15 +1265,16 @@ export function PageHeader({
   hideBreadcrumbs?: boolean;
 }) {
   const layout = useContext(AdminLayoutContext);
-  // The bar carries the trail only in the sidebar shells that have one.
-  const barHasTrail = hasHeader(layout) && layout.startsWith('sidebar');
+  const { header } = useDemo();
+  // The bar carries the trail only in the sidebar shells, and only while it is shown.
+  const barHasTrail = header && layout.startsWith('sidebar');
   const hide = hideBreadcrumbs ?? barHasTrail;
   return (
     <header className="mb-6">
       {!hide && (
         <PageCrumbs
           page={page}
-          withModule={layout === 'topnav-module' || layout === 'sidebar-module-noheader'}
+          root={layout.endsWith('-module') ? 'module' : 'home'}
           onNavigate={onNavigate}
           className="mb-2"
         />

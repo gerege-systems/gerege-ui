@@ -19,7 +19,6 @@ import {
   EnvBanner,
   type ShellLayout,
   SidebarUtilities,
-  hasHeader,
 } from './admin/shell';
 import { Analytics, Overview, Reports } from './admin/overview';
 import { Projects, type ProjectsHandle } from './admin/projects';
@@ -68,6 +67,8 @@ import { useT } from '../i18n/locale';
 
 const SIDEBAR_KEY = 'admin-template:sidebar-collapsed';
 const DENSITY_KEY = 'cb-demo-density';
+const HEADER_KEY = 'admin-template:header';
+const CONTAINED_KEY = 'admin-template:contained';
 
 /**
  * Density is a layout preference, so it lives on the shell root as
@@ -90,28 +91,20 @@ const DENSITY_CLASSES = [
 export type AdminLayout = ShellLayout;
 export const ADMIN_LAYOUTS: readonly AdminLayout[] = [
   'sidebar',
-  'sidebar-noheader',
   'sidebar-module',
-  'sidebar-module-noheader',
   'topnav',
   'topnav-module',
 ];
 
 const SIDEBAR_MODE: Record<AdminLayout, AppSidebarMode> = {
   sidebar: 'rail',
-  'sidebar-noheader': 'rail',
   topnav: 'none',
   'sidebar-module': 'module',
-  'sidebar-module-noheader': 'module',
   'topnav-module': 'none',
 };
 
 /** Shells whose navigation spans every module (palette, drawer, breadcrumbs). */
-const MODULE_LAYOUTS: AdminLayout[] = [
-  'sidebar-module',
-  'sidebar-module-noheader',
-  'topnav-module',
-];
+const MODULE_LAYOUTS: AdminLayout[] = ['sidebar-module', 'topnav-module'];
 
 /** Every navigable page key across all modules (the `sidebar`/`topnav` NAV is a subset). */
 const PAGES = ALL_SECTIONS.flatMap((s) => s.items.map((i) => i.key));
@@ -124,7 +117,7 @@ export function AdminDashboard({
   /** Page to open first (deep link from the preview route); unknown keys fall back to overview. */
   initialPage?: string;
 }) {
-  const hasRail = layout === 'sidebar' || layout === 'sidebar-noheader';
+  const hasRail = layout === 'sidebar';
   const { push } = useToast();
   const t = useT(adminDict);
   // Unknown keys are kept so the shell can render its own 404 (the chrome
@@ -161,6 +154,41 @@ export function AdminDashboard({
   // Demo controls (top-bar menu): data state, density, environment banner.
   const [demoState, setDemoState] = useState<DemoState>('normal');
   const [banner, setBanner] = useState(false);
+  // Sidebar shells: the top bar can be switched off (demo menu); remembered
+  // like the collapsed state, since it is a layout preference.
+  const [header, setHeaderState] = useState(() => {
+    try {
+      return localStorage.getItem(HEADER_KEY) !== '0';
+    } catch {
+      return true;
+    }
+  });
+  const setHeader = (on: boolean) => {
+    setHeaderState(on);
+    try {
+      localStorage.setItem(HEADER_KEY, on ? '1' : '0');
+    } catch {
+      /* private mode */
+    }
+  };
+  // Only the sidebar shells can do without the bar.
+  const showHeader = header || !layout.startsWith('sidebar');
+  // Top-nav shells: the bar's content in the page container rather than edge to edge.
+  const [contained, setContainedState] = useState(() => {
+    try {
+      return localStorage.getItem(CONTAINED_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
+  const setContained = (on: boolean) => {
+    setContainedState(on);
+    try {
+      localStorage.setItem(CONTAINED_KEY, on ? '1' : '0');
+    } catch {
+      /* private mode */
+    }
+  };
   const [density, setDensityState] = useState<Density>(() => {
     try {
       return localStorage.getItem(DENSITY_KEY) === 'compact' ? 'compact' : 'default';
@@ -278,6 +306,10 @@ export function AdminDashboard({
             setDensity,
             banner,
             setBanner,
+            header: showHeader,
+            setHeader,
+            contained: contained && layout.startsWith('topnav'),
+            setContained,
           }}
         >
           <div
@@ -303,7 +335,7 @@ export function AdminDashboard({
               onModuleChange={openModule}
               footer={
                 // No desktop top bar: its utility cluster lives in the sidebar footer.
-                hasHeader(layout) ? undefined : (
+                showHeader ? undefined : (
                   <SidebarUtilities
                     onNavigate={navigate}
                     onSignOut={() =>
