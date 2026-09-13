@@ -74,7 +74,7 @@ function FootLink({ onClick, children }: { onClick: () => void; children: ReactN
     <button
       type="button"
       onClick={onClick}
-      className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+      className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm font-medium outline-hidden before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
     >
       {children}
     </button>

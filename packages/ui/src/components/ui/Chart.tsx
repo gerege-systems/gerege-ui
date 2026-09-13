@@ -494,6 +494,8 @@ function Frame({
           aria-controls={tableRendered ? tableId : undefined}
           className={cn(
             'text-foreground-subtle hover:text-foreground self-start rounded-sm text-xs underline-offset-2 outline-hidden hover:underline',
+            // Text-sized: the 24×24 target (WCAG 2.5.8) is an invisible centred hit area.
+            'relative before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[""]',
             'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
           )}
         >

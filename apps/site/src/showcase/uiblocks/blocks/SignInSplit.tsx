@@ -12,7 +12,10 @@ export function SignInSplit() {
           <Input label="Email" type="email" placeholder="name@gerege.mn" autoComplete="off" />
           <Input label="Password" type="password" autoComplete="off" />
           <div className="flex items-center justify-between">
-            <a href="/forgot-password" className="text-accent text-xs">
+            <a
+              href="/forgot-password"
+              className="text-accent relative text-xs before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
+            >
               Forgot password?
             </a>
           </div>

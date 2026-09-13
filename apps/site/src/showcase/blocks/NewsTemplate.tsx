@@ -204,7 +204,7 @@ function Masthead({
               onClick={() => onCategory?.(c)}
               aria-current={active === c ? 'page' : undefined}
               className={cn(
-                'shrink-0 snap-start py-1 whitespace-nowrap',
+                'relative shrink-0 snap-start py-1 whitespace-nowrap before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[""]',
                 active === c
                   ? 'text-accent font-medium'
                   : 'text-foreground-muted hover:text-foreground',
@@ -230,7 +230,7 @@ function Footer({
 }) {
   const t = useT(newsDict);
   const linkClass =
-    'text-foreground-muted hover:text-foreground rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+    'relative before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[""] text-foreground-muted hover:text-foreground rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
   return (
     <footer className="border-border bg-background-subtle border-t">
       <div className="mx-auto grid max-w-5xl gap-8 px-6 py-10 sm:grid-cols-3">
@@ -287,7 +287,7 @@ function Footer({
                 key={l}
                 type="button"
                 onClick={() => onLegal(l)}
-                className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm outline-hidden before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 {legalTitle(t, l)}
               </button>
@@ -320,7 +320,7 @@ function LegalPage({
       <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
         <button
           onClick={onBack}
-          className="text-foreground-muted hover:text-foreground mb-6 flex w-fit items-center gap-1.5 text-sm"
+          className="text-foreground-muted hover:text-foreground relative mb-6 flex w-fit items-center gap-1.5 text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
         >
           <ArrowLeft className="size-4" aria-hidden /> {t('article.back')}
         </button>
@@ -540,7 +540,7 @@ function ArticlePage({
             the category chip. */}
           <button
             onClick={onBack}
-            className="text-foreground-muted hover:text-foreground mb-6 flex w-fit items-center gap-1.5 text-sm"
+            className="text-foreground-muted hover:text-foreground relative mb-6 flex w-fit items-center gap-1.5 text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
           >
             <ArrowLeft className="size-4" aria-hidden /> {t('article.back')}
           </button>

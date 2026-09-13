@@ -181,7 +181,7 @@ export function PreviewPage({
         <div className="border-border bg-card fixed right-4 bottom-4 z-[var(--z-toast)] flex max-w-[calc(100vw-2rem)] items-center gap-2 rounded-full border py-1.5 pr-1.5 pl-3 shadow-lg">
           <a
             href={`#${routeToHash({ kind: 'template', slug })}`}
-            className="text-foreground-muted hover:text-foreground inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
+            className="text-foreground-muted hover:text-foreground relative inline-flex items-center gap-1.5 text-xs font-medium transition-colors before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
           >
             <ArrowLeft className="size-3.5" aria-hidden />
             Docs

@@ -463,7 +463,7 @@ type FooterLink = { label: string; id?: string; href?: string; onClick?: () => v
 
 function FooterColumn({ heading, links }: { heading: string; links: FooterLink[] }) {
   const linkClass =
-    'rounded-sm outline-hidden hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+    'relative before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[""] rounded-sm outline-hidden hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
   return (
     <div>
       <div className="text-foreground-subtle mb-3 text-xs font-semibold tracking-wider uppercase">
@@ -521,7 +521,7 @@ export function LandingTemplate({ screen, setScreen, brand }: TemplateProps) {
             <button
               type="button"
               onClick={() => setScreen('home')}
-              className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm font-medium outline-hidden before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               {t('backToSite')}
             </button>

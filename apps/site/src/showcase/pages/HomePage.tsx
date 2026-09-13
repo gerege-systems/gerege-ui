@@ -61,7 +61,7 @@ export function HomePage() {
             href={CHANGELOG_URL}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-accent inline-flex items-center gap-1"
+            className="hover:text-accent relative inline-flex items-center gap-1 before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
             aria-label="View release notes"
           >
             <Badge variant="outline" tone="neutral">
@@ -119,7 +119,7 @@ export function HomePage() {
           </div>
           <a
             href={`#${routeToHash({ kind: 'templates-index' })}`}
-            className="text-foreground-muted hover:text-accent text-sm"
+            className="text-foreground-muted hover:text-accent relative text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
           >
             View all →
           </a>
@@ -152,7 +152,7 @@ export function HomePage() {
           <h2 className="text-2xl font-semibold tracking-tight">Featured components</h2>
           <a
             href={`#${routeToHash({ kind: 'components-index' })}`}
-            className="text-foreground-muted hover:text-accent text-sm"
+            className="text-foreground-muted hover:text-accent relative text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
           >
             View all →
           </a>

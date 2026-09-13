@@ -56,7 +56,8 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
           <BrandMark />
         </a>
 
-        <nav className="text-foreground-muted hidden items-center gap-1 text-sm sm:flex">
+        {/* Five links need md; the overflow menu carries them below that. */}
+        <nav className="text-foreground-muted hidden items-center gap-1 text-sm md:flex">
           {NAV.map((item) => {
             const active = item.matchKinds.includes(current.kind);
             return (
@@ -65,7 +66,8 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
                 href={`#${routeToHash(item.route)}`}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'rounded-md px-3 py-1.5 outline-hidden transition-colors',
+                  // Tighter below lg, where five links share the row with the switchers.
+                  'rounded-md px-2 py-1.5 outline-hidden transition-colors lg:px-3',
                   'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
                   active ? 'text-foreground' : 'hover:bg-background-muted hover:text-foreground',
                 )}
@@ -89,6 +91,15 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
             <span className="flex-1 truncate text-left text-xs">Search docs…</span>
             <Kbd className="shrink-0">{mod.symbol} K</Kbd>
           </button>
+          {/* sm–lg: the field does not fit beside the nav and the switchers. */}
+          <IconButton
+            aria-label={`Search (${mod.label}+K)`}
+            icon={<Search />}
+            variant="ghost"
+            size="sm"
+            className="hidden sm:inline-flex lg:hidden"
+            onClick={onOpenPalette}
+          />
 
           {/* On #theme the rail's Accent dropdown is the one accent control. */}
           {current.kind !== 'theme' && <BrandSwitcher />}
@@ -116,12 +127,12 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
 
           {/* Last in the row: the one action that leaves the docs. */}
           {appPath && (
-            <Button asChild size="sm" variant="ghost" className="hidden sm:inline-flex">
+            <Button asChild size="sm" variant="ghost" className="hidden lg:inline-flex">
               <a href={appPath}>Sign in</a>
             </Button>
           )}
 
-          {/* < sm: nav + search + external links collapse into one menu. */}
+          {/* < lg: search and external links collapse into one menu (with the nav below sm). */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <IconButton
@@ -129,7 +140,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
                 icon={<Menu />}
                 variant="ghost"
                 size="sm"
-                className="sm:hidden"
+                className="lg:hidden"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
@@ -177,7 +188,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
 
 /** ≥32px hit area + visible focus ring for the icon-only links. */
 const iconLinkClass = cn(
-  'hidden size-8 items-center justify-center rounded-md text-foreground-muted outline-hidden transition-colors sm:inline-flex',
+  'hidden size-8 items-center justify-center rounded-md text-foreground-muted outline-hidden transition-colors lg:inline-flex',
   'hover:bg-background-muted hover:text-foreground',
   'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 );

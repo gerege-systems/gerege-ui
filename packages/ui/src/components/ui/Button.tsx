@@ -59,6 +59,9 @@ const button = cva(
         ],
         link: [
           'bg-transparent text-accent underline-offset-4 px-0',
+          // Text-sized, so a 24×24 target (WCAG 2.5.8) comes from an invisible
+          // hit area centred on the label — layout unchanged.
+          "relative before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
           'hover:underline',
           'active:text-accent-hover',
         ],

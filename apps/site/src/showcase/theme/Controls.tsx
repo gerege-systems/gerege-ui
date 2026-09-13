@@ -86,7 +86,7 @@ export function BrandSwitcher({ compact = false }: { compact?: boolean }) {
           aria-label={`Accent colour: ${active.label}`}
         >
           <Swatch color={active.swatch} />
-          {!compact && <span className="hidden md:inline">{active.label}</span>}
+          {!compact && <span className="hidden lg:inline">{active.label}</span>}
           <ChevronDown className="size-3.5 opacity-60" aria-hidden />
         </button>
       </DropdownMenuTrigger>

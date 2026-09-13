@@ -103,7 +103,7 @@ export function TemplateDocPage({ doc }: TemplateDocPageProps) {
             href={`${SRC_BLOCKS}/${doc.sourceFile}`}
             target="_blank"
             rel="noreferrer"
-            className="text-foreground-muted hover:text-accent focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-1 rounded-sm text-xs outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="text-foreground-muted hover:text-accent focus-visible:ring-ring focus-visible:ring-offset-background relative inline-flex items-center gap-1 rounded-sm text-xs outline-hidden before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             View on GitHub <ExternalLink className="size-3" aria-hidden />
           </a>

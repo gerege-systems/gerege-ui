@@ -258,7 +258,7 @@ function ShopFooter({ onHelp }: { onHelp: (topic: HelpTopic) => void }) {
               key={h}
               type="button"
               onClick={() => onHelp(h)}
-              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm outline-hidden before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               {helpTitle(t, h)}
             </button>
@@ -294,7 +294,7 @@ function HelpScreen({
       <main className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
         <button
           onClick={onShop}
-          className="text-foreground-muted hover:text-foreground mb-6 flex w-fit items-center gap-1.5 text-sm"
+          className="text-foreground-muted hover:text-foreground relative mb-6 flex w-fit items-center gap-1.5 text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
         >
           <ArrowLeft className="size-4" aria-hidden /> {t('shop.back')}
         </button>
@@ -524,7 +524,7 @@ function ProductScreen({
       <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
         <button
           onClick={onBack}
-          className="text-foreground-muted hover:text-foreground mb-6 flex w-fit items-center gap-1.5 text-sm"
+          className="text-foreground-muted hover:text-foreground relative mb-6 flex w-fit items-center gap-1.5 text-sm before:absolute before:top-1/2 before:left-1/2 before:size-[max(100%,1.5rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
         >
           <ArrowLeft className="size-4" aria-hidden /> {t('shop.back')}
         </button>

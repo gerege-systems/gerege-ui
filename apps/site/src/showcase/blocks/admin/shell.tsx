@@ -369,6 +369,7 @@ export function AppRail({
               onSignOut={barless.onSignOut}
               side="right"
               align="end"
+              sideOffset={COLUMN_MENU_OFFSET}
             />
           </DropdownMenu>
         ) : (
@@ -574,7 +575,25 @@ const DEMO_STATES: { value: DemoState; label: AdminKey }[] = [
   { value: 'error', label: 'demo.error' },
 ];
 
-function DemoMenu() {
+/** Where a popup opens from its trigger, per placement of the utility cluster. */
+type PopupSide = 'top' | 'right' | 'bottom' | 'left';
+
+/**
+ * A menu opened from a 40px button centred in a 56px column starts 8px inside
+ * the column's edge at the default offset; 12px clears it by 4px, so the menu
+ * reads as coming out of the column rather than sitting on top of it.
+ */
+const COLUMN_MENU_OFFSET = 12;
+
+function DemoMenu({
+  side,
+  align = 'end',
+  sideOffset,
+}: {
+  side?: PopupSide;
+  align?: 'start' | 'center' | 'end';
+  sideOffset?: number;
+} = {}) {
   const demo = useDemo();
   const t = useT(adminDict);
   // The top bar is optional only where a sidebar can take over its duties;
@@ -585,7 +604,7 @@ function DemoMenu() {
   const stateLabel = DEMO_STATES.find((s) => s.value === demo.state)?.label ?? 'demo.normal';
   return (
     <DropdownMenu>
-      <Tooltip label={t('demo.controls')}>
+      <Tooltip side={side} label={t('demo.controls')}>
         <DropdownMenuTrigger asChild>
           <IconButton
             aria-label={t('demo.controlsState', { state: t(stateLabel) })}
@@ -595,7 +614,7 @@ function DemoMenu() {
           />
         </DropdownMenuTrigger>
       </Tooltip>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent side={side} align={align} sideOffset={sideOffset} className="w-56">
         <DropdownMenuLabel className="text-foreground-subtle text-xs font-normal">
           {t('demo.state')}
         </DropdownMenuLabel>
@@ -977,8 +996,8 @@ function BarActions({
   onOpenPalette: () => void;
   /**
    * `bar` = right of the top bar; `sidebar` = a row in the sidebar footer;
-   * `rail` = a column in the module rail. Off the bar, the palette button is
-   * the search at every width (there is no field).
+   * `rail` = a column (the module rail, or the sidebar collapsed to icons).
+   * Off the bar, the palette button is the search at every width.
    */
   placement?: 'bar' | 'sidebar' | 'rail';
   /** The avatar menu. Off where the sidebar's own user card/avatar opens it. */
@@ -995,8 +1014,13 @@ function BarActions({
   const themeLabel = (th: Theme) => t(`theme.${th}`);
   const layout = useContext(AdminLayoutContext);
   const { contained } = useDemo();
-  // Tooltips and menus open away from the edge the cluster sits on.
-  const tipSide = placement === 'rail' ? 'right' : placement === 'sidebar' ? 'top' : undefined;
+  // Popups open away from the edge the cluster sits on: up from a footer row,
+  // out to the right of a column (menus clear the column's edge, and grow
+  // upward from the trigger so a foot-of-rail menu stays on screen).
+  const tipSide: PopupSide | undefined =
+    placement === 'rail' ? 'right' : placement === 'sidebar' ? 'top' : undefined;
+  const menuAlign = placement === 'sidebar' ? 'start' : 'end';
+  const menuOffset = placement === 'rail' ? COLUMN_MENU_OFFSET : undefined;
   return (
     <>
       <Tooltip side={tipSide} label={t('topnav.palette', { mod: mod.label })}>
@@ -1019,7 +1043,7 @@ function BarActions({
         />
       </Tooltip>
 
-      <DemoMenu />
+      <DemoMenu side={tipSide} align={menuAlign} sideOffset={menuOffset} />
 
       <Tooltip side={tipSide} label={t('topnav.theme', { theme: themeLabel(theme) })}>
         <IconButton
@@ -1069,7 +1093,12 @@ function BarActions({
             size="sm"
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent side={tipSide} align="end" className="w-[min(20rem,calc(100vw-2rem))]">
+        <DropdownMenuContent
+          side={tipSide}
+          align={menuAlign}
+          sideOffset={menuOffset}
+          className="w-[min(20rem,calc(100vw-2rem))]"
+        >
           <DropdownMenuLabel className="flex items-center justify-between">
             {t('notif.title')}
             {unread > 0 && <Badge tone="accent">{t('notif.new', { n: unread })}</Badge>}
@@ -1129,16 +1158,18 @@ function AccountMenuContent({
   onSignOut,
   side,
   align = 'end',
+  sideOffset,
 }: {
   onNavigate: (key: string) => void;
   onSignOut: () => void;
-  side?: 'top' | 'right' | 'bottom' | 'left';
+  side?: PopupSide;
   align?: 'start' | 'center' | 'end';
+  sideOffset?: number;
 }) {
   const t = useT(adminDict);
   const { theme, setTheme } = useTheme();
   return (
-    <DropdownMenuContent side={side} align={align} className="w-56">
+    <DropdownMenuContent side={side} align={align} sideOffset={sideOffset} className="w-56">
       <DropdownMenuLabel>
         <div className="leading-tight">
           <div className="text-foreground text-sm font-medium">{USER.name}</div>
@@ -1187,7 +1218,7 @@ function SidebarUtilities(props: {
   return (
     <div className="flex flex-col gap-2">
       <div className={cn('flex items-center gap-0.5', collapsed ? 'flex-col' : 'justify-between')}>
-        <BarActions {...props} placement="sidebar" account={false} />
+        <BarActions {...props} placement={collapsed ? 'rail' : 'sidebar'} account={false} />
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -1204,6 +1235,7 @@ function SidebarUtilities(props: {
           onSignOut={props.onSignOut}
           side={collapsed ? 'right' : 'top'}
           align={collapsed ? 'end' : 'start'}
+          sideOffset={collapsed ? COLUMN_MENU_OFFSET : undefined}
         />
       </DropdownMenu>
     </div>
