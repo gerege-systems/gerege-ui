@@ -13,8 +13,9 @@ import { ACCENT_PAIRS } from '../lib/accent-pairs';
  *
  * The path is resolved from this repo, not from a home directory: an absolute
  * one only ever matched a single machine, so the whole check skipped in silence
- * everywhere else. CI checks the doc out and points `TOKEN_DOC` at it; under
- * `CI` a missing doc fails instead of skipping, so the check cannot go quiet.
+ * everywhere else. CI's verify job checks the doc out and points `TOKEN_DOC`
+ * at it; a `TOKEN_DOC` that does not exist fails instead of skipping, so that
+ * gate cannot go quiet. Jobs without the doc (React 19, release) still skip.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -24,8 +25,8 @@ const DOC =
   env.TOKEN_DOC ??
   path.resolve(__dirname, '../../../../../gerege-design-research/08-design-tokens.md');
 const exists = existsSync(DOC);
-if (env.CI && !exists) {
-  throw new Error(`token-parity: design-research doc not found at ${DOC} (set TOKEN_DOC)`);
+if (env.TOKEN_DOC && !exists) {
+  throw new Error(`token-parity: TOKEN_DOC points at a missing file: ${DOC}`);
 }
 
 const COLOR = /(?:hsl|oklch)\([^)]*\)/g;

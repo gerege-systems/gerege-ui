@@ -9,6 +9,7 @@ export default tseslint.config(
       '**/dist/**',
       '**/dist-lib/**',
       '**/coverage/**',
+      'design-research/**',
       '**/node_modules/**',
       '**/*.d.ts',
       'apps/site/src/generated/**',

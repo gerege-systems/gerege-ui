@@ -5,3 +5,5 @@ pnpm-lock.yaml
 apps/site/src/generated/
 packages/create-app/templates/
 apps/site/src/showcase/registry/generated-props.ts
+# CI checkout of gerege-systems/design-research (token parity doc), not ours to format
+design-research/
