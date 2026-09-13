@@ -8,6 +8,17 @@ import kleur from 'kleur';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATES_DIR = path.resolve(__dirname, '../templates');
+/**
+ * The `@gerege-systems/ui` range a new project gets. Read from this package's
+ * own manifest, where changesets keeps it current on every library release
+ * (`updateInternalDependencies`) — a range typed into the templates went stale
+ * twice, because a 0.x caret never crosses a minor.
+ */
+const UI_RANGE: string = (
+  JSON.parse(readFileSync(path.resolve(__dirname, '../package.json'), 'utf8')) as {
+    dependencies: Record<string, string>;
+  }
+).dependencies['@gerege-systems/ui'];
 
 interface Template {
   id: string;
@@ -123,7 +134,9 @@ function walk(srcDir: string, destDir: string, projectName: string) {
       walk(srcPath, destPath, projectName);
     } else {
       const raw = readFileSync(srcPath, 'utf8');
-      const rendered = raw.replace(/__PROJECT_NAME__/g, projectName);
+      const rendered = raw
+        .replace(/__PROJECT_NAME__/g, projectName)
+        .replace(/__UI_RANGE__/g, UI_RANGE);
       writeFileSync(destPath, rendered);
     }
   }

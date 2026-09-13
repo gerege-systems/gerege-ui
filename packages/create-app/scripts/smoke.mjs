@@ -46,31 +46,27 @@ const EXPECTED = [
 
 let failed = 0;
 
-// The templates pin `@gerege-systems/ui` with a 0.x caret, which never crosses a
-// minor. The typecheck below runs against the workspace source, so a stale pin
-// would pass forever while `npm create` scaffolds an old library — that shipped
-// twice (^0.11 at 0.12, ^0.12 at 0.14). Fail here when the minors drift.
-{
-  const uiVersion = JSON.parse(
-    readFileSync(path.resolve(ROOT, '../ui/package.json'), 'utf8'),
-  ).version;
-  const uiMinor = uiVersion.match(/^0\.(\d+)\./)?.[1];
-  for (const tpl of TEMPLATES) {
-    const manifest = JSON.parse(
-      readFileSync(path.join(ROOT, 'templates', tpl, '_package.json'), 'utf8'),
-    );
-    const range = manifest.dependencies['@gerege-systems/ui'];
-    const pinnedMinor = range.match(/^\^0\.(\d+)\./)?.[1];
-    if (uiMinor === undefined || pinnedMinor !== uiMinor) {
-      console.error(
-        `✗ ${tpl}: template pins @gerege-systems/ui ${range} but the library is ${uiVersion} — ` +
-          `a 0.x caret does not cross a minor, so bump the template to ^${uiVersion.replace(/\.\d+$/, '.0')}`,
-      );
-      process.exit(1);
-    }
-    console.log(`  ✓ ${tpl}: @gerege-systems/ui ${range} matches library ${uiVersion}`);
-  }
+// The scaffolded range comes from this package's own `dependencies`, which
+// changesets updates on every library release. A 0.x caret never crosses a
+// minor, so the range and the workspace library must share one — this catches a
+// manifest changesets did not touch, or a placeholder left unrendered.
+const UI_VERSION = JSON.parse(
+  readFileSync(path.resolve(ROOT, '../ui/package.json'), 'utf8'),
+).version;
+const uiMinor = (range) => range.match(/^\^?0\.(\d+)\./)?.[1];
+
+// The published manifest is this file verbatim: a `workspace:` range would
+// reach users unrewritten and break `npm create`.
+const OWN_RANGE = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).dependencies[
+  '@gerege-systems/ui'
+];
+if (!OWN_RANGE || !/^\^0\.\d+\.\d+$/.test(OWN_RANGE)) {
+  console.error(
+    `✗ packages/create-app/package.json: @gerege-systems/ui must be a plain caret range, got "${OWN_RANGE}"`,
+  );
+  process.exit(1);
 }
+console.log(`  ✓ create-app depends on @gerege-systems/ui ${OWN_RANGE}`);
 
 for (const tpl of TEMPLATES) {
   const tmp = mkdtempSync(path.join(CACHE, `${tpl}-`));
@@ -106,6 +102,16 @@ for (const tpl of TEMPLATES) {
     templateFailed++;
   } else {
     console.log(`  ✓ __PROJECT_NAME__ replaced in package.json`);
+    const range = pkg.dependencies?.['@gerege-systems/ui'];
+    if (!range || range.includes('__') || uiMinor(range) !== uiMinor(UI_VERSION)) {
+      console.error(
+        `  ✗ scaffolded @gerege-systems/ui range "${range}" does not cover the library ${UI_VERSION} — ` +
+          'packages/create-app/package.json dependencies must move with the library minor',
+      );
+      templateFailed++;
+    } else {
+      console.log(`  ✓ @gerege-systems/ui ${range} covers library ${UI_VERSION}`);
+    }
   }
 
   // No `_package.json` or `_gitignore` should leak through

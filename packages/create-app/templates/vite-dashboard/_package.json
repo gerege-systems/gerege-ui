@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@gerege-systems/ui": "^0.14.0",
+    "@gerege-systems/ui": "__UI_RANGE__",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

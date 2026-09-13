@@ -43,7 +43,9 @@ jobs:
         uses: changesets/action@66d7d1ddafddf1ef45f98ee51a7496f9cdadb2f4 # v2.1.2
         with:
           publish-script: pnpm changeset publish
-          version-script: pnpm changeset version
+          # The lockfile refresh keeps `--frozen-lockfile` green after changesets
+          # rewrites create-app's @gerege-systems/ui range on a library bump.
+          version-script: pnpm changeset version && pnpm install --lockfile-only
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Both env names required: changesets/action reads NPM_TOKEN, but
