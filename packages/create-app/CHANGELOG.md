@@ -1,5 +1,11 @@
 # @gerege-systems/create-app
 
+## 1.0.6
+
+### Patch Changes
+
+- b214e59: Templates depend on `@gerege-systems/ui` `^0.14.0` (a 0.x caret never crosses a minor, so new projects were scaffolded on 0.12). The smoke test now fails whenever the template pin and the library minor drift apart.
+
 ## 1.0.5
 
 ### Patch Changes
