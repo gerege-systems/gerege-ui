@@ -6,7 +6,7 @@ import {
   useCommandPaletteShortcut,
   useToast,
 } from '@gerege-systems/ui';
-import { ALL_SECTIONS, STUB_PAGES, WORKSPACES, findModule } from './admin/data';
+import { ALL_SECTIONS, MODULES, STUB_PAGES, WORKSPACES, findModule } from './admin/data';
 import {
   AdminLayoutContext,
   AdminPalette,
@@ -131,8 +131,9 @@ export function AdminDashboard({
   // stays, the user keeps their bearings).
   const [page, setPage] = useState(() => initialPage || 'overview');
   const known = PAGES.includes(page);
-  // Module shells only: which module the panel/drawer shows. Navigating to a page selects
-  // its module; clicking the rail only switches the panel.
+  // Module shells only: which module the panel/drawer shows. Navigating to a
+  // page selects its module; picking a module (rail, drawer tabs) opens that
+  // module's first page, so the panel and the content never disagree.
   const [module, setModule] = useState(() => findModule(page).key);
   const [workspace, setWorkspace] = useState(WORKSPACES[0].id);
   const [collapsed, setCollapsed] = useState(() => {
@@ -233,6 +234,11 @@ export function AdminDashboard({
     else run();
   };
   const navigate = (key: string) => guarded(key);
+  const openModule = (key: string) => {
+    const first = MODULES.find((m) => m.key === key)?.sections[0]?.items[0]?.key;
+    if (first) navigate(first);
+    else setModule(key);
+  };
 
   // Global search lands on the Projects list.
   const onSearchChange = (q: string) => {
@@ -294,7 +300,7 @@ export function AdminDashboard({
               mode={SIDEBAR_MODE[layout]}
               drawerModules={MODULE_LAYOUTS.includes(layout)}
               module={module}
-              onModuleChange={setModule}
+              onModuleChange={openModule}
               footer={
                 // No desktop top bar: its utility cluster lives in the sidebar footer.
                 hasHeader(layout) ? undefined : (

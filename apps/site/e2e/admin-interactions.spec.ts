@@ -200,6 +200,13 @@ test.describe('admin › projects @1280', () => {
         .or(page.getByRole('group', { name: 'Modules' }))
         .first(),
     ).toBeVisible();
+    // Picking a module on the rail opens that module's first page.
+    await page
+      .getByRole('navigation', { name: 'Modules' })
+      .getByRole('button', { name: 'Finance' })
+      .click();
+    await expect(page).toHaveURL(/#preview\/admin\/app\/sidebar-module\/invoices/);
+    await expect(page.getByRole('heading', { level: 1, name: 'Invoices' })).toBeVisible();
 
     // Top nav with module: modules are menu buttons in the header; the menu
     // lists the module's pages grouped under section headings (two tiers).
