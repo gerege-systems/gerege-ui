@@ -10,7 +10,7 @@ primitives — Button through DataGrid — plus composed patterns
 
 > **Aesthetic direction:** Linear / Vercel / Stripe Dashboard / Notion / Raycast.
 > Neutral-dominant, one accent, hairline borders, generous whitespace, fast quiet
-> motion. See [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md).
+> motion. See [`docs/PHILOSOPHY.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/PHILOSOPHY.md).
 
 ## Install
 
@@ -89,7 +89,7 @@ Precedence is per-component props (`placeholder`, `labels`, `aria-label`) → ne
 This library implements the [gerege-systems design-research](https://github.com/gerege-systems/design-research) guidelines
 ([rendered site](https://gerege-systems.github.io/design-research/)) — colour, type, spacing, components, accessibility, tokens.
 design-research is the source of truth (canonical numbers in [`00-defaults.md`](https://github.com/gerege-systems/design-research/blob/main/00-defaults.md));
-[`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) is the library-specific summary.
+[`docs/PHILOSOPHY.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/PHILOSOPHY.md) is the library-specific summary.
 
 ## Local development
 
@@ -217,13 +217,13 @@ copy it, adapt it — no opaque `<Dashboard />` import. Browse them under
 
 ## Documentation
 
-- [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) — the six principles + forbidden list
-- [`docs/VOICE.md`](./docs/VOICE.md) — tone of voice, button labels, error copy formula
-- [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md) — WCAG AA contrast table, keyboard map
+- [`docs/PHILOSOPHY.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/PHILOSOPHY.md) — the six principles + forbidden list
+- [`docs/VOICE.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/VOICE.md) — tone of voice, button labels, error copy formula
+- [`docs/ACCESSIBILITY.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/ACCESSIBILITY.md) — WCAG AA contrast table, keyboard map
 
 ## Contributing
 
-1. Read [`docs/PHILOSOPHY.md`](./docs/PHILOSOPHY.md) first — the forbidden list is
+1. Read [`docs/PHILOSOPHY.md`](https://github.com/gerege-systems/gerege-ui/blob/main/packages/ui/docs/PHILOSOPHY.md) first — the forbidden list is
    non-negotiable.
 2. Components reference semantic tokens (`bg-card`, `text-accent`), never raw
    palette steps (`bg-indigo-500`).

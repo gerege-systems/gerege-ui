@@ -162,6 +162,17 @@ const doc: ComponentDoc = {
     'Renders as a real <nav>; SidebarItem with `active` sets aria-current="page".',
     'Collapsed icon-only items keep their label as aria-label so screen readers still announce them.',
   ],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action: 'Move through items, group toggles and the collapse button in document order.',
+    },
+    { key: 'Enter', action: 'Follow the focused item link (`href`) or activate a button item.' },
+    {
+      key: 'Enter / Space',
+      action: 'Toggle a SidebarGroup open / closed, or collapse / expand the rail.',
+    },
+  ],
   related: [{ slug: 'top-nav', reason: 'Horizontal nav alternative.' }],
 };
 

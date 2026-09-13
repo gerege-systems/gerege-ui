@@ -74,7 +74,6 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
   ref,
 ) {
   const strings = useStrings();
-  const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
   const [internal, setInternal] = useState<File[]>([]);
   const [over, setOver] = useState(false);
@@ -154,7 +153,6 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
           {hint && <p className="text-foreground-muted text-xs">{hint}</p>}
         </div>
         <input
-          ref={inputRef}
           id={inputId}
           type="file"
           accept={accept}

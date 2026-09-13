@@ -227,6 +227,26 @@ const doc: ComponentDoc = {
     'Password toggle button has its own aria-label that updates between "Show password" and "Hide password".',
     'Use Form + FormField from react-hook-form for form-level validation; Input slots in unchanged.',
   ],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action:
+        'Focus the field; the next stop is the × clear or show / hide password button when rendered.',
+    },
+    {
+      key: 'Enter / Space',
+      action:
+        'On the × button: clear the value (`onClear`). On the eye button: toggle password visibility.',
+    },
+    { key: 'Enter', action: 'Inside a form: submit (native behaviour).' },
+  ],
+  states: [
+    { name: 'Disabled', how: '`disabled` — the field and its inline buttons leave the tab order.' },
+    {
+      name: 'Error',
+      how: '`error` renders the message in place of `helperText` and sets aria-invalid.',
+    },
+  ],
   guidelines: {
     do: [
       'Put a visible `label` above every field; use `hideLabel` only when layout truly forbids it.',

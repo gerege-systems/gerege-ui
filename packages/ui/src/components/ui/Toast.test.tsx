@@ -232,7 +232,6 @@ describe('Toast primitives', () => {
     expect(action.current).toHaveClass('mt-2', 'h-8');
     expect(close.current).toBe(screen.getByRole('button', { name: 'Close' }));
     expect(close.current).toHaveClass('top-1', 'absolute');
-    expect(close.current).toHaveAttribute('toast-close', '');
     expect(viewport.current?.tagName).toBe('OL');
     expect(viewport.current).toHaveClass('p-2', 'fixed');
     expect(viewport.current).toHaveAttribute('data-testid', 'vp');

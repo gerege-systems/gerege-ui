@@ -31,13 +31,16 @@ function useDemoSubmit(screen: string) {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const timer = useRef<number>();
-  // Reset when the screen changes; clear a pending timer on unmount.
-  useEffect(() => {
+  // Reset when the screen changes — adjusted during render, the way React
+  // documents "resetting state when a prop changes"; the timer clears on unmount.
+  const [prevScreen, setPrevScreen] = useState(screen);
+  if (prevScreen !== screen) {
+    setPrevScreen(screen);
     setLoading(false);
     setError(null);
     setDone(false);
-    return () => window.clearTimeout(timer.current);
-  }, [screen]);
+  }
+  useEffect(() => () => window.clearTimeout(timer.current), []);
   const submit = (onSuccess?: () => void) => {
     setError(null);
     setDone(false);

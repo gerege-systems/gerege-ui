@@ -147,6 +147,16 @@ const doc: ComponentDoc = {
     { key: 'Esc', action: 'Close the list without changing the value.' },
     { key: 'Tab', action: 'Move focus out (closes the list).' },
   ],
+  states: [
+    { name: 'Loading', how: 'Automatic — a spinner shows while `loadOptions` is pending.' },
+    {
+      name: 'Error',
+      how: '`loadErrorText` shows when `loadOptions` rejects (default from strings).',
+    },
+    { name: 'Empty', how: '`emptyText` when nothing matches the query.' },
+    { name: 'Disabled', how: '`disabled` on the field, or per option.' },
+    { name: 'Invalid', how: '`error` renders the message and sets aria-invalid.' },
+  ],
   related: [
     { slug: 'select', reason: 'For fixed 5–20 options without search.' },
     { slug: 'multi-select', reason: 'For multiple selections.' },

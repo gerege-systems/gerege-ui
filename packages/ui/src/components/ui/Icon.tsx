@@ -1,6 +1,6 @@
 'use client';
 
-import { lazy, Suspense, useMemo, type LazyExoticComponent, type ReactNode } from 'react';
+import { lazy, Suspense, type LazyExoticComponent, type ReactNode } from 'react';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import type { LucideIcon, LucideProps } from 'lucide-react';
 
@@ -66,7 +66,9 @@ export interface IconProps extends Omit<LucideProps, 'ref'> {
  *       paint — statically imported icons from `Icons` skip the lazy hop.
  */
 export function Icon({ name, fallback, ...props }: IconProps) {
-  const LucideIcon = useMemo(() => getIcon(name), [name]);
+  // getIcon caches one lazy component per name at module level, so this is a
+  // lookup, not a component created during render — the rule cannot see the cache.
+  const LucideIcon = getIcon(name);
 
   const placeholder = fallback ?? (
     <span
@@ -80,6 +82,7 @@ export function Icon({ name, fallback, ...props }: IconProps) {
 
   return (
     <Suspense fallback={placeholder}>
+      {/* eslint-disable-next-line react-hooks/static-components -- module-level cache, stable per name */}
       <LucideIcon {...props} />
     </Suspense>
   );

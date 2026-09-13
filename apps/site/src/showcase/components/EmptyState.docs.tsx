@@ -156,6 +156,13 @@ const doc: ComponentDoc = {
       ],
     },
   ],
+  states: [
+    { name: 'Empty', how: 'This is the empty state — put the create / import action in `action`.' },
+    {
+      name: 'Error / permission denied',
+      how: 'Use ErrorState instead; EmptyState is for "nothing here yet".',
+    },
+  ],
   guidelines: {
     do: [
       'Say what is missing and why it matters in one or two sentences.',

@@ -14,14 +14,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export function useDebounce<T>(value: T, delay = 300): T {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
-    if (delay <= 0) {
-      setDebounced(value);
-      return;
-    }
+    if (delay <= 0) return;
     const t = window.setTimeout(() => setDebounced(value), delay);
     return () => window.clearTimeout(t);
   }, [value, delay]);
-  return debounced;
+  // No delay: the value is the answer, no state round-trip needed.
+  return delay <= 0 ? value : debounced;
 }
 
 /**

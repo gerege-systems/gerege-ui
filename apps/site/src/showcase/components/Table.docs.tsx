@@ -383,6 +383,13 @@ const rows = useMemo(() => sortRows(invoices, sort), [sort]);
       ],
     },
   ],
+  keyboard: [
+    { key: 'Tab / Shift+Tab', action: 'Move to each TableSortHeader button and any row actions.' },
+    {
+      key: 'Enter / Space',
+      action: 'On a sort header: sort by that column; press again to flip asc ↔ desc.',
+    },
+  ],
   guidelines: {
     do: [
       'Right-align numbers, dates and money with the `tabular` class; left-align text.',

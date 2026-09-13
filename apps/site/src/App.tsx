@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Toaster } from '@/components/ui/Toast';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { TooltipProvider } from '@/components/ui/Tooltip';
 import { useCommandPaletteShortcut } from '@/components/ui/CommandPalette';
 
@@ -23,10 +24,15 @@ import { TemplatesIndexPage } from './showcase/pages/TemplatesIndexPage';
 import { TemplateDocPage } from './showcase/pages/TemplateDocPage';
 import { GuidesIndexPage } from './showcase/pages/GuidesIndexPage';
 import { GuidePage } from './showcase/pages/GuidePage';
-import { ThemePage } from './showcase/pages/ThemePage';
-import { BlocksIndexPage } from './showcase/pages/BlocksIndexPage';
-import { BlockDocPage } from './showcase/pages/BlockDocPage';
-import { getBlock } from './showcase/uiblocks/registry';
+// Route groups that carry the whole block registry (68 live blocks) or the
+// theme editor load on demand; the home page and the docs never pay for them.
+const ThemePage = lazy(() =>
+  import('./showcase/pages/ThemePage').then((m) => ({ default: m.ThemePage })),
+);
+const BlocksIndexPage = lazy(() =>
+  import('./showcase/pages/BlocksIndexPage').then((m) => ({ default: m.BlocksIndexPage })),
+);
+const BlockRoute = lazy(() => import('./showcase/pages/BlockRoute'));
 import { PreviewPage } from './showcase/pages/PreviewPage';
 import { NotFound } from './showcase/pages/NotFound';
 import { getComponentDoc } from './showcase/registry/components';
@@ -171,7 +177,9 @@ function routeTitle(route: Route): string {
     case 'blocks-index':
       return 'Blocks';
     case 'block':
-      return getBlock(route.slug)?.name ?? 'Blocks';
+      // The registry is lazy (see RouteView); the slug reads well enough as a
+      // title — "kpi-row" → "Kpi row" — without pulling every block in early.
+      return route.slug.charAt(0).toUpperCase() + route.slug.slice(1).replace(/-/g, ' ');
     case 'theme':
       return 'Theme';
     case 'guide':
@@ -203,6 +211,30 @@ function SkipLink() {
   );
 }
 
+/**
+ * Shown while a lazy route group downloads. Keeps the `main` landmark in
+ * place so the skip link and route focus have a target during the wait.
+ */
+function RouteFallback() {
+  return (
+    <main
+      id="main"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[1400px] px-6 py-8 outline-hidden"
+    >
+      <Skeleton variant="text" className="w-48" />
+    </main>
+  );
+}
+
+/** Navigation is a side effect: it happens after render, never during it. */
+function Redirect({ to }: { to: string }) {
+  useEffect(() => {
+    window.location.hash = to;
+  }, [to]);
+  return null;
+}
+
 function RouteView({ route }: { route: Route }) {
   switch (route.kind) {
     case 'home':
@@ -210,10 +242,7 @@ function RouteView({ route }: { route: Route }) {
 
     case 'catalog':
       // Back-compat: the old mega-demo wall is gone; send to components index.
-      if (typeof window !== 'undefined') {
-        window.location.hash = routeToHash({ kind: 'components-index' });
-      }
-      return null;
+      return <Redirect to={routeToHash({ kind: 'components-index' })} />;
 
     case 'components-index':
       return (
@@ -297,16 +326,25 @@ function RouteView({ route }: { route: Route }) {
     }
 
     case 'blocks-index':
-      return <BlocksIndexPage />;
+      return (
+        <Suspense fallback={<RouteFallback />}>
+          <BlocksIndexPage />
+        </Suspense>
+      );
 
-    case 'block': {
-      const block = getBlock(route.slug);
-      if (!block) return <NotFound />;
-      return <BlockDocPage block={block} />;
-    }
+    case 'block':
+      return (
+        <Suspense fallback={<RouteFallback />}>
+          <BlockRoute slug={route.slug} />
+        </Suspense>
+      );
 
     case 'theme':
-      return <ThemePage />;
+      return (
+        <Suspense fallback={<RouteFallback />}>
+          <ThemePage />
+        </Suspense>
+      );
 
     case 'preview':
       // Handled by Shell before reaching here; kept so the switch is exhaustive.

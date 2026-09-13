@@ -82,6 +82,17 @@ const doc: ComponentDoc = {
     'Same aria-describedby pattern as Input — helperText and error are announced.',
     'autoResize uses requestAnimationFrame to avoid layout thrash while typing.',
   ],
+  keyboard: [
+    { key: 'Tab / Shift+Tab', action: 'Move focus in / out of the field.' },
+    { key: 'Enter', action: 'Insert a line break — there is no built-in submit shortcut.' },
+  ],
+  states: [
+    { name: 'Disabled', how: '`disabled` — native textarea disabled state.' },
+    {
+      name: 'Error',
+      how: '`error` renders the message in place of `helperText` and sets aria-invalid.',
+    },
+  ],
   related: [
     { slug: 'input', reason: 'For single-line text.' },
     { slug: 'form', reason: 'react-hook-form integration.' },

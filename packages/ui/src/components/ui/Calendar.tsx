@@ -69,7 +69,9 @@ function CalendarDropdown({
 }
 
 const navButton = cn(
-  'pointer-events-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-foreground-muted hover:bg-background-muted',
+  'pointer-events-auto relative inline-flex h-7 w-7 items-center justify-center rounded-md text-foreground-muted hover:bg-background-muted',
+  // 28px visual, 44px hit area via an invisible halo (WCAG 2.5.8).
+  'before:absolute before:-inset-2 before:content-[""]',
   'outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
   'disabled:opacity-40 disabled:pointer-events-none',
 );

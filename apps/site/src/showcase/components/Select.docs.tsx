@@ -146,6 +146,13 @@ const doc: ComponentDoc = {
     { key: 'Enter / Space', action: 'Choose the highlighted item and close.' },
     { key: 'Esc', action: 'Close without changing the value.' },
   ],
+  states: [
+    {
+      name: 'Disabled',
+      how: '`disabled` on Select (Radix root) disables the trigger; `disabled` on a SelectItem skips that item.',
+    },
+    { name: 'Error', how: '`tone="error"` on SelectTrigger swaps the border and ring to danger.' },
+  ],
   guidelines: {
     do: [
       'Use for 5–15 known options; fewer than 5 suits a RadioGroup, more suits a Combobox with search.',

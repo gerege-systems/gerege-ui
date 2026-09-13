@@ -11,10 +11,10 @@ function SingleDemo() {
 }
 
 function RangeDemo() {
-  const [range, setRange] = useState<DateRange | undefined>({
+  const [range, setRange] = useState<DateRange | undefined>(() => ({
     from: new Date(),
     to: new Date(Date.now() + 7 * 86400000),
-  });
+  }));
   return (
     <DateRangePicker
       className="w-full max-w-xs"

@@ -11,7 +11,15 @@ const TOTAL = 935;
 export function BrowserShare() {
   const r = 54;
   const circumference = 2 * Math.PI * r;
-  let offset = 0;
+  // Each arc starts where the previous one ended — computed once, up front.
+  const arcs = SHARE.reduce<{ name: string; color: string; dash: number; offset: number }[]>(
+    (acc, s) => {
+      const dash = (circumference * s.pct) / 100;
+      const offset = acc.length ? acc[acc.length - 1].offset + acc[acc.length - 1].dash : 0;
+      return [...acc, { name: s.name, color: s.color, dash, offset }];
+    },
+    [],
+  );
 
   return (
     <Card>
@@ -28,24 +36,19 @@ export function BrowserShare() {
       <CardContent className="flex flex-col gap-4">
         <div className="relative mx-auto size-40">
           <svg viewBox="0 0 128 128" className="size-full -rotate-90" aria-hidden>
-            {SHARE.map((s) => {
-              const dash = (circumference * s.pct) / 100;
-              const el = (
-                <circle
-                  key={s.name}
-                  cx="64"
-                  cy="64"
-                  r={r}
-                  fill="none"
-                  stroke={s.color}
-                  strokeWidth="12"
-                  strokeDasharray={`${dash} ${circumference - dash}`}
-                  strokeDashoffset={-offset}
-                />
-              );
-              offset += dash;
-              return el;
-            })}
+            {arcs.map((a) => (
+              <circle
+                key={a.name}
+                cx="64"
+                cy="64"
+                r={r}
+                fill="none"
+                stroke={a.color}
+                strokeWidth="12"
+                strokeDasharray={`${a.dash} ${circumference - a.dash}`}
+                strokeDashoffset={-a.offset}
+              />
+            ))}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-2xl font-semibold tracking-tight tabular-nums">{TOTAL}</span>

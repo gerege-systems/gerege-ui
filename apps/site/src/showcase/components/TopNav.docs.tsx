@@ -95,6 +95,13 @@ const doc: ComponentDoc = {
     },
   ],
   accessibility: ['TopNavLink with `active` sets aria-current="page".'],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action: 'Move through the nav links, the search slot and the actions in order.',
+    },
+    { key: 'Enter', action: 'Follow the focused link.' },
+  ],
   related: [{ slug: 'sidebar', reason: 'For vertical app nav.' }],
 };
 

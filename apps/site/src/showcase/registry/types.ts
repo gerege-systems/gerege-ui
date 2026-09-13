@@ -70,6 +70,12 @@ export interface ComponentDoc {
   accessibility?: string[];
   /** Keyboard interaction table — `{ key: 'Esc', action: 'Close the dialog' }`. */
   keyboard?: { key: string; action: string }[];
+  /**
+   * Built-in state support — `{ name: 'Loading', how: 'Pass `loading`…' }`.
+   * Covers loading / empty / error / disabled / permission-denied where the
+   * component has such props.
+   */
+  states?: { name: string; how: string }[];
   /** Usage guidance rendered as side-by-side Do / Don't lists. */
   guidelines?: { do: string[]; dont: string[] };
   /** Cross-links rendered at the bottom of the page. */

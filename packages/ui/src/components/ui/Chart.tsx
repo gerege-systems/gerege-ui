@@ -120,12 +120,15 @@ export const DEFAULT_CHART_COLORS = [
 const FALLBACK_W = 600;
 const PAD = 6;
 
+// Layout effect in the browser, plain effect on the server (React 18 warns
+// about useLayoutEffect during SSR). Chosen once at module level.
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
 /** Measure the container's content width; re-renders on resize. */
 function useMeasuredWidth<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [width, setWidth] = useState(0);
-  const useIso = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-  useIso(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
     const update = () => setWidth(el.clientWidth);

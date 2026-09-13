@@ -28,7 +28,7 @@ const toneMap = {
  *
  * @example
  *   <Spinner label="Loading users" />
- *   <Button loading>Saving…</Button>  // uses Spinner internally
+ *   <Button loading>Saving…</Button>  // Button draws its own glyph; see Button.tsx
  *
  * @do Provide a `label` so the busy state is announced.
  * @dont Use a Spinner for tasks that take 300ms+; use Skeleton instead.

@@ -57,6 +57,8 @@ export const docTopLinks: { label: string; route: Route }[] = [
   { label: 'Components', route: { kind: 'components-index' } },
   { label: 'Templates', route: { kind: 'templates-index' } },
   { label: 'Guides', route: { kind: 'guides-index' } },
+  { label: 'Blocks', route: { kind: 'blocks-index' } },
+  { label: 'Theme', route: { kind: 'theme' } },
 ];
 
 type Kind = 'component' | 'template' | 'guide';

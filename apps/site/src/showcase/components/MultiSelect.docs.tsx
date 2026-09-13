@@ -136,6 +136,11 @@ const doc: ComponentDoc = {
     { key: 'Esc', action: 'Close the list.' },
     { key: 'Tab', action: 'Move focus out (closes the list).' },
   ],
+  states: [
+    { name: 'Empty', how: '`emptyText` when no option matches the search.' },
+    { name: 'Disabled', how: '`disabled` on the field, or per option.' },
+    { name: 'Error', how: '`error` renders the message and sets aria-invalid.' },
+  ],
   related: [
     { slug: 'tag-input', reason: 'For free-text tags (no fixed options).' },
     { slug: 'combobox', reason: 'For single selection.' },

@@ -11,11 +11,12 @@ import {
 } from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Command as CommandPrimitive } from 'cmdk';
-import { Check, ChevronsUpDown, Loader2, X } from '@/icons';
+import { Check, ChevronsUpDown, X } from '@/icons';
 import { cn } from '@/lib/utils';
 import { useStrings } from '@/hooks/use-strings';
 import { useFieldIds } from '@/hooks/use-field-ids';
 import { IconButton } from './IconButton';
+import { Spinner } from './Spinner';
 
 export interface ComboboxOption {
   value: string;
@@ -278,9 +279,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(function Combo
                   placeholder={searchPlaceholder}
                   className="placeholder:text-foreground-subtle flex h-9 w-full bg-transparent py-2 text-lg outline-hidden md:text-sm"
                 />
-                {loading && (
-                  <Loader2 className="text-foreground-subtle size-4 animate-spin" aria-hidden />
-                )}
+                {loading && <Spinner decorative tone="neutral" />}
               </div>
               <CommandPrimitive.List
                 ref={listRef}

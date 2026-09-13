@@ -37,24 +37,34 @@ const pillClass = (active: boolean) =>
  * template's actual breakpoints; the source text loads lazily.
  */
 export function TemplateDocPage({ doc }: TemplateDocPageProps) {
-  const [source, setSource] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState<{ slug: string; source: string | null }>({
+    slug: doc.slug,
+    source: null,
+  });
+  const source = loaded.slug === doc.slug ? loaded.source : null;
   const [screen, setScreen] = useState(doc.screens[0]?.key ?? 'home');
   const [width, setWidth] = useState<WidthKey>('desktop');
   const [variant, setVariant] = useState<string | undefined>(doc.variants?.[0]?.key);
   const [lang, setLang] = useState<'en' | 'mn'>('en');
 
-  useEffect(() => {
+  // A different template starts on its first screen/variant — adjusted during
+  // render, so the frame never shows the previous template's screen key.
+  const [prevSlug, setPrevSlug] = useState(doc.slug);
+  if (prevSlug !== doc.slug) {
+    setPrevSlug(doc.slug);
     setScreen(doc.screens[0]?.key ?? 'home');
     setVariant(doc.variants?.[0]?.key);
+  }
+
+  useEffect(() => {
     let alive = true;
-    setSource(null);
     import('../blocks/sources').then((m) => {
-      if (alive) setSource(m.blockSources[doc.slug] ?? '');
+      if (alive) setLoaded({ slug: doc.slug, source: m.blockSources[doc.slug] ?? '' });
     });
     return () => {
       alive = false;
     };
-  }, [doc.slug, doc.screens, doc.variants]);
+  }, [doc.slug]);
 
   const frameWidth = WIDTHS.find((w) => w.key === width)?.width ?? 1280;
   const src = `${previewUrl(doc.slug, screen, variant)}${lang === 'mn' ? '?lang=mn' : ''}`;

@@ -63,6 +63,15 @@ const doc: ComponentDoc = {
     'Backed by @radix-ui/react-popover — focus moves into content on open.',
     'Esc closes; click-outside closes; trigger receives focus back on close.',
   ],
+  keyboard: [
+    { key: 'Enter / Space', action: 'On the trigger: open or close the popover.' },
+    {
+      key: 'Tab / Shift+Tab',
+      action:
+        'Move through the content (focus lands inside on open; not trapped — the popover is non-modal).',
+    },
+    { key: 'Esc', action: 'Close and return focus to the trigger.' },
+  ],
   related: [
     { slug: 'tooltip', reason: 'For passive hover/focus hints, not actions.' },
     { slug: 'dropdown-menu', reason: 'For action menus.' },

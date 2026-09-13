@@ -53,13 +53,21 @@ export function ProjectDialog({
   const [status, setStatus] = useState<ProjectStatus>('Active');
   const t = useT(adminDict);
 
-  useEffect(() => {
+  // Load the form when the dialog opens (or opens for another project):
+  // adjusted during render rather than in an effect, so the first frame
+  // already shows the right values.
+  const [loaded, setLoaded] = useState<{ open: boolean; initial: Project | null }>({
+    open,
+    initial,
+  });
+  if (loaded.open !== open || loaded.initial !== initial) {
+    setLoaded({ open, initial });
     if (open) {
       setName(initial?.name ?? '');
       setOwner(initial?.owner ?? '');
       setStatus(initial?.status ?? 'Active');
     }
-  }, [open, initial]);
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

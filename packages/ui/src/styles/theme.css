@@ -318,7 +318,6 @@
 
   /* Interaction surfaces ------------------------------------------------ */
   --surface-hover: hsl(214 32% 91%); /* neutral-200 */
-  --surface-active: hsl(213 27% 84%); /* neutral-300 */
   --overlay: hsl(229 50% 6% / 0.6);
   --tooltip: hsl(222 47% 11%);
   --tooltip-foreground: hsl(210 40% 98%);
@@ -400,7 +399,6 @@
   --secondary-active: hsl(215 20% 33%);
 
   --surface-hover: hsl(217 33% 17%); /* neutral-800 */
-  --surface-active: hsl(215 25% 27%); /* neutral-700 */
   --overlay: hsl(229 50% 6% / 0.7);
   --tooltip: hsl(210 40% 98%);
   --tooltip-foreground: hsl(222 47% 11%);
@@ -617,7 +615,6 @@
   --color-secondary-hover: var(--secondary-hover);
   --color-secondary-active: var(--secondary-active);
   --color-surface-hover: var(--surface-hover);
-  --color-surface-active: var(--surface-active);
   --color-overlay: var(--overlay);
   --color-tooltip: var(--tooltip);
   --color-tooltip-foreground: var(--tooltip-foreground);
@@ -751,13 +748,6 @@
     cursor: pointer;
   }
 
-  /* Standardised focus ring — 2px ring + 2px offset, accent colour. ------ */
-  .focus-ring {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px var(--ring-offset);
-  }
-
   /* Numbers and tabular data use tabular-nums by default for alignment. -- */
   .tabular {
     font-variant-numeric: tabular-nums;
@@ -793,19 +783,13 @@
       outline: 2px solid Highlight;
       outline-offset: 2px;
     }
-    .focus-ring,
-    .ring-focus {
-      outline: 2px solid Highlight;
-      box-shadow: none;
-    }
   }
 
   /* prefers-reduced-transparency — components must not rely on backdrop
      blur; anything still using `backdrop-blur*` falls back to an opaque
      surface here. */
   @media (prefers-reduced-transparency: reduce) {
-    [class*='backdrop-blur'],
-    .glass-fallback {
+    [class*='backdrop-blur'] {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       background-color: var(--background) !important;
@@ -875,18 +859,44 @@
   .animate-progress-indeterminate {
     animation: progress-indeterminate 1.4s ease-in-out infinite;
   }
+}
 
-  /* Standard focus ring as a utility. */
-  .ring-focus {
-    @apply outline-hidden;
-    box-shadow:
-      0 0 0 2px var(--ring-offset),
-      0 0 0 4px var(--ring);
+/* -----------------------------------------------------------------------------
+ *  Print — paper is light, has no overlays and no chrome. Kept minimal: the
+ *  tokens flip to the light set, floating layers and the page frame go, links
+ *  keep their text. Unlayered for the same reason as the preference overrides.
+ * --------------------------------------------------------------------------- */
+@media print {
+  :root,
+  .dark {
+    color-scheme: light;
+    --background: hsl(0 0% 100%);
+    --background-subtle: hsl(0 0% 100%);
+    --background-muted: hsl(210 40% 96%);
+    --foreground: hsl(222 47% 11%);
+    --foreground-muted: hsl(215 19% 35%);
+    --foreground-subtle: hsl(215 16% 45%);
+    --border: hsl(214 32% 91%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(222 47% 11%);
   }
-
-  /* Hairline border that respects color-mix for subpixel rendering. */
-  .border-hairline {
-    border-width: 1px;
-    border-style: solid;
+  html {
+    scrollbar-gutter: auto;
+  }
+  [data-slot='toast'],
+  [data-slot='tooltip-content'],
+  [data-slot='dialog-content'],
+  [data-slot='sheet-content'],
+  [data-slot='drawer-content'],
+  [data-slot='popover-content'],
+  [data-slot='dropdown-menu-content'],
+  [data-slot='context-menu-content'],
+  [data-slot='top-nav'],
+  [data-slot='sidebar'] {
+    display: none !important;
+  }
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 }

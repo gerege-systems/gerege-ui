@@ -169,8 +169,26 @@ const doc: ComponentDoc = {
   accessibility: [
     'Renders as a real <button>; supports keyboard activation with Enter and Space.',
     'When loading=true the button is disabled but remains focusable so screen readers announce the new label.',
-    'Use asChild to wrap an <a> so the link still receives proper Enter/Space semantics from the Button.',
+    'Use asChild to wrap an <a> when a link must look like a button: it keeps link semantics (Enter activates; Space scrolls, as for any link).',
     'For icon-only actions, prefer IconButton — it enforces aria-label at the type level.',
+  ],
+  keyboard: [
+    { key: 'Tab / Shift+Tab', action: 'Move focus; a `loading` button stays in the tab order.' },
+    { key: 'Enter / Space', action: 'Activate (`onClick`). Blocked while `loading`.' },
+    {
+      key: 'Enter',
+      action: 'With `asChild` around an `<a>`: follow the link. Space does not activate a link.',
+    },
+  ],
+  states: [
+    {
+      name: 'Loading',
+      how: '`loading` — spinner replaces `leadingIcon`, aria-busy + aria-disabled, focus kept, clicks and keys blocked.',
+    },
+    {
+      name: 'Disabled',
+      how: '`disabled` — native disabled, not focusable. Prefer `loading` mid-submit so focus is not lost.',
+    },
   ],
   guidelines: {
     do: [

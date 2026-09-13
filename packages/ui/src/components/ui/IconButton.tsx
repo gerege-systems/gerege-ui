@@ -1,9 +1,9 @@
 'use client';
 
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode, type SyntheticEvent } from 'react';
-import { Loader2 } from '@/icons';
 import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from '@/lib/cva';
+import { Loader2 } from '@/icons';
 
 const iconButton = cva(
   [

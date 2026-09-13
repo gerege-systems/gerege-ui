@@ -6,19 +6,20 @@ import { loadBlockSource } from './registry';
 
 /** Fetches a block's own file. `null` while loading, `false` on failure. */
 export function useBlockSource(file: string): string | null | false {
-  const [source, setSource] = useState<string | null | false>(null);
+  // Keyed by file: a new file reads as "loading" until its own result lands,
+  // with no synchronous reset inside the effect.
+  const [loaded, setLoaded] = useState<{ file: string; source: string | false } | null>(null);
   useEffect(() => {
     let live = true;
-    setSource(null);
     loadBlockSource(file).then(
-      (s) => live && setSource(s),
-      () => live && setSource(false),
+      (s) => live && setLoaded({ file, source: s }),
+      () => live && setLoaded({ file, source: false }),
     );
     return () => {
       live = false;
     };
   }, [file]);
-  return source;
+  return loaded?.file === file ? loaded.source : null;
 }
 
 /** The exports a block pulls from the library — read off its own import line. */

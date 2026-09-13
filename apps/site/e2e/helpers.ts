@@ -112,11 +112,15 @@ export async function gotoHash(page: Page, hash: string) {
   const sameDoc = page.url().startsWith('http');
   await page.goto(`/${hash ? `#${hash}` : ''}`);
   if (sameDoc) await page.reload();
+  // The route has rendered once its landmark is on screen: every docs page
+  // renders <main id="main">, every template screen its own <main>. Template
+  // previews are the one lazy chunk — until it lands the page shows only a
+  // status region, so the landmark wait covers it too.
+  await expect(page.locator('main, [role=main]').first()).toBeVisible({ timeout: 20_000 });
   await expect(page.locator('h1').first()).toBeVisible({ timeout: 20_000 });
-  // Lazy chunks (template previews, docs demos, icons) — give them a beat.
-  await page.waitForLoadState('networkidle').catch(() => {});
-  // Skeleton/DelayedFallback windows + Radix mount animations.
-  await page.waitForTimeout(250);
+  // Web fonts swap in after first paint; screenshots and geometry (control
+  // heights, overflow) must be measured on the final face.
+  await page.evaluate(() => document.fonts.ready);
 }
 
 export async function expectNoErrors(page: Page, errors: PageErrors, theme: Theme, info: TestInfo) {

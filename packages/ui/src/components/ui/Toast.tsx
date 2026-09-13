@@ -152,7 +152,6 @@ export const ToastClose = forwardRef<
         'focus-visible:ring-ring focus-visible:ring-offset-card outline-hidden focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2',
         className,
       )}
-      toast-close=""
       {...props}
     >
       <X className="size-4" aria-hidden />

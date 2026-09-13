@@ -108,6 +108,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(function Carou
   useEffect(() => {
     if (!api) return;
     setApi?.(api);
+    // The subscription's first read: embla only exists after mount, so its
+    // initial can-scroll state cannot be derived during render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- first read of an external subscription
     onSelect(api);
     api.on('reInit', onSelect).on('select', onSelect).on('slidesInView', onSelect);
     return () => {

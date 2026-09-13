@@ -80,6 +80,19 @@ const doc: ComponentDoc = {
     'Backed by @radix-ui/react-checkbox — Space toggles, Tab moves focus.',
     'Indeterminate state announces as "mixed" to screen readers.',
   ],
+  keyboard: [
+    { key: 'Tab', action: 'Move focus to the checkbox.' },
+    { key: 'Space', action: 'Toggle checked / unchecked (also clears indeterminate).' },
+    { key: 'Enter', action: 'No effect — Space is the toggle key per WAI-ARIA.' },
+  ],
+  states: [
+    { name: 'Disabled', how: '`disabled` — greyed out and removed from the tab order.' },
+    { name: 'Error', how: '`error` renders the message below the label and sets aria-invalid.' },
+    {
+      name: 'Indeterminate',
+      how: '`checked="indeterminate"` — a Minus icon, announced as "mixed".',
+    },
+  ],
   related: [
     { slug: 'switch', reason: 'For instant-apply boolean settings.' },
     { slug: 'radio-group', reason: 'For mutually-exclusive choices.' },

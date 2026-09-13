@@ -8,9 +8,9 @@ import {
   type SyntheticEvent,
 } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { Loader2 } from '@/icons';
 import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from '@/lib/cva';
+import { Loader2 } from '@/icons';
 
 /* -----------------------------------------------------------------------------
  *  Variants — the entire visual surface of the Button.
@@ -187,6 +187,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       onClick={loading ? blockEvent : onClick}
       {...props}
     >
+      {/* A bare lucide glyph, not <Spinner>: Spinner reads useStrings, which
+          would pull the whole string table into Button's 10 kB budget. */}
       {loading ? <Loader2 className="animate-spin" aria-hidden="true" /> : leadingIcon}
       {children}
       {!loading && trailingIcon}

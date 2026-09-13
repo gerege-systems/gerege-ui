@@ -62,6 +62,11 @@ const doc: ComponentDoc = {
     'Backed by @radix-ui/react-switch — Space toggles, label is clickable.',
     'aria-checked reflects state; respects prefers-reduced-motion for the slide.',
   ],
+  keyboard: [
+    { key: 'Tab', action: 'Move focus to the switch.' },
+    { key: 'Space / Enter', action: 'Toggle on / off.' },
+  ],
+  states: [{ name: 'Disabled', how: '`disabled` — greyed out and removed from the tab order.' }],
   related: [{ slug: 'checkbox', reason: 'For deferred-apply boolean fields.' }],
 };
 

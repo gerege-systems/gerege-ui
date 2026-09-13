@@ -397,6 +397,43 @@ const rows = useMemo(() => sortAndFilter(ROWS, query, sort), [query, sort]);
     'Sortable headers expose aria-sort; the filter input has an accessible label.',
     'Loading rows are aria-hidden Skeletons — the grid keeps its column layout so focus does not jump.',
   ],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action:
+        'Move through the filter input, the column-visibility button and each sortable header.',
+    },
+    {
+      key: 'Enter / Space',
+      action: 'On a sortable header: sort by that column; press again to flip asc ↔ desc.',
+    },
+    {
+      key: 'Enter / Space / ArrowDown',
+      action: 'On the column-visibility button: open the columns menu.',
+    },
+    { key: 'ArrowDown / ArrowUp', action: 'Move between columns in the menu.' },
+    {
+      key: 'Enter / Space',
+      action:
+        'Toggle the highlighted column and close the menu (the last visible column cannot be hidden).',
+    },
+    { key: 'Esc', action: 'Close the menu without changes.' },
+  ],
+  states: [
+    {
+      name: 'Loading',
+      how: '`loading` renders five skeleton rows; column widths are kept so nothing jumps.',
+    },
+    {
+      name: 'Error',
+      how: '`error` node replaces the rows in a role="alert" cell (use ErrorState with `onRetry`). Wins over `emptyState`; `loading` wins over both.',
+    },
+    {
+      name: 'Empty',
+      how: '`emptyState` node when `rows` is empty; defaults to the "No results" string.',
+    },
+    { name: 'Permission denied', how: 'Pass `<ErrorState variant="403" />` as `error`.' },
+  ],
   related: [
     { slug: 'pagination', reason: 'For paginated tables.' },
     { slug: 'table', reason: 'For simple static tables.' },

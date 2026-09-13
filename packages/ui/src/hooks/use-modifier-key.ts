@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /** True on macOS / iOS / iPadOS, where the command modifier is ⌘. */
 export function isApplePlatform(): boolean {
@@ -21,10 +21,14 @@ export interface ModifierKey {
  * Platform-correct command modifier for shortcut hints (⌘K vs Ctrl K).
  * Defaults to Ctrl until mounted so server output is deterministic.
  */
+const noop = () => () => {};
+const APPLE: ModifierKey = { symbol: '⌘', label: 'Cmd' };
+const OTHER: ModifierKey = { symbol: 'Ctrl', label: 'Ctrl' };
+
 export function useModifierKey(): ModifierKey {
-  const [apple, setApple] = useState(false);
-  useEffect(() => {
-    setApple(isApplePlatform());
-  }, []);
-  return apple ? { symbol: '⌘', label: 'Cmd' } : { symbol: 'Ctrl', label: 'Ctrl' };
+  // The platform never changes; useSyncExternalStore gives the server snapshot
+  // (Ctrl) on the server and during hydration, then the real one — without an
+  // effect that sets state.
+  const apple = useSyncExternalStore(noop, isApplePlatform, () => false);
+  return apple ? APPLE : OTHER;
 }

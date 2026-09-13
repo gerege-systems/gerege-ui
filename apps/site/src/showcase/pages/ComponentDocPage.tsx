@@ -24,13 +24,21 @@ export function ComponentDocPage({ doc }: ComponentDocPageProps) {
   // default; hand-written `doc.api` rows are merged on top (same prop name →
   // manual wins, new names are appended) so docs can annotate without
   // re-listing every prop.
-  const [apiGroups, setApiGroups] = useState<PropGroup[]>(() => doc.api ?? []);
+  // Keyed by slug so a new doc starts from its own hand-written rows while the
+  // generated table loads, without a synchronous reset inside the effect.
+  const [api, setApi] = useState<{ slug: string; groups: PropGroup[] }>(() => ({
+    slug: doc.slug,
+    groups: doc.api ?? [],
+  }));
+  const apiGroups = api.slug === doc.slug ? api.groups : (doc.api ?? []);
   useEffect(() => {
     let alive = true;
-    setApiGroups(doc.api ?? []);
     import('../registry/generated-props').then((m) => {
       if (alive)
-        setApiGroups(mergeApiGroups(resolveGeneratedGroups(doc, m.getGeneratedProps), doc.api));
+        setApi({
+          slug: doc.slug,
+          groups: mergeApiGroups(resolveGeneratedGroups(doc, m.getGeneratedProps), doc.api),
+        });
     });
     return () => {
       alive = false;
@@ -134,6 +142,39 @@ export function ComponentDocPage({ doc }: ComponentDocPageProps) {
                       </span>
                     </td>
                     <td className="text-foreground-muted px-3 py-2">{k.action}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+
+      {doc.states && doc.states.length > 0 && (
+        <>
+          <SectionAnchor id="states">States</SectionAnchor>
+          <div
+            className="border-border scroll-region overflow-x-auto rounded-md border"
+            tabIndex={0}
+            role="region"
+            aria-label="States table"
+          >
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-border bg-background-subtle/60 text-foreground-subtle border-b text-xs tracking-wider uppercase">
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    State
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    How
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {doc.states.map((s, i) => (
+                  <tr key={i} className="border-border border-b align-top last:border-b-0">
+                    <td className="px-3 py-2 whitespace-nowrap">{s.name}</td>
+                    <td className="text-foreground-muted px-3 py-2">{s.how}</td>
                   </tr>
                 ))}
               </tbody>

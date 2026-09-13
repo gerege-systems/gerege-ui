@@ -72,8 +72,31 @@ const doc: ComponentDoc = {
     },
   ],
   accessibility: [
-    'Drop zone is a button — Enter / Space open the OS file picker.',
-    'Drag-over state announces via aria-live for screen readers.',
+    'The drop zone is a <label> around a visually hidden file input — Tab reaches the input, Enter / Space open the OS file picker.',
+    'Rejections (accept / maxSize) and the `error` prop render as a role="alert" line under the zone; the input is marked aria-invalid.',
+  ],
+  keyboard: [
+    {
+      key: 'Tab',
+      action: 'Focus the (visually hidden) file input — the drop zone shows the focus ring.',
+    },
+    { key: 'Enter / Space', action: 'Open the OS file picker.' },
+    { key: 'Tab / Shift+Tab', action: "Move to each listed file's remove button." },
+    { key: 'Enter / Space', action: 'On a remove button: drop that file from the list.' },
+  ],
+  states: [
+    {
+      name: 'Error',
+      how: '`error` node under the drop zone (role="alert"); the input gets aria-invalid.',
+    },
+    {
+      name: 'Rejected',
+      how: 'Files failing `accept` / `maxSize` are dropped, `onReject` fires and a built-in notice shows until the next accepted file.',
+    },
+    {
+      name: 'Disabled',
+      how: '`disabled` — the zone fades, drops are ignored and the input is disabled.',
+    },
   ],
 };
 

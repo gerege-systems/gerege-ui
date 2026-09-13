@@ -21,11 +21,11 @@
     "limit": "40 KB"
   },
   {
-    "name": "import { Button } (with deps)",
+    "name": "import { Button } (with deps) — 11 KB since tailwind-merge 3 (+1.6 KB brotli; v3 knows Tailwind v4 class names, so cn() merges consumer classNames correctly)",
     "path": "packages/ui/dist-lib/index.js",
     "import": "{ Button }",
     "ignore": ["react", "react-dom", "react/jsx-runtime"],
-    "limit": "10 KB"
+    "limit": "11 KB"
   },
   {
     "name": "styles.css",

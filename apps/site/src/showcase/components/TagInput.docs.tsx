@@ -42,8 +42,31 @@ const doc: ComponentDoc = {
     },
   ],
   accessibility: [
-    'Each chip is keyboard-removable with Backspace from an empty input or Delete on the chip itself.',
-    'Tab moves through chips; arrow keys navigate between them.',
+    'Backspace in an empty input removes the last chip; each chip also has a labelled remove button.',
+    "Tab moves from the input to each chip's remove button in order.",
+  ],
+  keyboard: [
+    {
+      key: 'Enter / ,',
+      action: 'Add the typed text as a tag (change the keys with `separators`).',
+    },
+    { key: 'Backspace', action: 'On an empty input: remove the last tag.' },
+    {
+      key: 'Tab / Shift+Tab',
+      action: "Move between each chip's remove button and the text input.",
+    },
+    { key: 'Enter / Space', action: "On a chip's × button: remove that tag." },
+  ],
+  states: [
+    { name: 'Disabled', how: '`disabled` — the input and every chip button are disabled.' },
+    {
+      name: 'Error',
+      how: '`error` — `true` paints the danger border; a node also renders the message and wires aria-describedby.',
+    },
+    {
+      name: 'Full',
+      how: '`max` reached — further entries are ignored silently; show the limit in `description`.',
+    },
   ],
   related: [{ slug: 'multi-select', reason: 'When tags come from a known set.' }],
 };

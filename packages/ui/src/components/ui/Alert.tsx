@@ -124,7 +124,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
           aria-label={strings.alert.dismiss}
           onClick={handleDismiss}
           className={cn(
-            'inline-flex size-6 shrink-0 items-center justify-center rounded-md',
+            'relative inline-flex size-6 shrink-0 items-center justify-center rounded-md',
+            // 24px visual, 44px hit area (WCAG 2.5.8) via an invisible halo.
+            'before:absolute before:-inset-2.5 before:content-[""]',
             'outline-hidden hover:bg-current/10',
             'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
           )}

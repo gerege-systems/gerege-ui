@@ -25,9 +25,10 @@ export default tseslint.config(
     plugins: { 'react-hooks': reactHooks },
     rules: {
       // react-hooks 7 folds the React Compiler rules (set-state-in-effect,
-      // purity, refs, immutability, …) into `recommended`. The library's SSR /
-      // hydration patterns set state in effects on purpose, so only the two
-      // classic rules are enforced until the compiler rules are adopted deliberately.
+      // purity, refs, immutability, …) into `recommended`. They are on; the
+      // few places that must set state in an effect (a subscription's first
+      // read, a timer) carry a per-line disable with the reason.
+      ...reactHooks.configs['recommended-latest'].rules,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       '@typescript-eslint/no-unused-vars': [
@@ -39,5 +40,10 @@ export default tseslint.config(
       // role="region" + aria-label + tabindex="0".
       'jsx-a11y/no-noninteractive-tabindex': ['error', { roles: ['region', 'group'] }],
     },
+  },
+  {
+    // Test probes write a hook's return into a module variable on purpose.
+    files: ['**/*.test.{ts,tsx}'],
+    rules: { 'react-hooks/globals': 'off' },
   },
 );

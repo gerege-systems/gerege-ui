@@ -13,7 +13,7 @@ Releases are fully automated via [`changesets/action`](https://github.com/change
    pnpm changeset
    ```
 
-   - Pick the affected packages (currently `@gerege-systems/ui`).
+   - Pick the affected packages (`@gerege-systems/ui`, `@gerege-systems/create-app`).
    - Pick the bump level: `patch` (bug fix), `minor` (new feature, backwards-compatible), `major` (breaking).
    - Write a short summary — it becomes the CHANGELOG entry.
 
@@ -50,7 +50,7 @@ git commit -am "chore: release X.Y.Z"
 git push
 pnpm build:lib
 cd packages/ui && npm publish   # requires ~/.npmrc with an npm token that can publish to `@gerege-systems/*`
-cd ../.. && git tag vX.Y.Z && git push --tags
+cd ../.. && git tag @gerege-systems/ui@X.Y.Z && git push --tags   # the tag format changesets uses
 ```
 
 But the bot is the canonical path — keep it intact.
@@ -59,9 +59,10 @@ But the bot is the canonical path — keep it intact.
 
 Required in GitHub repo settings → Secrets and variables → Actions:
 
-- `NPM_TOKEN` — a granular npm token with publish rights on the `@gerege-systems/*` scope. Set,
-  and the path 0.12.0 was published through. **Bypass 2FA must be on** for the token, or the
-  publish step gets a 403; leave the allowed-IP list empty.
+- `NPM_TOKEN` — a granular npm token with publish rights on the `@gerege-systems/*` scope.
+  **Bypass 2FA must be on** for the token, or the publish step gets a 403; leave the allowed-IP
+  list empty. The workflow already has `id-token: write` and sets provenance, so moving both
+  packages to npm Trusted Publishing (OIDC) would retire this token — an npm-side setting.
 
 ## Repository layout
 

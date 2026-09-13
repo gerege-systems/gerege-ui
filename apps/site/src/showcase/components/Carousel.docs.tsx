@@ -58,6 +58,21 @@ const doc: ComponentDoc = {
     'Prev / Next buttons have aria-label and are disabled at bounds.',
     'Drag is supported on touch; keyboard arrows move between slides.',
   ],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action: 'Move to the Previous / Next buttons (the carousel region itself is not focusable).',
+    },
+    { key: 'Enter / Space', action: 'Activate the focused Previous / Next button.' },
+    {
+      key: 'ArrowLeft / ArrowRight',
+      action: 'Previous / next slide while focus is anywhere inside a horizontal carousel.',
+    },
+    {
+      key: 'ArrowUp / ArrowDown',
+      action: 'Previous / next slide in a vertical carousel (`orientation="vertical"`).',
+    },
+  ],
 };
 
 export default doc;

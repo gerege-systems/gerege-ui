@@ -90,6 +90,19 @@ const doc: ComponentDoc = {
   accessibility: [
     'Renders without a live-region role — it is static page content, not an interruption. Wrap it in role="alert" yourself only when the error appears asynchronously and must be announced.',
   ],
+  states: [
+    {
+      name: 'Permission denied',
+      how: '`variant="403"` — default title, description and illustration.',
+    },
+    { name: 'Not found', how: '`variant="404"`.' },
+    { name: 'Server error', how: '`variant="500"`.' },
+    {
+      name: 'Generic',
+      how: '`variant="generic"` (default) — pass `onRetry` for the built-in "Try again" button.',
+    },
+    { name: 'Live', how: '`live` wraps it in role="alert" so an in-place failure is announced.' },
+  ],
   related: [{ slug: 'empty-state', reason: 'For non-error "nothing here yet" cases.' }],
 };
 

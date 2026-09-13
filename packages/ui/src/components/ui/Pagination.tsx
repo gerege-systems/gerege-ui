@@ -250,7 +250,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
 Pagination.displayName = 'Pagination';
 
 const navButtonClass = cn(
-  'inline-flex size-8 items-center justify-center rounded-md text-foreground-muted',
+  'relative inline-flex size-8 items-center justify-center rounded-md text-foreground-muted',
+  // 32px visual, 44px hit area via an invisible halo (WCAG 2.5.8).
+  'before:absolute before:-inset-1.5 before:content-[""]',
   'transition-colors duration-[var(--duration-fast)]',
   'hover:bg-background-muted hover:text-foreground',
   'disabled:opacity-50 disabled:pointer-events-none',

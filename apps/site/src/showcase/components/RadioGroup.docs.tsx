@@ -70,6 +70,34 @@ const doc: ComponentDoc = {
     'Arrow keys cycle between items (Radix behavior).',
     'Tab focuses the group; arrow keys make the selection.',
   ],
+  keyboard: [
+    {
+      key: 'Tab / Shift+Tab',
+      action:
+        'Move focus into the group (the checked item, or the first item when none is checked) and out again.',
+    },
+    {
+      key: 'ArrowDown / ArrowUp',
+      action: 'Vertical group: focus and select the next / previous item; wraps at the ends.',
+    },
+    {
+      key: 'ArrowRight / ArrowLeft',
+      action:
+        'Horizontal group (`orientation="horizontal"`): focus and select the next / previous item.',
+    },
+    { key: 'Space', action: 'Select the focused item when nothing is selected yet.' },
+    { key: 'Enter', action: 'No effect — prevented so the enclosing form is not submitted.' },
+  ],
+  states: [
+    {
+      name: 'Disabled',
+      how: '`disabled` on RadioGroup disables every item; on a RadioItem, only that item.',
+    },
+    {
+      name: 'Error',
+      how: '`aria-invalid` on a RadioItem paints the danger border; render the message with FormMessage.',
+    },
+  ],
   related: [
     { slug: 'select', reason: 'For 5+ options.' },
     { slug: 'switch', reason: 'For binary on/off.' },

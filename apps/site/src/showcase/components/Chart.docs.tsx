@@ -105,6 +105,17 @@ const doc: ComponentDoc = {
     'Renders <figure> with <figcaption> for the caption — screen readers announce it.',
     'For data-dense analytics, prefer a dedicated library (Recharts / Visx) with proper interactive tables.',
   ],
+  states: [
+    { name: 'Loading', how: '`state="loading"` replaces the drawing with a skeleton.' },
+    {
+      name: 'Empty',
+      how: '`state="empty"` — a role="status" message ("No data to display.") at the same height.',
+    },
+    {
+      name: 'Error',
+      how: '`state="error"` — a role="alert" message; add a retry button outside the chart.',
+    },
+  ],
   guidelines: {
     do: [
       'Theming: series colours default to the six categorical tokens var(--chart-1) … var(--chart-6) (DEFAULT_CHART_COLORS). Override them per brand in globals.css rather than passing hex values via `colors`.',

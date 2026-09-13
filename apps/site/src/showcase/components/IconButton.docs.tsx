@@ -94,6 +94,17 @@ const doc: ComponentDoc = {
     'aria-label is enforced at the type level — TypeScript will fail compile if omitted.',
     'Pair with Tooltip for any non-universal icon.',
   ],
+  keyboard: [
+    { key: 'Tab / Shift+Tab', action: 'Move focus; a `loading` button stays in the tab order.' },
+    { key: 'Enter / Space', action: 'Activate (`onClick`). Blocked while `loading`.' },
+  ],
+  states: [
+    {
+      name: 'Loading',
+      how: '`loading` — spinner replaces the icon, aria-busy + aria-disabled, focus kept, clicks blocked.',
+    },
+    { name: 'Disabled', how: '`disabled` — native disabled, not focusable.' },
+  ],
   guidelines: {
     do: [
       'Always pass a descriptive `aria-label` — it is the only accessible name.',

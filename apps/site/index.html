@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a0d14" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0d14" />
     <meta
       name="description"
       content="Refined-minimal Tailwind v4 + React design system — %COMPONENT_COUNT% accessible components, %TEMPLATE_COUNT% page templates, %GUIDE_COUNT% guides."
@@ -25,13 +26,15 @@
       content="Refined-minimal Tailwind v4 + React design system — %COMPONENT_COUNT% accessible components, %TEMPLATE_COUNT% page templates, %GUIDE_COUNT% guides."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Before the font stylesheet: a classic script after a <link> waits for it,
+         which would gate the pre-paint theme class on fonts.googleapis latency. -->
+    <script src="/theme-init.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,3 +1,7 @@
 packages:
   - 'packages/*'
   - 'apps/*'
+
+# pnpm 10 runs no postinstall scripts unless listed; esbuild needs its binary.
+onlyBuiltDependencies:
+  - esbuild

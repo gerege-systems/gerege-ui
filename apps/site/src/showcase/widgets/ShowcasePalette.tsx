@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   CommandDialog,
   CommandEmpty,
@@ -57,14 +57,38 @@ export function ShowcasePalette({
     [],
   );
 
+  // The block registry carries every live block, so it is fetched the first
+  // time the palette opens rather than shipped with the top bar.
+  const [blocks, setBlocks] = useState<
+    { value: string; label: string; hint: string; href: string }[]
+  >([]);
+  useEffect(() => {
+    if (!open || blocks.length) return;
+    let live = true;
+    import('../uiblocks/registry').then((m) => {
+      if (!live) return;
+      setBlocks(
+        m.UI_BLOCKS.map((b) => ({
+          value: `${b.name} block ${b.category} ${b.slug}`,
+          label: b.name,
+          hint: b.category,
+          href: routeToHash({ kind: 'block', slug: b.slug }),
+        })),
+      );
+    });
+    return () => {
+      live = false;
+    };
+  }, [open, blocks.length]);
+
   const go = (hash: string) => {
-    window.location.hash = hash;
+    window.location.assign(hash.startsWith('#') ? hash : `#${hash}`);
     onOpenChange(false);
   };
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Jump to component, template, or guide…" />
+      <CommandInput placeholder="Jump to component, block, template, guide, or theme…" />
       <CommandList>
         <CommandEmpty>No results.</CommandEmpty>
 
@@ -100,6 +124,22 @@ export function ShowcasePalette({
               <span className="text-foreground-subtle ml-auto text-xs">Guide</span>
             </CommandItem>
           ))}
+        </CommandGroup>
+
+        <CommandGroup heading="Blocks">
+          {blocks.map((it) => (
+            <CommandItem key={it.href} value={it.value} onSelect={() => go(it.href)}>
+              <span>{it.label}</span>
+              <span className="text-foreground-subtle ml-auto text-xs">{it.hint}</span>
+            </CommandItem>
+          ))}
+          <CommandItem
+            value="theme editor tokens accent style depth radius"
+            onSelect={() => go(routeToHash({ kind: 'theme' }))}
+          >
+            <span>Theme editor</span>
+            <span className="text-foreground-subtle ml-auto text-xs">Theme</span>
+          </CommandItem>
         </CommandGroup>
 
         <CommandGroup heading="Actions">

@@ -28,7 +28,8 @@ export function useDelayedLoading(
   { minVisible = 500 }: DelayedLoadingOptions = {},
 ): boolean {
   const [ready, setReady] = useState(ms <= 0);
-  const shownAt = useRef<number | null>(ms <= 0 ? Date.now() : null);
+  // Set in the effect, never during render (a render must stay pure).
+  const shownAt = useRef<number | null>(null);
 
   useEffect(() => {
     const show = () => {
@@ -37,6 +38,9 @@ export function useDelayedLoading(
     };
     if (ms <= 0) {
       shownAt.current ??= Date.now();
+      // `ms` dropped to 0 after mount: show now. The initial value is already
+      // derived in useState, so this only runs on a change.
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- timer-driven state, no render-time equivalent
       setReady(true);
       return;
     }
@@ -47,6 +51,7 @@ export function useDelayedLoading(
     if (hold > 0) {
       timers.push(window.setTimeout(() => setReady(false), hold));
     } else {
+      // `ms` changed while already shown and the hold has elapsed: hide now.
       setReady(false);
     }
     timers.push(window.setTimeout(show, hold + ms));

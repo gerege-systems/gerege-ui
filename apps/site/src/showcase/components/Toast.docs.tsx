@@ -237,7 +237,19 @@ push({
   accessibility: [
     'Backed by @radix-ui/react-toast — toasts are announced via aria-live polite/assertive based on variant.',
     'Focus is preserved — toasts do not steal focus from the page.',
-    'Esc dismisses the most recent toast.',
+    'Esc dismisses the focused toast; F8 moves focus into the toast region.',
+  ],
+  keyboard: [
+    { key: 'F8', action: 'Focus the toast viewport (Radix default hotkey).' },
+    {
+      key: 'Tab / Shift+Tab',
+      action: 'Move between the action and close buttons of the open toasts.',
+    },
+    {
+      key: 'Enter / Space',
+      action: 'Activate the focused action or × button — both dismiss the toast.',
+    },
+    { key: 'Esc', action: 'Dismiss the focused toast.' },
   ],
   guidelines: {
     do: [
