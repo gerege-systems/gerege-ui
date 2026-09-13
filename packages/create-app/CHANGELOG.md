@@ -1,5 +1,11 @@
 # @gerege-systems/create-app
 
+## 1.0.9
+
+### Patch Changes
+
+- ba61ec6: New projects list `lucide-react` explicitly — `@gerege-systems/ui` 0.16 declares it as a peer dependency.
+
 ## 1.0.8
 
 ### Patch Changes
