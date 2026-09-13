@@ -11,12 +11,15 @@ import {
   AdminLayoutContext,
   AdminPalette,
   AppSidebar,
+  type AppSidebarMode,
   AppTopNav,
   DemoContext,
-  EnvBanner,
-  type AppSidebarMode,
   type DemoState,
   type Density,
+  EnvBanner,
+  type ShellLayout,
+  SidebarUtilities,
+  hasHeader,
 } from './admin/shell';
 import { Analytics, Overview, Reports } from './admin/overview';
 import { Projects, type ProjectsHandle } from './admin/projects';
@@ -84,23 +87,31 @@ const DENSITY_CLASSES = [
  * module panel; `topnav` = horizontal links, no sidebar; `topnav-module` =
  * horizontal modules with tiered menus.
  */
-export type AdminLayout = 'sidebar' | 'topnav' | 'sidebar-module' | 'topnav-module';
+export type AdminLayout = ShellLayout;
 export const ADMIN_LAYOUTS: readonly AdminLayout[] = [
   'sidebar',
+  'sidebar-noheader',
   'sidebar-module',
+  'sidebar-module-noheader',
   'topnav',
   'topnav-module',
 ];
 
 const SIDEBAR_MODE: Record<AdminLayout, AppSidebarMode> = {
   sidebar: 'rail',
+  'sidebar-noheader': 'rail',
   topnav: 'none',
   'sidebar-module': 'module',
+  'sidebar-module-noheader': 'module',
   'topnav-module': 'none',
 };
 
 /** Shells whose navigation spans every module (palette, drawer, breadcrumbs). */
-const MODULE_LAYOUTS: AdminLayout[] = ['sidebar-module', 'topnav-module'];
+const MODULE_LAYOUTS: AdminLayout[] = [
+  'sidebar-module',
+  'sidebar-module-noheader',
+  'topnav-module',
+];
 
 /** Every navigable page key across all modules (the `sidebar`/`topnav` NAV is a subset). */
 const PAGES = ALL_SECTIONS.flatMap((s) => s.items.map((i) => i.key));
@@ -113,7 +124,7 @@ export function AdminDashboard({
   /** Page to open first (deep link from the preview route); unknown keys fall back to overview. */
   initialPage?: string;
 }) {
-  const hasRail = layout === 'sidebar';
+  const hasRail = layout === 'sidebar' || layout === 'sidebar-noheader';
   const { push } = useToast();
   const t = useT(adminDict);
   // Unknown keys are kept so the shell can render its own 404 (the chrome
@@ -284,6 +295,18 @@ export function AdminDashboard({
               drawerModules={MODULE_LAYOUTS.includes(layout)}
               module={module}
               onModuleChange={setModule}
+              footer={
+                // No desktop top bar: its utility cluster lives in the sidebar footer.
+                hasHeader(layout) ? undefined : (
+                  <SidebarUtilities
+                    onNavigate={navigate}
+                    onSignOut={() =>
+                      push({ title: t('toast.signedOut'), description: t('toast.signedOutDesc') })
+                    }
+                    onOpenPalette={() => setPaletteOpen(true)}
+                  />
+                )
+              }
             />
 
             <div className="flex min-h-0 min-w-0 flex-1 flex-col">

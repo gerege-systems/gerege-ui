@@ -192,7 +192,7 @@ test.describe('admin › projects @1280', () => {
     ).toBeVisible();
 
     await page.getByRole('button', { name: /^Template: Admin dashboard/ }).click();
-    await page.getByRole('menuitemradio', { name: 'Sidebar with module' }).click();
+    await page.getByRole('menuitemradio', { name: 'Sidebar with module', exact: true }).click();
     await expect(page).toHaveURL(/#preview\/admin\/app\/sidebar-module/);
     await expect(
       page
