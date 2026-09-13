@@ -127,9 +127,12 @@ export function PreviewPage({
         ? initialScreen
         : doc?.screens[0]?.key) ?? 'home',
   );
+  // `dual` was the sidebar-with-module shell's key before the rename; links
+  // that carry it still resolve.
+  const requestedVariant = initialVariant === 'dual' ? 'sidebar-module' : initialVariant;
   const [variant, setVariant] = useState<string | undefined>(() =>
-    initialVariant && doc?.variants?.some((v) => v.key === initialVariant)
-      ? initialVariant
+    requestedVariant && doc?.variants?.some((v) => v.key === requestedVariant)
+      ? requestedVariant
       : doc?.variants?.[0]?.key,
   );
   // When the template page embeds this route in an iframe, the docs page

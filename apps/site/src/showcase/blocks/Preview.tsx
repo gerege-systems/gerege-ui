@@ -28,13 +28,9 @@ export default function BlockPreview({
   page?: string;
 }) {
   const props = { screen, setScreen, brand: <BrandMark />, variant };
-  // `dual` is the pre-0.17 name of the sidebar-with-module shell; old links keep working.
+  // The legacy `dual` key is resolved by PreviewPage before it reaches here.
   const adminLayout = (v?: string): AdminLayout =>
-    v === 'dual'
-      ? 'sidebar-module'
-      : ADMIN_LAYOUTS.includes(v as AdminLayout)
-        ? (v as AdminLayout)
-        : 'sidebar';
+    ADMIN_LAYOUTS.includes(v as AdminLayout) ? (v as AdminLayout) : 'sidebar';
   // This chunk loaded — re-arm the preview page's one-shot chunk-error reload.
   useEffect(() => {
     try {
