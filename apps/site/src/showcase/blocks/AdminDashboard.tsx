@@ -18,7 +18,6 @@ import {
   type Density,
   EnvBanner,
   type ShellLayout,
-  SidebarUtilities,
 } from './admin/shell';
 import { Analytics, Overview, Reports } from './admin/overview';
 import { Projects, type ProjectsHandle } from './admin/projects';
@@ -333,17 +332,18 @@ export function AdminDashboard({
               drawerModules={MODULE_LAYOUTS.includes(layout)}
               module={module}
               onModuleChange={openModule}
-              footer={
-                // No desktop top bar: its utility cluster lives in the sidebar footer.
-                showHeader ? undefined : (
-                  <SidebarUtilities
-                    onNavigate={navigate}
-                    onSignOut={() =>
-                      push({ title: t('toast.signedOut'), description: t('toast.signedOutDesc') })
+              barless={
+                // Top bar off: its utilities move into the sidebar (row) or the rail (column).
+                showHeader
+                  ? undefined
+                  : {
+                      onSignOut: () =>
+                        push({
+                          title: t('toast.signedOut'),
+                          description: t('toast.signedOutDesc'),
+                        }),
+                      onOpenPalette: () => setPaletteOpen(true),
                     }
-                    onOpenPalette={() => setPaletteOpen(true)}
-                  />
-                )
               }
             />
 

@@ -255,6 +255,44 @@ test.describe('admin › projects @1280', () => {
     await expect(page.locator('header').first()).toBeVisible();
     await expect(page.locator('main nav[aria-label="Breadcrumb"]')).toHaveCount(0);
   });
+
+  test('Top bar off, sidebar: utilities sit above the user card, which opens the account menu', async ({
+    page,
+  }) => {
+    await openProjects(page);
+    await page.getByRole('button', { name: /^Demo controls/ }).click();
+    await page.getByRole('menuitemcheckbox', { name: 'Top bar' }).click();
+    const sidebar = page.locator('[data-slot="sidebar"]').first();
+    const palette = await sidebar
+      .getByRole('button', { name: 'Open command palette' })
+      .boundingBox();
+    const card = sidebar.getByRole('button', { name: 'Account menu' });
+    await expect(card).toContainText('Alex Morgan');
+    expect(palette!.y + palette!.height).toBeLessThanOrEqual((await card.boundingBox())!.y);
+    await card.click();
+    await expect(page.getByRole('menuitem', { name: /Sign out/ })).toBeVisible();
+  });
+
+  test('Top bar off, sidebar with module: utilities stack in the rail above the avatar', async ({
+    page,
+  }) => {
+    await applyTheme(page, 'light');
+    await gotoHash(page, 'preview/admin/app/sidebar-module/customers');
+    await page.getByRole('button', { name: /^Demo controls/ }).click();
+    await page.getByRole('menuitemcheckbox', { name: 'Top bar' }).click();
+    const rail = page.getByRole('navigation', { name: 'Modules' });
+    const palette = await rail.getByRole('button', { name: 'Open command palette' }).boundingBox();
+    const bell = await rail.getByRole('button', { name: /Notifications/ }).boundingBox();
+    const account = rail.getByRole('button', { name: 'Account menu' });
+    // A column: same x, each below the last, the avatar at the foot.
+    expect(Math.round(bell!.x)).toBe(Math.round(palette!.x));
+    expect(bell!.y).toBeGreaterThan(palette!.y);
+    expect((await account.boundingBox())!.y).toBeGreaterThan(bell!.y);
+    // The panel keeps its list; no second account menu anywhere.
+    await expect(page.getByRole('button', { name: 'Account menu' })).toHaveCount(1);
+    await account.click();
+    await expect(page.getByRole('menuitem', { name: /Sign out/ })).toBeVisible();
+  });
 });
 
 test.describe('admin › top nav @1600', () => {
