@@ -26,8 +26,10 @@ for (const fg of ['--foreground', '--foreground-muted', '--foreground-subtle']) 
     textOnSurfaces.push({ fg, bg, min: 4.5 });
   }
 }
+// `--border-input` is left out on purpose: soft control edges are a product
+// decision (2026-09-13) and sit below 3:1; theme.css header explains.
 const uiOnSurfaces: Check[] = [];
-for (const fg of ['--border-input', '--switch-track-off', '--ring', '--accent']) {
+for (const fg of ['--switch-track-off', '--ring', '--accent']) {
   for (const bg of ['--background', '--background-muted']) uiOnSurfaces.push({ fg, bg, min: 3 });
 }
 // The accent rule lives in src/lib/accent-pairs.ts, shared with the showcase
@@ -184,8 +186,8 @@ describe('header comment ratios are not stale', () => {
     ['--foreground', '--background', 17.9],
     ['--foreground-muted', '--background', 7.4],
     ['--foreground-subtle', '--background', 5.1],
-    ['--border-input', '--background', 3.55],
-    ['--border-input', '--background-muted', 3.24],
+    ['--border-input', '--background', 1.55],
+    ['--border-input', '--background-muted', 1.42],
     ['--accent-foreground', '--accent', 7.7],
   ])('light %s on %s ≈ %s', (fg, bg, documented) => {
     expect(ratio(theme.light, { fg, bg, min: 0 }).value).toBeCloseTo(documented, 0);
