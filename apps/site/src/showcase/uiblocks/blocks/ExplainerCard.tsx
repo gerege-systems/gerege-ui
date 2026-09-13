@@ -25,7 +25,7 @@ export function ExplainerCard() {
         <ul className="flex flex-col gap-2.5">
           {POINTS.map((p) => (
             <li key={p} className="text-foreground-muted flex items-start gap-2 text-sm">
-              <Icons.Check aria-hidden className="text-success-foreground mt-0.5 size-4 shrink-0" />
+              <Icons.Check aria-hidden className="text-success-text mt-0.5 size-4 shrink-0" />
               {p}
             </li>
           ))}

@@ -89,7 +89,7 @@ export const RadioItem = forwardRef<ComponentRef<typeof RadioGroupPrimitive.Item
             // WCAG 2.5.8: 16px visual box, ≥24px hit area via an invisible inset halo.
             'before:absolute before:-inset-1.5 before:rounded-full before:content-[""]',
             'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-            'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+            'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
             'data-[state=checked]:border-accent',
             'disabled:cursor-not-allowed disabled:opacity-50',
             'border-border-input aria-invalid:border-danger',

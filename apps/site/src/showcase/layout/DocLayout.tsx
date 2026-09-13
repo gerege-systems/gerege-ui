@@ -49,7 +49,7 @@ export function DocLayout({
       <main
         id="main"
         tabIndex={-1}
-        className="min-w-0 flex-1 px-4 py-6 outline-none md:px-10 md:py-10"
+        className="min-w-0 flex-1 px-4 py-6 outline-hidden md:px-10 md:py-10"
       >
         {/* Mobile sheet trigger — visible only < md */}
         <div className="mb-4 md:hidden">
@@ -57,7 +57,7 @@ export function DocLayout({
             <SheetTrigger asChild>
               <button
                 type="button"
-                className="border-border bg-card text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="border-border bg-card text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 <Menu className="size-4" />
                 Browse

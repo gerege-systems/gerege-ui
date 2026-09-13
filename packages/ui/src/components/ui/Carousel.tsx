@@ -127,7 +127,6 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(function Carou
 
   return (
     <CarouselContext.Provider
-      data-slot="carousel"
       value={{
         carouselRef,
         api,
@@ -144,6 +143,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(function Carou
           focusable); the buttons remain the primary control. */}
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div
+        data-slot="carousel"
         ref={ref}
         className={cn('relative isolate', className)}
         role="region"

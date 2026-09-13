@@ -49,7 +49,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       tabIndex={0}
       className={cn(
         'relative isolate w-full overflow-auto',
-        'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
         containerClassName,
       )}
       style={maxHeight !== undefined ? { maxHeight } : undefined}
@@ -251,7 +251,7 @@ export const TableSortHeader = forwardRef<HTMLTableCellElement, TableSortHeaderP
           type="button"
           onClick={handle}
           className={cn(
-            'inline-flex h-10 w-full items-center gap-1.5 px-3 outline-none',
+            'inline-flex h-10 w-full items-center gap-1.5 px-3 outline-hidden',
             align === 'right' && 'flex-row-reverse',
             align === 'center' && 'justify-center',
             'transition-colors duration-[var(--duration-fast)]',

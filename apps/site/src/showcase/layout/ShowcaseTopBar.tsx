@@ -50,7 +50,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-6 px-6">
         <a
           href={`#${routeToHash({ kind: 'home' })}`}
-          className="focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm text-sm outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm text-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
           aria-label="Home"
         >
           <BrandMark />
@@ -65,7 +65,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
                 href={`#${routeToHash(item.route)}`}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'rounded-md px-3 py-1.5 transition-colors outline-none',
+                  'rounded-md px-3 py-1.5 outline-hidden transition-colors',
                   'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
                   active ? 'text-foreground' : 'hover:bg-background-muted hover:text-foreground',
                 )}
@@ -83,7 +83,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
             type="button"
             onClick={onOpenPalette}
             aria-label={`Search (${mod.label}+K)`}
-            className="border-border-input bg-card text-foreground-subtle hover:border-border-strong hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-8 w-44 shrink items-center gap-2 rounded-md border pr-1.5 pl-2.5 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 lg:flex lg:w-56"
+            className="border-border-input bg-card text-foreground-subtle hover:border-border-strong hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-8 w-44 shrink items-center gap-2 rounded-md border pr-1.5 pl-2.5 text-sm outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:flex lg:w-56"
           >
             <Search className="size-4 shrink-0" aria-hidden />
             <span className="flex-1 truncate text-left text-xs">Search docs…</span>
@@ -177,7 +177,7 @@ export function ShowcaseTopBar({ onOpenPalette, current }: ShowcaseTopBarProps) 
 
 /** ≥32px hit area + visible focus ring for the icon-only links. */
 const iconLinkClass = cn(
-  'hidden size-8 items-center justify-center rounded-md text-foreground-muted outline-none transition-colors sm:inline-flex',
+  'hidden size-8 items-center justify-center rounded-md text-foreground-muted outline-hidden transition-colors sm:inline-flex',
   'hover:bg-background-muted hover:text-foreground',
   'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 );

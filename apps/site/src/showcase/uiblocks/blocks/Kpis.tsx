@@ -26,9 +26,9 @@ export function Kpis() {
             <span
               className={
                 k.tone === 'up'
-                  ? 'text-success-foreground text-xs'
+                  ? 'text-success-text text-xs'
                   : k.tone === 'down'
-                    ? 'text-danger-foreground text-xs'
+                    ? 'text-danger-text text-xs'
                     : 'text-foreground-subtle text-xs'
               }
             >

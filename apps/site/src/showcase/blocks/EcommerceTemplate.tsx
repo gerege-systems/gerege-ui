@@ -258,7 +258,7 @@ function ShopFooter({ onHelp }: { onHelp: (topic: HelpTopic) => void }) {
               key={h}
               type="button"
               onClick={() => onHelp(h)}
-              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               {helpTitle(t, h)}
             </button>

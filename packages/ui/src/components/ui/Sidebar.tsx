@@ -16,7 +16,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { ChevronDown, ChevronsLeft, ChevronsRight } from '@/icons';
 import { cn } from '@/lib/utils';
 import { useStrings } from '@/hooks/use-strings';
-import { Tooltip } from './Tooltip';
+import { Tooltip, TooltipProvider } from './Tooltip';
 
 interface SidebarContextValue {
   collapsed: boolean;
@@ -119,7 +119,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
           aria-expanded={!collapsed}
           className={cn(
             'text-foreground-subtle mx-2 mb-2 flex h-8 items-center gap-2 rounded-md px-2',
-            'hover:bg-background-muted hover:text-foreground outline-none',
+            'hover:bg-background-muted hover:text-foreground outline-hidden',
             'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
             'transition-colors duration-[var(--duration-fast)]',
           )}
@@ -210,7 +210,7 @@ export const SidebarItem = forwardRef<HTMLElement, SidebarItemProps>(
     const { collapsed } = useContext(SidebarContext);
 
     const classes = cn(
-      'flex h-8 w-full items-center gap-2 rounded-md px-2 text-sm outline-none',
+      'flex h-8 w-full items-center gap-2 rounded-md px-2 text-sm outline-hidden',
       'transition-colors duration-[var(--duration-fast)]',
       'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       active
@@ -294,9 +294,13 @@ export const SidebarItem = forwardRef<HTMLElement, SidebarItemProps>(
     return (
       <li className="px-2">
         {showTooltip ? (
-          <Tooltip label={tip} side="right">
-            {element}
-          </Tooltip>
+          // Own provider: a collapsed rail must not crash an app that never
+          // mounted <TooltipProvider>; an outer provider still wins for delays.
+          <TooltipProvider>
+            <Tooltip label={tip} side="right">
+              {element}
+            </Tooltip>
+          </TooltipProvider>
         ) : (
           element
         )}
@@ -349,7 +353,7 @@ export const SidebarGroup = forwardRef<HTMLLIElement, SidebarGroupProps>(functio
         aria-controls={open ? listId : undefined}
         aria-expanded={open}
         className={cn(
-          'text-foreground-muted mx-2 flex h-8 w-[calc(100%-1rem)] items-center gap-2 rounded-md px-2 text-sm outline-none',
+          'text-foreground-muted mx-2 flex h-8 w-[calc(100%-1rem)] items-center gap-2 rounded-md px-2 text-sm outline-hidden',
           'transition-colors duration-[var(--duration-fast)]',
           'hover:bg-background-muted hover:text-foreground',
           'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',

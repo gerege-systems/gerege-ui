@@ -16,7 +16,7 @@ const card = cva(
         default: 'border-border',
         interactive: [
           'border-border hover:border-border-strong hover:bg-background-subtle cursor-pointer',
-          'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'focus-visible:ring-offset-background',
         ],
       },

@@ -77,7 +77,7 @@ export const Checkbox = forwardRef<ComponentRef<typeof CheckboxPrimitive.Root>, 
               // WCAG 2.5.8: 16px visual box, ≥24px hit area via an invisible inset halo.
               'before:absolute before:-inset-1.5 before:content-[""]',
               'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-              'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+              'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
               'data-[state=checked]:bg-accent data-[state=checked]:border-accent data-[state=checked]:text-on-accent',
               'data-[state=indeterminate]:bg-accent data-[state=indeterminate]:border-accent data-[state=indeterminate]:text-on-accent',
               'disabled:cursor-not-allowed disabled:opacity-50',

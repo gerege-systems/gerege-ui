@@ -105,7 +105,7 @@ export function TemplatesIndexPage() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Open the ${doc.name} preview in a new tab`}
-                  className="focus-visible:ring-ring absolute inset-0 rounded-md focus-visible:ring-2 focus-visible:outline-none"
+                  className="focus-visible:ring-ring absolute inset-0 rounded-md focus-visible:ring-2 focus-visible:outline-hidden"
                 />
 
                 <div className="flex items-center justify-between">

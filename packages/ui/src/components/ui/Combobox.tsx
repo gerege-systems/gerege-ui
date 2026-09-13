@@ -220,7 +220,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(function Combo
               className={cn(
                 'bg-card text-foreground inline-flex w-full items-center justify-between gap-2 rounded-md border text-sm',
                 'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-                'focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+                'focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
                 'disabled:cursor-not-allowed disabled:opacity-50',
                 triggerHeight,
                 triggerPadding,
@@ -276,7 +276,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(function Combo
                   value={query}
                   onValueChange={setQuery}
                   placeholder={searchPlaceholder}
-                  className="placeholder:text-foreground-subtle flex h-9 w-full bg-transparent py-2 text-lg outline-none md:text-sm"
+                  className="placeholder:text-foreground-subtle flex h-9 w-full bg-transparent py-2 text-lg outline-hidden md:text-sm"
                 />
                 {loading && (
                   <Loader2 className="text-foreground-subtle size-4 animate-spin" aria-hidden />

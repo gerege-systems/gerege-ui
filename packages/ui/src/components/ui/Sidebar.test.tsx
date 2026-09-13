@@ -34,6 +34,17 @@ function Demo(props: {
 }
 
 describe('Sidebar', () => {
+  it('collapsed rail renders without an app-level TooltipProvider', () => {
+    // Regression: Radix Tooltip throws outside a provider, so a collapsed
+    // Sidebar crashed any app that had not mounted one at the root.
+    render(
+      <Sidebar defaultCollapsed>
+        <SidebarItem href="/">Home</SidebarItem>
+      </Sidebar>,
+    );
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
+  });
+
   it('renders a nav labelled "Primary" with header, footer and labelled section list', () => {
     render(<Demo />);
     const nav = screen.getByRole('navigation', { name: 'Primary' });

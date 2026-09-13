@@ -109,7 +109,6 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(function TagIn
     <div ref={ref} className={cn('flex flex-col gap-1.5', className)}>
       {label && (
         <label
-          data-slot="tag-input"
           htmlFor={fieldId}
           className={cn('text-foreground text-sm font-medium', hideLabel && 'sr-only')}
         >
@@ -117,6 +116,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(function TagIn
         </label>
       )}
       <div
+        data-slot="tag-input"
         className={cn(
           // Cap growth at ~3 chip rows and scroll inside — an unbounded field
           // pushes the surrounding layout around as tags are added.
@@ -139,7 +139,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(function TagIn
               type="button"
               onClick={() => remove(i)}
               // 16px glyph box + halo → ≥24px hit area (WCAG 2.5.8) without growing the chip.
-              className="text-foreground-muted hover:bg-background-subtle hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm p-0.5 outline-none before:absolute before:-inset-1.5 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-1"
+              className="text-foreground-muted hover:bg-background-subtle hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative rounded-sm p-0.5 outline-hidden before:absolute before:-inset-1.5 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-1"
               aria-label={formatString(strings.tagInput.remove, { tag: t })}
             >
               <X className="size-3" aria-hidden />
@@ -164,7 +164,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(function TagIn
           aria-label={ariaLabel ?? (label || id ? undefined : placeholder)}
           aria-invalid={isError || undefined}
           aria-describedby={describedBy}
-          className="placeholder:text-foreground-subtle min-w-[8ch] flex-1 bg-transparent text-lg outline-none md:text-sm"
+          className="placeholder:text-foreground-subtle min-w-[8ch] flex-1 bg-transparent text-lg outline-hidden md:text-sm"
         />
       </div>
       {hasErrorMessage ? (

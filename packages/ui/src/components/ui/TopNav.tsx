@@ -93,7 +93,7 @@ export const TopNavLink = forwardRef<HTMLAnchorElement, TopNavLinkProps>(functio
       href={href}
       aria-current={active ? 'page' : undefined}
       className={cn(
-        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium outline-none',
+        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium outline-hidden',
         'transition-colors duration-[var(--duration-fast)]',
         active ? 'text-foreground' : 'text-foreground-muted hover:text-foreground',
         'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',

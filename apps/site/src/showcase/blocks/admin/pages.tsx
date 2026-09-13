@@ -120,7 +120,7 @@ export function InboxPage({ onNavigate }: { onNavigate: (key: string) => void })
                   onClick={() =>
                     setItems((xs) => xs.map((x) => (x.id === m.id ? { ...x, unread: false } : x)))
                   }
-                  className="focus-visible:ring-ring flex min-w-0 flex-1 items-start gap-3 rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                  className="focus-visible:ring-ring flex min-w-0 flex-1 items-start gap-3 rounded-sm text-left outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
                 >
                   <Avatar size="sm" fallback={m.initials} alt="" />
                   <span className="min-w-0 flex-1">

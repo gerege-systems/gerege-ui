@@ -37,7 +37,7 @@ export function PaymentsMenu() {
               <a
                 key={r.name}
                 href={`/payments/${r.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="bg-background-subtle hover:bg-background-muted focus-visible:ring-ring flex items-start gap-3 rounded-md p-3 focus-visible:ring-2 focus-visible:outline-none"
+                className="bg-background-subtle hover:bg-background-muted focus-visible:ring-ring flex items-start gap-3 rounded-md p-3 focus-visible:ring-2 focus-visible:outline-hidden"
               >
                 <Glyph aria-hidden className="text-foreground-subtle mt-0.5 size-4 shrink-0" />
                 <div className="flex min-w-0 grow flex-col">

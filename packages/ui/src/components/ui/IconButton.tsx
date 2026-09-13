@@ -10,7 +10,7 @@ const iconButton = cva(
     'inline-flex items-center justify-center shrink-0',
     'rounded-md',
     'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-    'outline-none',
+    'outline-hidden',
     'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     'focus-visible:ring-offset-background',
     'disabled:pointer-events-none disabled:opacity-50',

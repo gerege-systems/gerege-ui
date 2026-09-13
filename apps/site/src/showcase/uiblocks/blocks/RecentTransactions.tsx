@@ -41,9 +41,7 @@ export function RecentTransactions() {
             <div className="flex flex-col items-end gap-0.5">
               <span
                 className={
-                  t.amount > 0
-                    ? 'text-success-foreground text-sm tabular-nums'
-                    : 'text-sm tabular-nums'
+                  t.amount > 0 ? 'text-success-text text-sm tabular-nums' : 'text-sm tabular-nums'
                 }
               >
                 {t.amount > 0 ? '+' : '−'}

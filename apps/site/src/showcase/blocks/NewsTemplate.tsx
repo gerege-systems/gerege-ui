@@ -230,7 +230,7 @@ function Footer({
 }) {
   const t = useT(newsDict);
   const linkClass =
-    'text-foreground-muted hover:text-foreground rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+    'text-foreground-muted hover:text-foreground rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
   return (
     <footer className="border-border bg-background-subtle border-t">
       <div className="mx-auto grid max-w-5xl gap-8 px-6 py-10 sm:grid-cols-3">
@@ -287,7 +287,7 @@ function Footer({
                 key={l}
                 type="button"
                 onClick={() => onLegal(l)}
-                className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 {legalTitle(t, l)}
               </button>

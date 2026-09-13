@@ -151,11 +151,11 @@ describe('Chart', () => {
       expect(container.querySelectorAll('[data-active]')).toHaveLength(0);
     });
 
-    it('series group carries data-chart-series for the CSS focus outline and no outline-none', () => {
+    it('series group carries data-chart-series for the CSS focus outline and no outline-hidden', () => {
       const { container } = render(<LineChart caption="R" series={[{ name: 'Rev', data }]} />);
       const series = container.querySelector('g[tabindex="0"]')!;
       expect(series).toHaveAttribute('data-chart-series', 'true');
-      expect(series).not.toHaveClass('outline-none');
+      expect(series).not.toHaveClass('outline-hidden');
     });
 
     it('skips null points when navigating', async () => {

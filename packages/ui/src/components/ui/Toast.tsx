@@ -127,7 +127,7 @@ export const ToastAction = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-current bg-transparent px-3 text-sm font-medium',
-        'transition-colors outline-none hover:bg-current/10',
+        'outline-hidden transition-colors hover:bg-current/10',
         'focus-visible:ring-ring focus-visible:ring-offset-card focus-visible:ring-2 focus-visible:ring-offset-2',
         className,
       )}
@@ -149,7 +149,7 @@ export const ToastClose = forwardRef<
       className={cn(
         'text-foreground-subtle absolute top-2 right-2 inline-flex size-7 items-center justify-center rounded-md',
         'hover:text-foreground opacity-0 transition-opacity group-hover:opacity-100',
-        'focus-visible:ring-ring focus-visible:ring-offset-card outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2',
+        'focus-visible:ring-ring focus-visible:ring-offset-card outline-hidden focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2',
         className,
       )}
       toast-close=""

@@ -42,7 +42,7 @@ export function CodeBlock({ code, language = 'tsx', className }: CodeBlockProps)
           type="button"
           onClick={onCopy}
           aria-label={copied ? 'Copied' : 'Copy code'}
-          className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring inline-flex items-center gap-1 rounded-sm px-1.5 py-1 text-xs transition-colors outline-none focus-visible:ring-2"
+          className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring inline-flex items-center gap-1 rounded-sm px-1.5 py-1 text-xs outline-hidden transition-colors focus-visible:ring-2"
         >
           {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
           {copied ? 'Copied' : 'Copy'}

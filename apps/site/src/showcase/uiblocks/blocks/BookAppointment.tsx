@@ -29,8 +29,8 @@ export function BookAppointment() {
               aria-checked={i === 0}
               className={
                 i === 0
-                  ? 'bg-accent text-on-accent focus-visible:ring-ring rounded-md px-3 py-1.5 text-sm font-medium focus-visible:ring-2 focus-visible:outline-none'
-                  : 'border-border-input text-foreground hover:bg-background-muted focus-visible:ring-ring rounded-md border px-3 py-1.5 text-sm focus-visible:ring-2 focus-visible:outline-none'
+                  ? 'bg-accent text-on-accent focus-visible:ring-ring rounded-md px-3 py-1.5 text-sm font-medium focus-visible:ring-2 focus-visible:outline-hidden'
+                  : 'border-border-input text-foreground hover:bg-background-muted focus-visible:ring-ring rounded-md border px-3 py-1.5 text-sm focus-visible:ring-2 focus-visible:outline-hidden'
               }
             >
               {s}

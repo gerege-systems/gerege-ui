@@ -214,14 +214,14 @@ export function SignInForm({
           <button
             type="button"
             onClick={onForgot}
-            className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-none hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             {t('forgotPassword')}
           </button>
         ) : (
           <a
             href={forgotHref}
-            className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-none hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             {t('forgotPassword')}
           </a>
@@ -373,7 +373,7 @@ export function MagicLinkSent({ email, onResend }: MagicLinkSentProps) {
         <button
           type="button"
           onClick={onResend}
-          className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-none hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
         >
           {t('resend')}
         </button>

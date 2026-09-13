@@ -46,10 +46,7 @@ export function PricingTable() {
             <ul className="flex flex-col gap-1.5">
               {p.features.map((f) => (
                 <li key={f} className="text-foreground-muted flex items-start gap-2 text-sm">
-                  <Icons.Check
-                    aria-hidden
-                    className="text-success-foreground mt-0.5 size-3.5 shrink-0"
-                  />
+                  <Icons.Check aria-hidden className="text-success-text mt-0.5 size-3.5 shrink-0" />
                   {f}
                 </li>
               ))}

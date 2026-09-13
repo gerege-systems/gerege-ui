@@ -49,7 +49,7 @@ const field = cva(
 );
 
 const innerInput = cva([
-  'flex-1 min-w-0 bg-transparent outline-none',
+  'flex-1 min-w-0 bg-transparent outline-hidden',
   // Fill the field's height so the focusable target is the full control
   // (32/36/40px), not the ~20px text box. Below 24px axe's target-size
   // rule only passes while nothing sits close by, which is a trap for
@@ -73,7 +73,7 @@ type InputType = NonNullable<InputHTMLAttributes<HTMLInputElement>['type']>;
 const innerButton = cn(
   'text-foreground-subtle hover:text-foreground relative -m-1 flex size-6 shrink-0 items-center justify-center rounded-sm',
   'before:absolute before:-inset-0.5 before:content-[""]',
-  'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+  'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
   'disabled:pointer-events-none',
 );
 

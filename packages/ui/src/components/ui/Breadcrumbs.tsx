@@ -88,7 +88,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
             ) : (
               <a
                 href={item.href}
-                className="hover:text-foreground focus-visible:ring-ring rounded-sm transition-colors duration-[var(--duration-fast)] outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="hover:text-foreground focus-visible:ring-ring rounded-sm outline-hidden transition-colors duration-[var(--duration-fast)] focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 {item.label}
               </a>

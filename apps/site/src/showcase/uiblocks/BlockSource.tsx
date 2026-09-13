@@ -63,7 +63,7 @@ export function BlockCode({ file }: { file: string }) {
   }
   if (source === false) {
     return (
-      <div className="border-danger-border bg-danger-subtle text-danger-foreground rounded-md border p-6 text-sm">
+      <div className="border-danger-border bg-danger-soft text-danger-text rounded-md border p-6 text-sm">
         The source could not be loaded. Reload the page, or read the file in the repository.
       </div>
     );

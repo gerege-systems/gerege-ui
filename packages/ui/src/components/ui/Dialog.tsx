@@ -93,7 +93,7 @@ export const DialogContent = forwardRef<
             className={cn(
               'text-foreground-subtle absolute top-4 right-4 inline-flex size-8 items-center justify-center rounded-md',
               'hover:bg-background-muted hover:text-foreground',
-              'focus-visible:ring-ring focus-visible:ring-offset-card outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+              'focus-visible:ring-ring focus-visible:ring-offset-card outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
               'transition-colors duration-[var(--duration-fast)]',
             )}
           >

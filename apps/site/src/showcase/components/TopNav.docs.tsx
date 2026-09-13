@@ -20,11 +20,11 @@ const doc: ComponentDoc = {
             logo={<span className="text-sm font-semibold">Atlas</span>}
             nav={
               <nav className="flex items-center gap-3 text-sm">
-                <TopNavLink href="#/components/top-nav" active>
+                <TopNavLink href="#components/top-nav" active>
                   Home
                 </TopNavLink>
-                <TopNavLink href="#/components/sidebar">Projects</TopNavLink>
-                <TopNavLink href="#/components/avatar">Members</TopNavLink>
+                <TopNavLink href="#components/sidebar">Projects</TopNavLink>
+                <TopNavLink href="#components/avatar">Members</TopNavLink>
               </nav>
             }
             actions={<Avatar fallback="BO" size="sm" />}
@@ -53,10 +53,10 @@ const doc: ComponentDoc = {
             nav={
               <nav className="flex items-center gap-3 text-sm">
                 <TopNavLink asChild active>
-                  <a href="#/components/top-nav">Home</a>
+                  <a href="#components/top-nav">Home</a>
                 </TopNavLink>
                 <TopNavLink asChild>
-                  <a href="#/components/sidebar">Projects</a>
+                  <a href="#components/sidebar">Projects</a>
                 </TopNavLink>
               </nav>
             }

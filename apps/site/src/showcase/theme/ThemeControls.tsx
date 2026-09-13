@@ -174,7 +174,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
                   aria-pressed={active}
                   onClick={() => onChange({ hue: h })}
                   className={cn(
-                    'focus-visible:ring-ring h-5 rounded-sm focus-visible:ring-2 focus-visible:outline-none',
+                    'focus-visible:ring-ring h-5 rounded-sm focus-visible:ring-2 focus-visible:outline-hidden',
                     active && 'ring-foreground ring-2 ring-offset-2',
                   )}
                   /* Fixed lightness: at the dark end of the L slider several
@@ -256,7 +256,7 @@ export function ThemeControls({ state, onChange, onReset, changed }: Props) {
             <button
               type="button"
               onClick={() => onChange({ radius: null })}
-              className="text-accent focus-visible:ring-ring rounded-sm text-xs focus-visible:ring-2 focus-visible:outline-none"
+              className="text-accent focus-visible:ring-ring rounded-sm text-xs focus-visible:ring-2 focus-visible:outline-hidden"
             >
               Follow style
             </button>
@@ -389,8 +389,8 @@ function ContrastLine({ mode, report }: { mode: string; report: ContrastReport }
       className={cn(
         'flex items-start gap-2 rounded-md border px-2.5 py-2 text-xs',
         report.passes
-          ? 'border-success-border bg-success-subtle text-success-foreground'
-          : 'border-warning-border bg-warning-subtle text-warning-foreground',
+          ? 'border-success-border bg-success-soft text-success-text'
+          : 'border-warning-border bg-warning-soft text-warning-text',
       )}
     >
       {report.passes ? (

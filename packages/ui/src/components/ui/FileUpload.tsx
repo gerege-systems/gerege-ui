@@ -178,7 +178,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(function F
               <button
                 type="button"
                 onClick={() => remove(idx)}
-                className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm p-1 outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm p-1 outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
                 aria-label={formatString(strings.fileUpload.remove, { name: file.name })}
               >
                 <X className="size-4" aria-hidden />

@@ -490,7 +490,7 @@ function Frame({
           aria-expanded={tableOpen}
           aria-controls={tableRendered ? tableId : undefined}
           className={cn(
-            'text-foreground-subtle hover:text-foreground self-start rounded-sm text-xs underline-offset-2 outline-none hover:underline',
+            'text-foreground-subtle hover:text-foreground self-start rounded-sm text-xs underline-offset-2 outline-hidden hover:underline',
             'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
           )}
         >

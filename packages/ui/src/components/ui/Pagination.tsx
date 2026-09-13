@@ -206,7 +206,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
                 aria-current={p === page ? 'page' : undefined}
                 onClick={() => goto(p)}
                 className={cn(
-                  'tabular inline-flex size-8 items-center justify-center rounded-md text-sm outline-none',
+                  'tabular inline-flex size-8 items-center justify-center rounded-md text-sm outline-hidden',
                   'transition-colors duration-[var(--duration-fast)]',
                   'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
                   p === page
@@ -254,5 +254,5 @@ const navButtonClass = cn(
   'transition-colors duration-[var(--duration-fast)]',
   'hover:bg-background-muted hover:text-foreground',
   'disabled:opacity-50 disabled:pointer-events-none',
-  'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  'outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
 );

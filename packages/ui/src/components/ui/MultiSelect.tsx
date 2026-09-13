@@ -151,7 +151,6 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
     <div ref={ref} className={cn('flex min-w-0 flex-col gap-1.5', className)}>
       {label && (
         <label
-          data-slot="multi-select"
           id={`${fieldId}-label`}
           htmlFor={fieldId}
           className="text-foreground text-sm font-medium"
@@ -169,6 +168,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
           <PopoverPrimitive.Anchor asChild>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- click-to-focus wrapper; the <input role="combobox"> inside owns keyboard handling */}
             <div
+              data-slot="multi-select"
               ref={fieldRef}
               aria-disabled={disabled || undefined}
               className={cn(
@@ -197,7 +197,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
                     <button
                       type="button"
                       aria-label={formatString(strings.multiSelect.remove, { label: opt.label })}
-                      className="text-on-accent-soft hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative inline-flex items-center rounded-sm outline-none before:absolute before:-inset-1.5 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-1"
+                      className="text-on-accent-soft hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative inline-flex items-center rounded-sm outline-hidden before:absolute before:-inset-1.5 before:content-[''] focus-visible:ring-2 focus-visible:ring-offset-1"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggle(opt.value);
@@ -233,7 +233,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
                   aria-label={label || id ? undefined : placeholder}
                   aria-invalid={isError || undefined}
                   aria-describedby={describedBy}
-                  className="placeholder:text-foreground-subtle min-w-[6ch] flex-1 bg-transparent text-lg outline-none md:text-sm"
+                  className="placeholder:text-foreground-subtle min-w-[6ch] flex-1 bg-transparent text-lg outline-hidden md:text-sm"
                   disabled={disabled}
                 />
               </div>
@@ -246,7 +246,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(function
                       e.stopPropagation();
                       clear();
                     }}
-                    className="text-foreground-subtle hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex size-6 shrink-0 items-center justify-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    className="text-foreground-subtle hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex size-6 shrink-0 items-center justify-center rounded-sm outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
                   >
                     <X className="size-4" aria-hidden />
                   </button>

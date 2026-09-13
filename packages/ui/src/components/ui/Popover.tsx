@@ -22,7 +22,7 @@ export const PopoverContent = forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'border-border bg-popover text-popover-foreground z-[var(--z-popover)] max-w-sm min-w-72 rounded-lg border p-4 shadow-md',
-          'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

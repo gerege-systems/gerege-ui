@@ -26,7 +26,7 @@ export function HomePage() {
     <main
       id="main"
       tabIndex={-1}
-      className="mx-auto max-w-[1400px] px-6 py-16 outline-none lg:py-24"
+      className="mx-auto max-w-[1400px] px-6 py-16 outline-hidden lg:py-24"
     >
       {/* Hero */}
       <div className="max-w-3xl">

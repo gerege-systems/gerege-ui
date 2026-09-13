@@ -23,7 +23,7 @@ export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 const itemClasses = cn(
-  'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground outline-none',
+  'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground outline-hidden',
   'data-[highlighted]:bg-background-muted data-[highlighted]:text-foreground',
   'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
   'transition-colors duration-[var(--duration-fast)]',

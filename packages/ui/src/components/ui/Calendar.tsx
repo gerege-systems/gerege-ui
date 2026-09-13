@@ -48,7 +48,7 @@ function CalendarDropdown({
         aria-label={ariaLabel}
         className={cn(
           'border-border bg-card text-foreground inline-flex h-7 items-center gap-1 rounded-md border px-2 text-sm font-medium',
-          'hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
           'disabled:pointer-events-none disabled:opacity-50',
         )}
       >
@@ -70,7 +70,7 @@ function CalendarDropdown({
 
 const navButton = cn(
   'pointer-events-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-foreground-muted hover:bg-background-muted',
-  'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  'outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
   'disabled:opacity-40 disabled:pointer-events-none',
 );
 
@@ -145,7 +145,7 @@ export function Calendar({
         day: 'relative h-9 w-9 p-0 text-center',
         day_button: cn(
           'inline-flex h-9 w-9 items-center justify-center rounded-md text-sm hover:bg-background-muted',
-          'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         ),
         // RDP 9 puts aria-selected / the modifier classes on the <td>, so the
         // button is styled through its cell. `[&_button:hover]` outranks the

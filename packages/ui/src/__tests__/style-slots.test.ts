@@ -30,6 +30,20 @@ const SHAPE_DELEGATED: Record<string, string> = {
 const RADIUS = /\brounded(?![\w-])|\brounded-/;
 const HAS_SLOT = /data-slot="[a-z-]+"/;
 const SLOT_IN_TSX = /data-slot="([a-z-]+)"/g;
+/** The JSX tag a `data-slot` sits on: `<div … data-slot="x"` → `div`. */
+const SLOT_HOST = /<([A-Za-z][\w.]*)(?:\s[^<>]*?)?\sdata-slot="([a-z-]+)"/g;
+/**
+ * Only a host element, a Radix `Slot`, or a Radix primitive renders the
+ * attribute to the DOM. A context Provider or a local function component
+ * swallows it, and the style layer never sees the slot — exactly the case the
+ * string scan above cannot tell apart.
+ */
+const RENDERS_ATTRS = /^(?:[a-z][\w]*|Slot|[A-Z]\w*Primitive\.\w+)$/;
+/**
+ * Third-party roots that spread `data-*` to their DOM node (verified in their
+ * source), plus Card's `Comp` (`asChild ? Slot : 'div'`).
+ */
+const KNOWN_FORWARDERS = new Set(['DayPicker', 'CommandPrimitive', 'Comp']);
 const SLOT_IN_CSS = /\[data-slot='([a-z-]+)'\]/g;
 
 const stripCssComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -66,6 +80,18 @@ describe('style layer: slots and rules stay in step', () => {
       missing,
       `these hold a radius the style layer cannot reach — add data-slot, or list them in ` +
         `SHAPE_DELEGATED with the reason: ${missing.join(', ')}`,
+    ).toEqual([]);
+  });
+
+  it('every data-slot sits on an element that renders it', () => {
+    const swallowed = sources.flatMap(({ name, source }) =>
+      [...source.matchAll(SLOT_HOST)]
+        .filter((m) => !RENDERS_ATTRS.test(m[1]) && !KNOWN_FORWARDERS.has(m[1]))
+        .map((m) => `${name}: <${m[1]} data-slot="${m[2]}">`),
+    );
+    expect(
+      swallowed,
+      `these slots are on a component that does not forward data-* to the DOM: ${swallowed.join(', ')}`,
     ).toEqual([]);
   });
 

@@ -76,6 +76,7 @@ function PickerTrigger({
       )}
       <PopoverPrimitive.Trigger asChild>
         <button
+          data-slot="date-picker"
           id={fieldId}
           type="button"
           // combobox-with-dialog pattern: lets the field carry aria-invalid like other inputs.
@@ -91,7 +92,7 @@ function PickerTrigger({
           className={cn(
             'bg-card inline-flex h-9 w-full items-center justify-start gap-2 rounded-md border px-3 text-left text-lg md:text-sm',
             'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-            'focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+            'focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
             'disabled:cursor-not-allowed disabled:opacity-50',
             error
               ? 'border-danger focus-visible:border-danger focus-visible:ring-danger'
@@ -173,7 +174,6 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(function D
     <div ref={ref} className={cn(className)}>
       <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
         <PickerTrigger
-          data-slot="date-picker"
           label={label}
           placeholder={placeholder}
           hasValue={Boolean(value)}

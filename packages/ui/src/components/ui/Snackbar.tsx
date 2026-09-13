@@ -58,7 +58,13 @@ export const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>(function Snack
   const renderedIcon = icon === false ? null : (icon ?? iconForVariant[variant ?? 'default']);
 
   return (
-    <div ref={ref} role="status" className={cn(snackbar({ variant }), className)} {...props}>
+    <div
+      data-slot="snackbar"
+      ref={ref}
+      role="status"
+      className={cn(snackbar({ variant }), className)}
+      {...props}
+    >
       {renderedIcon}
       <div className="min-w-0 flex-1">
         {title && <p className="font-medium">{title}</p>}
@@ -67,11 +73,10 @@ export const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>(function Snack
       {action}
       {onClose && (
         <button
-          data-slot="snackbar"
           type="button"
           onClick={onClose}
           aria-label={strings.snackbar.dismiss}
-          className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-card rounded p-1 outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-card rounded p-1 outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
         >
           <X className="size-4" aria-hidden />
         </button>

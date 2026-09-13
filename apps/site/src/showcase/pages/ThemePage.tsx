@@ -104,6 +104,13 @@ export function ThemePage() {
     const onHash = () => {
       const hash = window.location.hash;
       if (!hash.startsWith('#theme')) return; // navigating away is not our business
+      // A bare `#theme` (the top-bar link, the mobile menu) is navigation, not
+      // a theme: decoding it would reset the editor and persist the default
+      // over the user's work. Put the current state back into the hash instead.
+      if (!hash.includes('?')) {
+        if (written.current) window.history.replaceState(null, '', written.current);
+        return;
+      }
       if (hash !== written.current) setState(decodeState(hash));
     };
     window.addEventListener('hashchange', onHash);

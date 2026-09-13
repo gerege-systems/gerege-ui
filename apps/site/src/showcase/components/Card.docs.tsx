@@ -61,7 +61,7 @@ const doc: ComponentDoc = {
       description:
         'variant="interactive" adds hover + focus-visible affordances so the whole card reads as a link target. Wrap an <a> inside for proper link semantics.',
       preview: (
-        <a href="#/components/card" className="block w-full max-w-sm no-underline">
+        <a href="#components/card" className="block w-full max-w-sm no-underline">
           <Card variant="interactive">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
@@ -88,7 +88,7 @@ const doc: ComponentDoc = {
         'Instead of nesting an <a> around the card, `asChild` merges the card styles onto your own element — one DOM node, native link semantics, and the interactive hover/focus ring land on the <a> itself. Works with router <Link> too.',
       preview: (
         <Card asChild variant="interactive" className="block w-full max-w-sm no-underline">
-          <a href="#/components/card">
+          <a href="#components/card">
             <CardHeader>
               <CardTitle>Project Beacon</CardTitle>
               <CardDescription>Open dashboard ↗</CardDescription>

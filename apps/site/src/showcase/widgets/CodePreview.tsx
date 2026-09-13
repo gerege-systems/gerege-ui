@@ -59,7 +59,7 @@ function Tab({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'relative px-3 py-2 text-xs font-medium transition-colors outline-none',
+        'relative px-3 py-2 text-xs font-medium outline-hidden transition-colors',
         'focus-visible:ring-ring rounded-sm focus-visible:ring-2',
         active
           ? 'text-foreground after:bg-accent after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px'

@@ -135,7 +135,7 @@ export function FilterChip({ children, onRemove }: { children: ReactNode; onRemo
         type="button"
         onClick={onRemove}
         aria-label={t('filter.remove')}
-        className="text-foreground-subtle hover:bg-background-muted hover:text-foreground focus-visible:ring-ring inline-flex size-5 items-center justify-center rounded-full outline-none focus-visible:ring-2"
+        className="text-foreground-subtle hover:bg-background-muted hover:text-foreground focus-visible:ring-ring inline-flex size-5 items-center justify-center rounded-full outline-hidden focus-visible:ring-2"
       >
         <X className="size-3" aria-hidden />
       </button>

@@ -125,7 +125,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
           onClick={handleDismiss}
           className={cn(
             'inline-flex size-6 shrink-0 items-center justify-center rounded-md',
-            'outline-none hover:bg-current/10',
+            'outline-hidden hover:bg-current/10',
             'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
           )}
         >

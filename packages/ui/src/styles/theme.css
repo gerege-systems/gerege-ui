@@ -534,6 +534,44 @@
  *  Raw scale (`bg-accent-500`, `bg-success-100`, …) is still available
  *  for the rare case a designer needs a specific step.
  * --------------------------------------------------------------------------- */
+/* -----------------------------------------------------------------------------
+ *  Preference overrides — forced colours and prefers-contrast.
+ *
+ *  These must stay OUTSIDE `@layer base`: the `:root` / `.dark` token blocks
+ *  above are unlayered, and an unlayered declaration beats any layered one
+ *  regardless of order or specificity. Inside the layer these overrides were
+ *  silently dead. The `[data-accent]` presets set `--ring` at (0,2,0), so the
+ *  forced-colours selector matches that specificity and wins by source order.
+ * --------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  :root,
+  :root[data-accent],
+  .dark,
+  .dark[data-accent] {
+    --border: CanvasText;
+    --border-strong: CanvasText;
+    --border-input: CanvasText;
+    --ring: Highlight;
+    --ring-offset: Canvas;
+  }
+}
+
+/* prefers-contrast: more — darker hairlines and secondary text. */
+@media (prefers-contrast: more) {
+  :root {
+    --border: hsl(213 27% 78%);
+    --border-strong: hsl(215 16% 55%);
+    --foreground-muted: hsl(222 47% 20%);
+    --foreground-subtle: hsl(215 19% 35%);
+  }
+  .dark {
+    --border: hsl(215 25% 30%);
+    --border-strong: hsl(215 16% 45%);
+    --foreground-muted: hsl(210 40% 92%);
+    --foreground-subtle: hsl(213 27% 80%);
+  }
+}
+
 @theme inline {
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -677,7 +715,7 @@
   }
 
   /* Visible default focus indicator. Components that draw their own
-     `focus-visible:ring-*` set `outline-none` locally to avoid doubling. */
+     `focus-visible:ring-*` set `outline-hidden` locally to avoid doubling. */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
@@ -744,17 +782,9 @@
     }
   }
 
-  /* Forced colors (Windows High Contrast): system colours replace tokens;
-     keep boundaries and focus visible. */
+  /* Forced colors (Windows High Contrast): keep focus visible. The token
+     overrides live outside this layer — see "Preference overrides" above. */
   @media (forced-colors: active) {
-    :root,
-    .dark {
-      --border: CanvasText;
-      --border-strong: CanvasText;
-      --border-input: CanvasText;
-      --ring: Highlight;
-      --ring-offset: Canvas;
-    }
     :focus-visible {
       outline: 2px solid Highlight;
       outline-offset: 2px;
@@ -763,22 +793,6 @@
     .ring-focus {
       outline: 2px solid Highlight;
       box-shadow: none;
-    }
-  }
-
-  /* prefers-contrast: more — darker hairlines and secondary text. */
-  @media (prefers-contrast: more) {
-    :root {
-      --border: hsl(213 27% 78%);
-      --border-strong: hsl(215 16% 55%);
-      --foreground-muted: hsl(222 47% 20%);
-      --foreground-subtle: hsl(215 19% 35%);
-    }
-    .dark {
-      --border: hsl(215 25% 30%);
-      --border-strong: hsl(215 16% 45%);
-      --foreground-muted: hsl(210 40% 92%);
-      --foreground-subtle: hsl(213 27% 80%);
     }
   }
 
@@ -860,7 +874,7 @@
 
   /* Standard focus ring as a utility. */
   .ring-focus {
-    @apply outline-none;
+    @apply outline-hidden;
     box-shadow:
       0 0 0 2px var(--ring-offset),
       0 0 0 4px var(--ring);

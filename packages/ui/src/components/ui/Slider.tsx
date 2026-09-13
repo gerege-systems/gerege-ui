@@ -123,7 +123,7 @@ export const Slider = forwardRef<ComponentRef<typeof SliderPrimitive.Root>, Slid
                 'border-accent bg-card relative block size-4 rounded-full border-2 shadow-sm',
                 // 44px touch target without growing the visible thumb.
                 'before:absolute before:top-1/2 before:left-1/2 before:size-11 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:content-[""]',
-                'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+                'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
                 'transition-transform duration-[var(--duration-fast)] ease-[var(--ease-out)]',
                 'hover:scale-110 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
               )}

@@ -86,7 +86,7 @@ export const Switch = forwardRef<ComponentRef<typeof SwitchPrimitive.Root>, Swit
         className={cn(
           'peer relative inline-flex shrink-0 items-center rounded-full border-2 border-transparent',
           'transition-colors duration-[var(--duration-base)] ease-[var(--ease-out)]',
-          'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
           'disabled:cursor-not-allowed disabled:opacity-50',
           'data-[state=checked]:bg-accent data-[state=unchecked]:bg-switch-track-off',
           'aria-invalid:ring-danger aria-invalid:ring-2',

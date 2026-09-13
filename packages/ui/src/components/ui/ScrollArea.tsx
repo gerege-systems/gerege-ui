@@ -41,7 +41,7 @@ export const ScrollArea = forwardRef<
         tabIndex={0}
         className={cn(
           'h-full w-full rounded-[inherit]',
-          'focus-visible:ring-ring focus-visible:ring-offset-background outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'focus-visible:ring-ring focus-visible:ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2',
         )}
       >
         {children}

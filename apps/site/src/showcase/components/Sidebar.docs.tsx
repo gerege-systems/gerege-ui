@@ -84,10 +84,10 @@ const doc: ComponentDoc = {
           <Sidebar className="!sticky-none !h-full" defaultCollapsed={false}>
             <SidebarSection>
               <SidebarItem icon={<Home />} asChild active>
-                <a href="#/components/sidebar">Home</a>
+                <a href="#components/sidebar">Home</a>
               </SidebarItem>
               <SidebarItem icon={<Folder />} asChild>
-                <a href="#/components/sidebar">Projects</a>
+                <a href="#components/sidebar">Projects</a>
               </SidebarItem>
             </SidebarSection>
           </Sidebar>

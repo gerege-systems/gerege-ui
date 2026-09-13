@@ -69,7 +69,7 @@ export function TransactionList() {
               <span
                 className={
                   t.amount > 0
-                    ? 'text-success-foreground shrink-0 text-sm font-medium tabular-nums'
+                    ? 'text-success-text shrink-0 text-sm font-medium tabular-nums'
                     : 'shrink-0 text-sm font-medium tabular-nums'
                 }
               >

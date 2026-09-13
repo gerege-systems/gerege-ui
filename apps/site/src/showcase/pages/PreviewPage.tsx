@@ -190,7 +190,7 @@ export function PreviewPage({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-7 min-w-0 items-center gap-1.5 rounded-full px-2 text-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-7 min-w-0 items-center gap-1.5 rounded-full px-2 text-xs outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2"
                 aria-label={`Template: ${doc.name}. Switch template or screen`}
               >
                 <span className="bg-accent inline-flex size-1.5 rounded-full" aria-hidden />
@@ -262,7 +262,7 @@ export function PreviewPage({
               locale === 'en' ? 'Switch template language to Mongolian' : 'Хэлийг англи болгох'
             }
             title={locale === 'en' ? 'Монгол' : 'English'}
-            className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="text-foreground-muted hover:bg-background-muted hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-medium outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             {locale === 'en' ? 'MN' : 'EN'}
           </button>

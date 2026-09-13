@@ -1,7 +1,8 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { contrast, parseColor, toHex } from './helpers/color';
-import { parseTheme, type TokenMap } from './helpers/theme';
+import { readFileSync } from 'node:fs';
+import { THEME_PATH, parseTheme, type TokenMap } from './helpers/theme';
 import { ACCENT_PAIRS } from '../lib/accent-pairs';
 
 /**
@@ -139,6 +140,43 @@ describe('WCAG contrast — [data-accent] presets', () => {
       expect(table(tokens, presetChecks, `accent=${name} dark`)).toEqual([]);
     });
   }
+});
+
+/**
+ * Token overrides under a media query (forced colours, prefers-contrast) must
+ * be unlayered: `:root` / `.dark` are unlayered, and an unlayered declaration
+ * beats any `@layer` one regardless of order. Inside `@layer base` those
+ * overrides were silently dead — no error, just no effect.
+ */
+describe('preference token overrides are not buried in a cascade layer', () => {
+  const css = readFileSync(THEME_PATH, 'utf8');
+  /** Every `{ … }` block whose opening matches `open`, with braces balanced. */
+  const blocks = (source: string, open: RegExp) =>
+    [...source.matchAll(open)].map((m) => {
+      let i = m.index + m[0].length;
+      let depth = 1;
+      while (i < source.length && depth > 0) {
+        if (source[i] === '{') depth++;
+        else if (source[i] === '}') depth--;
+        i++;
+      }
+      return { header: m[0].trim(), body: source.slice(m.index, i) };
+    });
+  const SETS_TOKENS = /(?:^|\s)(?::root|\.dark)[^{]*\{[^}]*--[a-z-]+:/;
+  const tokenMedia = (s: string) =>
+    blocks(s, /@media[^{]*\{/g)
+      .filter((b) => SETS_TOKENS.test(b.body))
+      .map((b) => b.header);
+
+  it('every @media block that sets tokens on :root/.dark is top-level', () => {
+    // Strip every top-level `@layer … { … }` block; the token media blocks
+    // that survive are, by construction, unlayered.
+    let unlayered = css;
+    for (const b of blocks(css, /^@layer[^{]*\{/gm)) unlayered = unlayered.replace(b.body, '');
+    const all = tokenMedia(css);
+    expect(all.length).toBeGreaterThanOrEqual(2); // forced-colors + prefers-contrast
+    expect(tokenMedia(unlayered), 'token @media blocks buried inside a @layer').toEqual(all);
+  });
 });
 
 describe('header comment ratios are not stale', () => {

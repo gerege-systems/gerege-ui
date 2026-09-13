@@ -145,7 +145,7 @@ describe('Tabs', () => {
     expect(trigRef.current).toBe(screen.getByRole('tab'));
     expect(trigRef.current).toHaveClass('px-4', 'font-medium');
     expect(contentRef.current).toBe(screen.getByRole('tabpanel'));
-    expect(contentRef.current).toHaveClass('mt-0', 'outline-none');
+    expect(contentRef.current).toHaveClass('mt-0', 'outline-hidden');
     expect(contentRef.current).toHaveAttribute('data-testid', 'content');
   });
 

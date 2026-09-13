@@ -71,7 +71,7 @@ export const TabsTrigger = forwardRef<
         'inline-flex items-center gap-2 font-medium whitespace-nowrap',
         // Icon + label tabs: a bare lucide icon is 24px; match Button/menu items.
         '[&_svg]:size-4 [&_svg]:shrink-0',
-        'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none',
+        'outline-hidden transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
         'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
         'disabled:pointer-events-none disabled:opacity-50',
         // Underline variant
@@ -107,7 +107,7 @@ export const TabsContent = forwardRef<
     <TabsPrimitive.Content
       ref={ref}
       className={cn(
-        'mt-4 outline-none',
+        'mt-4 outline-hidden',
         'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
         className,
       )}

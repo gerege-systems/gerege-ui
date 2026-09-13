@@ -218,7 +218,6 @@ export const Tree = forwardRef<HTMLUListElement, TreeProps>(function Tree(props,
 
     return (
       <li
-        data-slot="tree"
         key={node.id}
         ref={(el) => {
           if (el) itemRefs.current.set(node.id, el);
@@ -243,7 +242,7 @@ export const Tree = forwardRef<HTMLUListElement, TreeProps>(function Tree(props,
           select(node.id);
           if (hasChildren) setOpen(node.id, !isOpen);
         }}
-        className="outline-none"
+        className="outline-hidden"
       >
         <div
           style={{ paddingLeft: `${level - 1 + 0.5}rem` }}
@@ -296,6 +295,7 @@ export const Tree = forwardRef<HTMLUListElement, TreeProps>(function Tree(props,
 
   return (
     <ul
+      data-slot="tree"
       ref={ref}
       role="tree"
       aria-label={ariaLabel ?? (ariaLabelledby ? undefined : strings.tree.label)}

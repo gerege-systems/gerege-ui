@@ -134,7 +134,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
           'bg-card text-foreground rounded-md border px-3 py-2 text-lg md:text-sm',
           'placeholder:text-foreground-subtle',
           'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-          'outline-none',
+          'outline-hidden',
           'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2',
           'focus-visible:ring-offset-background',
           'disabled:cursor-not-allowed disabled:opacity-50',

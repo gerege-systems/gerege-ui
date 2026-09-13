@@ -63,7 +63,7 @@ export const SelectTrigger = forwardRef<
         'bg-card text-foreground inline-flex w-full items-center justify-between gap-2 rounded-md border text-lg md:text-sm',
         '[&>span]:min-w-0 [&>span]:truncate',
         'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-        'outline-none',
+        'outline-hidden',
         'focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
         'disabled:cursor-not-allowed disabled:opacity-50',
         'data-[placeholder]:text-foreground-subtle',
@@ -169,7 +169,7 @@ export const SelectItem = forwardRef<ComponentRef<typeof SelectPrimitive.Item>, 
         ref={ref}
         className={cn(
           'relative flex w-full cursor-default items-center gap-2 select-none',
-          'text-foreground rounded-sm px-2 py-1.5 pr-8 text-sm outline-none',
+          'text-foreground rounded-sm px-2 py-1.5 pr-8 text-sm outline-hidden',
           'data-[highlighted]:bg-background-muted data-[highlighted]:text-foreground',
           'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           className,

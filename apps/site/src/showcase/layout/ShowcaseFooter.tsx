@@ -78,7 +78,7 @@ function Column({
               href={l.href}
               target={l.external ? '_blank' : undefined}
               rel={l.external ? 'noreferrer' : undefined}
-              className="text-foreground-muted hover:text-foreground focus-visible:ring-ring inline-flex min-h-6 items-center rounded-sm py-1 outline-none focus-visible:ring-2"
+              className="text-foreground-muted hover:text-foreground focus-visible:ring-ring inline-flex min-h-6 items-center rounded-sm py-1 outline-hidden focus-visible:ring-2"
             >
               {l.label}
               {l.external && <span className="text-foreground-subtle ml-0.5">↗</span>}

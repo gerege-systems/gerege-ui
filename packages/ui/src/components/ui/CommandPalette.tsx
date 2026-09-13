@@ -50,7 +50,7 @@ export const CommandInput = forwardRef<
       <CommandPrimitive.Input
         ref={ref}
         className={cn(
-          'flex h-11 w-full bg-transparent py-3 text-lg outline-none md:text-sm',
+          'flex h-11 w-full bg-transparent py-3 text-lg outline-hidden md:text-sm',
           'placeholder:text-foreground-subtle disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
@@ -133,7 +133,7 @@ export const CommandItem = forwardRef<
     <CommandPrimitive.Item
       ref={ref}
       className={cn(
-        'text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none select-none',
+        'text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none',
         'data-[selected=true]:bg-background-muted data-[selected=true]:text-foreground',
         'data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
         '[&_svg]:text-foreground-subtle [&_svg]:size-4',

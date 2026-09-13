@@ -22,7 +22,7 @@ type WidthKey = (typeof WIDTHS)[number]['key'];
 
 const pillClass = (active: boolean) =>
   cn(
-    'rounded-full border px-2.5 py-1 text-xs outline-none transition-colors',
+    'rounded-full border px-2.5 py-1 text-xs outline-hidden transition-colors',
     'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     active
       ? 'border-accent bg-accent-soft text-on-accent-soft'
@@ -85,7 +85,7 @@ export function TemplateDocPage({ doc }: TemplateDocPageProps) {
             href={previewUrl(doc.slug)}
             target="_blank"
             rel="noreferrer"
-            className="bg-accent text-on-accent focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="bg-accent text-on-accent focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium outline-hidden hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             Open live preview <ExternalLink className="size-3" aria-hidden />
           </a>
@@ -93,7 +93,7 @@ export function TemplateDocPage({ doc }: TemplateDocPageProps) {
             href={`${SRC_BLOCKS}/${doc.sourceFile}`}
             target="_blank"
             rel="noreferrer"
-            className="text-foreground-muted hover:text-accent focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-1 rounded-sm text-xs outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="text-foreground-muted hover:text-accent focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center gap-1 rounded-sm text-xs outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             View on GitHub <ExternalLink className="size-3" aria-hidden />
           </a>

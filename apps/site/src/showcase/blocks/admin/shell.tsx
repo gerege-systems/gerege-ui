@@ -103,7 +103,7 @@ export function WorkspaceSwitcher({
           type="button"
           aria-label={collapsed ? t('ws.label', { name: ws.name }) : undefined}
           className={cn(
-            'flex items-center gap-2 rounded-md text-left transition-colors outline-none',
+            'flex items-center gap-2 rounded-md text-left outline-hidden transition-colors',
             'hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
             variant === 'bar' ? 'h-9 min-w-0 px-1.5' : 'h-10 w-full',
             variant === 'sidebar' && (collapsed ? 'justify-center px-0' : 'px-1.5'),
@@ -263,7 +263,7 @@ function RailButton({
         aria-current={active ? 'page' : undefined}
         onClick={onClick}
         className={cn(
-          'relative inline-flex size-10 items-center justify-center rounded-md outline-none [&_svg]:size-5',
+          'relative inline-flex size-10 items-center justify-center rounded-md outline-hidden [&_svg]:size-5',
           'transition-colors duration-[var(--duration-fast)]',
           'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
           // Active = accent bar on the rail's left edge + background + accent
@@ -334,7 +334,7 @@ export function AppRail({
             type="button"
             aria-label={t('rail.userOpen', { name: USER.name })}
             onClick={() => onNavigate('settings')}
-            className="hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background inline-flex size-10 items-center justify-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background inline-flex size-10 items-center justify-center rounded-md outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             <Avatar size="sm" fallback={USER.initials} alt="" status="online" />
           </button>
@@ -375,7 +375,7 @@ function ModuleTabs({
                 : undefined
             }
             className={cn(
-              'inline-flex h-8 shrink-0 snap-start items-center justify-center gap-1.5 rounded-md px-2.5 text-sm whitespace-nowrap outline-none [&_svg]:size-4',
+              'inline-flex h-8 shrink-0 snap-start items-center justify-center gap-1.5 rounded-md px-2.5 text-sm whitespace-nowrap outline-hidden [&_svg]:size-4',
               'transition-colors duration-[var(--duration-fast)]',
               'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
               active
@@ -453,7 +453,7 @@ export function PageCrumbs({
         <button
           type="button"
           onClick={() => onNavigate?.(href)}
-          className="hover:text-foreground focus-visible:ring-ring rounded-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="hover:text-foreground focus-visible:ring-ring rounded-sm outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2"
         >
           {children}
         </button>
@@ -713,7 +713,7 @@ function TopNavItems({ page, onNavigate }: { page: string; onNavigate: (key: str
             onClick={() => onNavigate(it.key)}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'relative inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm outline-none',
+              'relative inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm outline-hidden',
               'transition-colors duration-[var(--duration-fast)]',
               'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
               'after:bg-accent after:absolute after:inset-x-3 after:-bottom-2.5 after:h-0.5 after:rounded-full after:opacity-0',
@@ -947,7 +947,7 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
               <button
                 type="button"
                 aria-label={t('account.menu')}
-                className="hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background ml-1 inline-flex size-8 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="hover:bg-background-muted focus-visible:ring-ring focus-visible:ring-offset-background ml-1 inline-flex size-8 items-center justify-center rounded-full outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 <Avatar size="sm" fallback={USER.initials} alt={USER.name} status="online" />
               </button>

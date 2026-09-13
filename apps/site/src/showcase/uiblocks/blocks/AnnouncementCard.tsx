@@ -6,7 +6,7 @@ export function AnnouncementCard() {
       {/* A flat tinted band, not a photo and not a gradient: the block ships as
           source, so a bundled image would be one more thing to replace, and
           gradients are out by the design rules. */}
-      <div aria-hidden className="bg-accent-subtle flex h-40 w-full items-center justify-center">
+      <div aria-hidden className="bg-accent-soft flex h-40 w-full items-center justify-center">
         <Icons.BarChart3 className="text-accent size-10" />
       </div>
       <CardContent className="flex flex-col gap-3 pt-4">

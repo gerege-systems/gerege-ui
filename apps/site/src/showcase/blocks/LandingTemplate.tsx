@@ -116,7 +116,7 @@ function Nav({ brand, onSignUp }: { brand: ReactNode; onSignUp: () => void }) {
             <SectionLink
               key={n.id}
               id={n.id}
-              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               {n.label}
             </SectionLink>
@@ -381,7 +381,7 @@ function Landing({
           <div className="divide-border border-border mt-10 divide-y border-y">
             {faq(t).map((item) => (
               <details key={item.q} className="group py-4">
-                <summary className="text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm text-base font-medium outline-none marker:content-none focus-visible:ring-2 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                <summary className="text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm text-base font-medium outline-hidden marker:content-none focus-visible:ring-2 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
                   {item.q}
                   <span
                     aria-hidden
@@ -463,7 +463,7 @@ type FooterLink = { label: string; id?: string; href?: string; onClick?: () => v
 
 function FooterColumn({ heading, links }: { heading: string; links: FooterLink[] }) {
   const linkClass =
-    'rounded-sm outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+    'rounded-sm outline-hidden hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
   return (
     <div>
       <div className="text-foreground-subtle mb-3 text-xs font-semibold tracking-wider uppercase">
@@ -521,7 +521,7 @@ export function LandingTemplate({ screen, setScreen, brand }: TemplateProps) {
             <button
               type="button"
               onClick={() => setScreen('home')}
-              className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-none hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="text-accent focus-visible:ring-ring focus-visible:ring-offset-background rounded-sm font-medium outline-hidden hover:underline focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               {t('backToSite')}
             </button>
