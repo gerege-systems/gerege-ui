@@ -115,7 +115,7 @@ importers:
         specifier: ^0.8.2
         version: 0.8.2
       '@gerege-systems/ui':
-        specifier: ^0.15.0
+        specifier: ^0.16.0
         version: link:../ui
       kleur:
         specifier: ^4.1.5
