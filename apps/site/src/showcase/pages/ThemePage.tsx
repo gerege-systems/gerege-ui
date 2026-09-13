@@ -23,7 +23,6 @@ import {
   previewTokens,
   type ThemeState,
 } from '../theme/editor-model';
-import { useTheme } from '../theme/theme-context';
 
 /**
  * Where the editor keeps its last state between visits. The hash wins when it
@@ -62,15 +61,6 @@ function readInitialState(): ThemeState {
  */
 export function ThemePage() {
   const [state, setState] = useState<ThemeState>(readInitialState);
-  // The top bar's accent switcher writes `data-accent` on <html>, which would
-  // cascade into the wall and show an accent the rail says is untouched. It is
-  // held off while this page is mounted; the rail's Accent dropdown is the
-  // one control here.
-  const { setBrandSuppressed } = useTheme();
-  useEffect(() => {
-    setBrandSuppressed(true);
-    return () => setBrandSuppressed(false);
-  }, [setBrandSuppressed]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   // A different arrangement each visit: a fixed order teaches you the page

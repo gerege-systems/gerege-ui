@@ -160,4 +160,13 @@ describe('generated css', () => {
     // An explicit heading face wins over the alias.
     expect(previewTokens({ ...s, fontHeading: 'lora' }).light['font-heading']).toContain('Lora');
   });
+
+  it('the preview writes the default accent out; the snippet stays delta-only', () => {
+    const preview = previewTokens(DEFAULT_STATE);
+    // The editor states the default in oklch (the rail's own numbers).
+    expect(preview.light.accent).toMatch(/^oklch\(0\.457 /);
+    expect(preview.dark.ring).toBe('hsl(238 60% 67%)');
+    expect(deriveTokens(DEFAULT_STATE).light.accent).toBeUndefined();
+    expect(generateCss(DEFAULT_STATE, null)).toContain('Nothing changed');
+  });
 });

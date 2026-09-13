@@ -275,6 +275,7 @@ const THEME_ACCENT = {
     'accent-foreground': 'hsl(0 0% 100%)',
     'accent-subtle': 'hsl(232 100% 97%)',
     'accent-subtle-foreground': 'hsl(238 48% 40%)',
+    ring: 'hsl(238 55% 58%)',
     background: 'hsl(0 0% 100%)',
     'background-muted': 'hsl(210 40% 96%)',
   },
@@ -283,6 +284,7 @@ const THEME_ACCENT = {
     'accent-foreground': 'hsl(229 50% 6%)',
     'accent-subtle': 'hsl(238 50% 16%)',
     'accent-subtle-foreground': 'hsl(234 71% 78%)',
+    ring: 'hsl(238 60% 67%)',
     background: 'hsl(229 50% 6%)',
     'background-muted': 'hsl(217 33% 13%)',
   },
@@ -441,6 +443,16 @@ export function previewTokens(s: ThemeState): DerivedTokens {
   const t = deriveTokens(s);
   if (t.light['font-sans'] && !t.light['font-heading']) {
     t.light['font-heading'] = 'var(--font-sans)';
+  }
+  // The wall must show the accent the rail reports, whatever `<html>` carries:
+  // the site's own brand switcher sets `data-accent` there, and an untouched
+  // accent would otherwise inherit it. So the library default is written out
+  // explicitly on the scope — the snippet (deriveTokens) stays delta-only.
+  if (!('accent' in t.light)) {
+    for (const k of ACCENT_KEYS) {
+      t.light[k] = THEME_ACCENT.light[k];
+      t.dark[k] = THEME_ACCENT.dark[k];
+    }
   }
   return t;
 }

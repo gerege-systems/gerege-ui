@@ -162,21 +162,27 @@ test.describe('theme rail', () => {
 });
 
 test.describe('theme rail owns the accent', () => {
-  test('the top-bar brand stays off the wall, and the switcher is gone', async ({ page }) => {
+  test('the site brand stays on the chrome, the rail owns the wall, the switcher is gone', async ({
+    page,
+  }) => {
     await page.addInitScript(() => localStorage.setItem('brand', 'violet'));
     await gotoHash(page, 'theme');
-    // The stored brand still reaches every other page…
     await expect(page.getByRole('button', { name: /Accent colour/ })).toHaveCount(0);
-    // …but on #theme <html> carries no data-accent, so the wall shows the
-    // library default the rail reports.
+    // <html> keeps the stored brand — the top bar and the rail stay violet
+    // like every other page — while the wall shows the library default the
+    // rail reports, written out on the preview scope.
     await expect
       .poll(() => page.evaluate(() => document.documentElement.getAttribute('data-accent')))
-      .toBeNull();
+      .toBe('violet');
+    const chromeAccent = await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(),
+    );
+    expect(chromeAccent).toContain('295');
     const wallAccent = await page.$eval('[data-brand-scope]', (el) =>
       getComputedStyle(el).getPropertyValue('--accent').trim(),
     );
-    // theme.css says hsl(238 50% 49%); the build serialises it as its hex.
-    expect(['hsl(238 50% 49%)', '#3e43bb']).toContain(wallAccent);
+    // The scope states the default in the editor's oklch form (indigo, hue 274.5).
+    expect(wallAccent).toMatch(/^oklch\(0\.457 0\.185 274\.5\)$/);
     await gotoHash(page, 'components');
     await expect(page.getByRole('button', { name: /Accent colour/ })).toBeVisible();
     await expect

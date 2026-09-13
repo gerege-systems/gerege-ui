@@ -28,11 +28,6 @@ interface ThemeContextValue {
   toggleTheme: () => void;
   brand: BrandName;
   setBrand: (b: BrandName) => void;
-  /**
-   * Hold the brand off `<html>` without forgetting it — the theme editor's
-   * preview must not inherit an accent its own rail does not show.
-   */
-  setBrandSuppressed: (suppressed: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -80,7 +75,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readInitialTheme);
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => resolveTheme(theme));
   const [brand, setBrandState] = useState<BrandName>(readInitialBrand);
-  const [brandSuppressed, setBrandSuppressed] = useState(false);
 
   // Paint the resolved theme; while on `system`, follow OS changes live.
   useEffect(() => {
@@ -100,11 +94,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme]);
 
   useEffect(() => {
-    applyBrand(brandSuppressed ? 'default' : brand);
+    applyBrand(brand);
     try {
       localStorage.setItem(BRAND_KEY, brand);
     } catch {}
-  }, [brand, brandSuppressed]);
+  }, [brand]);
 
   // Keep tabs in sync — flip theme/brand here when the standalone preview tab
   // changes it (and vice-versa) via the storage event.
@@ -127,7 +121,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       toggleTheme: () => setThemeState((t) => THEMES[(THEMES.indexOf(t) + 1) % THEMES.length]),
       brand,
       setBrand: setBrandState,
-      setBrandSuppressed,
     }),
     [theme, resolvedTheme, brand],
   );
