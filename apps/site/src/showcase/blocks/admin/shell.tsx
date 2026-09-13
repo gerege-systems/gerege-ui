@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   Check,
   Circle,
+  ChevronDown,
   ChevronsUpDown,
   CreditCard,
   LogOut,
@@ -40,6 +41,9 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Button,
   IconButton,
@@ -240,7 +244,7 @@ function UserCard() {
 }
 
 /* ---------------------------------------------------------------------------
- *  `dual` shell — icon rail of modules (56px) + 240px panel of the active
+ *  `sidebar-module` shell — icon rail of modules (56px) + 240px panel of the active
  *  module's sections. Two-tier navigation for products with many areas.
  * ------------------------------------------------------------------------ */
 
@@ -463,7 +467,8 @@ export function PageCrumbs({
 }
 
 /** Shell layout, so `PageHeader` knows when the top bar already shows the trail. */
-export const AdminLayoutContext = createContext<'sidebar' | 'topnav' | 'dual'>('sidebar');
+export type ShellLayout = 'sidebar' | 'topnav' | 'sidebar-module' | 'topnav-module';
+export const AdminLayoutContext = createContext<ShellLayout>('sidebar');
 
 /* ---------------------------------------------------------------------------
  *  Demo controls — preview every page in its loading / empty / error state,
@@ -565,8 +570,8 @@ export function EnvBanner({ label }: { label?: string }) {
   );
 }
 
-/** `rail` = collapsible sidebar (≥lg); `dual` = icon rail + module panel; `none` = drawer only. */
-export type AppSidebarMode = 'rail' | 'dual' | 'none';
+/** `rail` = collapsible sidebar (≥lg); `module` = icon rail + module panel; `none` = drawer only. */
+export type AppSidebarMode = 'rail' | 'module' | 'none';
 
 export interface AppSidebarProps {
   page: string;
@@ -582,7 +587,12 @@ export interface AppSidebarProps {
   drawerTriggerRef?: RefObject<HTMLButtonElement>;
   /** Desktop chrome (≥lg). Every mode keeps the drawer below lg. */
   mode?: AppSidebarMode;
-  /** Active module for `dual`. */
+  /**
+   * Drawer lists modules (tabs above the active module's sections) even
+   * without a desktop panel — the `topnav-module` shell. Implied by `module`.
+   */
+  drawerModules?: boolean;
+  /** Active module for the module shells. */
   module?: string;
   onModuleChange?: (key: string) => void;
 }
@@ -602,6 +612,7 @@ export function AppSidebar({
   onDrawerOpenChange,
   drawerTriggerRef,
   mode = 'rail',
+  drawerModules = false,
   module = MODULES[0].key,
   onModuleChange = () => {},
 }: AppSidebarProps) {
@@ -610,12 +621,13 @@ export function AppSidebar({
     onDrawerOpenChange(false);
   };
   const t = useT(adminDict);
-  const dual = mode === 'dual';
+  const panel = mode === 'module';
+  const modules = panel || drawerModules;
   const activeModule = MODULES.find((m) => m.key === module) ?? MODULES[0];
-  const sections = dual ? activeModule.sections : NAV;
+  const sections = modules ? activeModule.sections : NAV;
   return (
     <>
-      {dual && (
+      {panel && (
         <>
           <AppRail module={module} onModuleChange={onModuleChange} onNavigate={navigate} />
           <Sidebar
@@ -666,7 +678,7 @@ export function AppSidebar({
           <SheetTitle className="sr-only">{t('drawer.title')}</SheetTitle>
           <Sidebar
             header={
-              dual ? (
+              modules ? (
                 <ModuleTabs module={module} onModuleChange={onModuleChange} />
               ) : (
                 <WorkspaceSwitcher value={workspace} onChange={onWorkspaceChange} />
@@ -675,7 +687,7 @@ export function AppSidebar({
             footer={<UserCard />}
             className="flex h-full w-full border-r-0"
           >
-            {dual && (
+            {modules && (
               <div className="px-4 pb-2">
                 <PanelHeader label={t(activeModule.label)} />
               </div>
@@ -697,6 +709,18 @@ export function AppSidebar({
 
 const TOPNAV_KEYS = ['overview', 'analytics', 'projects', 'inbox', 'members', 'reports'];
 
+/** One top-bar item — link or menu trigger. Active = accent bar + weight, never colour alone. */
+const topNavItem = (active: boolean) =>
+  cn(
+    'relative inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm outline-hidden',
+    'transition-colors duration-[var(--duration-fast)]',
+    'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
+    'after:bg-accent after:absolute after:inset-x-3 after:-bottom-2.5 after:h-0.5 after:rounded-full after:opacity-0',
+    active
+      ? 'text-foreground font-semibold after:opacity-100'
+      : 'text-foreground-muted hover:text-foreground data-[state=open]:text-foreground font-medium',
+  );
+
 function TopNavItems({ page, onNavigate }: { page: string; onNavigate: (key: string) => void }) {
   const items = NAV.flatMap((s) => s.items).filter((it) => TOPNAV_KEYS.includes(it.key));
   const t = useT(adminDict);
@@ -712,15 +736,7 @@ function TopNavItems({ page, onNavigate }: { page: string; onNavigate: (key: str
             type="button"
             onClick={() => onNavigate(it.key)}
             aria-current={active ? 'page' : undefined}
-            className={cn(
-              'relative inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm outline-hidden',
-              'transition-colors duration-[var(--duration-fast)]',
-              'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2',
-              'after:bg-accent after:absolute after:inset-x-3 after:-bottom-2.5 after:h-0.5 after:rounded-full after:opacity-0',
-              active
-                ? 'text-foreground font-semibold after:opacity-100'
-                : 'text-foreground-muted hover:text-foreground font-medium',
-            )}
+            className={topNavItem(active)}
           >
             {t(it.label)}
             {it.count != null && (
@@ -729,6 +745,92 @@ function TopNavItems({ page, onNavigate }: { page: string; onNavigate: (key: str
               </Badge>
             )}
           </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+ *  Horizontal module nav — the `topnav-module` shell. Each module is a menu
+ *  button in the bar; a module with one section lists its pages directly,
+ *  one with several opens them as submenus (module → section → page), so a
+ *  product with many areas keeps a single-row top bar. Active = the module
+ *  that owns the current page; the page is marked inside its menu. Visible
+ *  ≥lg only; below that the drawer carries module tabs + the list.
+ * ------------------------------------------------------------------------ */
+
+function ModuleMenuItems({
+  section,
+  page,
+  onNavigate,
+}: {
+  section: NavSection;
+  page: string;
+  onNavigate: (key: string) => void;
+}) {
+  const t = useT(adminDict);
+  return section.items.map((it) => {
+    const Icon = it.icon;
+    const active = it.key === page;
+    return (
+      <DropdownMenuItem
+        key={it.key}
+        onSelect={() => onNavigate(it.key)}
+        aria-current={active ? 'page' : undefined}
+        className={active ? 'font-medium' : undefined}
+      >
+        <Icon aria-hidden />
+        {t(it.label)}
+        <span className="ml-auto inline-flex items-center gap-1.5 pl-3">
+          {it.count != null && (
+            <Badge tone={active ? 'accent' : 'neutral'} className="tabular">
+              {it.count}
+            </Badge>
+          )}
+          {active && <Check className="size-4" aria-hidden />}
+        </span>
+      </DropdownMenuItem>
+    );
+  });
+}
+
+function TopNavModules({ page, onNavigate }: { page: string; onNavigate: (key: string) => void }) {
+  const t = useT(adminDict);
+  const activeModule = findModule(page).key;
+  return (
+    <div className="hidden lg:contents">
+      {MODULES.map((m) => {
+        const active = m.key === activeModule;
+        return (
+          <DropdownMenu key={m.key}>
+            <DropdownMenuTrigger asChild>
+              {/* Text + chevron only: five module icons plus the switcher and
+                  search do not fit a 1280px bar; the icons live in the menus. */}
+              <button
+                type="button"
+                aria-current={active ? 'page' : undefined}
+                className={topNavItem(active)}
+              >
+                {t(m.label)}
+                <ChevronDown className="size-3.5 opacity-70" aria-hidden />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="min-w-52">
+              {m.sections.length === 1 ? (
+                <ModuleMenuItems section={m.sections[0]} page={page} onNavigate={onNavigate} />
+              ) : (
+                m.sections.map((s) => (
+                  <DropdownMenuSub key={s.label}>
+                    <DropdownMenuSubTrigger>{t(s.label)}</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="min-w-48">
+                      <ModuleMenuItems section={s} page={page} onNavigate={onNavigate} />
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                ))
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         );
       })}
     </div>
@@ -749,8 +851,12 @@ export interface AppTopNavProps {
   onSignOut: () => void;
   searchValue: string;
   onSearchChange: (q: string) => void;
-  /** `sidebar` (default) shows the tenant name; `topnav` adds primary links + the workspace switcher; `dual` shows the breadcrumb trail. */
-  layout?: 'sidebar' | 'topnav' | 'dual';
+  /**
+   * `sidebar` / `sidebar-module` show the breadcrumb trail (the sidebar carries
+   * the tenant); `topnav` / `topnav-module` carry the workspace switcher and
+   * the primary links or module menus.
+   */
+  layout?: ShellLayout;
   /** Active page — needed for the `topnav` links' active state. */
   page?: string;
   onWorkspaceChange?: (id: string) => void;
@@ -783,7 +889,12 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
   const themeLabel = (th: Theme) => t(`theme.${th}`);
   return (
     <TopNav
-      className="bg-background supports-[backdrop-filter]:bg-background"
+      className={cn(
+        'bg-background supports-[backdrop-filter]:bg-background',
+        // Five module menus + the switcher need more of the bar than six plain
+        // links: give the left track twice the right one and a narrower search.
+        layout === 'topnav-module' && 'lg:grid-cols-[minmax(0,2fr)_minmax(0,20rem)_minmax(0,1fr)]',
+      )}
       logo={
         <div className="flex min-w-0 items-center gap-2">
           <IconButton
@@ -795,7 +906,7 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
             className="lg:hidden"
             onClick={onOpenDrawer}
           />
-          {layout === 'topnav' ? (
+          {layout === 'topnav' || layout === 'topnav-module' ? (
             // No sidebar header to host the switcher, so it lives in the bar.
             <WorkspaceSwitcher
               variant="bar"
@@ -803,13 +914,13 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
               onChange={(id) => onWorkspaceChange?.(id)}
             />
           ) : (
-            // Sidebar/dual: the sidebar (or panel) header already shows the
+            // Sidebar shells: the sidebar (or panel) header already shows the
             // tenant, so the bar carries the trail (≥lg) and collapses to the
-            // current page title below that. Dual adds the module crumb.
+            // current page title below that. The module shell adds the module crumb.
             <>
               <PageCrumbs
                 page={page}
-                withModule={layout === 'dual'}
+                withModule={layout === 'sidebar-module'}
                 onNavigate={onNavigate}
                 className="hidden min-w-0 lg:block"
               />
@@ -820,7 +931,13 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
           )}
         </div>
       }
-      nav={layout === 'topnav' ? <TopNavItems page={page} onNavigate={onNavigate} /> : undefined}
+      nav={
+        layout === 'topnav' ? (
+          <TopNavItems page={page} onNavigate={onNavigate} />
+        ) : layout === 'topnav-module' ? (
+          <TopNavModules page={page} onNavigate={onNavigate} />
+        ) : undefined
+      }
       search={
         <Input
           ref={searchRef}
@@ -1009,14 +1126,22 @@ export function PageHeader({
   subtitle?: ReactNode;
   actions?: ReactNode;
   onNavigate?: (key: string) => void;
-  /** Defaults to true in the `dual` shell, whose top bar already shows the trail. */
+  /** Defaults to true in the sidebar shells, whose top bar already shows the trail. */
   hideBreadcrumbs?: boolean;
 }) {
   const layout = useContext(AdminLayoutContext);
-  const hide = hideBreadcrumbs ?? layout !== 'topnav';
+  const topnav = layout === 'topnav' || layout === 'topnav-module';
+  const hide = hideBreadcrumbs ?? !topnav;
   return (
     <header className="mb-6">
-      {!hide && <PageCrumbs page={page} onNavigate={onNavigate} className="mb-2" />}
+      {!hide && (
+        <PageCrumbs
+          page={page}
+          withModule={layout === 'topnav-module'}
+          onNavigate={onNavigate}
+          className="mb-2"
+        />
+      )}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-foreground text-2xl font-semibold tracking-tight">{title}</h1>
@@ -1046,7 +1171,7 @@ export function AdminPalette({
   onAction: (action: 'new-project' | 'invite' | 'toggle-sidebar') => void;
   /** False in the `topnav` / `dual` shells — there is no rail to toggle. */
   hasSidebar?: boolean;
-  /** Navigation groups to list; the `dual` shell passes every module's sections. */
+  /** Navigation groups to list; the module shells pass every module's sections. */
   sections?: NavSection[];
 }) {
   const t = useT(adminDict);

@@ -758,7 +758,7 @@ export function NotFoundPage({
 }
 
 /* ---------------------------------------------------------------------------
- *  Placeholder pages for the `dual` shell's extra modules (CRM, Finance,
+ *  Placeholder pages for the module shells' extra modules (CRM, Finance,
  *  Content, Security) — real destinations with a breadcrumb and an empty
  *  state, driven by `STUB_PAGES`.
  * ------------------------------------------------------------------------ */

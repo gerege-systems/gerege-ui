@@ -70,8 +70,9 @@ export const NAV: NavSection[] = [
 ];
 
 /**
- * Top-level modules for the `dual` (icon rail + panel) shell. The rail lists
- * modules; the panel shows the active module's sections. `Workspace` reuses
+ * Top-level modules for the module shells: `sidebar-module` (icon rail + panel)
+ * and `topnav-module` (top-bar menus). The rail / menu lists modules; the panel /
+ * submenu shows the active module's sections. `Workspace` reuses
  * the NAV sections verbatim and `Admin` its Account section; the rest are the
  * back-office areas a product with many surfaces grows into. Page keys are
  * unique across modules — `findModule` relies on it.
@@ -179,7 +180,7 @@ export const STUB_PAGES: Record<string, ComponentType<{ className?: string }>> =
   roles: Lock,
 };
 
-/** Every section across modules — the `dual` shell's palette and breadcrumbs read this. */
+/** Every section across modules — the module shells' palette and breadcrumbs read this. */
 export const ALL_SECTIONS: NavSection[] = MODULES.flatMap((m) => m.sections);
 
 /** Module that owns a page (unknown keys → the first module). */

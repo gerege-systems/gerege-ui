@@ -42,10 +42,12 @@ import { useT } from '../i18n/locale';
  *    (tenant name, `/` search, notifications, profile) + `Breadcrumbs` on
  *    every page below the home. `layout="topnav"` drops the rail and moves
  *    primary navigation into the top bar as horizontal links (≤6 sections);
- *    the drawer still serves viewports below lg. `layout="dual"` is the
- *    two-tier shell: a 56px icon rail of modules + a 240px panel with the
+ *    the drawer still serves viewports below lg. `layout="sidebar-module"` is
+ *    the two-tier shell: a 56px icon rail of modules + a 240px panel with the
  *    active module's sections (Slack / Linear style); below lg the drawer
- *    carries both tiers (module tabs above the list).
+ *    carries both tiers (module tabs above the list). `layout="topnav-module"`
+ *    keeps the same modules in the top bar, each opening a tiered menu
+ *    (module → section → page); its drawer is the module one too.
  *  · Keyboard: ⌘K / Ctrl+K opens the command palette, `/` focuses search,
  *    Esc closes overlays and blurs the search field.
  *  · Pages live in ./admin/* — Projects is the full table pattern (sort,
@@ -77,14 +79,28 @@ const DENSITY_CLASSES = [
   "data-[density=compact]:[&_[class*='md:pt-6']]:pt-4",
 ].join(' ');
 
-/** `sidebar` = collapsible rail (default); `topnav` = horizontal links, no rail; `dual` = icon rail + module panel. */
-export type AdminLayout = 'sidebar' | 'topnav' | 'dual';
+/**
+ * `sidebar` = collapsible sidebar (default); `sidebar-module` = icon rail +
+ * module panel; `topnav` = horizontal links, no sidebar; `topnav-module` =
+ * horizontal modules with tiered menus.
+ */
+export type AdminLayout = 'sidebar' | 'topnav' | 'sidebar-module' | 'topnav-module';
+export const ADMIN_LAYOUTS: readonly AdminLayout[] = [
+  'sidebar',
+  'sidebar-module',
+  'topnav',
+  'topnav-module',
+];
 
 const SIDEBAR_MODE: Record<AdminLayout, AppSidebarMode> = {
   sidebar: 'rail',
   topnav: 'none',
-  dual: 'dual',
+  'sidebar-module': 'module',
+  'topnav-module': 'none',
 };
+
+/** Shells whose navigation spans every module (palette, drawer, breadcrumbs). */
+const MODULE_LAYOUTS: AdminLayout[] = ['sidebar-module', 'topnav-module'];
 
 /** Every navigable page key across all modules (the `sidebar`/`topnav` NAV is a subset). */
 const PAGES = ALL_SECTIONS.flatMap((s) => s.items.map((i) => i.key));
@@ -104,7 +120,7 @@ export function AdminDashboard({
   // stays, the user keeps their bearings).
   const [page, setPage] = useState(() => initialPage || 'overview');
   const known = PAGES.includes(page);
-  // `dual` only: which module the panel shows. Navigating to a page selects
+  // Module shells only: which module the panel/drawer shows. Navigating to a page selects
   // its module; clicking the rail only switches the panel.
   const [module, setModule] = useState(() => findModule(page).key);
   const [workspace, setWorkspace] = useState(WORKSPACES[0].id);
@@ -265,6 +281,7 @@ export function AdminDashboard({
               onDrawerOpenChange={setDrawerOpen}
               drawerTriggerRef={drawerTriggerRef}
               mode={SIDEBAR_MODE[layout]}
+              drawerModules={MODULE_LAYOUTS.includes(layout)}
               module={module}
               onModuleChange={setModule}
             />
@@ -322,7 +339,7 @@ export function AdminDashboard({
               onNavigate={navigate}
               onAction={runAction}
               hasSidebar={hasRail}
-              sections={layout === 'dual' ? ALL_SECTIONS : undefined}
+              sections={MODULE_LAYOUTS.includes(layout) ? ALL_SECTIONS : undefined}
             />
             <ConfirmationDialog
               open={pendingNav !== null}

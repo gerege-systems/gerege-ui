@@ -183,23 +183,43 @@ test.describe('admin › projects @1280', () => {
     await expect(page.locator('aside, nav').filter({ hasText: 'Overview' }).first()).toBeVisible();
 
     await page.getByRole('button', { name: /^Template: Admin dashboard/ }).click();
-    await page.getByRole('menuitemradio', { name: 'Top nav' }).click();
-    await expect(page).toHaveURL(/#preview\/admin\/app\/topnav/);
-    await expect(page.getByRole('menuitemradio', { name: 'Top nav' })).toBeHidden();
+    await page.getByRole('menuitemradio', { name: 'Top nav', exact: true }).click();
+    await expect(page).toHaveURL(/#preview\/admin\/app\/topnav\//);
+    await expect(page.getByRole('menuitemradio', { name: 'Top nav', exact: true })).toBeHidden();
     // Top-nav shell renders the primary links in the header, not a rail.
     await expect(
       page.locator('header').getByRole('button', { name: 'Projects', exact: true }),
     ).toBeVisible();
 
     await page.getByRole('button', { name: /^Template: Admin dashboard/ }).click();
-    await page.getByRole('menuitemradio', { name: 'Rail + panel' }).click();
-    await expect(page).toHaveURL(/#preview\/admin\/app\/dual/);
+    await page.getByRole('menuitemradio', { name: 'Sidebar with module' }).click();
+    await expect(page).toHaveURL(/#preview\/admin\/app\/sidebar-module/);
     await expect(
       page
         .getByRole('navigation', { name: 'Modules' })
         .or(page.getByRole('group', { name: 'Modules' }))
         .first(),
     ).toBeVisible();
+
+    // Top nav with module: modules are menu buttons in the header; a module
+    // with several sections opens them as submenus (module → section → page).
+    await page.getByRole('button', { name: /^Template: Admin dashboard/ }).click();
+    await page.getByRole('menuitemradio', { name: 'Top nav with module' }).click();
+    await expect(page).toHaveURL(/#preview\/admin\/app\/topnav-module/);
+    // Scoped to the primary nav: the page header's breadcrumb also has a "CRM" button.
+    const crm = page
+      .getByRole('navigation', { name: 'Primary' })
+      .getByRole('button', { name: 'CRM', exact: true });
+    await expect(crm).toBeVisible();
+    await crm.click();
+    const sales = page.getByRole('menuitem', { name: 'Sales' });
+    await expect(sales).toBeVisible();
+    await sales.hover();
+    await page.getByRole('menuitem', { name: /^Customers/ }).click();
+    await expect(page).toHaveURL(/#preview\/admin\/app\/topnav-module\/customers/);
+    await expect(page.getByRole('heading', { level: 1, name: 'Customers' })).toBeVisible();
+    // The owning module is the active item; the trail names module › section › page.
+    await expect(crm).toHaveAttribute('aria-current', 'page');
   });
 });
 

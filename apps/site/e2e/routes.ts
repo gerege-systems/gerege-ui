@@ -90,7 +90,7 @@ export const DOC_PAGES: { name: string; hash: string }[] = [
   })),
 ];
 
-export const ADMIN_LAYOUTS = ['sidebar', 'topnav', 'dual'] as const;
+export const ADMIN_LAYOUTS = ['sidebar', 'sidebar-module', 'topnav', 'topnav-module'] as const;
 
 /**
  * Admin pages with real, layout-sensitive content (ALL_SECTIONS in
