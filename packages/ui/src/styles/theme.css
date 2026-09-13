@@ -26,7 +26,7 @@
  *     warning-solid bg + white text                                          →  4.6:1
  *     danger-solid bg + white text                                           →  4.8:1
  *     secondary fill (neutral-200) + foreground text                         → 14.5:1 (text)
- *     border-input (hsl 215 16% 82%)           on background / muted         →  1.55 / 1.42:1 (decorative — see below)
+ *     border-input (= border, hsl 214 32% 91%) on background / muted         →  1.24 / 1.13:1 (decorative — see below)
  *     switch-track-off (hsl 215 16% 55%)       on background / muted         →  3.55 / 3.24:1 (UI)
  *     border (neutral-200) / border-strong (neutral-300)                     →  decorative (1.3 / 1.7)
  *   Dark mode
@@ -37,14 +37,15 @@
  *     accent-400 bg + neutral-950 text                                       →  5.4:1
  *     success/warning/danger-solid + neutral-950 text                        →  9.0 / 9.3 / 5.2:1
  *     secondary fill (neutral-800) + foreground text                         → 13.8:1 (text)
- *     border-input (hsl 215 16% 30%)           on background / muted         →  2.21 / 1.86:1 (decorative — see below)
+ *     border-input (= border, hsl 217 33% 17%) on background / muted         →  1.33 / 1.12:1 (decorative — see below)
  *     switch-track-off (hsl 215 16% 45%)       on background / muted         →  3.88 / 3.28:1 (UI)
  *   background-muted on popover (menu highlight) is decorative: 1.10 (light) / 1.08 (dark) — not a 3:1 target.
  *   secondary fill against the page is 1.24 (light) / 1.36 (dark) — also not a 3:1 target: a filled
  *   button is identified by its label, and 1.4.11 asks 3:1 of a boundary only where the boundary is
  *   the sole identifier.
- *   border-input is deliberately soft (2026-09-13 product decision, shadcn-style fields) and does
- *   NOT meet 1.4.11's 3:1. `prefers-contrast: more` restores the previous 3:1 values (55% / 45%).
+ *   border-input is deliberately soft (2026-09-14 product decision): form controls and outline
+ *   buttons share the card border value and do NOT meet 1.4.11's 3:1. `prefers-contrast: more`
+ *   restores 3:1 values (55% / 45%).
  * ============================================================================= */
 
 /* Geist + Geist Mono are loaded via a <link> in index.html (Google Fonts). */
@@ -288,8 +289,8 @@
   --border: hsl(214 32% 91%);
   --border-strong: hsl(213 27% 84%);
   --border-input: hsl(
-    215 16% 82%
-  ); /* every interactive control edge: fields, selects, checkbox/radio, outline buttons — soft by decision, below 3:1 (see header) */
+    214 32% 91%
+  ); /* every interactive control edge: fields, selects, checkbox/radio, outline buttons — same as --border (card) by decision, below 3:1 (see header) */
 
   /* Card / popover ------------------------------------------------------- */
   --card: hsl(0 0% 100%);
@@ -378,7 +379,9 @@
 
   --border: hsl(217 33% 17%);
   --border-strong: hsl(215 25% 27%);
-  --border-input: hsl(215 16% 30%); /* 2.21:1 bg / 1.86:1 muted — soft by decision */
+  --border-input: hsl(
+    217 33% 17%
+  ); /* same as --border (card) by decision — 1.33:1 bg / 1.12:1 muted */
 
   /* Floating/card surfaces sit one step above background-subtle for lift. */
   --card: hsl(222 47% 11%);
