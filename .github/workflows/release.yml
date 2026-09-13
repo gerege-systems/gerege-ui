@@ -42,8 +42,8 @@ jobs:
         # and no GitHub Release was created from 0.12.3 on.
         uses: changesets/action@66d7d1ddafddf1ef45f98ee51a7496f9cdadb2f4 # v2.1.2
         with:
-          publish: pnpm changeset publish
-          version: pnpm changeset version
+          publish-script: pnpm changeset publish
+          version-script: pnpm changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Both env names required: changesets/action reads NPM_TOKEN, but
