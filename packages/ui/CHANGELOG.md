@@ -1,5 +1,11 @@
 # @gerege-systems/ui
 
+## 0.17.1
+
+### Patch Changes
+
+- a690084: Form control and outline button borders now match the card border: `--border-input` equals `--border` (`hsl(214 32% 91%)` light / `hsl(217 33% 17%)` dark). `prefers-contrast: more` still restores 3:1 values.
+
 ## 0.17.0
 
 ### Minor Changes
