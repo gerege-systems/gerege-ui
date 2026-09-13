@@ -22,7 +22,8 @@
     "attw": "attw --pack packages/ui --exclude-entrypoints ./styles.css ./theme.css --ignore-rules cjs-resolves-to-esm",
     "test:create-app": "pnpm --filter @gerege-systems/create-app test",
     "test:treeshake": "pnpm --filter @gerege-systems/ui test:treeshake",
-    "test:e2e": "pnpm --filter @gerege-systems/site test:e2e"
+    "test:e2e": "pnpm --filter @gerege-systems/site test:e2e",
+    "changeset:version": "changeset version && pnpm install --lockfile-only"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

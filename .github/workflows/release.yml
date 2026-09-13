@@ -45,7 +45,9 @@ jobs:
           publish-script: pnpm changeset publish
           # The lockfile refresh keeps `--frozen-lockfile` green after changesets
           # rewrites create-app's @gerege-systems/ui range on a library bump.
-          version-script: pnpm changeset version && pnpm install --lockfile-only
+          # One command: the action runs the script without a shell, so `&&`
+          # would be handed to changesets as an argument.
+          version-script: pnpm changeset:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Both env names required: changesets/action reads NPM_TOKEN, but
