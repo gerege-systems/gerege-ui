@@ -63,11 +63,21 @@ function Shell() {
     typeof window === 'undefined' ? { kind: 'home' } : parseHash(window.location.hash),
   );
 
-  // popstate fires before the hashchange it causes, so the flag is set by the
-  // time the route effect below decides whether to reset scroll.
+  // Back/forward: the browser's own restore runs before the route has
+  // rendered, so it clamps to a page that is still short. Remember where each
+  // hash was scrolled to when it was left, and put that back once the new
+  // route is tall enough. popstate fires before the hashchange it causes, so
+  // the flag is set by the time the route effect below runs.
   const restoring = useRef(false);
+  const positions = useRef(new Map<string, number>());
   useEffect(() => {
-    const onHash = () => setRoute(parseHash(window.location.hash));
+    // We own restoration; the browser's own pass would clamp to a page that
+    // has not rendered yet and then fight the value put back below.
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    const onHash = (e: HashChangeEvent) => {
+      positions.current.set(new URL(e.oldURL).hash, window.scrollY);
+      setRoute(parseHash(window.location.hash));
+    };
     const onPop = () => {
       restoring.current = true;
     };
@@ -87,11 +97,23 @@ function Shell() {
     const page = routeTitle(route);
     document.title = page ? `${page} — @gerege-systems/ui` : '@gerege-systems/ui';
     if (route.kind === 'preview') return;
-    // Back/forward: let the browser restore the previous scroll position;
-    // only a link click is a new page that starts at the top.
+    // Only a link click is a new page that starts at the top; a history move
+    // goes back to where that hash was left, retried over a few frames while
+    // lazy content is still growing the page.
     const wasHistory = restoring.current;
     restoring.current = false;
-    if (!wasHistory) window.scrollTo(0, 0);
+    if (!wasHistory) {
+      window.scrollTo(0, 0);
+    } else {
+      const y = positions.current.get(window.location.hash) ?? 0;
+      let tries = 0;
+      const restore = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        if (max >= y || tries++ >= 30) window.scrollTo(0, Math.min(y, Math.max(0, max)));
+        else requestAnimationFrame(restore);
+      };
+      requestAnimationFrame(restore);
+    }
     // Keep the browser's initial focus on first load; only move it on navigation.
     if (firstRender.current) {
       firstRender.current = false;
