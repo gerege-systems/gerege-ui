@@ -36,14 +36,12 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Button,
   IconButton,
@@ -753,11 +751,11 @@ function TopNavItems({ page, onNavigate }: { page: string; onNavigate: (key: str
 
 /* ---------------------------------------------------------------------------
  *  Horizontal module nav — the `topnav-module` shell. Each module is a menu
- *  button in the bar; a module with one section lists its pages directly,
- *  one with several opens them as submenus (module → section → page), so a
- *  product with many areas keeps a single-row top bar. Active = the module
- *  that owns the current page; the page is marked inside its menu. Visible
- *  ≥lg only; below that the drawer carries module tabs + the list.
+ *  button in the bar; its menu lists every page, grouped under section
+ *  labels (two tiers: module → page, sections as headings, never submenus),
+ *  so a product with many areas keeps a single-row top bar. Active = the
+ *  module that owns the current page; the page is marked inside its menu.
+ *  Visible ≥lg only; below that the drawer carries module tabs + the list.
  * ------------------------------------------------------------------------ */
 
 function ModuleMenuItems({
@@ -816,24 +814,41 @@ function TopNavModules({ page, onNavigate }: { page: string; onNavigate: (key: s
                 <ChevronDown className="size-3.5 opacity-70" aria-hidden />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="min-w-52">
-              {m.sections.length === 1 ? (
-                <ModuleMenuItems section={m.sections[0]} page={page} onNavigate={onNavigate} />
-              ) : (
-                m.sections.map((s) => (
-                  <DropdownMenuSub key={s.label}>
-                    <DropdownMenuSubTrigger>{t(s.label)}</DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent className="min-w-48">
-                      <ModuleMenuItems section={s} page={page} onNavigate={onNavigate} />
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                ))
-              )}
+            <DropdownMenuContent align="start" className="min-w-56">
+              {m.sections.map((s, i) => (
+                <DropdownMenuGroup key={s.label}>
+                  {i > 0 && <DropdownMenuSeparator />}
+                  {/* A single section needs no heading — the module name is one. */}
+                  {m.sections.length > 1 && <DropdownMenuLabel>{t(s.label)}</DropdownMenuLabel>}
+                  <ModuleMenuItems section={s} page={page} onNavigate={onNavigate} />
+                </DropdownMenuGroup>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         );
       })}
     </div>
+  );
+}
+
+/**
+ * The module that owns the current page, as a label at the left of the top
+ * bar (`sidebar-module` shell, ≥lg): icon + name, then a hairline, then the
+ * breadcrumb trail. The rail already marks it; this names it where the eye
+ * starts reading the bar.
+ */
+function ModuleLabel({ page }: { page: string }) {
+  const t = useT(adminDict);
+  const mod = findModule(page);
+  const Icon = mod.icon;
+  // The home page has no trail; a hairline with nothing after it would dangle.
+  const hasTrail = pageCrumbs(page, t) !== null;
+  return (
+    <span className="hidden shrink-0 items-center gap-2 lg:inline-flex">
+      <Icon className="text-foreground-muted size-4" aria-hidden />
+      <span className="text-foreground text-sm font-semibold">{t(mod.label)}</span>
+      {hasTrail && <span aria-hidden className="bg-border mx-1 h-5 w-px" />}
+    </span>
   );
 }
 
@@ -891,9 +906,12 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
     <TopNav
       className={cn(
         'bg-background supports-[backdrop-filter]:bg-background',
-        // Five module menus + the switcher need more of the bar than six plain
-        // links: give the left track twice the right one and a narrower search.
-        layout === 'topnav-module' && 'lg:grid-cols-[minmax(0,2fr)_minmax(0,20rem)_minmax(0,1fr)]',
+        // The module shells put more in the left track — five module menus +
+        // the switcher, or the module label + a four-step trail — than six
+        // plain links: twice the right track and a narrower search keep the
+        // trail on one line at 1280.
+        (layout === 'topnav-module' || layout === 'sidebar-module') &&
+          'lg:grid-cols-[minmax(0,2fr)_minmax(0,20rem)_minmax(0,1fr)]',
       )}
       logo={
         <div className="flex min-w-0 items-center gap-2">
@@ -916,14 +934,11 @@ export const AppTopNav = forwardRef<HTMLInputElement, AppTopNavProps>(function A
           ) : (
             // Sidebar shells: the sidebar (or panel) header already shows the
             // tenant, so the bar carries the trail (≥lg) and collapses to the
-            // current page title below that. The module shell adds the module crumb.
+            // current page title below that. The module shell names the page's
+            // module first, as its own label, and the trail follows it.
             <>
-              <PageCrumbs
-                page={page}
-                withModule={layout === 'sidebar-module'}
-                onNavigate={onNavigate}
-                className="hidden min-w-0 lg:block"
-              />
+              {layout === 'sidebar-module' && <ModuleLabel page={page} />}
+              <PageCrumbs page={page} onNavigate={onNavigate} className="hidden min-w-0 lg:block" />
               <span className="text-foreground truncate text-sm font-semibold lg:hidden">
                 {t(findNav(page)?.item.label ?? 'crumb.home')}
               </span>

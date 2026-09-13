@@ -201,8 +201,8 @@ test.describe('admin › projects @1280', () => {
         .first(),
     ).toBeVisible();
 
-    // Top nav with module: modules are menu buttons in the header; a module
-    // with several sections opens them as submenus (module → section → page).
+    // Top nav with module: modules are menu buttons in the header; the menu
+    // lists the module's pages grouped under section headings (two tiers).
     await page.getByRole('button', { name: /^Template: Admin dashboard/ }).click();
     await page.getByRole('menuitemradio', { name: 'Top nav with module' }).click();
     await expect(page).toHaveURL(/#preview\/admin\/app\/topnav-module/);
@@ -212,10 +212,12 @@ test.describe('admin › projects @1280', () => {
       .getByRole('button', { name: 'CRM', exact: true });
     await expect(crm).toBeVisible();
     await crm.click();
-    const sales = page.getByRole('menuitem', { name: 'Sales' });
-    await expect(sales).toBeVisible();
-    await sales.hover();
-    await page.getByRole('menuitem', { name: /^Customers/ }).click();
+    // Two tiers: the menu lists every page, grouped under section headings.
+    const menu = page.getByRole('menu');
+    await expect(menu.getByText('Sales', { exact: true })).toBeVisible();
+    await expect(menu.getByText('Audience', { exact: true })).toBeVisible();
+    await expect(menu.getByRole('menuitem', { name: /^Segments/ })).toBeVisible();
+    await menu.getByRole('menuitem', { name: /^Customers/ }).click();
     await expect(page).toHaveURL(/#preview\/admin\/app\/topnav-module\/customers/);
     await expect(page.getByRole('heading', { level: 1, name: 'Customers' })).toBeVisible();
     // The owning module is the active item; the trail names module › section › page.
