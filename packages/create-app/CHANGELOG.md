@@ -1,5 +1,11 @@
 # @gerege-systems/create-app
 
+## 1.0.7
+
+### Patch Changes
+
+- bf65c1b: New projects get the `@gerege-systems/ui` range from create-app's own `dependencies`, which changesets updates on every library release — the range typed into the templates went stale twice. Scaffolds `^0.15.0` now.
+
 ## 1.0.6
 
 ### Patch Changes
