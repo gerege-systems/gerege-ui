@@ -1,5 +1,12 @@
 # @gerege-systems/create-app
 
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [1b4c68a]
+  - @gerege-systems/ui@0.17.0
+
 ## 1.0.9
 
 ### Patch Changes
