@@ -175,6 +175,7 @@ const trees: Record<string, () => ReactElement> = {
             <UI.DialogTitle>Title</UI.DialogTitle>
             <UI.DialogDescription>Desc</UI.DialogDescription>
           </UI.DialogHeader>
+          <UI.DialogBody>Body</UI.DialogBody>
           <UI.DialogFooter>
             <UI.DialogClose>Close</UI.DialogClose>
           </UI.DialogFooter>
@@ -439,6 +440,7 @@ const coveredBy: Record<string, string> = {
   DialogOverlay: 'Dialog',
   DialogContent: 'Dialog',
   DialogHeader: 'Dialog',
+  DialogBody: 'Dialog',
   DialogTitle: 'Dialog',
   DialogDescription: 'Dialog',
   DialogFooter: 'Dialog',

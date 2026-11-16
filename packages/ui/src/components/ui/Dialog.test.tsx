@@ -6,6 +6,7 @@ import { axe } from 'jest-axe';
 import {
   ConfirmationDialog,
   Dialog,
+  DialogBody,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -195,6 +196,92 @@ describe('Dialog', () => {
     expect(await axe(container)).toHaveNoViolations();
     await user.click(screen.getByRole('button', { name: 'Open' }));
     await screen.findByRole('dialog');
+    expect(await axeBody()).toHaveNoViolations();
+  });
+});
+
+describe('DialogBody', () => {
+  function LongDemo() {
+    return (
+      <Dialog open>
+        <DialogContent size="lg">
+          <DialogHeader>
+            <DialogTitle>Terms</DialogTitle>
+            <DialogDescription>Read before continuing.</DialogDescription>
+          </DialogHeader>
+          <DialogBody className="extra-body">
+            <p>Long content.</p>
+            <input aria-label="Name" />
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose>Cancel</DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  it('is a focusable, named scroll region that fills the space between header and footer', () => {
+    render(<LongDemo />);
+    const body = screen.getByRole('group', { name: 'Scrollable content' });
+    expect(body).toHaveAttribute('data-slot', 'dialog-body');
+    expect(body).toHaveAttribute('tabindex', '0');
+    expect(body).toHaveClass(
+      'extra-body',
+      'relative',
+      'min-h-0',
+      'flex-1',
+      'overflow-y-auto',
+      '-mx-6',
+      'px-6',
+    );
+    expect(screen.getByText('Long content.').closest('[data-slot=dialog-body]')).toBe(body);
+  });
+
+  it('content becomes a viewport-bounded column only when a body is present; header/footer do not shrink', () => {
+    render(<LongDemo />);
+    const dialog = screen.getByRole('dialog', { name: 'Terms' });
+    expect(dialog).toHaveClass(
+      'has-[[data-slot=dialog-body]]:flex',
+      'has-[[data-slot=dialog-body]]:flex-col',
+      'has-[[data-slot=dialog-body]]:max-h-[calc(100dvh-2rem)]',
+    );
+    // No unconditional flex/max-height: dialogs without a body lay out as before.
+    expect(dialog).not.toHaveClass('flex');
+    expect(dialog).not.toHaveClass('overflow-y-auto');
+    expect(screen.getByText('Terms').parentElement).toHaveClass('shrink-0');
+    expect(screen.getByRole('button', { name: 'Cancel' }).parentElement).toHaveClass('shrink-0');
+    // Close button is a child of the (non-scrolling) panel, not of the body.
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(close.closest('[data-slot=dialog-body]')).toBeNull();
+  });
+
+  it('takes initial focus (nothing tabbable precedes it) and stays in the focus trap', async () => {
+    const user = userEvent.setup();
+    render(<LongDemo />);
+    const body = screen.getByRole('group', { name: 'Scrollable content' });
+    await waitFor(() => expect(body).toHaveFocus());
+    await user.tab();
+    expect(screen.getByRole('textbox', { name: 'Name' })).toHaveFocus();
+  });
+
+  it('accepts an aria-label override and forwards its ref', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(
+      <Dialog open>
+        <DialogContent aria-describedby={undefined}>
+          <DialogTitle>T</DialogTitle>
+          <DialogBody ref={ref} aria-label="Terms text">
+            x
+          </DialogBody>
+        </DialogContent>
+      </Dialog>,
+    );
+    expect(ref.current).toBe(screen.getByRole('group', { name: 'Terms text' }));
+  });
+
+  it('is axe-clean', async () => {
+    render(<LongDemo />);
     expect(await axeBody()).toHaveNoViolations();
   });
 });

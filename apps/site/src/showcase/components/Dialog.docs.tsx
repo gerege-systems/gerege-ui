@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import {
   Dialog,
+  DialogBody,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,6 +13,9 @@ import {
 } from '@/components/ui/Dialog';
 import { Button } from '@/components/ui/Button';
 import type { ComponentDoc } from '../registry/types';
+
+const TERM =
+  'The service is provided as is. You keep ownership of the content you upload and grant us the rights needed to store and show it to the people you share it with.';
 
 function ConfirmDemo() {
   const [open, setOpen] = useState(false);
@@ -38,7 +43,7 @@ const doc: ComponentDoc = {
   group: 'Overlays',
   description:
     'Modal that interrupts the user. Reserve for actions that demand focus — confirmations, dense forms, important choices. For side panels prefer Sheet; for transient messages, Toast.',
-  i18n: 'Reads `dialog.close` (close button aria-label) and `confirmationDialog.confirm` / `confirmationDialog.cancel`.',
+  i18n: 'Reads `dialog.close` (close button aria-label), `scrollArea.region` (DialogBody label) and `confirmationDialog.confirm` / `confirmationDialog.cancel`.',
   exports: [
     'Dialog',
     'DialogTrigger',
@@ -46,6 +51,7 @@ const doc: ComponentDoc = {
     'DialogHeader',
     'DialogTitle',
     'DialogDescription',
+    'DialogBody',
     'DialogFooter',
     'DialogClose',
     'ConfirmationDialog',
@@ -108,6 +114,48 @@ const doc: ComponentDoc = {
       code: `<DialogContent size="sm">…</DialogContent>
 <DialogContent size="md">…</DialogContent>
 <DialogContent size="lg">…</DialogContent>`,
+    },
+    {
+      title: 'Long content',
+      description:
+        'Wrap the middle in `DialogBody`: the panel is capped at the viewport height, the header (with ×) and the footer stay visible, and only the body scrolls. Without `DialogBody` a dialog grows with its content, as before.',
+      preview: (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Open long dialog</Button>
+          </DialogTrigger>
+          <DialogContent size="lg">
+            <DialogHeader>
+              <DialogTitle>Terms of service</DialogTitle>
+              <DialogDescription>Read the terms before you accept them.</DialogDescription>
+            </DialogHeader>
+            <DialogBody className="space-y-3">
+              {Array.from({ length: 24 }, (_, i) => (
+                <p key={i} className="text-sm">{`${i + 1}. ${TERM}`}</p>
+              ))}
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Decline</Button>
+              </DialogClose>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      ),
+      code: `<DialogContent size="lg">
+  <DialogHeader>
+    <DialogTitle>Terms of service</DialogTitle>
+    <DialogDescription>Read the terms before you accept them.</DialogDescription>
+  </DialogHeader>
+  <DialogBody>…long content…</DialogBody>
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="outline">Decline</Button>
+    </DialogClose>
+    <Button>Accept</Button>
+  </DialogFooter>
+</DialogContent>`,
     },
     {
       title: 'ConfirmationDialog',
@@ -203,6 +251,7 @@ const doc: ComponentDoc = {
     'Backed by @radix-ui/react-dialog — focus is trapped while open, returned to trigger on close.',
     'Esc closes; click-outside closes (configurable per Radix).',
     'DialogTitle is required for screen readers — Radix will warn if omitted.',
+    'DialogBody is a focusable group named by `scrollArea.region`, so the keyboard can scroll it (override with `aria-label`). With nothing tabbable before it, it takes the initial focus, keeping the start of long content in view.',
   ],
   keyboard: [
     {

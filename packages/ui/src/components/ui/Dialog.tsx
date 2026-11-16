@@ -76,6 +76,11 @@ export const DialogContent = forwardRef<
           'fixed top-1/2 left-1/2 z-[var(--z-modal)] -translate-x-1/2 -translate-y-1/2',
           'border-border bg-card text-card-foreground w-[calc(100%-2rem)] rounded-xl border shadow-lg',
           'p-6',
+          // With a DialogBody inside, the panel becomes a column bounded by the
+          // viewport: header and footer stay put and only the body scrolls.
+          // Without one, layout is unchanged (block, grows with its content).
+          'has-[[data-slot=dialog-body]]:flex has-[[data-slot=dialog-body]]:flex-col',
+          'has-[[data-slot=dialog-body]]:max-h-[calc(100dvh-2rem)]',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -107,14 +112,61 @@ export const DialogContent = forwardRef<
 DialogContent.displayName = 'DialogContent';
 
 export function DialogHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('flex flex-col gap-1 pb-4', className)} {...props} />;
+  return <div className={cn('flex shrink-0 flex-col gap-1 pb-4', className)} {...props} />;
 }
 DialogHeader.displayName = 'DialogHeader';
+
+/**
+ * Scrollable middle of a dialog. Put it between `DialogHeader` and
+ * `DialogFooter`: the panel is then capped at the viewport height, header
+ * (with the close button) and footer stay visible, and only this part scrolls.
+ *
+ * It is a focusable, named `group` (like `ScrollArea` / `Table`) so keyboard
+ * users can scroll it; with nothing tabbable before it, it takes the dialog's
+ * initial focus — the start of long content stays in view. Wrap a `<form>`
+ * around the whole content only if the form itself is `flex min-h-0 flex-col`;
+ * simpler to keep the form inside the body and submit from the footer with
+ * `form="id"`.
+ *
+ * @example
+ *   <DialogContent size="lg">
+ *     <DialogHeader>…</DialogHeader>
+ *     <DialogBody>…long content…</DialogBody>
+ *     <DialogFooter>…</DialogFooter>
+ *   </DialogContent>
+ */
+export const DialogBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  function DialogBody({ className, ...props }, ref) {
+    const strings = useStrings();
+    return (
+      <div
+        data-slot="dialog-body"
+        ref={ref}
+        role="group"
+        aria-label={strings.scrollArea.region}
+        tabIndex={0}
+        className={cn(
+          // Bleeds to the panel edges (-mx-6 px-6) so the scrollbar sits at the
+          // edge and focus rings of fields inside are not clipped; -my-1 py-1
+          // does the same vertically. `relative` anchors sr-only descendants.
+          'relative -mx-6 -my-1 min-h-0 flex-1 overflow-y-auto px-6 py-1',
+          'focus-visible:ring-ring outline-hidden focus-visible:ring-2 focus-visible:ring-inset',
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+DialogBody.displayName = 'DialogBody';
 
 export function DialogFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('flex flex-col-reverse gap-2 pt-6 sm:flex-row sm:justify-end', className)}
+      className={cn(
+        'flex shrink-0 flex-col-reverse gap-2 pt-6 sm:flex-row sm:justify-end',
+        className,
+      )}
       {...props}
     />
   );
